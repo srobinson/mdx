@@ -1,0 +1,6 @@
+.mdcontext/embeddings/
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
+.fmm.db
