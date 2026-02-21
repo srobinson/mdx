@@ -1,0 +1,2049 @@
+{
+  "version": 1,
+  "rootPath": "/Users/alphab/.mdx",
+  "documents": {
+    "_schema.md": {
+      "id": "bd36e0c23419",
+      "path": "_schema.md",
+      "title": "~/.mdx Knowledge Base Schema",
+      "mtime": 1771598098707,
+      "hash": "cdbec8dc6dde4792",
+      "tokenCount": 1430,
+      "sectionCount": 9
+    },
+    "askslm/architecture-brainstorm.md": {
+      "id": "c8ee44eb5de9",
+      "path": "askslm/architecture-brainstorm.md",
+      "title": "AskSLM Website Rebuild: Information Architecture & Page Strategy",
+      "mtime": 1772973106879,
+      "hash": "6a0545c794071812",
+      "tokenCount": 27924,
+      "sectionCount": 51
+    },
+    "askslm/brand-brainstorm.md": {
+      "id": "ad0f9193d78d",
+      "path": "askslm/brand-brainstorm.md",
+      "title": "AskSLM Brand Brainstorm",
+      "mtime": 1772973121007,
+      "hash": "78d90f668767c65b",
+      "tokenCount": 18781,
+      "sectionCount": 35
+    },
+    "askslm/content-extraction.md": {
+      "id": "e3dac1f7c71d",
+      "path": "askslm/content-extraction.md",
+      "title": "AskSLM.com -- Complete Content Extraction",
+      "mtime": 1772973142884,
+      "hash": "312a1342d261b3d8",
+      "tokenCount": 13619,
+      "sectionCount": 72
+    },
+    "askslm/copy-brainstorm.md": {
+      "id": "f098d06c7861",
+      "path": "askslm/copy-brainstorm.md",
+      "title": "AskSLM Copy Brainstorm",
+      "mtime": 1772973144027,
+      "hash": "e67e99b79ad9dbd2",
+      "tokenCount": 9660,
+      "sectionCount": 38
+    },
+    "askslm/design-ux-audit.md": {
+      "id": "94bd72081211",
+      "path": "askslm/design-ux-audit.md",
+      "title": "AskSLM.com Design, UX, and Conversion Audit",
+      "mtime": 1772973158737,
+      "hash": "121ee0b1df13d97f",
+      "tokenCount": 11367,
+      "sectionCount": 42
+    },
+    "askslm/technical-seo-audit.md": {
+      "id": "4fcca044ed23",
+      "path": "askslm/technical-seo-audit.md",
+      "title": "AskSLM Technical & SEO Audit",
+      "mtime": 1772973160521,
+      "hash": "1946980ec35de1a2",
+      "tokenCount": 11816,
+      "sectionCount": 47
+    },
+    "decisions/config-isolation-strategy.md": {
+      "id": "187079841911",
+      "path": "decisions/config-isolation-strategy.md",
+      "title": "Configuration Isolation Strategy",
+      "mtime": 1772972971956,
+      "hash": "8cdc599b6185e879",
+      "tokenCount": 2034,
+      "sectionCount": 13
+    },
+    "decisions/context-efficiency-thesis.md": {
+      "id": "38d1ddb9bff0",
+      "path": "decisions/context-efficiency-thesis.md",
+      "title": "Context Efficiency Thesis",
+      "mtime": 1772972972756,
+      "hash": "8cffb6b1e276bfec",
+      "tokenCount": 1836,
+      "sectionCount": 11
+    },
+    "decisions/nancyr-feedback.md": {
+      "id": "a6643a50b828",
+      "path": "decisions/nancyr-feedback.md",
+      "title": "nancyr-feedback",
+      "mtime": 1772972973614,
+      "hash": "1774586b97d44aeb",
+      "tokenCount": 2748,
+      "sectionCount": 0
+    },
+    "design/am-skills-vs-instructions.md": {
+      "id": "d87a5f9ce248",
+      "path": "design/am-skills-vs-instructions.md",
+      "title": "Skills vs Instructions vs MCP: Where Should DAE Memory Behavior Live?",
+      "mtime": 1772972959122,
+      "hash": "677104f243e888d2",
+      "tokenCount": 9833,
+      "sectionCount": 39
+    },
+    "design/dae-synthesis.md": {
+      "id": "58582a9e1600",
+      "path": "design/dae-synthesis.md",
+      "title": "DAE Synthesis — Canonical Algorithm Set for Rust Reimplementation",
+      "mtime": 1772972959724,
+      "hash": "8f7378c2cd233b93",
+      "tokenCount": 7255,
+      "sectionCount": 21
+    },
+    "design/fmm-architecture.md": {
+      "id": "f184e639e257",
+      "path": "design/fmm-architecture.md",
+      "title": "FMM Architecture Decisions",
+      "mtime": 1772972960256,
+      "hash": "1b7e700a1f0faabb",
+      "tokenCount": 2623,
+      "sectionCount": 8
+    },
+    "design/helioy-architecture.md": {
+      "id": "17860b1eb202",
+      "path": "design/helioy-architecture.md",
+      "title": "Helioy Ecosystem Architecture",
+      "mtime": 1772972960955,
+      "hash": "6e691f325cfc46b4",
+      "tokenCount": 6594,
+      "sectionCount": 32
+    },
+    "design/mdcontext-architecture.md": {
+      "id": "2e51d6c12708",
+      "path": "design/mdcontext-architecture.md",
+      "title": "mdcontext Architecture",
+      "mtime": 1772972962375,
+      "hash": "0bf7d7802943e5cc",
+      "tokenCount": 13688,
+      "sectionCount": 44
+    },
+    "design/nancy-brain-context-sources.md": {
+      "id": "fea34de92ee7",
+      "path": "design/nancy-brain-context-sources.md",
+      "title": "nancy-brain Context Sources",
+      "mtime": 1772972962938,
+      "hash": "0d87bd402ad68106",
+      "tokenCount": 2836,
+      "sectionCount": 13
+    },
+    "design/nancyr-architecture.md": {
+      "id": "c943e092cce9",
+      "path": "design/nancyr-architecture.md",
+      "title": "Nancy Architecture: The Platform",
+      "mtime": 1772972964054,
+      "hash": "0f900a5942efa2dc",
+      "tokenCount": 14956,
+      "sectionCount": 41
+    },
+    "design/nancyr-domain-model.md": {
+      "id": "3c82588fe1ab",
+      "path": "design/nancyr-domain-model.md",
+      "title": "Nancy Domain Model",
+      "mtime": 1772972964736,
+      "hash": "e6079bd48ae5d00c",
+      "tokenCount": 6052,
+      "sectionCount": 24
+    },
+    "design/nancyr-init-flow.md": {
+      "id": "1978ee5af4aa",
+      "path": "design/nancyr-init-flow.md",
+      "title": "nancyr Init/Orient Entry Point",
+      "mtime": 1772972965359,
+      "hash": "6d0ff0957c9506cb",
+      "tokenCount": 2986,
+      "sectionCount": 26
+    },
+    "design/nancyr-k8s-architecture.md": {
+      "id": "88640a2c9823",
+      "path": "design/nancyr-k8s-architecture.md",
+      "title": "Nancy K8s Architecture",
+      "mtime": 1772972966197,
+      "hash": "4a736b84a45896cb",
+      "tokenCount": 20649,
+      "sectionCount": 54
+    },
+    "design/session-continuity.md": {
+      "id": "c2ec99e8a91a",
+      "path": "design/session-continuity.md",
+      "title": "Session Continuity",
+      "mtime": 1772972966904,
+      "hash": "1a763494245052db",
+      "tokenCount": 3910,
+      "sectionCount": 17
+    },
+    "design/session-lifecycle.md": {
+      "id": "0c3e7ecb2cde",
+      "path": "design/session-lifecycle.md",
+      "title": "Session Lifecycle",
+      "mtime": 1772972967606,
+      "hash": "873679300bf2b19b",
+      "tokenCount": 2439,
+      "sectionCount": 13
+    },
+    "evaluations/plankton-architecture-evaluation.md": {
+      "id": "b6f969a73992",
+      "path": "evaluations/plankton-architecture-evaluation.md",
+      "title": "Plankton Architecture Evaluation",
+      "mtime": 1771701678020,
+      "hash": "1be52e1d559c2545",
+      "tokenCount": 12797,
+      "sectionCount": 37
+    },
+    "evaluations/plankton-hooks-evaluation.md": {
+      "id": "a9e5ee97f411",
+      "path": "evaluations/plankton-hooks-evaluation.md",
+      "title": "Plankton Hooks Framework -- Deep Evaluation",
+      "mtime": 1771701652535,
+      "hash": "47807aeab35ccf21",
+      "tokenCount": 11714,
+      "sectionCount": 46
+    },
+    "evaluations/plankton-infra-evaluation.md": {
+      "id": "2dfc35ad2296",
+      "path": "evaluations/plankton-infra-evaluation.md",
+      "title": "Plankton Infrastructure Evaluation",
+      "mtime": 1772972917015,
+      "hash": "642276cd5b184107",
+      "tokenCount": 13145,
+      "sectionCount": 38
+    },
+    "projects/mdcontext-linear-status.md": {
+      "id": "1f3ad5fe4900",
+      "path": "projects/mdcontext-linear-status.md",
+      "title": "mdcontext -- Linear Project Status",
+      "mtime": 1772973165918,
+      "hash": "0f60c189eb62e0f7",
+      "tokenCount": 4010,
+      "sectionCount": 19
+    },
+    "projects/my-voice-content-strategy.md": {
+      "id": "bb55b7fc4a6c",
+      "path": "projects/my-voice-content-strategy.md",
+      "title": "My Voice — Content Strategy",
+      "mtime": 1772973175391,
+      "hash": "2b3e3b4a3afd55f9",
+      "tokenCount": 1615,
+      "sectionCount": 15
+    },
+    "projects/nancyr-objectives.md": {
+      "id": "381528d70e6e",
+      "path": "projects/nancyr-objectives.md",
+      "title": "Nancyr Objectives",
+      "mtime": 1772973174489,
+      "hash": "7244040faca87f9e",
+      "tokenCount": 1687,
+      "sectionCount": 11
+    },
+    "reference/claude-plugin-architecture.md": {
+      "id": "4c0b7f259b09",
+      "path": "reference/claude-plugin-architecture.md",
+      "title": "Claude Code Plugin Architecture",
+      "mtime": 1772973182830,
+      "hash": "c395308163ac6d25",
+      "tokenCount": 2954,
+      "sectionCount": 16
+    },
+    "reference/dae-moltbook-analysis.md": {
+      "id": "692916af4fc2",
+      "path": "reference/dae-moltbook-analysis.md",
+      "title": "DAE Moltbook Agent -- Complete Technical Analysis",
+      "mtime": 1772973184013,
+      "hash": "9e9188521df63568",
+      "tokenCount": 16148,
+      "sectionCount": 95
+    },
+    "reference/dae-openclaw-analysis.md": {
+      "id": "c1eb888d0de6",
+      "path": "reference/dae-openclaw-analysis.md",
+      "title": "DAE OpenClaw Server — Complete Technical Analysis",
+      "mtime": 1772973184534,
+      "hash": "8c131fbe517e4dc3",
+      "tokenCount": 33076,
+      "sectionCount": 103
+    },
+    "reference/dae-standalone-analysis.md": {
+      "id": "060fbf9657d3",
+      "path": "reference/dae-standalone-analysis.md",
+      "title": "DAE v0.7.2 Standalone Browser — Complete Technical Analysis",
+      "mtime": 1771609266781,
+      "hash": "d1540998fc027486",
+      "tokenCount": 19436,
+      "sectionCount": 74
+    },
+    "reference/fmm-plugin-architecture.md": {
+      "id": "770ce1dc5613",
+      "path": "reference/fmm-plugin-architecture.md",
+      "title": "FMM Plugin Architecture",
+      "mtime": 1772973185787,
+      "hash": "9bb40637269f6048",
+      "tokenCount": 2353,
+      "sectionCount": 16
+    },
+    "reference/mdcontext-complete-reference.md": {
+      "id": "c444f8c4edd0",
+      "path": "reference/mdcontext-complete-reference.md",
+      "title": "mdcontext -- Complete Reference",
+      "mtime": 1772973186873,
+      "hash": "ff554be9ded7d7f8",
+      "tokenCount": 9654,
+      "sectionCount": 42
+    },
+    "reference/my-voice.md": {
+      "id": "2f6ecd741deb",
+      "path": "reference/my-voice.md",
+      "title": "My Voice",
+      "mtime": 1773325468174,
+      "hash": "799f1790ead93bb1",
+      "tokenCount": 2262,
+      "sectionCount": 12
+    },
+    "reference/nancyr-rust-ecosystem.md": {
+      "id": "08677d5c01e4",
+      "path": "reference/nancyr-rust-ecosystem.md",
+      "title": "Nancy Rust Rewrite: Ecosystem Research",
+      "mtime": 1772973188584,
+      "hash": "4928d19b74a74a78",
+      "tokenCount": 24238,
+      "sectionCount": 33
+    },
+    "reference/plugin-expectations.md": {
+      "id": "eb60e74d23c0",
+      "path": "reference/plugin-expectations.md",
+      "title": "Plugin Expectations",
+      "mtime": 1772973189040,
+      "hash": "1c445524d64b0747",
+      "tokenCount": 4485,
+      "sectionCount": 28
+    },
+    "reference/subagent-mcp-inheritance.md": {
+      "id": "dee07249bb7b",
+      "path": "reference/subagent-mcp-inheritance.md",
+      "title": "Subagent MCP Tool Inheritance",
+      "mtime": 1772973189636,
+      "hash": "f347839eff198680",
+      "tokenCount": 2200,
+      "sectionCount": 16
+    },
+    "reference/the-token-thesis.md": {
+      "id": "7588c5a2ac09",
+      "path": "reference/the-token-thesis.md",
+      "title": "The Token Thesis",
+      "mtime": 1772973190233,
+      "hash": "bec7160faab9700d",
+      "tokenCount": 1736,
+      "sectionCount": 6
+    },
+    "research/am-agent-memory-prompting.md": {
+      "id": "3da9f596e7cc",
+      "path": "research/am-agent-memory-prompting.md",
+      "title": "Prompting AI Agents to Use External Memory Effectively",
+      "mtime": 1772973193204,
+      "hash": "7445dc597ef1603d",
+      "tokenCount": 16143,
+      "sectionCount": 56
+    },
+    "research/am-competitor-memory-patterns.md": {
+      "id": "fc1119d22bc7",
+      "path": "research/am-competitor-memory-patterns.md",
+      "title": "Competitor Memory Patterns: How AI Agent Memory Products Work",
+      "mtime": 1772973193676,
+      "hash": "ee7eaae7e692e82e",
+      "tokenCount": 11153,
+      "sectionCount": 52
+    },
+    "research/am-profinite-topology-critique.md": {
+      "id": "a62599b535da",
+      "path": "research/am-profinite-topology-critique.md",
+      "title": "Profinite Topology Critique vs AM",
+      "mtime": 1772973197777,
+      "hash": "d517cdff5d33e5dc",
+      "tokenCount": 2718,
+      "sectionCount": 16
+    },
+    "research/am-recall-layer-issues.md": {
+      "id": "5defe9389690",
+      "path": "research/am-recall-layer-issues.md",
+      "title": "AM Recall Layer — Known Issues & Fix Plan",
+      "mtime": 1772973198637,
+      "hash": "b2bbf66bc1e1571e",
+      "tokenCount": 2292,
+      "sectionCount": 11
+    },
+    "research/am-rust-implementation-fidelity.md": {
+      "id": "352348146430",
+      "path": "research/am-rust-implementation-fidelity.md",
+      "title": "AM Rust Implementation Fidelity vs DAE JavaScript v0.7.2",
+      "mtime": 1772973201810,
+      "hash": "da7ab9d56f5f2d3c",
+      "tokenCount": 21260,
+      "sectionCount": 100
+    },
+    "research/am-world-class-dx.md": {
+      "id": "cffde28d272a",
+      "path": "research/am-world-class-dx.md",
+      "title": "World-Class DX for attention-matters",
+      "mtime": 1772973205204,
+      "hash": "a880eff55ed43aa1",
+      "tokenCount": 9262,
+      "sectionCount": 34
+    },
+    "research/claude-config-dir-behavior.md": {
+      "id": "e28f6b5ea90f",
+      "path": "research/claude-config-dir-behavior.md",
+      "title": "CLAUDE_CONFIG_DIR Behavior",
+      "mtime": 1772973207903,
+      "hash": "f107cb1deda0e7f5",
+      "tokenCount": 1666,
+      "sectionCount": 9
+    },
+    "research/claude-mem-core-architecture.md": {
+      "id": "bd79e325acad",
+      "path": "research/claude-mem-core-architecture.md",
+      "title": "Claude-Mem Core Architecture Analysis",
+      "mtime": 1772973209656,
+      "hash": "ee65f99771118d74",
+      "tokenCount": 13988,
+      "sectionCount": 53
+    },
+    "research/claude-mem-hooks-context-injection.md": {
+      "id": "4dab8969d225",
+      "path": "research/claude-mem-hooks-context-injection.md",
+      "title": "Claude-Mem Hooks & Context Injection — Complete Technical Analysis",
+      "mtime": 1772973210987,
+      "hash": "0745683d2bab868f",
+      "tokenCount": 10400,
+      "sectionCount": 45
+    },
+    "research/claude-mem-modes-features.md": {
+      "id": "fa23185bf094",
+      "path": "research/claude-mem-modes-features.md",
+      "title": "Claude-Mem Modes, Plugin & Advanced Features Analysis",
+      "mtime": 1772973213156,
+      "hash": "c61c9376303c0ff3",
+      "tokenCount": 17916,
+      "sectionCount": 74
+    },
+    "research/claude-mem-search-retrieval.md": {
+      "id": "fceb24474dfb",
+      "path": "research/claude-mem-search-retrieval.md",
+      "title": "Claude-Mem Search & Retrieval System",
+      "mtime": 1772973214959,
+      "hash": "be412f74bffcef45",
+      "tokenCount": 9536,
+      "sectionCount": 52
+    },
+    "research/claude-mem-synthesis.md": {
+      "id": "d961348222cb",
+      "path": "research/claude-mem-synthesis.md",
+      "title": "Claude-Mem Competitive Synthesis",
+      "mtime": 1772973214969,
+      "hash": "4a4859125defe45b",
+      "tokenCount": 3642,
+      "sectionCount": 20
+    },
+    "research/claude-plugin-distribution.md": {
+      "id": "5cec65dae031",
+      "path": "research/claude-plugin-distribution.md",
+      "title": "Plugin & Skill Distribution Patterns",
+      "mtime": 1772973215499,
+      "hash": "0cc4f8febfc52bb6",
+      "tokenCount": 1611,
+      "sectionCount": 11
+    },
+    "research/council-skills-analysis.md": {
+      "id": "a4ee2d61d379",
+      "path": "research/council-skills-analysis.md",
+      "title": "Council Skills — Multi-Persona Deliberation Pattern",
+      "mtime": 1772973215896,
+      "hash": "7836ff6d9d7038a2",
+      "tokenCount": 2944,
+      "sectionCount": 17
+    },
+    "research/dae-core-mathematical-foundations.md": {
+      "id": "0f833bf9d3d4",
+      "path": "research/dae-core-mathematical-foundations.md",
+      "title": "DAE Core Mathematical Foundations",
+      "mtime": 1772973216537,
+      "hash": "124bcba58d23e405",
+      "tokenCount": 17193,
+      "sectionCount": 43
+    },
+    "research/dae-design-intent-and-invariants.md": {
+      "id": "ac8670f0025e",
+      "path": "research/dae-design-intent-and-invariants.md",
+      "title": "DAE Design Intent and Mathematical Invariants",
+      "mtime": 1772973217171,
+      "hash": "fd7fcca25addbdf5",
+      "tokenCount": 11880,
+      "sectionCount": 52
+    },
+    "research/fmm-exp14-quick-validate.md": {
+      "id": "3a68925fac1d",
+      "path": "research/fmm-exp14-quick-validate.md",
+      "title": "Experiment 14: Does FMM Help LLMs Navigate Codebases?",
+      "mtime": 1772973217788,
+      "hash": "bfd1c68c53fe9c43",
+      "tokenCount": 1386,
+      "sectionCount": 11
+    },
+    "research/fmm-exp15-kysely-issue.md": {
+      "id": "3a7e79229db7",
+      "path": "research/fmm-exp15-kysely-issue.md",
+      "title": "Experiment 15: Real OSS Issue — Kysely DROP COLUMN IF EXISTS",
+      "mtime": 1772973218405,
+      "hash": "78b617c574dedeb2",
+      "tokenCount": 2167,
+      "sectionCount": 15
+    },
+    "research/fmm-experiment-1-alp479-vs-480.md": {
+      "id": "4888e4235264",
+      "path": "research/fmm-experiment-1-alp479-vs-480.md",
+      "title": "Experiment 1: fmm Navigation Efficiency",
+      "mtime": 1772973219062,
+      "hash": "a40c00fc03f40e2a",
+      "tokenCount": 1552,
+      "sectionCount": 9
+    },
+    "research/mdcontext-cli-capabilities.md": {
+      "id": "f26394c66855",
+      "path": "research/mdcontext-cli-capabilities.md",
+      "title": "mdcontext CLI — Commands, Indexing, and Search",
+      "mtime": 1772973219951,
+      "hash": "d999c084adaf5c82",
+      "tokenCount": 13177,
+      "sectionCount": 56
+    },
+    "research/mdcontext-mcp-server.md": {
+      "id": "71844bc07e43",
+      "path": "research/mdcontext-mcp-server.md",
+      "title": "mdcontext MCP Server — Tools and Capabilities",
+      "mtime": 1771612907690,
+      "hash": "7d6e2caead0b549a",
+      "tokenCount": 6012,
+      "sectionCount": 21
+    },
+    "research/nancyr-claude-as-service.md": {
+      "id": "dd11724a61a1",
+      "path": "research/nancyr-claude-as-service.md",
+      "title": "Research: Claude Code as a Persistent Background Service",
+      "mtime": 1772973223105,
+      "hash": "4ec2c3ae2bd297e9",
+      "tokenCount": 14415,
+      "sectionCount": 59
+    },
+    "research/nancyr-landscape.md": {
+      "id": "c0fc3b270b60",
+      "path": "research/nancyr-landscape.md",
+      "title": "AI Coding Agent Orchestration Landscape -- February 2026",
+      "mtime": 1772973224941,
+      "hash": "790e38c7e919eeaa",
+      "tokenCount": 13202,
+      "sectionCount": 34
+    },
+    "research/nancyr-lessons-learned.md": {
+      "id": "97f4866f75e4",
+      "path": "research/nancyr-lessons-learned.md",
+      "title": "Lessons Learned: Nancy Bash to Rust",
+      "mtime": 1771609266741,
+      "hash": "605bb2d99c3b190a",
+      "tokenCount": 12214,
+      "sectionCount": 37
+    },
+    "research/nancyr-litellm-patterns.md": {
+      "id": "f5fcadc4816a",
+      "path": "research/nancyr-litellm-patterns.md",
+      "title": "LiteLLM Patterns: Universal LLM API Gateway Architecture",
+      "mtime": 1772973225861,
+      "hash": "7bb78593c173f6a0",
+      "tokenCount": 11622,
+      "sectionCount": 50
+    },
+    "research/recall-vs-behavior-gap.md": {
+      "id": "1cfb9046f899",
+      "path": "research/recall-vs-behavior-gap.md",
+      "title": "Recall vs Behavior: The Enforcement Gap",
+      "mtime": 1772973225793,
+      "hash": "1edd2a7dca99c06f",
+      "tokenCount": 2285,
+      "sectionCount": 11
+    },
+    "sessions/dae-migration-session.md": {
+      "id": "ef72d336502d",
+      "path": "sessions/dae-migration-session.md",
+      "title": "dae-migration-session",
+      "mtime": 1771609266785,
+      "hash": "676d8df48b344d3b",
+      "tokenCount": 14979,
+      "sectionCount": 0
+    },
+    "design/am-contradiction-handling-design.md": {
+      "id": "1d45282d610c",
+      "path": "design/am-contradiction-handling-design.md",
+      "title": "AM Contradiction Handling — Design Options",
+      "mtime": 1772972957560,
+      "hash": "e240f5483fcea8c0",
+      "tokenCount": 3464,
+      "sectionCount": 20
+    },
+    "design/am-recall-quality-plan.md": {
+      "id": "107dc760d930",
+      "path": "design/am-recall-quality-plan.md",
+      "title": "AM Recall Quality — Implementation Plan",
+      "mtime": 1772972958330,
+      "hash": "2fc00cd353c4905c",
+      "tokenCount": 1838,
+      "sectionCount": 17
+    },
+    "research/am-contradiction-gap-analysis.md": {
+      "id": "3a50dddbb332",
+      "path": "research/am-contradiction-gap-analysis.md",
+      "title": "AM Contradiction Handling — Gap Analysis",
+      "mtime": 1772973196105,
+      "hash": "fca47f2c5b1b80a2",
+      "tokenCount": 1933,
+      "sectionCount": 14
+    },
+    "research/am-relevance-and-contradiction-research.md": {
+      "id": "960273b0b73f",
+      "path": "research/am-relevance-and-contradiction-research.md",
+      "title": "AM Relevance & Contradiction — External Research",
+      "mtime": 1772973199491,
+      "hash": "63d95e4dc1012ebb",
+      "tokenCount": 2133,
+      "sectionCount": 17
+    },
+    "research/am-conscious-recall-bug-analysis.md": {
+      "id": "05723915c379",
+      "path": "research/am-conscious-recall-bug-analysis.md",
+      "title": "AM Conscious Recall Bug — Root Cause Analysis",
+      "mtime": 1772973194163,
+      "hash": "e9a3b50b48a61604",
+      "tokenCount": 2439,
+      "sectionCount": 22
+    },
+    "research/am-dae-implementation-drift-2026-03.md": {
+      "id": "0a4f7af502d1",
+      "path": "research/am-dae-implementation-drift-2026-03.md",
+      "title": "AM vs DAE v0.7.2 — Implementation Drift Audit",
+      "mtime": 1772973196785,
+      "hash": "decbb50bebb1c33f",
+      "tokenCount": 3976,
+      "sectionCount": 17
+    },
+    "research/am-relevance-gating-literature-review.md": {
+      "id": "0f8b7e1ca633",
+      "path": "research/am-relevance-gating-literature-review.md",
+      "title": "Relevance-Gated Recall on Geometric Manifolds — Literature Review",
+      "mtime": 1772973200960,
+      "hash": "0123bdeb9664cee7",
+      "tokenCount": 4339,
+      "sectionCount": 19
+    },
+    "research/am-skills-vs-instructions.md": {
+      "id": "c937fc999b74",
+      "path": "research/am-skills-vs-instructions.md",
+      "title": "Skills vs Instructions vs MCP: Where Should DAE Memory Behavior Live?",
+      "mtime": 1772973204417,
+      "hash": "056635867f7c93cd",
+      "tokenCount": 10019,
+      "sectionCount": 39
+    },
+    "evaluations/evaluator.prompt.md": {
+      "id": "95dd4177953f",
+      "path": "evaluations/evaluator.prompt.md",
+      "title": "fmm Capability Evaluator",
+      "mtime": 1772772882790,
+      "hash": "7e02e2fae9b61969",
+      "tokenCount": 3537,
+      "sectionCount": 15
+    },
+    "evaluations/ffm.python.internal.md": {
+      "id": "81fd512d5220",
+      "path": "evaluations/ffm.python.internal.md",
+      "title": "fmm Toolset Evaluation — Python Codebase",
+      "mtime": 1772684902008,
+      "hash": "ec54aa1b5a0f3a57",
+      "tokenCount": 5736,
+      "sectionCount": 18
+    },
+    "evaluations/fmm.typescript.md": {
+      "id": "12d40fe8eca2",
+      "path": "evaluations/fmm.typescript.md",
+      "title": "fmm Capability Assessment: TypeScript (Round 2)",
+      "mtime": 1772749130933,
+      "hash": "6d1f3b51f584d439",
+      "tokenCount": 8904,
+      "sectionCount": 28
+    },
+    "TMP/fmm.typescript.md": {
+      "id": "7a98110f8cd1",
+      "path": "TMP/fmm.typescript.md",
+      "title": "fmm Capability Assessment: TypeScript (Round 2)",
+      "mtime": 1772749130933,
+      "hash": "6d1f3b51f584d439",
+      "tokenCount": 8904,
+      "sectionCount": 28
+    },
+    "evaluations/fmm.ts.md": {
+      "id": "1538da89dec7",
+      "path": "evaluations/fmm.ts.md",
+      "title": "fmm Capability Assessment: TypeScript",
+      "mtime": 1772772291287,
+      "hash": "db1d3eb6c55662c2",
+      "tokenCount": 12024,
+      "sectionCount": 32
+    },
+    "TMP/fmm.typescript.00.md": {
+      "id": "aa2e9bbab7d5",
+      "path": "TMP/fmm.typescript.00.md",
+      "title": "fmm Capability Evaluation: TypeScript / NestJS",
+      "mtime": 1772694401246,
+      "hash": "ce3d576e472967b0",
+      "tokenCount": 8224,
+      "sectionCount": 21
+    },
+    "TMP/fmm.ts.md": {
+      "id": "43fc0173c587",
+      "path": "TMP/fmm.ts.md",
+      "title": "fmm Capability Assessment: TypeScript",
+      "mtime": 1772751637713,
+      "hash": "109486bc8f6bb8b7",
+      "tokenCount": 8184,
+      "sectionCount": 27
+    },
+    "TMP/fmm.ts.nest.00.md": {
+      "id": "a8cce83a3824",
+      "path": "TMP/fmm.ts.nest.00.md",
+      "title": "fmm Capability Assessment: TypeScript",
+      "mtime": 1772751637713,
+      "hash": "109486bc8f6bb8b7",
+      "tokenCount": 8184,
+      "sectionCount": 27
+    },
+    "TMP/fmm.typescript.nest.00.md": {
+      "id": "80a2f4d24a98",
+      "path": "TMP/fmm.typescript.nest.00.md",
+      "title": "fmm Capability Evaluation: TypeScript / NestJS",
+      "mtime": 1772694401246,
+      "hash": "ce3d576e472967b0",
+      "tokenCount": 8224,
+      "sectionCount": 21
+    },
+    "TMP/fmm.typescript.nest.md": {
+      "id": "658b71dde093",
+      "path": "TMP/fmm.typescript.nest.md",
+      "title": "fmm Capability Assessment: TypeScript (Round 2)",
+      "mtime": 1772749130933,
+      "hash": "6d1f3b51f584d439",
+      "tokenCount": 8904,
+      "sectionCount": 28
+    },
+    "evaluations/fmm.ts.react.md": {
+      "id": "88103c4ea237",
+      "path": "evaluations/fmm.ts.react.md",
+      "title": "fmm Capability Assessment: TypeScript / JavaScript",
+      "mtime": 1772794524761,
+      "hash": "1e2c0dbe671e5efb",
+      "tokenCount": 9428,
+      "sectionCount": 30
+    },
+    "design/helioy-multi-agent-coordination.md": {
+      "id": "4713d9401e5f",
+      "path": "design/helioy-multi-agent-coordination.md",
+      "title": "Helioy Multi-Agent Coordination Design",
+      "mtime": 1772972961536,
+      "hash": "a8ecf63559ebd52e",
+      "tokenCount": 4521,
+      "sectionCount": 20
+    },
+    "research/multi-agent-council-frameworks.md": {
+      "id": "ff93a3fb7475",
+      "path": "research/multi-agent-council-frameworks.md",
+      "title": "multi-agent-council-frameworks",
+      "mtime": 1772974075816,
+      "hash": "b1cc297e3033bf85",
+      "tokenCount": 12638,
+      "sectionCount": 50
+    },
+    "research/claude-code-hooks-event-types.md": {
+      "id": "db39d0cfc8f0",
+      "path": "research/claude-code-hooks-event-types.md",
+      "title": "Claude Code Hooks - All Supported Event Types and Matchers",
+      "mtime": 1772973206350,
+      "hash": "4b93d2e57a6b33ee",
+      "tokenCount": 3559,
+      "sectionCount": 10
+    },
+    "research/agent-prompt-engineering-patterns-2026.md": {
+      "id": "56b06db05743",
+      "path": "research/agent-prompt-engineering-patterns-2026.md",
+      "title": "Agent Prompt Engineering Patterns for Specialized Engineering Roles (2025-2026)",
+      "mtime": 1772996749068,
+      "hash": "886258e6a83de623",
+      "tokenCount": 8809,
+      "sectionCount": 27
+    },
+    "research/assistive-tech-funding-gtm.md": {
+      "id": "84e0545656c9",
+      "path": "research/assistive-tech-funding-gtm.md",
+      "title": "Assistive Technology Funding, Revenue Models, and Go-to-Market for VI Education (EchoEcho Navigator Pitch Analysis)",
+      "mtime": 1772996442938,
+      "hash": "485a92e24237c745",
+      "tokenCount": 13067,
+      "sectionCount": 32
+    },
+    "research/design-to-code-agent-boundaries-2026.md": {
+      "id": "b609d094ce1d",
+      "path": "research/design-to-code-agent-boundaries-2026.md",
+      "title": "Design-to-Code Agent Boundaries 2025-2026",
+      "mtime": 1772996978950,
+      "hash": "4d88e38a18b554f0",
+      "tokenCount": 8578,
+      "sectionCount": 18
+    },
+    "research/echoecho-technical-feasibility.md": {
+      "id": "5cd9c3d82ce9",
+      "path": "research/echoecho-technical-feasibility.md",
+      "title": "EchoEcho Technical Feasibility - Haptic/Audio Navigation for Visually Impaired (React Native + Claude Haiku)",
+      "mtime": 1772996282485,
+      "hash": "368317b715dfbbfb",
+      "tokenCount": 9147,
+      "sectionCount": 13
+    },
+    "research/specialized-ai-coding-agents-2026.md": {
+      "id": "7b15a8aeb3e8",
+      "path": "research/specialized-ai-coding-agents-2026.md",
+      "title": "specialized-ai-coding-agents-2026",
+      "mtime": 1772996853310,
+      "hash": "385b42b2925d249e",
+      "tokenCount": 9946,
+      "sectionCount": 35
+    },
+    "research/tsbvi-vi-education-landscape.md": {
+      "id": "a518b06b7f5c",
+      "path": "research/tsbvi-vi-education-landscape.md",
+      "title": "TSBVI and VI Education Landscape for AI Campus Navigation Pitch Evaluation",
+      "mtime": 1772996472566,
+      "hash": "c3a40d98d8fc5bab",
+      "tokenCount": 8760,
+      "sectionCount": 12
+    },
+    "research/vi-navigation-technology-landscape.md": {
+      "id": "367db86f703f",
+      "path": "research/vi-navigation-technology-landscape.md",
+      "title": "Visually Impaired Navigation Technology Landscape — EchoEcho Navigator Evaluation",
+      "mtime": 1772996433139,
+      "hash": "6f0747577eef1607",
+      "tokenCount": 12758,
+      "sectionCount": 47
+    },
+    "design/helioy-crew-spec.md": {
+      "id": "36d47daf72ef",
+      "path": "design/helioy-crew-spec.md",
+      "title": "Helioy Crew",
+      "mtime": 1773005826986,
+      "hash": "3c0ac2a5bbaf5a13",
+      "tokenCount": 5742,
+      "sectionCount": 24
+    },
+    "research/agent-context-manager-protocol-voltagent.md": {
+      "id": "3b4775ab3891",
+      "path": "research/agent-context-manager-protocol-voltagent.md",
+      "title": "Context Manager Protocol and Agent Collaboration Lists (VoltAgent/awesome-claude-code-subagents)",
+      "mtime": 1773002639965,
+      "hash": "950af3519773c804",
+      "tokenCount": 11486,
+      "sectionCount": 21
+    },
+    "research/agent-design-spec-handoff-iannuttall.md": {
+      "id": "24c4097b5aa5",
+      "path": "research/agent-design-spec-handoff-iannuttall.md",
+      "title": "Design Spec Handoff Contract and Frontend Designer Pattern (iannuttall/claude-agents)",
+      "mtime": 1773002640856,
+      "hash": "18f68913e6044f9d",
+      "tokenCount": 6158,
+      "sectionCount": 17
+    },
+    "research/agent-routing-and-tool-gating-lst97.md": {
+      "id": "5dbcb4ae6127",
+      "path": "research/agent-routing-and-tool-gating-lst97.md",
+      "title": "lst97 Claude Code Sub-Agents — Design and Engineering Agent Analysis",
+      "mtime": 1773002638792,
+      "hash": "62b92125ba223b6e",
+      "tokenCount": 10311,
+      "sectionCount": 26
+    },
+    "research/agent-sprint-model-contains-studio.md": {
+      "id": "9123a8925130",
+      "path": "research/agent-sprint-model-contains-studio.md",
+      "title": "Sprint-Aware Agent Model with Handoff Deliverables (contains-studio/agents)",
+      "mtime": 1773002637743,
+      "hash": "c640cb525cde87c7",
+      "tokenCount": 9444,
+      "sectionCount": 27
+    },
+    "research/agent-ux-bridge-pattern-msitarzewski.md": {
+      "id": "5629a53aaf95",
+      "path": "research/agent-ux-bridge-pattern-msitarzewski.md",
+      "title": "UX Bridge Agent Pattern and Orchestration Pipeline (msitarzewski/agency-agents)",
+      "mtime": 1773002636330,
+      "hash": "390a6e283c6747c7",
+      "tokenCount": 12262,
+      "sectionCount": 22
+    },
+    "research/claude-p-subagent-spawning.md": {
+      "id": "49012fb5441d",
+      "path": "research/claude-p-subagent-spawning.md",
+      "title": "Claude Code `claude -p` / `--print` Mode and Subagent Spawning",
+      "mtime": 1772999627963,
+      "hash": "24f2cbc1fa7aabed",
+      "tokenCount": 3191,
+      "sectionCount": 12
+    },
+    "research/rust-markdown-strip-to-plaintext.md": {
+      "id": "4dd1fb288315",
+      "path": "research/rust-markdown-strip-to-plaintext.md",
+      "title": "Rust - Stripping Markdown to Plain Text",
+      "mtime": 1772997842096,
+      "hash": "de699ff734d228aa",
+      "tokenCount": 2649,
+      "sectionCount": 9
+    },
+    "design/echoecho-linear-issue-updates.md": {
+      "id": "256e742a3806",
+      "path": "design/echoecho-linear-issue-updates.md",
+      "title": "Linear Issue Updates — Ready to Apply",
+      "mtime": 1773007928901,
+      "hash": "774ea50b1c24158b",
+      "tokenCount": 9253,
+      "sectionCount": 11
+    },
+    "research/agent-env-vars-and-distribution-claude-code.md": {
+      "id": "9a13a0688aeb",
+      "path": "research/agent-env-vars-and-distribution-claude-code.md",
+      "title": "Claude Code Agent Hook Environment Variables and Agent Distribution",
+      "mtime": 1773007802678,
+      "hash": "058bfef858d72edc",
+      "tokenCount": 4018,
+      "sectionCount": 18
+    },
+    "research/alp973-description-update.md": {
+      "id": "ebbef3ca13b6",
+      "path": "research/alp973-description-update.md",
+      "title": "alp973-description-update",
+      "mtime": 1773007882288,
+      "hash": "9c356d7997f3c54b",
+      "tokenCount": 1724,
+      "sectionCount": 7
+    },
+    "research/alp975-description-update.md": {
+      "id": "defe5be2b133",
+      "path": "research/alp975-description-update.md",
+      "title": "alp975-description-update",
+      "mtime": 1773007934849,
+      "hash": "81cd6bc903d6977d",
+      "tokenCount": 3163,
+      "sectionCount": 17
+    },
+    "research/haptic-issue-review-alp973-alp975.md": {
+      "id": "6a470aa44cbb",
+      "path": "research/haptic-issue-review-alp973-alp975.md",
+      "title": "Issue Review — ALP-973 and ALP-975 Haptic UX Validation Gap Analysis",
+      "mtime": 1773007443408,
+      "hash": "9357f32f0fd9864d",
+      "tokenCount": 6162,
+      "sectionCount": 19
+    },
+    "research/path-resolution-strategies-claude-hooks.md": {
+      "id": "9f3a25d759c4",
+      "path": "research/path-resolution-strategies-claude-hooks.md",
+      "title": "Path Resolution Strategies for Claude Code Hooks, Agents, and Shell Scripts",
+      "mtime": 1773006006867,
+      "hash": "ebec58c01f2ec734",
+      "tokenCount": 4333,
+      "sectionCount": 12
+    },
+    "sessions/echoecho-backend-schema-review.md": {
+      "id": "dd6393fc4277",
+      "path": "sessions/echoecho-backend-schema-review.md",
+      "title": "EchoEcho Navigator — Backend Issue Review and Schema Specification",
+      "mtime": 1773008030852,
+      "hash": "d122c9d8d6f6e9e8",
+      "tokenCount": 2030,
+      "sectionCount": 12
+    },
+    "research/nancy-worker-spawn-no-mcp-config.md": {
+      "id": "059a346adad0",
+      "path": "research/nancy-worker-spawn-no-mcp-config.md",
+      "title": "Nancy CLI Worker Spawn — No MCP Config Passed",
+      "mtime": 1773017363757,
+      "hash": "b5261a4e68d9c545",
+      "tokenCount": 1997,
+      "sectionCount": 9
+    },
+    "research/linear-sortorder-alp935-sub-issues.md": {
+      "id": "f3be0a2abb36",
+      "path": "research/linear-sortorder-alp935-sub-issues.md",
+      "title": "Linear sortOrder values for ALP-935 sub-issues",
+      "mtime": 1773021846468,
+      "hash": "de864cbc6e079776",
+      "tokenCount": 1265,
+      "sectionCount": 6
+    },
+    "research/linear-sortorder-api-behavior.md": {
+      "id": "510bb9fc067e",
+      "path": "research/linear-sortorder-api-behavior.md",
+      "title": "Linear sortOrder field API behavior and query ordering",
+      "mtime": 1773045214627,
+      "hash": "4fffbf1f18b82295",
+      "tokenCount": 3331,
+      "sectionCount": 10
+    },
+    "research/haptic-encoding-scheme-candidates.md": {
+      "id": "5b98eaeb7c66",
+      "path": "research/haptic-encoding-scheme-candidates.md",
+      "title": "Haptic Encoding Scheme Candidates — EchoEcho Navigator",
+      "mtime": 1773025648069,
+      "hash": "7c6a891a6c50e82d",
+      "tokenCount": 18954,
+      "sectionCount": 21
+    },
+    "research/haptic-user-study-results.md": {
+      "id": "d026ecafe61c",
+      "path": "research/haptic-user-study-results.md",
+      "title": "PART A: STUDY SPECIFICATION",
+      "mtime": 1773024012493,
+      "hash": "6d81e039cbee4986",
+      "tokenCount": 12079,
+      "sectionCount": 29
+    },
+    "sessions/echoecho-iter5-review.md": {
+      "id": "b9bf17dc0ec4",
+      "path": "sessions/echoecho-iter5-review.md",
+      "title": "EchoEcho Navigator MVP — Iteration 5 Review",
+      "mtime": 1773024357120,
+      "hash": "68232df0bbc4fb5a",
+      "tokenCount": 1246,
+      "sectionCount": 7
+    },
+    "research/mcpservers-frontmatter-syntax-claude-code-agents.md": {
+      "id": "62166b307ad3",
+      "path": "research/mcpservers-frontmatter-syntax-claude-code-agents.md",
+      "title": "mcpServers YAML Frontmatter Syntax in Claude Code Agent Definition Files",
+      "mtime": 1773024866231,
+      "hash": "c19d42e25aa26cfb",
+      "tokenCount": 1964,
+      "sectionCount": 9
+    },
+    "research/ios-haptic-stt-conflict-findings.md": {
+      "id": "f359f9988342",
+      "path": "research/ios-haptic-stt-conflict-findings.md",
+      "title": "iOS Haptic / STT Conflict Workaround",
+      "mtime": 1773026932803,
+      "hash": "e92f3eff76808e67",
+      "tokenCount": 2334,
+      "sectionCount": 11
+    },
+    "sessions/echoecho-iter7-review.md": {
+      "id": "c034879f7337",
+      "path": "sessions/echoecho-iter7-review.md",
+      "title": "EchoEcho Navigator MVP — Iteration 7 Code Review",
+      "mtime": 1773029173157,
+      "hash": "82cf27dc086260d7",
+      "tokenCount": 1435,
+      "sectionCount": 7
+    },
+    "research/expo-rn-android-physical-device-setup-apple-silicon.md": {
+      "id": "024858c762d3",
+      "path": "research/expo-rn-android-physical-device-setup-apple-silicon.md",
+      "title": "Expo Dev Build Setup for Android Physical Device on Apple Silicon Mac",
+      "mtime": 1773029784543,
+      "hash": "0ebcce9e093856fc",
+      "tokenCount": 3539,
+      "sectionCount": 17
+    },
+    "sessions/echoecho-iter8-review.md": {
+      "id": "52bf09e52a75",
+      "path": "sessions/echoecho-iter8-review.md",
+      "title": "EchoEcho Navigator MVP — Iteration 8 Review",
+      "mtime": 1773030222491,
+      "hash": "7dee195a5aa90614",
+      "tokenCount": 1436,
+      "sectionCount": 6
+    },
+    "sessions/echoecho-iter9-review.md": {
+      "id": "e7503aaaf65a",
+      "path": "sessions/echoecho-iter9-review.md",
+      "title": "EchoEcho Navigator MVP — Iteration 9 Code Review",
+      "mtime": 1773031598635,
+      "hash": "caefdeae1ab280b9",
+      "tokenCount": 1717,
+      "sectionCount": 8
+    },
+    "design/admin-route-simulation-specs.md": {
+      "id": "49cb14c443ac",
+      "path": "design/admin-route-simulation-specs.md",
+      "title": "EchoEcho Admin Panel — Route Simulation Mode Design Specification",
+      "mtime": 1773032237431,
+      "hash": "54d47ce3447a195c",
+      "tokenCount": 16104,
+      "sectionCount": 54
+    },
+    "design/student-nav-ui-specs.md": {
+      "id": "d7a8d0fed3d6",
+      "path": "design/student-nav-ui-specs.md",
+      "title": "EchoEcho Student Navigation App — UI Design Specification",
+      "mtime": 1773031914405,
+      "hash": "95bed5df2ed6ec55",
+      "tokenCount": 15648,
+      "sectionCount": 56
+    },
+    "sessions/echoecho-alp935-iter10-review.md": {
+      "id": "2627fffd226b",
+      "path": "sessions/echoecho-alp935-iter10-review.md",
+      "title": "EchoEcho ALP-935 Iteration 10 Code Review",
+      "mtime": 1773032638706,
+      "hash": "1054a094b2317b72",
+      "tokenCount": 1098,
+      "sectionCount": 5
+    },
+    "sessions/echoecho-alp935-iter11-review.md": {
+      "id": "3070ee990448",
+      "path": "sessions/echoecho-alp935-iter11-review.md",
+      "title": "EchoEcho ALP-935 Iteration 11 Code Review",
+      "mtime": 1773033891931,
+      "hash": "f1673cec09aa03ff",
+      "tokenCount": 945,
+      "sectionCount": 6
+    },
+    "sessions/echoecho-alp935-iter12-review.md": {
+      "id": "819942e31874",
+      "path": "sessions/echoecho-alp935-iter12-review.md",
+      "title": "EchoEcho ALP-935 Iteration 12 Review",
+      "mtime": 1773035584877,
+      "hash": "632c2f21676a021b",
+      "tokenCount": 1472,
+      "sectionCount": 7
+    },
+    "research/expo-dev-menu-interface-rn076-build-fix-echoecho.md": {
+      "id": "4a07462cb138",
+      "path": "research/expo-dev-menu-interface-rn076-build-fix-echoecho.md",
+      "title": "expo-dev-menu-interface Build Failure with RN 0.76 - Root Cause and Fix",
+      "mtime": 1773036173112,
+      "hash": "27c6a5c24687566c",
+      "tokenCount": 2072,
+      "sectionCount": 12
+    },
+    "research/mapbox-rnmapbox-expo-android-setup.md": {
+      "id": "884bae038614",
+      "path": "research/mapbox-rnmapbox-expo-android-setup.md",
+      "title": "Mapbox (@rnmapbox/maps) Setup for React Native Expo Android",
+      "mtime": 1773042941159,
+      "hash": "7384027ece330691",
+      "tokenCount": 3345,
+      "sectionCount": 22
+    },
+    "sessions/alp-935-iter20-review.md": {
+      "id": "367c848866ae",
+      "path": "sessions/alp-935-iter20-review.md",
+      "title": "ALP-935 Iteration 20 Review - Migration fixes + secret scrub",
+      "mtime": 1773044055777,
+      "hash": "c4f98c0568bfed7f",
+      "tokenCount": 551,
+      "sectionCount": 4
+    },
+    "research/linear-issue-ordering-fields-graphql-introspection.md": {
+      "id": "c92c8df1d189",
+      "path": "research/linear-issue-ordering-fields-graphql-introspection.md",
+      "title": "Linear Issue Ordering Fields (GraphQL Introspection)",
+      "mtime": 1773045176633,
+      "hash": "5eb734e42c878d7c",
+      "tokenCount": 1344,
+      "sectionCount": 5
+    },
+    "research/linear-sub-issue-sort-order-schema.md": {
+      "id": "8c31e0ca4026",
+      "path": "research/linear-sub-issue-sort-order-schema.md",
+      "title": "Linear Sub-Issue Sort Order - Schema Fields and API",
+      "mtime": 1773045244596,
+      "hash": "c568e2281a9b9049",
+      "tokenCount": 2200,
+      "sectionCount": 11
+    },
+    "research/linear-subissue-sort-order-schema.md": {
+      "id": "3983ae97f845",
+      "path": "research/linear-subissue-sort-order-schema.md",
+      "title": "Linear subIssueSortOrder field — sub-issue panel ordering mechanism",
+      "mtime": 1773045202543,
+      "hash": "b4d928551017ee84",
+      "tokenCount": 1928,
+      "sectionCount": 9
+    },
+    "sessions/echoecho-alp935-iter22-review.md": {
+      "id": "01d23b15a70b",
+      "path": "sessions/echoecho-alp935-iter22-review.md",
+      "title": "EchoEcho ALP-935 Iteration 22 Review",
+      "mtime": 1773046313713,
+      "hash": "19a172ec6f5d806c",
+      "tokenCount": 684,
+      "sectionCount": 4
+    },
+    "sessions/echoecho-alp935-iter26-review.md": {
+      "id": "ba216bb9efa1",
+      "path": "sessions/echoecho-alp935-iter26-review.md",
+      "title": "EchoEcho ALP-935 Iteration 26 Clinical Review",
+      "mtime": 1773049522086,
+      "hash": "ca6840ad090e4580",
+      "tokenCount": 885,
+      "sectionCount": 4
+    },
+    "sessions/echoecho-alp935-iter27-review.md": {
+      "id": "cfff60ee53bf",
+      "path": "sessions/echoecho-alp935-iter27-review.md",
+      "title": "ALP-935 Iteration 27 Review — camelCase views migration",
+      "mtime": 1773050865121,
+      "hash": "e8807a2ec73fbba4",
+      "tokenCount": 984,
+      "sectionCount": 7
+    },
+    "research/accessibility-audit-echoecho-navigator-2026.md": {
+      "id": "5e1d2ef28bb0",
+      "path": "research/accessibility-audit-echoecho-navigator-2026.md",
+      "title": "EchoEcho Navigator — Full Accessibility & UX Audit",
+      "mtime": 1773055717360,
+      "hash": "ed1d1a00747d5550",
+      "tokenCount": 11895,
+      "sectionCount": 39
+    },
+    "sessions/echoecho-backend-review.md": {
+      "id": "c19877b997fe",
+      "path": "sessions/echoecho-backend-review.md",
+      "title": "EchoEcho Navigator Backend Security and Quality Review",
+      "mtime": 1773055934816,
+      "hash": "e7d201b3b21eb2cf",
+      "tokenCount": 2038,
+      "sectionCount": 11
+    },
+    "sessions/echoecho-mobile-engineering-review.md": {
+      "id": "c8877867486e",
+      "path": "sessions/echoecho-mobile-engineering-review.md",
+      "title": "EchoEcho Navigator — Mobile Engineering Code Review",
+      "mtime": 1773056226016,
+      "hash": "fcba3a6fd0c489e6",
+      "tokenCount": 3936,
+      "sectionCount": 16
+    },
+    "sessions/alp-1011-iter1-review.md": {
+      "id": "f5104ecfadf4",
+      "path": "sessions/alp-1011-iter1-review.md",
+      "title": "ALP-1011 Iteration 1 Code Review",
+      "mtime": 1773059370857,
+      "hash": "5ffad5fe77665f8b",
+      "tokenCount": 729,
+      "sectionCount": 6
+    },
+    "sessions/alp-1011-iter3-review.md": {
+      "id": "e1109c17568b",
+      "path": "sessions/alp-1011-iter3-review.md",
+      "title": "ALP-1011 Iteration 3 Code Review",
+      "mtime": 1773061214268,
+      "hash": "130adb60319e9dce",
+      "tokenCount": 824,
+      "sectionCount": 5
+    },
+    "sessions/alp-1011-iter4-review.md": {
+      "id": "920f2af5640e",
+      "path": "sessions/alp-1011-iter4-review.md",
+      "title": "ALP-1011 Iteration 4 Code Review",
+      "mtime": 1773062157821,
+      "hash": "4f38666689c5e54a",
+      "tokenCount": 1028,
+      "sectionCount": 5
+    },
+    "sessions/alp-1011-iter5-review.md": {
+      "id": "75d1df61f498",
+      "path": "sessions/alp-1011-iter5-review.md",
+      "title": "ALP-1011 Iteration 5 Review - SQL Migration Fixes",
+      "mtime": 1773063415018,
+      "hash": "b78525a32bba4a3e",
+      "tokenCount": 1208,
+      "sectionCount": 7
+    },
+    "sessions/alp-1011-iter6-review.md": {
+      "id": "91d44b60c5fc",
+      "path": "sessions/alp-1011-iter6-review.md",
+      "title": "ALP-1011 Iteration 6 Review - Security Fixes & Performance",
+      "mtime": 1773064194149,
+      "hash": "adf90974a3365627",
+      "tokenCount": 1006,
+      "sectionCount": 5
+    },
+    "research/ai-chat-ui-kits-react-2025.md": {
+      "id": "b091ef0e4cea",
+      "path": "research/ai-chat-ui-kits-react-2025.md",
+      "title": "AI Chat UI Kits and Component Libraries for React (2025-2026)",
+      "mtime": 1773064260060,
+      "hash": "49b66ce4b157f7ec",
+      "tokenCount": 6966,
+      "sectionCount": 23
+    },
+    "sessions/alp-1011-iter7-review.md": {
+      "id": "d7d3606e158c",
+      "path": "sessions/alp-1011-iter7-review.md",
+      "title": "ALP-1011 Iteration 7 Code Review",
+      "mtime": 1773065053955,
+      "hash": "722e01bcc49f855b",
+      "tokenCount": 1105,
+      "sectionCount": 5
+    },
+    "sessions/alp-1011-iter15-review.md": {
+      "id": "5c1be86cfedf",
+      "path": "sessions/alp-1011-iter15-review.md",
+      "title": "ALP-1011 Iteration 15 Code Review",
+      "mtime": 1773066949802,
+      "hash": "d2cce7af383d0da6",
+      "tokenCount": 748,
+      "sectionCount": 4
+    },
+    "sessions/alp-1011-iter16-review.md": {
+      "id": "375d40e7b720",
+      "path": "sessions/alp-1011-iter16-review.md",
+      "title": "ALP-1011 Iteration 16 Code Review",
+      "mtime": 1773067536072,
+      "hash": "a932075184e4f037",
+      "tokenCount": 920,
+      "sectionCount": 5
+    },
+    "sessions/alp-1011-iter17-review.md": {
+      "id": "ca365956e36b",
+      "path": "sessions/alp-1011-iter17-review.md",
+      "title": "ALP-1011 Iteration 17 Review",
+      "mtime": 1773068310103,
+      "hash": "65f42f92bcb8e0ef",
+      "tokenCount": 822,
+      "sectionCount": 4
+    },
+    "sessions/echoecho-react-compiler-lint-fixes.md": {
+      "id": "0fec7bf35f0f",
+      "path": "sessions/echoecho-react-compiler-lint-fixes.md",
+      "title": "EchoEcho React Compiler ESLint fixes",
+      "mtime": 1773080222596,
+      "hash": "36bc39b84faeb175",
+      "tokenCount": 1730,
+      "sectionCount": 13
+    },
+    "research/eas-build-ci-noninteractive-projectid-setup.md": {
+      "id": "94f5240ad2ff",
+      "path": "research/eas-build-ci-noninteractive-projectid-setup.md",
+      "title": "EAS Build CI Non-Interactive Setup - Project ID and eas.json Requirements",
+      "mtime": 1773083847587,
+      "hash": "b8cb12484bd6bb62",
+      "tokenCount": 2199,
+      "sectionCount": 11
+    },
+    "research/eas-build-monorepo-eas-json-location-expo-docs.md": {
+      "id": "da8cfe5b3414",
+      "path": "research/eas-build-monorepo-eas-json-location-expo-docs.md",
+      "title": "EAS Build in Monorepo - eas.json Location and Project Root Resolution",
+      "mtime": 1773083490223,
+      "hash": "2bb6dd23bbf29ba0",
+      "tokenCount": 2086,
+      "sectionCount": 11
+    },
+    "research/supabase-cli-v2-db-push-ci-supabase-cli-source.md": {
+      "id": "492d5ca2cb7c",
+      "path": "research/supabase-cli-v2-db-push-ci-supabase-cli-source.md",
+      "title": "Supabase CLI v2 — db push dry-run in CI, project ref, and env vars",
+      "mtime": 1773081051277,
+      "hash": "f57f8799891c9df8",
+      "tokenCount": 2513,
+      "sectionCount": 9
+    },
+    "sessions/alp-1118-iter1-review.md": {
+      "id": "0cc2bc418632",
+      "path": "sessions/alp-1118-iter1-review.md",
+      "title": "ALP-1118 Warroom v2 — Iteration 1 Code Review",
+      "mtime": 1773093990256,
+      "hash": "c5ed42c38b5b3b59",
+      "tokenCount": 1098,
+      "sectionCount": 6
+    },
+    "research/eas-build-yarn4-corepack-monorepo-fix.md": {
+      "id": "dab0c019e7fc",
+      "path": "research/eas-build-yarn4-corepack-monorepo-fix.md",
+      "title": "EAS Build Yarn 4 / Corepack Fix for Yarn Workspaces Monorepo",
+      "mtime": 1773105935083,
+      "hash": "c2ac5211132a3f30",
+      "tokenCount": 3718,
+      "sectionCount": 11
+    },
+    "research/expo-location-getcurrentpositionasync-hang-android-emulator.md": {
+      "id": "7666aa508404",
+      "path": "research/expo-location-getcurrentpositionasync-hang-android-emulator.md",
+      "title": "Summary",
+      "mtime": 1773108466559,
+      "hash": "c9ebb205aab4e0c2",
+      "tokenCount": 3366,
+      "sectionCount": 14
+    },
+    "sessions/alp-1146-iter1-review.md": {
+      "id": "32f01a6e39c3",
+      "path": "sessions/alp-1146-iter1-review.md",
+      "title": "ALP-1146 Iteration 1 Code Review",
+      "mtime": 1773113989967,
+      "hash": "e340a88f8c7d4f6d",
+      "tokenCount": 796,
+      "sectionCount": 6
+    },
+    "sessions/alp-1146-iter2-review.md": {
+      "id": "18330597b098",
+      "path": "sessions/alp-1146-iter2-review.md",
+      "title": "ALP-1146 Iteration 2 Clinical Review",
+      "mtime": 1773114498914,
+      "hash": "d6837a076d92a680",
+      "tokenCount": 683,
+      "sectionCount": 4
+    },
+    "research/expo-location-background-tasks-dev-build-vs-production.md": {
+      "id": "64186c4b44e3",
+      "path": "research/expo-location-background-tasks-dev-build-vs-production.md",
+      "title": "expo-location Background Tasks - Dev Build vs Production, iOS Simulator vs Device",
+      "mtime": 1773121123014,
+      "hash": "aedd0fdbdf40cefe",
+      "tokenCount": 3508,
+      "sectionCount": 11
+    },
+    "research/expo-location-startLocationUpdatesAsync-crash-patterns.md": {
+      "id": "05b31f0b0ca9",
+      "path": "research/expo-location-startLocationUpdatesAsync-crash-patterns.md",
+      "title": "expo-location startLocationUpdatesAsync crash patterns and known issues",
+      "mtime": 1773121126198,
+      "hash": "68028c63b416a854",
+      "tokenCount": 5278,
+      "sectionCount": 10
+    },
+    "research/rnmapbox-camera-followuserlocation-crash-patterns.md": {
+      "id": "4e4ae03deacd",
+      "path": "research/rnmapbox-camera-followuserlocation-crash-patterns.md",
+      "title": "rnmapbox/maps Camera Component Crash Patterns and followUserLocation Behavior",
+      "mtime": 1773121045894,
+      "hash": "7902f02672f2cd74",
+      "tokenCount": 4659,
+      "sectionCount": 8
+    },
+    "research/rnmapbox-camera-props-android-crashes.md": {
+      "id": "63dc601384e0",
+      "path": "research/rnmapbox-camera-props-android-crashes.md",
+      "title": "@rnmapbox/maps Camera Props Android Crash Analysis",
+      "mtime": 1773122808820,
+      "hash": "71f942d64f6284e5",
+      "tokenCount": 3817,
+      "sectionCount": 12
+    },
+    "research/record-screen-crash-patterns-echoecho-admin.md": {
+      "id": "95eac0effc7d",
+      "path": "research/record-screen-crash-patterns-echoecho-admin.md",
+      "title": "RecordScreen Crash Patterns — EchoEcho Admin App (ALP-1146)",
+      "mtime": 1773124020979,
+      "hash": "1a1a38c0a811a88a",
+      "tokenCount": 3024,
+      "sectionCount": 10
+    },
+    "research/rnmapbox-sigsegv-android-ndk-mismatch.md": {
+      "id": "d4c3228618e6",
+      "path": "research/rnmapbox-sigsegv-android-ndk-mismatch.md",
+      "title": "rnmapbox/maps SIGSEGV SEGV_ACCERR on Android - NDK C++ ABI Mismatch Root Cause",
+      "mtime": 1773126395468,
+      "hash": "1ae2d151d3a53d47",
+      "tokenCount": 3598,
+      "sectionCount": 19
+    },
+    "sessions/alp-1146-record-screen-review.md": {
+      "id": "1b4dfa0a1919",
+      "path": "sessions/alp-1146-record-screen-review.md",
+      "title": "ALP-1146 Record Screen Fix Review",
+      "mtime": 1773124043065,
+      "hash": "7b5c14830bfe2529",
+      "tokenCount": 3223,
+      "sectionCount": 11
+    },
+    "research/android-14-15-foreground-service-location-expo.md": {
+      "id": "009f7de2d095",
+      "path": "research/android-14-15-foreground-service-location-expo.md",
+      "title": "Android 14/15 Foreground Service Location Changes and Expo Impact",
+      "mtime": 1773158384631,
+      "hash": "df6677d8404a0904",
+      "tokenCount": 7801,
+      "sectionCount": 20
+    },
+    "research/expo-location-startlocationupdatesasync-android-crash.md": {
+      "id": "8731ce0c5684",
+      "path": "research/expo-location-startlocationupdatesasync-android-crash.md",
+      "title": "expo-location-startlocationupdatesasync-android-crash",
+      "mtime": 1773158391553,
+      "hash": "4d86d3d702cd8e37",
+      "tokenCount": 8118,
+      "sectionCount": 25
+    },
+    "research/expo-task-manager-expo-router-android-dev-client-crash.md": {
+      "id": "2e706ea8888a",
+      "path": "research/expo-task-manager-expo-router-android-dev-client-crash.md",
+      "title": "expo-task-manager-expo-router-android-dev-client-crash",
+      "mtime": 1773158443766,
+      "hash": "94dad01dec76c790",
+      "tokenCount": 8420,
+      "sectionCount": 19
+    },
+    "research/watchpositionasync-foreground-gps-recording-expo-android.md": {
+      "id": "963ee470ed8d",
+      "path": "research/watchpositionasync-foreground-gps-recording-expo-android.md",
+      "title": "watchPositionAsync as Foreground GPS Recording Fallback in Expo Android",
+      "mtime": 1773158377930,
+      "hash": "b90195a1f5f8dc1c",
+      "tokenCount": 7253,
+      "sectionCount": 20
+    },
+    "research/ai-chat-ui-streaming-libraries-2025.md": {
+      "id": "618ee93f1d48",
+      "path": "research/ai-chat-ui-streaming-libraries-2025.md",
+      "title": "AI Chat UI Streaming Libraries Landscape 2025",
+      "mtime": 1773182495013,
+      "hash": "bdde8fff3111a6c1",
+      "tokenCount": 9753,
+      "sectionCount": 34
+    },
+    "research/linear-mcp-daily-reauth-root-cause-and-fix.md": {
+      "id": "4420e2efc1ac",
+      "path": "research/linear-mcp-daily-reauth-root-cause-and-fix.md",
+      "title": "Linear MCP Daily Re-authentication Root Cause and Fix",
+      "mtime": 1773186403314,
+      "hash": "54fbcc777159e44c",
+      "tokenCount": 1907,
+      "sectionCount": 13
+    },
+    "design/am-chat-interface-ux-review.md": {
+      "id": "f3267896348c",
+      "path": "design/am-chat-interface-ux-review.md",
+      "title": "AM Standalone Chat Interface - UX Review",
+      "mtime": 1773187636565,
+      "hash": "50ea00c69830efe6",
+      "tokenCount": 3099,
+      "sectionCount": 13
+    },
+    "research/am-chat-interface-ux-gaps-alp1127.md": {
+      "id": "ddb11fe3e4c2",
+      "path": "research/am-chat-interface-ux-gaps-alp1127.md",
+      "title": "AM Standalone Chat Interface -- UX Gaps (ALP-1127)",
+      "mtime": 1773187586486,
+      "hash": "58e4bab297abb15f",
+      "tokenCount": 2980,
+      "sectionCount": 14
+    },
+    "research/assistant-ui-streamdown-axum-sse-stack-validation.md": {
+      "id": "669bbb5875f0",
+      "path": "research/assistant-ui-streamdown-axum-sse-stack-validation.md",
+      "title": "ALP-1127 Chat Interface Tech Stack Validation",
+      "mtime": 1773188003757,
+      "hash": "afa8726f7f8ca595",
+      "tokenCount": 2705,
+      "sectionCount": 8
+    },
+    "research/ux-gaps-am-standalone-chat-alp1127.md": {
+      "id": "02e8420b41d8",
+      "path": "research/ux-gaps-am-standalone-chat-alp1127.md",
+      "title": "UX Gaps - AM Standalone Chat Interface (ALP-1127)",
+      "mtime": 1773188044653,
+      "hash": "aa458319718fcc82",
+      "tokenCount": 3459,
+      "sectionCount": 11
+    },
+    "sessions/alp-1127-iter1-review.md": {
+      "id": "96980c362571",
+      "path": "sessions/alp-1127-iter1-review.md",
+      "title": "ALP-1127 AM Chat Interface - Iter 1 Review",
+      "mtime": 1773193803514,
+      "hash": "dcc975305c96149e",
+      "tokenCount": 836,
+      "sectionCount": 5
+    },
+    "research/assistant-ui-react-local-runtime-api-v0.12.md": {
+      "id": "80f9a5622fdf",
+      "path": "research/assistant-ui-react-local-runtime-api-v0.12.md",
+      "title": "@assistant-ui/react LocalRuntime API - v0.12 (no Vercel AI SDK)",
+      "mtime": 1773194227693,
+      "hash": "436a441984e1b000",
+      "tokenCount": 9865,
+      "sectionCount": 33
+    },
+    "sessions/alp-1127-iter2-review.md": {
+      "id": "8b555d800439",
+      "path": "sessions/alp-1127-iter2-review.md",
+      "title": "ALP-1127 Chat Frontend Iteration 2 Review",
+      "mtime": 1773195505128,
+      "hash": "1bc13113db20398d",
+      "tokenCount": 1008,
+      "sectionCount": 7
+    },
+    "research/overstory-architecture-design-synthesis.md": {
+      "id": "7399a808cc21",
+      "path": "research/overstory-architecture-design-synthesis.md",
+      "title": "Overstory Architecture and Design Synthesis",
+      "mtime": 1773195672724,
+      "hash": "bbb942f34f4ee0f2",
+      "tokenCount": 7879,
+      "sectionCount": 37
+    },
+    "sessions/alp-1127-iter3-review.md": {
+      "id": "81865e7dbadd",
+      "path": "sessions/alp-1127-iter3-review.md",
+      "title": "ALP-1127 Iter 3 Review - Memory Explorer Components",
+      "mtime": 1773196940259,
+      "hash": "3a77b85b866c4241",
+      "tokenCount": 933,
+      "sectionCount": 4
+    },
+    "research/alp-1153-warroom-review-report.md": {
+      "id": "a6c098865385",
+      "path": "research/alp-1153-warroom-review-report.md",
+      "title": "ALP-1127 Warroom Review Report",
+      "mtime": 1773198358811,
+      "hash": "03f650b4ed536461",
+      "tokenCount": 4203,
+      "sectionCount": 18
+    },
+    "research/ux-feedback-coverage-analysis.md": {
+      "id": "0c9fc95826a8",
+      "path": "research/ux-feedback-coverage-analysis.md",
+      "title": "UX Feedback Coverage Analysis",
+      "mtime": 1773199227938,
+      "hash": "1ae5bb809ab8a14b",
+      "tokenCount": 5009,
+      "sectionCount": 11
+    },
+    "research/openrouter-models-api-dynamic-listing.md": {
+      "id": "92f2cc41c46b",
+      "path": "research/openrouter-models-api-dynamic-listing.md",
+      "title": "OpenRouter Models API - Dynamic Model Listing",
+      "mtime": 1773201258534,
+      "hash": "99b6d08f8e2a7a08",
+      "tokenCount": 4037,
+      "sectionCount": 9
+    },
+    "sessions/alp-1127-iter9-review.md": {
+      "id": "d2359082f3b4",
+      "path": "sessions/alp-1127-iter9-review.md",
+      "title": "ALP-1127 Iter 9 Review - Chat Interface Polish",
+      "mtime": 1773203394383,
+      "hash": "0a1ddbb961b98392",
+      "tokenCount": 832,
+      "sectionCount": 4
+    },
+    "research/autonomous-llm-research-loop-autoresearch.md": {
+      "id": "1ec31fffac0e",
+      "path": "research/autonomous-llm-research-loop-autoresearch.md",
+      "title": "Autonomous LLM Research Loop - autoresearch (Karpathy)",
+      "mtime": 1773206216758,
+      "hash": "a9b53c21d513e98d",
+      "tokenCount": 5565,
+      "sectionCount": 23
+    },
+    "design/am-chat-evidence-selection-spec.md": {
+      "id": "d9802fb31895",
+      "path": "design/am-chat-evidence-selection-spec.md",
+      "title": "AM Chat Evidence Selection Spec",
+      "mtime": 1773214486743,
+      "hash": "63f5679a135d36e7",
+      "tokenCount": 2899,
+      "sectionCount": 30
+    },
+    "design/am-curated-ingestion-spec.md": {
+      "id": "ead58767503f",
+      "path": "design/am-curated-ingestion-spec.md",
+      "title": "AM Curated Ingestion Spec",
+      "mtime": 1773214801670,
+      "hash": "c536732a51c9255c",
+      "tokenCount": 3810,
+      "sectionCount": 36
+    },
+    "design/am-high-signal-memory-architecture-proposal.md": {
+      "id": "08a05378ef6f",
+      "path": "design/am-high-signal-memory-architecture-proposal.md",
+      "title": "AM High-Signal Memory Architecture Proposal",
+      "mtime": 1773216347871,
+      "hash": "d4212dbb13bbf64d",
+      "tokenCount": 5503,
+      "sectionCount": 67
+    },
+    "design/am-high-signal-memory-build-plan.md": {
+      "id": "03f5b8795de8",
+      "path": "design/am-high-signal-memory-build-plan.md",
+      "title": "AM High-Signal Memory Build Plan",
+      "mtime": 1773216630825,
+      "hash": "3a012ca8a9c4afce",
+      "tokenCount": 4286,
+      "sectionCount": 76
+    },
+    "design/eachoecho-admin-route-simulation-specs.md": {
+      "id": "f638b16f443f",
+      "path": "design/eachoecho-admin-route-simulation-specs.md",
+      "title": "EchoEcho Admin Panel — Route Simulation Mode Design Specification",
+      "mtime": 1773032237431,
+      "hash": "54d47ce3447a195c",
+      "tokenCount": 16104,
+      "sectionCount": 54
+    },
+    "design/eachoecho-student-nav-ui-specs.md": {
+      "id": "0e57d629af91",
+      "path": "design/eachoecho-student-nav-ui-specs.md",
+      "title": "EchoEcho Student Navigation App — UI Design Specification",
+      "mtime": 1773031914405,
+      "hash": "95bed5df2ed6ec55",
+      "tokenCount": 15648,
+      "sectionCount": 56
+    },
+    "design/helioy-v2-README.md": {
+      "id": "b49bc53ff395",
+      "path": "design/helioy-v2-README.md",
+      "title": "Helioy V2 README",
+      "mtime": 1773243607934,
+      "hash": "15ff4b1a4ce43d16",
+      "tokenCount": 2995,
+      "sectionCount": 16
+    },
+    "design/helioy-v2-am-chat-evidence-selection-spec.md": {
+      "id": "98963e61f674",
+      "path": "design/helioy-v2-am-chat-evidence-selection-spec.md",
+      "title": "AM Chat Evidence Selection Spec",
+      "mtime": 1773214486743,
+      "hash": "63f5679a135d36e7",
+      "tokenCount": 2899,
+      "sectionCount": 30
+    },
+    "design/helioy-v2-am-curated-ingestion-spec.md": {
+      "id": "c4ace431f786",
+      "path": "design/helioy-v2-am-curated-ingestion-spec.md",
+      "title": "AM Curated Ingestion Spec",
+      "mtime": 1773214801670,
+      "hash": "c536732a51c9255c",
+      "tokenCount": 3810,
+      "sectionCount": 36
+    },
+    "design/helioy-v2-am-high-signal-memory-architecture-proposal.md": {
+      "id": "ae4d64446b9a",
+      "path": "design/helioy-v2-am-high-signal-memory-architecture-proposal.md",
+      "title": "AM High-Signal Memory Architecture Proposal",
+      "mtime": 1773216347871,
+      "hash": "d4212dbb13bbf64d",
+      "tokenCount": 5503,
+      "sectionCount": 67
+    },
+    "design/helioy-v2-am-high-signal-memory-build-plan.md": {
+      "id": "539603429314",
+      "path": "design/helioy-v2-am-high-signal-memory-build-plan.md",
+      "title": "AM High-Signal Memory Build Plan",
+      "mtime": 1773216630825,
+      "hash": "3a012ca8a9c4afce",
+      "tokenCount": 4286,
+      "sectionCount": 76
+    },
+    "design/helioy-v2-context-compiler-crate-map.md": {
+      "id": "852a9340cb53",
+      "path": "design/helioy-v2-context-compiler-crate-map.md",
+      "title": "Helioy Context Compiler Crate Map",
+      "mtime": 1773238703026,
+      "hash": "747af9c00db53e8e",
+      "tokenCount": 3904,
+      "sectionCount": 52
+    },
+    "design/helioy-v2-context-compiler-direction.md": {
+      "id": "ffaa0cc474bc",
+      "path": "design/helioy-v2-context-compiler-direction.md",
+      "title": "Helioy Context Compiler Direction",
+      "mtime": 1773238634548,
+      "hash": "e647f5a7ef482e7e",
+      "tokenCount": 2833,
+      "sectionCount": 35
+    },
+    "design/helioy-v2-context-compiler-first-build-sequence.md": {
+      "id": "f0dfa6cdf2f4",
+      "path": "design/helioy-v2-context-compiler-first-build-sequence.md",
+      "title": "Helioy Context Compiler First Build Sequence",
+      "mtime": 1773238765927,
+      "hash": "947cf27e5194079a",
+      "tokenCount": 2681,
+      "sectionCount": 36
+    },
+    "design/helioy-v2-context-manifesto.md": {
+      "id": "b056b7083ad8",
+      "path": "design/helioy-v2-context-manifesto.md",
+      "title": "Helioy Context Manifesto",
+      "mtime": 1773238111589,
+      "hash": "283f75b45a9ca64e",
+      "tokenCount": 1552,
+      "sectionCount": 13
+    },
+    "design/helioy-v2-humanwork-to-nancyr-synthesis.md": {
+      "id": "385bf6ef72f0",
+      "path": "design/helioy-v2-humanwork-to-nancyr-synthesis.md",
+      "title": "Helioy V2: HumanWork to Nancyr Synthesis",
+      "mtime": 1773242848789,
+      "hash": "601b0b7409a5df9f",
+      "tokenCount": 5199,
+      "sectionCount": 35
+    },
+    "design/helioy-v2-index-retrieve-vs-curate-compress.md": {
+      "id": "669b53ddaa68",
+      "path": "design/helioy-v2-index-retrieve-vs-curate-compress.md",
+      "title": "Index/Retrieve vs Curate/Compress",
+      "mtime": 1773238514274,
+      "hash": "cebf8963c2ffa019",
+      "tokenCount": 1685,
+      "sectionCount": 17
+    },
+    "design/helioy-v2-mdcontext-adapter-interface-spec.md": {
+      "id": "14bc2594d580",
+      "path": "design/helioy-v2-mdcontext-adapter-interface-spec.md",
+      "title": "Helioy V2: Mdcontext Adapter Interface Specification",
+      "mtime": 1773249805736,
+      "hash": "66a302c88c2afea7",
+      "tokenCount": 4488,
+      "sectionCount": 44
+    },
+    "design/helioy-v2-mdcontext-informational-review.md": {
+      "id": "f963e3e75f2d",
+      "path": "design/helioy-v2-mdcontext-informational-review.md",
+      "title": "Helioy V2: Mdcontext Informational Review",
+      "mtime": 1773244232994,
+      "hash": "ed8ce3d9dd8b24f4",
+      "tokenCount": 6317,
+      "sectionCount": 37
+    },
+    "design/helioy-v2-mdcontext-llm-adapter-layer.md": {
+      "id": "d16e966d8f19",
+      "path": "design/helioy-v2-mdcontext-llm-adapter-layer.md",
+      "title": "Helioy V2: Mdcontext LLM Adapter Layer",
+      "mtime": 1773249648213,
+      "hash": "de890a062009775c",
+      "tokenCount": 3751,
+      "sectionCount": 27
+    },
+    "design/helioy-v2-nancyr-collaborative-intelligence-runtime.md": {
+      "id": "f145a55d4a1d",
+      "path": "design/helioy-v2-nancyr-collaborative-intelligence-runtime.md",
+      "title": "Nancyr V2: Collaborative Intelligence Runtime",
+      "mtime": 1773241933868,
+      "hash": "c55dad18f4e4e6b1",
+      "tokenCount": 3565,
+      "sectionCount": 27
+    },
+    "design/helioy-v2-nancyr-first-credible-version.md": {
+      "id": "eb784686eafb",
+      "path": "design/helioy-v2-nancyr-first-credible-version.md",
+      "title": "Nancyr V2: First Credible Version",
+      "mtime": 1773242144064,
+      "hash": "9e793a7b6ecca464",
+      "tokenCount": 3037,
+      "sectionCount": 20
+    },
+    "design/helioy-v2-nancyr-index.md": {
+      "id": "470725b658bb",
+      "path": "design/helioy-v2-nancyr-index.md",
+      "title": "Helioy V2 Nancyr Index",
+      "mtime": 1773255565628,
+      "hash": "36b2bab137cdbeba",
+      "tokenCount": 1846,
+      "sectionCount": 14
+    },
+    "design/helioy-v2-nancyr-repo-build-breakdown.md": {
+      "id": "88bc068c004c",
+      "path": "design/helioy-v2-nancyr-repo-build-breakdown.md",
+      "title": "Nancyr V2: Repo Build Breakdown",
+      "mtime": 1773243295580,
+      "hash": "368011bb6361d826",
+      "tokenCount": 3572,
+      "sectionCount": 27
+    },
+    "design/helioy-v2-nancyr-v1-runtime-spec.md": {
+      "id": "b00eee936258",
+      "path": "design/helioy-v2-nancyr-v1-runtime-spec.md",
+      "title": "Nancyr V2: V1 Runtime Specification",
+      "mtime": 1773243059331,
+      "hash": "178ec5cd7efda846",
+      "tokenCount": 6249,
+      "sectionCount": 74
+    },
+    "design/helioy-v2-nancyr-v1-schema-pack.md": {
+      "id": "975d5026d14e",
+      "path": "design/helioy-v2-nancyr-v1-schema-pack.md",
+      "title": "Nancyr V2: V1 Schema Pack",
+      "mtime": 1773243214992,
+      "hash": "2392978e0a9b8aaa",
+      "tokenCount": 7710,
+      "sectionCount": 60
+    },
+    "design/helioy-v2-product-thesis-context-vs-memory.md": {
+      "id": "90bf88b79b72",
+      "path": "design/helioy-v2-product-thesis-context-vs-memory.md",
+      "title": "Helioy Product Thesis: Context vs Memory",
+      "mtime": 1773238075750,
+      "hash": "1ec6256e85046b3e",
+      "tokenCount": 2702,
+      "sectionCount": 21
+    },
+    "research/eachoecho-accessibility-audit-echoecho-navigator-2026.md": {
+      "id": "ed4d2b92ee52",
+      "path": "research/eachoecho-accessibility-audit-echoecho-navigator-2026.md",
+      "title": "EchoEcho Navigator — Full Accessibility & UX Audit",
+      "mtime": 1773055717360,
+      "hash": "ed1d1a00747d5550",
+      "tokenCount": 11895,
+      "sectionCount": 39
+    },
+    "research/mise-migration.md": {
+      "id": "7868f6d0dafd",
+      "path": "research/mise-migration.md",
+      "title": "Volta to Mise Migration",
+      "mtime": 1773271301497,
+      "hash": "185bf17b0e07cb38",
+      "tokenCount": 3951,
+      "sectionCount": 39
+    },
+    "research/university-campus-polygon-boundary-data-sources.md": {
+      "id": "5183941c2ef4",
+      "path": "research/university-campus-polygon-boundary-data-sources.md",
+      "title": "Sources of University Campus Polygon Boundary Data",
+      "mtime": 1773351797252,
+      "hash": "41f1bc1de981bde7",
+      "tokenCount": 6957,
+      "sectionCount": 23
+    },
+    "research/us-university-indoor-mapping-data-sources-landscape.md": {
+      "id": "3c2c998234ce",
+      "path": "research/us-university-indoor-mapping-data-sources-landscape.md",
+      "title": "Indoor Mapping Data Sources for US University Buildings",
+      "mtime": 1773351400272,
+      "hash": "8981fdd719495d3a",
+      "tokenCount": 8592,
+      "sectionCount": 49
+    },
+    "research/vi-indoor-navigation-technology-landscape-2025.md": {
+      "id": "696ede792b7a",
+      "path": "research/vi-indoor-navigation-technology-landscape-2025.md",
+      "title": "Technology Landscape for VI Indoor Building Navigation",
+      "mtime": 1773352011640,
+      "hash": "ee5869295f7bdd04",
+      "tokenCount": 12424,
+      "sectionCount": 58
+    },
+    "research/echoecho-indoor-mapping-recommendation-2026.md": {
+      "id": "d2c5dafb6861",
+      "path": "research/echoecho-indoor-mapping-recommendation-2026.md",
+      "title": "EchoEcho Indoor Mapping Recommendation (2026)",
+      "mtime": 1773360965539,
+      "hash": "ca2ffd12fe3e695e",
+      "tokenCount": 533,
+      "sectionCount": 6
+    },
+    "research/echoecho-indoor-mapping-synthesis-2026.md": {
+      "id": "a07068ece63f",
+      "path": "research/echoecho-indoor-mapping-synthesis-2026.md",
+      "title": "EchoEcho Indoor Mapping Synthesis (2026)",
+      "mtime": 1773360989770,
+      "hash": "d914973345fa2a62",
+      "tokenCount": 670,
+      "sectionCount": 6
+    },
+    "research/echoecho-map-editing-proposal-2026.md": {
+      "id": "b00d48c32b56",
+      "path": "research/echoecho-map-editing-proposal-2026.md",
+      "title": "EchoEcho Map Editing Proposal (2026)",
+      "mtime": 1773359257492,
+      "hash": "358f5644ddf70dd0",
+      "tokenCount": 629,
+      "sectionCount": 6
+    },
+    "research/echoecho-map-editing-recommendation-2026.md": {
+      "id": "cefe9b3da50e",
+      "path": "research/echoecho-map-editing-recommendation-2026.md",
+      "title": "EchoEcho Map Editing Recommendation (2026)",
+      "mtime": 1773359270220,
+      "hash": "3bfc5a7f102b3340",
+      "tokenCount": 431,
+      "sectionCount": 5
+    },
+    "research/indoor-authoring-workflows-2026.md": {
+      "id": "700436e67694",
+      "path": "research/indoor-authoring-workflows-2026.md",
+      "title": "Indoor Authoring Workflows For Building Interiors And Indoor Routes (2026)",
+      "mtime": 1773360695494,
+      "hash": "7ac7290cacdeb938",
+      "tokenCount": 3015,
+      "sectionCount": 23
+    },
+    "research/indoor-mapping-platforms-2026.md": {
+      "id": "aebf6db7336a",
+      "path": "research/indoor-mapping-platforms-2026.md",
+      "title": "Indoor Mapping and Wayfinding Platforms (2026)",
+      "mtime": 1773360979374,
+      "hash": "0b8c804f6ea5fa62",
+      "tokenCount": 3145,
+      "sectionCount": 11
+    },
+    "research/indoor-mapping-standards-2026.md": {
+      "id": "e818947ebd90",
+      "path": "research/indoor-mapping-standards-2026.md",
+      "title": "Indoor Mapping Standards and Open-Source Approaches (2026)",
+      "mtime": 1773360838809,
+      "hash": "0b85b42e35d034fe",
+      "tokenCount": 3292,
+      "sectionCount": 13
+    },
+    "research/map-editing-products-2026.md": {
+      "id": "4fafd9e4a7bd",
+      "path": "research/map-editing-products-2026.md",
+      "title": "Map Editing Products And Open-Source Stacks Relevant To EchoEcho (2026)",
+      "mtime": 1773358997869,
+      "hash": "d1d22fc7d2332ea8",
+      "tokenCount": 5852,
+      "sectionCount": 25
+    },
+    "research/react-native-map-editing-2026.md": {
+      "id": "7d69c157a2ab",
+      "path": "research/react-native-map-editing-2026.md",
+      "title": "React Native Map Editing Landscape for EchoEcho (2026)",
+      "mtime": 1773359256318,
+      "hash": "ac70b807e52ddbbd",
+      "tokenCount": 5663,
+      "sectionCount": 25
+    },
+    "research/web-gis-map-editing-2026.md": {
+      "id": "0ddd95a73316",
+      "path": "research/web-gis-map-editing-2026.md",
+      "title": "Web/GIS Map Editing Stacks for Polygon Editing (2026)",
+      "mtime": 1773358915128,
+      "hash": "9a14ab682db07743",
+      "tokenCount": 5342,
+      "sectionCount": 27
+    }
+  }
+}

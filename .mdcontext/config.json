@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "rootPath": "/Users/alphab/.mdx",
+  "include": [
+    "**/*.md",
+    "**/*.mdx"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/.*/**"
+  ],
+  "createdAt": "2026-02-20T20:35:24.127Z",
+  "updatedAt": "2026-02-20T20:35:24.128Z"
+}
