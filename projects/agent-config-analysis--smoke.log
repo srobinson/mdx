@@ -1,0 +1,40 @@
+--- command (named) ---
+SM_HOME=$SM_HOME HOME=$HOME RTM_SOCKET_PATH=$RTM_SOCKET PATH=$FAKEBIN:$PATH /Users/alphab/Dev/LLM/DEV/helioy/littleorgans/session-matters/target/debug/sm run claude --role agent-config-named --dir $PROJECT --agent-config demo --detach
+--- sm run output (named) ---
+019e51c6-6456-7c63-aacd-af3a9649875b claude agent-config-named default /private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project RUNNING 76521 -
+--- captured runtime env (named) ---
+PWD=/private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project
+CLAUDE_CONFIG_DIR=/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/named-claude-config
+HELIOY_AGENT_NAME=named-demo
+HELIOY_SESSION_ID=019e51c6-6456-7c63-aacd-af3a9649875b
+HELIOY_RUNTIME=claude
+RTM_SESSION_ID=019e51c6-6456-7c63-aacd-af3a9649875b
+RTM_RUNTIME_KIND=claude
+--- persisted session (named) ---
+{
+  "id": "019e51c6-6456-7c63-aacd-af3a9649875b",
+  "role": "agent-config-named",
+  "agent_config": "demo",
+  "dir": "/private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project",
+  "transcript_path": "/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/rtm-home/logs/019e51c6-6456-7c63-aacd-af3a9649875b/stdout.log"
+}
+--- command (explicit) ---
+SM_HOME=$SM_HOME HOME=$HOME RTM_SOCKET_PATH=$RTM_SOCKET PATH=$FAKEBIN:$PATH /Users/alphab/Dev/LLM/DEV/helioy/littleorgans/session-matters/target/debug/sm run claude --role agent-config-explicit --dir $PROJECT --agent-config /var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/explicit-agent.toml --detach
+--- sm run output (explicit) ---
+019e51c6-66b3-7403-8746-0e1193664261 claude agent-config-explicit default /private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project RUNNING 76619 -
+--- captured runtime env (explicit) ---
+PWD=/private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project
+CLAUDE_CONFIG_DIR=/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/explicit-claude-config
+HELIOY_AGENT_NAME=explicit-demo
+HELIOY_SESSION_ID=019e51c6-66b3-7403-8746-0e1193664261
+HELIOY_RUNTIME=claude
+RTM_SESSION_ID=019e51c6-66b3-7403-8746-0e1193664261
+RTM_RUNTIME_KIND=claude
+--- persisted session (explicit) ---
+{
+  "id": "019e51c6-66b3-7403-8746-0e1193664261",
+  "role": "agent-config-explicit",
+  "agent_config": "/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/explicit-agent.toml",
+  "dir": "/private/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/project",
+  "transcript_path": "/var/folders/15/l6zdb_ln4tq4slrn7c3hps7m0000gn/T/tmp.H3Im4bzbYl/rtm-home/logs/019e51c6-66b3-7403-8746-0e1193664261/stdout.log"
+}
