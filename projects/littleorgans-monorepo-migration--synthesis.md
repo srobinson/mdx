@@ -26,6 +26,16 @@ The numbered sections at the end mirror the brief's twelve required sections, re
 
 ---
 
+## Decision Log
+
+Snapshot timeline. Each row is a phase boundary committed to git. Source of truth for what is locked at what revision.
+
+| Rev | Date | Phase | Resolutions |
+|---|---|---|---|
+| rev01 | 2026-05-25 | Phase 0 (orchestrator pre-pass) | **Q1/D5** `lilo-im-stub@0.1.1` confirmed published via `cargo search` → kept in published set (orphaning would violate monotonic-version rule). **d9** JSONL event log → kept as the file-vs-DB exception, both plans converged. **d12** `lilo` binary crate → published (canonical `cargo install lilo` path). **G1** `Cargo.lock` → committed at workspace root for reproducible binary builds. |
+
+---
+
 ## 1. Convergence — the load-bearing decisions both plans made
 
 | # | Decision | Notes |
@@ -129,9 +139,7 @@ The mirror for session-matters becomes a source-and-binary mirror (no published 
 
 **Tradeoff.** Claude is cleaner long-term; Codex is more accurate about the current crates.io state. The brief listed `lilo-im-core@0.1.1` and `lilo-im-store@0.1.1` as published but **did not mention `lilo-im-stub@0.1.1`**.
 
-**Recommendation.** **Verify first, then likely keep Codex's call.** If `lilo-im-stub@0.1.1` is in fact published (Codex says crates.io search confirms), then per Stuart's monotonic-version rule we cannot un-publish or republish at a lower number — we either publish 0.8.0 to continue the line or accept that the 0.1.1 version stays as the last record. Demoting to internal is fine *in source*, but a forward publish at 0.8.0 would require keeping it in the published set.
-
-→ **Decision queue item Q1 below.** Sixty-second crates.io check resolves this.
+**RESOLVED rev01.** `cargo search lilo-im-stub` confirmed `lilo-im-stub = "0.1.1"` is published. Per the monotonic-version rule the crate must be kept in the published set. The next publish from the monorepo bumps it to `0.8.0` along with the rest of the `lilo-im-*` line. Source-side organisation can still put it under `crates/lilo-im-stub/` with `publish = true`.
 
 ### D6. Old GitHub repos: archive vs in-place repurpose
 
@@ -158,10 +166,10 @@ These six are real but lower-stakes than the above. Quick calls on each.
 |---|---|---|---|---|
 | d7 | Verb tree shape | Substrate-prefixed: `lilo rm spawn`, `lilo sm create session` | kubectl-shaped: `lilo run`, `lilo create session`, with `lilo runtime ...` for operator commands | **Codex's kubectl-shape** for the user-facing verbs; **keep Claude's `lilo rm` / `lilo sm`** for operator commands. Both layers coexist. User-facing default is kubectl-style; substrate-prefixed verbs hidden under `runtime` and `session` namespaces for debugging. |
 | d8 | Database files | Multiple sqlite files (`db/rm.sqlite`, `db/sm.sqlite`, `db/im-audit.sqlite`) | One sqlite file with substrate-prefixed tables | **Codex's single DB.** One backup target, one schema migration coordination point, one connection pool. The "what if writes contend" concern Codex flags can be solved with WAL mode (already enabled in current code). |
-| d9 | JSONL event log | Both keep it | Codex keeps it for runtime events; flags it as the only file-vs-DB exception | **Keep as Codex describes.** The append-only cursor model is proven. |
+| d9 | JSONL event log | Both keep it | Codex keeps it for runtime events; flags it as the only file-vs-DB exception | **LOCKED rev01.** Keep — append-only cursor model is proven; both plans converged. |
 | d10 | `lilo-paths` crate | Folded into `lilo-common::paths` (Claude lean) | Separate `crates/lilo-paths/` crate | **Codex's separate crate.** Path resolution is a focused concern with its own test surface and its own `LILO_HOME` semantics. Keeping it separate makes `lilo-common` smaller and `lilo-paths` independently swappable. |
 | d11 | release-plz tag format | `v{{version}}` (one tag per release) | `{{package}}-v{{version}}` (per-package), plus separate top-level `v0.8.0` | **Codex's per-package + top-level dual.** This is release-plz's documented default and avoids fighting the tool on multi-package workspaces. |
-| d12 | `lilo` binary crate publication | Published (so `cargo install lilo` works) | Not explicitly addressed | **Publish it.** Cargo install path is the canonical user experience. |
+| d12 | `lilo` binary crate publication | Published (so `cargo install lilo` works) | Not explicitly addressed | **LOCKED rev01.** Publish — `cargo install lilo` is the canonical install path. |
 
 ---
 
@@ -169,7 +177,7 @@ These six are real but lower-stakes than the above. Quick calls on each.
 
 Six things to think about now, before Phase 0 closes:
 
-1. **`Cargo.lock` strategy.** Claude shows a `sed` line removing it from `.gitignore` (implying it stays committed); Codex doesn't address. Recommendation: **commit `Cargo.lock`** at workspace root. Binary crates benefit from reproducible builds.
+1. **`Cargo.lock` strategy.** **LOCKED rev01.** Commit `Cargo.lock` at workspace root. Binary crates benefit from reproducible builds.
 2. **`.fmm.db` in the new monorepo.** The current `.fmm.db` at `/Users/alphab/Dev/LLM/DEV/helioy/littleorgans/.fmm.db` indexes the four sibling repos. Once the monorepo subsumes them, the `.fmm.db` should be **regenerated at the monorepo root** and the old one deleted at Phase 8 cleanup.
 3. **`CLAUDE.md` / `AGENTS.md` content for the monorepo.** Both plans show the file in the tree but neither drafts content. Recommendation: a single root `CLAUDE.md` capturing the five drivers, the verb tree, the K8s mental model, the `~/.lilo/` layout, the 700/150 LOC rules, and the `release-plz` workflow. Symlink `AGENTS.md → CLAUDE.md`. Per-substrate `CLAUDE.md` files only at `internal/{runtime,session,identity,schedule}/CLAUDE.md` if substrate-specific guidance is needed.
 4. **Daemon-merge testing strategy (Codex Phase 7).** Codex prescribes the merge but doesn't detail how to test composition. Add to Phase 7: **in-process integration tests** at `tests/integration/` that spin up `RuntimeService + SessionService + IdentityService` in one process, exercise cross-service flows (session spawn → identity audit → runtime kqueue → session record), and assert correct ordering.
@@ -254,7 +262,7 @@ One binary: `lilo`. Multi-call dispatch:
 
 - One workspace version. First monorepo release: **`v0.8.0`**. All crates publish at `0.8.0` on cut day.
 - `release-plz.toml` with `git_tag_name = "{{ package }}-v{{ version }}"`; release workflow additionally creates a top-level `v0.8.0` tag for the binary release.
-- Published crates: `lilo`, `lilo-common`, `lilo-paths`, `lilo-rm-core`, `lilo-rm-client`, `lilo-im-core`, `lilo-im-store`, `lilo-im-stub` (TBD per D5).
+- Published crates (locked rev01): `lilo`, `lilo-common`, `lilo-paths`, `lilo-rm-core`, `lilo-rm-client`, `lilo-im-core`, `lilo-im-store`, `lilo-im-stub`.
 - New published crates added only when an external consumer appears. No `lilo-sm-*` published in v0.8.0.
 - `cargo semver-checks` runs in the release gate per published crate.
 
@@ -389,7 +397,7 @@ In order of blocking impact:
 
 | # | Question | Blocks | Recommendation |
 |---|---|---|---|
-| Q1 | Is `lilo-im-stub@0.1.1` actually published on crates.io? | D5, §4 published crate list | 60-second check: `cargo search lilo-im-stub`. If yes → keep published (Codex). If no → demote to internal (Claude). |
+| ~~Q1~~ | ~~Is `lilo-im-stub@0.1.1` actually published?~~ | ~~D5, §4 published crate list~~ | **RESOLVED rev01.** Yes, published. Kept in published set. |
 | Q2 | Internal layout: flat `crates/` (Claude) or hierarchical `internal/<substrate>/<role>/` (Codex)? | §1, §2, all phases | **Codex's hierarchical.** Larger structural clarity for marginal cost. |
 | Q3 | Daemon count: two (Claude) or one merged `lilod` (Codex)? | §3, Phase 7 | **One merged (Codex), staged.** Phases 2–6 leave two; Phase 7 merges. Driver #5 wins. |
 | Q4 | Shim binary: separate `lilo-shim` (Claude) or hidden `lilo __runtime-shim` (Codex)? | §3, §9 | **Hidden subcommand (Codex).** Driver #5. |
