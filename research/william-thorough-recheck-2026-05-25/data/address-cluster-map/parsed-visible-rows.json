@@ -1,0 +1,344 @@
+[
+  {
+    "source_row": 5,
+    "address": "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+    "address_lc": "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+    "date_as_displayed": "2023/07/21 10:00:59",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+    "chain": "eth",
+    "sent_to_text": "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+    "sent_to_addresses": [
+      "0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146"
+    ],
+    "value_displayed": "$237,313.39",
+    "amount": "-125.4472",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 6,
+    "address": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "address_lc": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "date_as_displayed": "2023/07/22 5:52:11",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+    "chain": "eth",
+    "sent_to_text": "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+    "sent_to_addresses": [
+      "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e"
+    ],
+    "value_displayed": "$1,530.30",
+    "amount": "-0.82",
+    "token": "ETH",
+    "unit_price": "$1,866.22",
+    "tx_hash": "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 7,
+    "address": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "address_lc": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "date_as_displayed": "2023/07/21 9:56:11",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+    "chain": "eth",
+    "sent_to_text": "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+    "sent_to_addresses": [
+      "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A"
+    ],
+    "value_displayed": "$1,178,554.02",
+    "amount": "-623",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 8,
+    "address": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "address_lc": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "date_as_displayed": "2023/07/21 9:47:23",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+    "chain": "eth",
+    "sent_to_text": "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+    "sent_to_addresses": [
+      "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A"
+    ],
+    "value_displayed": "$197,308.48",
+    "amount": "-104.3",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 9,
+    "address": "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+    "address_lc": "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+    "date_as_displayed": "2023/07/21 10:06:23",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+    "chain": "eth",
+    "sent_to_text": "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+    "sent_to_addresses": [
+      "0x4ec986035b635d09474fc390acdf5c107dda4c70"
+    ],
+    "value_displayed": "$5,372.54",
+    "amount": "-2.84",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 10,
+    "address": "0xd20a9ed00e37fdaef0a064bc32feb10845053f09",
+    "address_lc": "0xd20a9ed00e37fdaef0a064bc32feb10845053f09",
+    "date_as_displayed": "2023/07/21 10:12:35",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+    "chain": "eth",
+    "sent_to_text": "0xb7917ee3520c4aa56add5d55f6026edeebe99d02",
+    "sent_to_addresses": [
+      "0xb7917ee3520c4aa56add5d55f6026edeebe99d02"
+    ],
+    "value_displayed": "$12,203.61",
+    "amount": "-6.451",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 11,
+    "address": "0xa30e54cb3593c6afca653621c4d3ee2105f015aa",
+    "address_lc": "0xa30e54cb3593c6afca653621c4d3ee2105f015aa",
+    "date_as_displayed": "2023/07/21 10:09:11",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+    "chain": "eth",
+    "sent_to_text": "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+    "sent_to_addresses": [
+      "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03"
+    ],
+    "value_displayed": "$11,445.03",
+    "amount": "-6.05",
+    "token": "ETH",
+    "unit_price": "1,891.74",
+    "tx_hash": "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 12,
+    "address": "0xdFb05c98320D126Bcc74F6EB7960E99669dcd49a",
+    "address_lc": "0xdfb05c98320d126bcc74f6eb7960e99669dcd49a",
+    "date_as_displayed": "2023/07/21 10:12:47",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+    "chain": "eth",
+    "sent_to_text": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "sent_to_addresses": [
+      "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02"
+    ],
+    "value_displayed": "$3,541.34",
+    "amount": "-1.872",
+    "token": "ETH",
+    "unit_price": "1,891.74",
+    "tx_hash": "0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 13,
+    "address": "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+    "address_lc": "0x9dc08da4cbf74f81cffb54cecbd8fdf6554e1d34",
+    "date_as_displayed": "2023/07/21 14:36:20",
+    "date_excel_utc": null,
+    "transaction_url": "https://bscscan.com/tx/0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+    "chain": "bsc",
+    "sent_to_text": "0x08178b429CA29853fa33014F635D12bD7f706297",
+    "sent_to_addresses": [
+      "0x08178b429CA29853fa33014F635D12bD7f706297"
+    ],
+    "value_displayed": "$2,096.68",
+    "amount": "-8.6",
+    "token": "BNB",
+    "unit_price": "$243.80",
+    "tx_hash": "0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 14,
+    "address": "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+    "address_lc": "0x9dc08da4cbf74f81cffb54cecbd8fdf6554e1d34",
+    "date_as_displayed": "2023/07/21 10:13:35",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+    "chain": "eth",
+    "sent_to_text": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "sent_to_addresses": [
+      "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02"
+    ],
+    "value_displayed": "$2,971.92",
+    "amount": "-1.571",
+    "token": "ETH",
+    "unit_price": "1,891.74",
+    "tx_hash": "0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 15,
+    "address": "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+    "address_lc": "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+    "date_as_displayed": "2023/07/21 14:55:47",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+    "chain": "eth",
+    "sent_to_text": "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+    "sent_to_addresses": [
+      "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5"
+    ],
+    "value_displayed": "$7,358.87",
+    "amount": "-$3.89",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 16,
+    "address": "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+    "address_lc": "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+    "date_as_displayed": "2023/07/21 10:13:59",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+    "chain": "eth",
+    "sent_to_text": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "sent_to_addresses": [
+      "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02"
+    ],
+    "value_displayed": "$1,413.13",
+    "amount": "-0.747",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 17,
+    "address": "0xFA5F6eD82Ae1EAC484B91cCDE42fe7d64cb68D03",
+    "address_lc": "0xfa5f6ed82ae1eac484b91ccde42fe7d64cb68d03",
+    "date_as_displayed": "2023/07/21 10:11:59",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+    "chain": "eth",
+    "sent_to_text": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "sent_to_addresses": [
+      "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02"
+    ],
+    "value_displayed": "$9,496.53",
+    "amount": "-5.02",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 18,
+    "address": "0xf40c09C782C74e932b81473ae68B078F31a358f6",
+    "address_lc": "0xf40c09c782c74e932b81473ae68b078f31a358f6",
+    "date_as_displayed": "2023/07/21 10:13:11",
+    "date_excel_utc": null,
+    "transaction_url": "https://etherscan.io/tx/0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+    "chain": "eth",
+    "sent_to_text": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "sent_to_addresses": [
+      "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02"
+    ],
+    "value_displayed": "$5,323.36",
+    "amount": "-2.814",
+    "token": "ETH",
+    "unit_price": "$1,891.74",
+    "tx_hash": "0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+    "parse_note": "summary table row"
+  },
+  {
+    "source_row": 42,
+    "address": "0xa30E54Cb3593c6afCA653621C4D3Ee2105F015aa",
+    "address_lc": "0xa30e54cb3593c6afca653621c4d3ee2105f015aa",
+    "date_as_displayed": "21 Jul, 2023 19:15:47 UTC",
+    "date_excel_utc": null,
+    "transaction_url": "3.88",
+    "chain": "unknown",
+    "sent_to_text": "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+    "sent_to_addresses": [
+      "0x931ebd9671d532e81ef15211ce16e19361576574"
+    ],
+    "value_displayed": "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+    "amount": "",
+    "token": "",
+    "unit_price": "",
+    "tx_hash": "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+    "parse_note": "lower copied detail row, shifted columns"
+  },
+  {
+    "source_row": 43,
+    "address": "0x055e6b081F175dB1170350Ba4f23E3a8E0895492",
+    "address_lc": "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+    "date_as_displayed": "21 Jul, 2023 14:06 UTC",
+    "date_excel_utc": null,
+    "transaction_url": "2.84",
+    "chain": "unknown",
+    "sent_to_text": "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+    "sent_to_addresses": [
+      "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6"
+    ],
+    "value_displayed": "0x4EC986035B635D09474fC390AcDF5c107DDa4c70",
+    "amount": "",
+    "token": "",
+    "unit_price": "",
+    "tx_hash": "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+    "parse_note": "lower copied detail row, shifted columns"
+  },
+  {
+    "source_row": 44,
+    "address": "0x2656269BB878cA0c4250A0DF4C15A9CFca0C21AC",
+    "address_lc": "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+    "date_as_displayed": "21 Jul, 2023 18:55:47 UTC",
+    "date_excel_utc": null,
+    "transaction_url": "3.89",
+    "chain": "unknown",
+    "sent_to_text": "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+    "sent_to_addresses": [
+      "0x72d855932534ca55ae820f5ed17de8ac729b1f05"
+    ],
+    "value_displayed": "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+    "amount": "",
+    "token": "",
+    "unit_price": "",
+    "tx_hash": "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+    "parse_note": "lower copied detail row, shifted columns"
+  },
+  {
+    "source_row": 45,
+    "address": "0x1c0b5b8D36587d0516839df7EbFB49AD8F3c543c",
+    "address_lc": "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+    "date_as_displayed": "22 Jul, 2023 09:52:11 UTC",
+    "date_excel_utc": null,
+    "transaction_url": "0.82",
+    "chain": "unknown",
+    "sent_to_text": "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+    "sent_to_addresses": [
+      "0xb5e309a09f479a87f71b1258380d8b8e62c84163"
+    ],
+    "value_displayed": "0x1c0b5b8D36587d0516839df7EbFB49AD8F3c543c",
+    "amount": "",
+    "token": "",
+    "unit_price": "",
+    "tx_hash": "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+    "parse_note": "lower copied detail row, shifted columns"
+  }
+]

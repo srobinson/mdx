@@ -1,0 +1,9 @@
+{
+  "blockNumber": "0x10eb93c",
+  "chain": "ethereum",
+  "chain_timestamp_utc": "2023-07-21T14:34:11Z",
+  "endpoint": "https://ethereum.publicnode.com",
+  "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-0xaa49f832a539cabee457ca3fc2e3e47e70ca7e364ba48161aae8c4e788d07b33-transaction.json",
+  "source_note": "source CSV row 38, transaction-inventory row 16",
+  "tx": "0xaa49f832a539cabee457ca3fc2e3e47e70ca7e364ba48161aae8c4e788d07b33"
+}

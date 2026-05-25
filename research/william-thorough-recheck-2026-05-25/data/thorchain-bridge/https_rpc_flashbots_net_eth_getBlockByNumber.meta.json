@@ -1,0 +1,11 @@
+{
+  "url": "https://rpc.flashbots.net",
+  "method": "eth_getBlockByNumber",
+  "params": [
+    "0x10eb896",
+    false
+  ],
+  "fetched_at": "2026-05-25T15:10:32.918716+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

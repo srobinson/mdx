@@ -1,0 +1,80 @@
+{
+	"actions": [
+		{
+			"date": "1689949063813587641",
+			"height": "11803577",
+			"in": [
+				{
+					"address": "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+					"coins": [
+						{
+							"amount": "12544715147",
+							"asset": "ETH.ETH"
+						}
+					],
+					"txID": "655A2A55BC724718BCA78B7645347F448D1CA52B9F051AC3B6B8F2E36651D204"
+				}
+			],
+			"metadata": {
+				"swap": {
+					"affiliateAddress": "t",
+					"affiliateFee": "30",
+					"inPriceUSD": "1802.667208033677",
+					"isStreamingSwap": true,
+					"liquidityFee": "837257226231",
+					"memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:704635983:t:30",
+					"networkFees": [
+						{
+							"amount": "2000000",
+							"asset": "THOR.RUNE"
+						},
+						{
+							"amount": "37500",
+							"asset": "BTC.BTC"
+						}
+					],
+					"outPriceUSD": "30764.837616068096",
+					"swapSlip": "363",
+					"swapTarget": "704635983",
+					"txType": "swap"
+				}
+			},
+			"out": [
+				{
+					"address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+					"coins": [
+						{
+							"amount": "729622713",
+							"asset": "BTC.BTC"
+						}
+					],
+					"height": "11804301",
+					"txID": "CA88B4956964E3D8BFDAE2800B48F4CB15F8CC52A8554B4BFA301A400805E053"
+				},
+				{
+					"address": "thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk",
+					"affiliate": true,
+					"coins": [
+						{
+							"amount": "70874912638",
+							"asset": "THOR.RUNE"
+						}
+					],
+					"height": "11803585",
+					"txID": ""
+				}
+			],
+			"pools": [
+				"ETH.ETH",
+				"BTC.BTC"
+			],
+			"status": "success",
+			"type": "swap"
+		}
+	],
+	"count": "1",
+	"meta": {
+		"nextPageToken": "118035779000000001",
+		"prevPageToken": "118035779000000001"
+	}
+}

@@ -1,0 +1,28 @@
+{
+  "_endpoint": "https://ethereum.publicnode.com",
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "accessList": [],
+    "blockHash": "0x244288c9f31406f1ef0080189a294b98d9eb435a4adced79262bad30b92e69e4",
+    "blockNumber": "0x10eb8b1",
+    "blockTimestamp": "0x64ba90df",
+    "chainId": "0x1",
+    "from": "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+    "gas": "0x5208",
+    "gasPrice": "0x9c11e60c3",
+    "hash": "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+    "input": "0x",
+    "maxFeePerGas": "0xd7ead77dc",
+    "maxPriorityFeePerGas": "0x5f5e100",
+    "nonce": "0x24",
+    "r": "0xed7032162c70178dd24732940ecfd1e39dfb000c8d3d0f09c0d402eb151f9d03",
+    "s": "0x7aaac4a1bb63e50dcd3754ba68377ccc60f1e299640e4e88a3ec1bac897efa1f",
+    "to": "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+    "transactionIndex": "0x3a",
+    "type": "0x2",
+    "v": "0x0",
+    "value": "0x2769b4f3fa1c0000",
+    "yParity": "0x0"
+  }
+}

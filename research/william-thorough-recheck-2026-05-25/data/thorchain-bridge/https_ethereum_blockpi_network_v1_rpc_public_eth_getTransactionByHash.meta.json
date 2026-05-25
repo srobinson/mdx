@@ -1,0 +1,7 @@
+{
+  "url": "https://ethereum.blockpi.network/v1/rpc/public",
+  "method": "eth_getTransactionByHash",
+  "fetched_at": "2026-05-25T15:10:15.539445+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

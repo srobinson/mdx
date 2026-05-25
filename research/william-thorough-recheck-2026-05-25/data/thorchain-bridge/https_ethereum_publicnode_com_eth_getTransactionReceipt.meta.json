@@ -1,0 +1,7 @@
+{
+  "url": "https://ethereum.publicnode.com",
+  "method": "eth_getTransactionReceipt",
+  "fetched_at": "2026-05-25T15:09:48.106439+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

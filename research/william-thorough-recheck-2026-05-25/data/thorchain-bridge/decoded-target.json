@@ -1,0 +1,36 @@
+{
+  "ethereum_tx": "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+  "method_selector": "0x44bc937b",
+  "function": "depositWithExpiry(address payable vault, address asset, uint256 amount, string memo, uint256 expiration)",
+  "block_number_hex": "0x10eb896",
+  "block_number_dec": 17741974,
+  "block_hash": "0x5d44722c08a30a62a8af2f16e012c4688a40e7de099f4f92f854c95fe040c4bf",
+  "block_timestamp_hex": "0x64ba8f9b",
+  "block_timestamp_unix": 1689948059,
+  "block_timestamp_utc": "2023-07-21T14:00:59+00:00",
+  "from": "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+  "to_router": "0xd37bbe5744d730a1d98d8dc97c42f0ca46ad7146",
+  "value_wei": "125447151477364040918",
+  "value_eth": 125.44715147736405,
+  "decoded_call": {
+    "vault": "0x04e2462f10ba7fe0776af9b9272606af0b974dbb",
+    "asset": "0x0000000000000000000000000000000000000000",
+    "amount_wei": "125447151477364040918",
+    "amount_eth_if_native": 125.44715147736405,
+    "memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:704635983:t:30",
+    "expiration_raw": "1689948644481",
+    "expiration_if_milliseconds_utc": "2023-07-21T14:10:44.481000+00:00",
+    "expiration_if_seconds_utc": null
+  },
+  "receipt_status": "0x1",
+  "event": {
+    "topic0": "0xef519b7eb82aaf6ac376a6df2d793843ebfd593de5f1a0601d3cc6ab49ebb395",
+    "signature": "Deposit(address indexed to, address indexed asset, uint256 amount, string memo)",
+    "to_vault": "0x04e2462f10ba7fe0776af9b9272606af0b974dbb",
+    "asset": "0x0000000000000000000000000000000000000000",
+    "amount_wei": "125447151477364040918",
+    "amount_eth_if_native": 125.44715147736405,
+    "memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:704635983:t:30",
+    "log_index": 184
+  }
+}

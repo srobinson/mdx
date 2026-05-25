@@ -1,0 +1,107 @@
+[
+  {
+    "bytes": 8093,
+    "max_cols": 10,
+    "nonempty_rows": 50,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/gid-1211660592.csv",
+    "rows": 57
+  },
+  {
+    "bytes": 5683,
+    "max_cols": 11,
+    "nonempty_rows": 19,
+    "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/summary-visible-rows.csv",
+    "rows": 19
+  },
+  {
+    "bytes": 7514,
+    "max_cols": 10,
+    "nonempty_rows": 50,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+    "rows": 52
+  },
+  {
+    "bytes": 0,
+    "max_cols": 0,
+    "nonempty_rows": 0,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/02-Fixed_Float_Deposit.csv",
+    "rows": 0
+  },
+  {
+    "bytes": 0,
+    "max_cols": 0,
+    "nonempty_rows": 0,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/03-Sheet5.csv",
+    "rows": 0
+  },
+  {
+    "bytes": 418,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/04-0xaadd5f.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 723,
+    "max_cols": 8,
+    "nonempty_rows": 6,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/05-0x1c0b5b8.csv",
+    "rows": 6
+  },
+  {
+    "bytes": 369,
+    "max_cols": 9,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/06-0x055e6b08.csv",
+    "rows": 4
+  },
+  {
+    "bytes": 360,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/07-0xd20a9.csv",
+    "rows": 7
+  },
+  {
+    "bytes": 378,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/08-0xa30e54c.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 378,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/09-0xdFb05.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 536,
+    "max_cols": 8,
+    "nonempty_rows": 5,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/10-0x9Dc08.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 545,
+    "max_cols": 8,
+    "nonempty_rows": 5,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/11-0x265626.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 360,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/12-0xFA5F6e.csv",
+    "rows": 8
+  },
+  {
+    "bytes": 362,
+    "max_cols": 8,
+    "nonempty_rows": 4,
+    "path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/13-0xf40c0.csv",
+    "rows": 9
+  }
+]

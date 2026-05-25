@@ -1,0 +1,46 @@
+{
+  "addresses": {
+    "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl": {
+      "balance_sats": 0,
+      "funded_sats": 4763611646,
+      "mempool_count": 0,
+      "spent_sats": 4763611646,
+      "utxo_count": 0,
+      "utxo_sats": 0
+    },
+    "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s": {
+      "balance_sats": 0,
+      "funded_sats": 4070902128,
+      "mempool_count": 0,
+      "spent_sats": 4070902128,
+      "utxo_count": 0,
+      "utxo_sats": 0
+    },
+    "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g": {
+      "balance_sats": 649998534,
+      "funded_sats": 649998534,
+      "mempool_count": 0,
+      "spent_sats": 0,
+      "utxo_count": 2,
+      "utxo_sats": 649998534
+    }
+  },
+  "fetched_at_utc": "2026-05-25T15:08:23.074792Z",
+  "txs": {
+    "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187": {
+      "block_time": "2023-10-19T11:22:51Z",
+      "confirmed": true,
+      "vout_count": 1
+    },
+    "29575abd53550ed73aa606eab43448c43790232388de7152081a322ffd355287": {
+      "block_time": "2024-06-22T14:51:25Z",
+      "confirmed": true,
+      "vout_count": 1
+    },
+    "4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5": {
+      "block_time": "2026-03-11T22:02:44Z",
+      "confirmed": true,
+      "vout_count": 1
+    }
+  }
+}

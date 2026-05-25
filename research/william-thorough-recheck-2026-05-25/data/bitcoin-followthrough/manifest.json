@@ -1,0 +1,1467 @@
+{
+  "created_utc": "2026-05-25T15:06:47.159513+00:00",
+  "outdir": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough",
+  "requests": [
+    {
+      "timestamp_utc": "2026-05-25T15:06:03.052672+00:00",
+      "label": "blockstream-address-wasabi-deposit",
+      "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150603Z-blockstream-address-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+        "chain_stats": {
+          "funded_txo_count": 7,
+          "funded_txo_sum": 4070902128,
+          "spent_txo_count": 7,
+          "spent_txo_sum": 4070902128,
+          "tx_count": 13
+        },
+        "mempool_stats": {
+          "funded_txo_count": 0,
+          "funded_txo_sum": 0,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 0
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:04.044595+00:00",
+      "label": "blockstream-utxo-wasabi-deposit",
+      "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150604Z-blockstream-utxo-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:05.074791+00:00",
+      "label": "blockstream-txs-wasabi-deposit",
+      "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150605Z-blockstream-txs-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:07.287447+00:00",
+      "label": "blockstream-mempool-wasabi-deposit",
+      "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150607Z-blockstream-mempool-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:08.130242+00:00",
+      "label": "mempool-address-wasabi-deposit",
+      "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150608Z-mempool-address-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+        "chain_stats": {
+          "funded_txo_count": 7,
+          "funded_txo_sum": 4070902128,
+          "spent_txo_count": 7,
+          "spent_txo_sum": 4070902128,
+          "tx_count": 13
+        },
+        "mempool_stats": {
+          "funded_txo_count": 0,
+          "funded_txo_sum": 0,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 0
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:08.590486+00:00",
+      "label": "mempool-utxo-wasabi-deposit",
+      "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150608Z-mempool-utxo-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:09.565451+00:00",
+      "label": "mempool-txs-wasabi-deposit",
+      "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150609Z-mempool-txs-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:10.328739+00:00",
+      "label": "mempool-mempool-wasabi-deposit",
+      "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150610Z-mempool-mempool-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:10.652732+00:00",
+      "label": "blockchain-info-rawaddr-wasabi-deposit",
+      "url": "https://blockchain.info/rawaddr/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s?limit=0",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150610Z-blockchain-info-rawaddr-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "json_preview": {
+        "hash160": "719dfa7d4f2cb35c289819ef8f341e901215d951",
+        "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+        "n_tx": 13,
+        "n_unredeemed": 0,
+        "total_received": 4070902128,
+        "total_sent": 4070902128,
+        "final_balance": 0,
+        "txs": []
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:11.144147+00:00",
+      "label": "blockcypher-balance-wasabi-deposit",
+      "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/balance",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150611Z-blockcypher-balance-wasabi-deposit.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+        "total_received": 4070902128,
+        "total_sent": 4070902128,
+        "balance": 0,
+        "unconfirmed_balance": 0,
+        "final_balance": 0,
+        "n_tx": 13,
+        "unconfirmed_n_tx": 0,
+        "final_n_tx": 13
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:11.691889+00:00",
+      "label": "blockstream-address-demix-candidate",
+      "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150611Z-blockstream-address-demix-candidate.json",
+      "error": "ConnectionResetError(54, 'Connection reset by peer')"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:12.558865+00:00",
+      "label": "blockstream-utxo-demix-candidate",
+      "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150612Z-blockstream-utxo-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:13.475153+00:00",
+      "label": "blockstream-txs-demix-candidate",
+      "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150613Z-blockstream-txs-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:14.776540+00:00",
+      "label": "blockstream-mempool-demix-candidate",
+      "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150614Z-blockstream-mempool-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:16.689661+00:00",
+      "label": "mempool-address-demix-candidate",
+      "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150616Z-mempool-address-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+        "chain_stats": {
+          "funded_txo_count": 8,
+          "funded_txo_sum": 4763611646,
+          "spent_txo_count": 8,
+          "spent_txo_sum": 4763611646,
+          "tx_count": 10
+        },
+        "mempool_stats": {
+          "funded_txo_count": 0,
+          "funded_txo_sum": 0,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 0
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:17.582966+00:00",
+      "label": "mempool-utxo-demix-candidate",
+      "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150617Z-mempool-utxo-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:18.708024+00:00",
+      "label": "mempool-txs-demix-candidate",
+      "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150618Z-mempool-txs-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:19.107087+00:00",
+      "label": "mempool-mempool-demix-candidate",
+      "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150619Z-mempool-mempool-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:19.430010+00:00",
+      "label": "blockchain-info-rawaddr-demix-candidate",
+      "url": "https://blockchain.info/rawaddr/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl?limit=0",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150619Z-blockchain-info-rawaddr-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "json_preview": {
+        "hash160": "2b3efad105fcf59e1d88ba875f09b58720bee0b2",
+        "address": "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+        "n_tx": 10,
+        "n_unredeemed": 0,
+        "total_received": 4763611646,
+        "total_sent": 4763611646,
+        "final_balance": 0,
+        "txs": []
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:19.898374+00:00",
+      "label": "blockcypher-balance-demix-candidate",
+      "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/balance",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150619Z-blockcypher-balance-demix-candidate.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+        "total_received": 4302054073,
+        "total_sent": 4302054073,
+        "balance": 0,
+        "unconfirmed_balance": 0,
+        "final_balance": 0,
+        "n_tx": 10,
+        "unconfirmed_n_tx": 0,
+        "final_n_tx": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:20.431531+00:00",
+      "label": "blockstream-address-live-lead",
+      "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150620Z-blockstream-address-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+        "chain_stats": {
+          "funded_txo_count": 2,
+          "funded_txo_sum": 649998534,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 2
+        },
+        "mempool_stats": {
+          "funded_txo_count": 0,
+          "funded_txo_sum": 0,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 0
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:21.309344+00:00",
+      "label": "blockstream-utxo-live-lead",
+      "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150621Z-blockstream-utxo-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "txid": "4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+          "vout": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 940313,
+            "block_hash": "00000000000000000001cf54ab779baec4ed4924ed88f8e2002eedd79cd28923",
+            "block_time": 1773266564
+          },
+          "value": 294
+        },
+        {
+          "txid": "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+          "vout": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 812907,
+            "block_hash": "00000000000000000001fd09b552fac94d6c032741e6b0c6a0c07026227e3f8b",
+            "block_time": 1697714571
+          },
+          "value": 649998240
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:23.609436+00:00",
+      "label": "blockstream-txs-live-lead",
+      "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150623Z-blockstream-txs-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:24.470972+00:00",
+      "label": "blockstream-mempool-live-lead",
+      "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150624Z-blockstream-mempool-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:25.371415+00:00",
+      "label": "mempool-address-live-lead",
+      "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150625Z-mempool-address-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+        "chain_stats": {
+          "funded_txo_count": 2,
+          "funded_txo_sum": 649998534,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 2
+        },
+        "mempool_stats": {
+          "funded_txo_count": 0,
+          "funded_txo_sum": 0,
+          "spent_txo_count": 0,
+          "spent_txo_sum": 0,
+          "tx_count": 0
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:25.846943+00:00",
+      "label": "mempool-utxo-live-lead",
+      "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150625Z-mempool-utxo-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "txid": "4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+          "vout": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 940313,
+            "block_hash": "00000000000000000001cf54ab779baec4ed4924ed88f8e2002eedd79cd28923",
+            "block_time": 1773266564
+          },
+          "value": 294
+        },
+        {
+          "txid": "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+          "vout": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 812907,
+            "block_hash": "00000000000000000001fd09b552fac94d6c032741e6b0c6a0c07026227e3f8b",
+            "block_time": 1697714571
+          },
+          "value": 649998240
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:27.333575+00:00",
+      "label": "mempool-txs-live-lead",
+      "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150627Z-mempool-txs-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:27.658424+00:00",
+      "label": "mempool-mempool-live-lead",
+      "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs/mempool",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150627Z-mempool-mempool-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": []
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:27.982521+00:00",
+      "label": "blockchain-info-rawaddr-live-lead",
+      "url": "https://blockchain.info/rawaddr/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g?limit=0",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150627Z-blockchain-info-rawaddr-live-lead.json",
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "json_preview": {
+        "hash160": "22d5eaf8659c5a1300e342e993870f010a07e198",
+        "address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+        "n_tx": 2,
+        "n_unredeemed": 2,
+        "total_received": 649998534,
+        "total_sent": 0,
+        "final_balance": 649998534,
+        "txs": []
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:28.433962+00:00",
+      "label": "blockcypher-balance-live-lead",
+      "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/balance",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150628Z-blockcypher-balance-live-lead.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+        "total_received": 649998534,
+        "total_sent": 0,
+        "balance": 649998534,
+        "unconfirmed_balance": 0,
+        "final_balance": 649998534,
+        "n_tx": 2,
+        "unconfirmed_n_tx": 0,
+        "final_n_tx": 2
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:28.964802+00:00",
+      "label": "blockstream-tx-thorchain-btc-output-655a-ca88",
+      "url": "https://blockstream.info/api/tx/ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150628Z-blockstream-tx-thorchain-btc-output-655a-ca88.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "cf089382613f5340679ce17034b2273a390c7807cc17e8217c9e56a7e1299da8",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "0014c7894abd7874d1bf6757789a76da404517e9284b",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 c7894abd7874d1bf6757789a76da404517e9284b",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1qc7y540tcwngm7e6h0zd8dkjqg5t7j2zt2689se",
+              "value": 18848233832
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "304402203e6409c4e9ed602e9d66448deec1602a29960f8826615ede55a4dcf6d479372302202e515d4f16483f1bdb43f965714576c2b7ce47766e4c62ccb268649779d38f2201",
+              "0278bd022dd71a0d2073dca388eb79b86784a8bd6bb15bf74d5b5d0fe318e95b08"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967295
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "0014719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+            "value": 729622713
+          },
+          {
+            "scriptpubkey": "0014c7894abd7874d1bf6757789a76da404517e9284b",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 c7894abd7874d1bf6757789a76da404517e9284b",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qc7y540tcwngm7e6h0zd8dkjqg5t7j2zt2689se",
+            "value": 18118606983
+          },
+          {
+            "scriptpubkey": "6a444f55543a36353541324135354243373234373138424341373842373634353334374634343844314341353242394630353141433342364238463245333636353144323034",
+            "scriptpubkey_asm": "OP_RETURN OP_PUSHBYTES_68 4f55543a36353541324135354243373234373138424341373842373634353334374634343844314341353242394630353141433342364238463245333636353144323034",
+            "scriptpubkey_type": "op_return",
+            "value": 0
+          }
+        ],
+        "size": 301,
+        "weight": 877,
+        "fee": 4136,
+        "status": {
+          "confirmed": true,
+          "block_height": 799658,
+          "block_hash": "0000000000000000000477e7c27b228b31b3f268685d5b30306f8cc97658f5d3",
+          "block_time": 1689956688
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:29.813594+00:00",
+      "label": "blockstream-outspends-thorchain-btc-output-655a-ca88",
+      "url": "https://blockstream.info/api/tx/ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150629Z-blockstream-outspends-thorchain-btc-output-655a-ca88.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "b0d0afa49018bd9233298b7076a0857ee1599056400d8d459f117211d4da2372",
+          "vin": 1,
+          "status": {
+            "confirmed": true,
+            "block_height": 799836,
+            "block_hash": "000000000000000000050242c9cf4a6f228c0c80e9f0d6bd537c68585f6b567e",
+            "block_time": 1690072444
+          }
+        },
+        {
+          "spent": true,
+          "txid": "c7f27273738afac00c14f62696da7a4b853b358dbf36bdd86e68218d8dcdcc2f",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799658,
+            "block_hash": "0000000000000000000477e7c27b228b31b3f268685d5b30306f8cc97658f5d3",
+            "block_time": 1689956688
+          }
+        },
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:30.663195+00:00",
+      "label": "mempool-tx-thorchain-btc-output-655a-ca88",
+      "url": "https://mempool.space/api/tx/ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150630Z-mempool-tx-thorchain-btc-output-655a-ca88.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "cf089382613f5340679ce17034b2273a390c7807cc17e8217c9e56a7e1299da8",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "0014c7894abd7874d1bf6757789a76da404517e9284b",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 c7894abd7874d1bf6757789a76da404517e9284b",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1qc7y540tcwngm7e6h0zd8dkjqg5t7j2zt2689se",
+              "value": 18848233832
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "304402203e6409c4e9ed602e9d66448deec1602a29960f8826615ede55a4dcf6d479372302202e515d4f16483f1bdb43f965714576c2b7ce47766e4c62ccb268649779d38f2201",
+              "0278bd022dd71a0d2073dca388eb79b86784a8bd6bb15bf74d5b5d0fe318e95b08"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967295
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "0014719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+            "value": 729622713
+          },
+          {
+            "scriptpubkey": "0014c7894abd7874d1bf6757789a76da404517e9284b",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 c7894abd7874d1bf6757789a76da404517e9284b",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qc7y540tcwngm7e6h0zd8dkjqg5t7j2zt2689se",
+            "value": 18118606983
+          },
+          {
+            "scriptpubkey": "6a444f55543a36353541324135354243373234373138424341373842373634353334374634343844314341353242394630353141433342364238463245333636353144323034",
+            "scriptpubkey_asm": "OP_RETURN OP_PUSHBYTES_68 4f55543a36353541324135354243373234373138424341373842373634353334374634343844314341353242394630353141433342364238463245333636353144323034",
+            "scriptpubkey_type": "op_return",
+            "value": 0
+          }
+        ],
+        "size": 301,
+        "weight": 877,
+        "sigops": 1,
+        "fee": 4136,
+        "status": {
+          "confirmed": true,
+          "block_height": 799658,
+          "block_hash": "0000000000000000000477e7c27b228b31b3f268685d5b30306f8cc97658f5d3",
+          "block_time": 1689956688
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:30.980299+00:00",
+      "label": "mempool-outspends-thorchain-btc-output-655a-ca88",
+      "url": "https://mempool.space/api/tx/ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150630Z-mempool-outspends-thorchain-btc-output-655a-ca88.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "b0d0afa49018bd9233298b7076a0857ee1599056400d8d459f117211d4da2372",
+          "vin": 1,
+          "status": {
+            "confirmed": true,
+            "block_height": 799836,
+            "block_hash": "000000000000000000050242c9cf4a6f228c0c80e9f0d6bd537c68585f6b567e",
+            "block_time": 1690072444
+          }
+        },
+        {
+          "spent": true,
+          "txid": "c7f27273738afac00c14f62696da7a4b853b358dbf36bdd86e68218d8dcdcc2f",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799658,
+            "block_hash": "0000000000000000000477e7c27b228b31b3f268685d5b30306f8cc97658f5d3",
+            "block_time": 1689956688
+          }
+        },
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:31.302441+00:00",
+      "label": "blockstream-tx-thorchain-btc-output-40a3-d40f",
+      "url": "https://blockstream.info/api/tx/d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150631Z-blockstream-tx-thorchain-btc-output-40a3-d40f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "82c1148f5857f994d1474d0a3aeff8c9f6a73253fe4f949efd2d1826671c84fa",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "00145f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 5f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1qtunad8gttrw69nwxwhahm0973r6gqfecdzdajx",
+              "value": 19185877422
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "30440220571e95887a66c4c0f17ea00eb309e2fcd7ee3910fb48c58f61656a0d428b916302206a9c6b2d7bc43aecdc1cd9a22146ecf2e05e91f6982ab0d723c4c19b20536d7e01",
+              "02140065e9c16ef28157247f6d9023b272a1d49826cc66fd1c1773450bd62bac52"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967295
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "0014719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+            "value": 3137643194
+          },
+          {
+            "scriptpubkey": "00145f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 5f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qtunad8gttrw69nwxwhahm0973r6gqfecdzdajx",
+            "value": 16048226896
+          },
+          {
+            "scriptpubkey": "6a444f55543a34304133443534364633343946394346384539303742363637364536313837414430314632344337364144394430423944323935384538433945303539453243",
+            "scriptpubkey_asm": "OP_RETURN OP_PUSHBYTES_68 4f55543a34304133443534364633343946394346384539303742363637364536313837414430314632344337364144394430423944323935384538433945303539453243",
+            "scriptpubkey_type": "op_return",
+            "value": 0
+          }
+        ],
+        "size": 301,
+        "weight": 877,
+        "fee": 7332,
+        "status": {
+          "confirmed": true,
+          "block_height": 799660,
+          "block_hash": "0000000000000000000263c9e7a19fde94da0d24be546b9aa32116556808f5e2",
+          "block_time": 1689958647
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:32.186176+00:00",
+      "label": "blockstream-outspends-thorchain-btc-output-40a3-d40f",
+      "url": "https://blockstream.info/api/tx/d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150632Z-blockstream-outspends-thorchain-btc-output-40a3-d40f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "447484229542bdf306892f60fdd328bdfe7c670e42013af4247302e6d3bf0be8",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799825,
+            "block_hash": "00000000000000000004647fd838530d5026d378e833ecdd7c140efdf0ee21f9",
+            "block_time": 1690065384
+          }
+        },
+        {
+          "spent": true,
+          "txid": "b7ee465208994e8717e0d2c93ac4358fffd1d5d14f9e25aafc06bbc2d5028ed9",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799668,
+            "block_hash": "00000000000000000002dd42cfc33013601af1f4f9c2f76eb77fd3bb60a2ad30",
+            "block_time": 1689963589
+          }
+        },
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:33.038225+00:00",
+      "label": "mempool-tx-thorchain-btc-output-40a3-d40f",
+      "url": "https://mempool.space/api/tx/d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150633Z-mempool-tx-thorchain-btc-output-40a3-d40f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "82c1148f5857f994d1474d0a3aeff8c9f6a73253fe4f949efd2d1826671c84fa",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "00145f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 5f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1qtunad8gttrw69nwxwhahm0973r6gqfecdzdajx",
+              "value": 19185877422
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "30440220571e95887a66c4c0f17ea00eb309e2fcd7ee3910fb48c58f61656a0d428b916302206a9c6b2d7bc43aecdc1cd9a22146ecf2e05e91f6982ab0d723c4c19b20536d7e01",
+              "02140065e9c16ef28157247f6d9023b272a1d49826cc66fd1c1773450bd62bac52"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967295
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "0014719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 719dfa7d4f2cb35c289819ef8f341e901215d951",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+            "value": 3137643194
+          },
+          {
+            "scriptpubkey": "00145f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 5f27d69d0b58dda2cdc675fb7dbcbe88f4802738",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qtunad8gttrw69nwxwhahm0973r6gqfecdzdajx",
+            "value": 16048226896
+          },
+          {
+            "scriptpubkey": "6a444f55543a34304133443534364633343946394346384539303742363637364536313837414430314632344337364144394430423944323935384538433945303539453243",
+            "scriptpubkey_asm": "OP_RETURN OP_PUSHBYTES_68 4f55543a34304133443534364633343946394346384539303742363637364536313837414430314632344337364144394430423944323935384538433945303539453243",
+            "scriptpubkey_type": "op_return",
+            "value": 0
+          }
+        ],
+        "size": 301,
+        "weight": 877,
+        "sigops": 1,
+        "fee": 7332,
+        "status": {
+          "confirmed": true,
+          "block_height": 799660,
+          "block_hash": "0000000000000000000263c9e7a19fde94da0d24be546b9aa32116556808f5e2",
+          "block_time": 1689958647
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:33.360186+00:00",
+      "label": "mempool-outspends-thorchain-btc-output-40a3-d40f",
+      "url": "https://mempool.space/api/tx/d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150633Z-mempool-outspends-thorchain-btc-output-40a3-d40f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "447484229542bdf306892f60fdd328bdfe7c670e42013af4247302e6d3bf0be8",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799825,
+            "block_hash": "00000000000000000004647fd838530d5026d378e833ecdd7c140efdf0ee21f9",
+            "block_time": 1690065384
+          }
+        },
+        {
+          "spent": true,
+          "txid": "b7ee465208994e8717e0d2c93ac4358fffd1d5d14f9e25aafc06bbc2d5028ed9",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 799668,
+            "block_hash": "00000000000000000002dd42cfc33013601af1f4f9c2f76eb77fd3bb60a2ad30",
+            "block_time": 1689963589
+          }
+        },
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:33.685394+00:00",
+      "label": "blockstream-tx-candidate-to-live-164f",
+      "url": "https://blockstream.info/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150633Z-blockstream-tx-candidate-to-live-164f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "3200a29a5ef215e73c6d62390425879a86079c14fd77ede2ef173f9642bd0500",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "00142b3efad105fcf59e1d88ba875f09b58720bee0b2",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 2b3efad105fcf59e1d88ba875f09b58720bee0b2",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+              "value": 650000000
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "3045022100ce53f3713bdf37c072c2fe869d7b338d0c6e7e412f88b72f36a999027e22fb76022061db6927fc6f978bcfbf89605828170f5c900d7616e9ec8337c8c39508509d8801",
+              "026fac2dc21d6e65eee0e1e0c9915d8ddb1634c664566daa65381611bed135f5e8"
+            ],
+            "is_coinbase": false,
+            "sequence": 0
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "001422d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 22d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+            "value": 649998240
+          }
+        ],
+        "size": 192,
+        "weight": 438,
+        "fee": 1760,
+        "status": {
+          "confirmed": true,
+          "block_height": 812907,
+          "block_hash": "00000000000000000001fd09b552fac94d6c032741e6b0c6a0c07026227e3f8b",
+          "block_time": 1697714571
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:35.042410+00:00",
+      "label": "blockstream-outspends-candidate-to-live-164f",
+      "url": "https://blockstream.info/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150635Z-blockstream-outspends-candidate-to-live-164f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:35.903549+00:00",
+      "label": "mempool-tx-candidate-to-live-164f",
+      "url": "https://mempool.space/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150635Z-mempool-tx-candidate-to-live-164f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "3200a29a5ef215e73c6d62390425879a86079c14fd77ede2ef173f9642bd0500",
+            "vout": 1,
+            "prevout": {
+              "scriptpubkey": "00142b3efad105fcf59e1d88ba875f09b58720bee0b2",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 2b3efad105fcf59e1d88ba875f09b58720bee0b2",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+              "value": 650000000
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "3045022100ce53f3713bdf37c072c2fe869d7b338d0c6e7e412f88b72f36a999027e22fb76022061db6927fc6f978bcfbf89605828170f5c900d7616e9ec8337c8c39508509d8801",
+              "026fac2dc21d6e65eee0e1e0c9915d8ddb1634c664566daa65381611bed135f5e8"
+            ],
+            "is_coinbase": false,
+            "sequence": 0
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "001422d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 22d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+            "value": 649998240
+          }
+        ],
+        "size": 192,
+        "weight": 438,
+        "sigops": 1,
+        "fee": 1760,
+        "status": {
+          "confirmed": true,
+          "block_height": 812907,
+          "block_hash": "00000000000000000001fd09b552fac94d6c032741e6b0c6a0c07026227e3f8b",
+          "block_time": 1697714571
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:36.230422+00:00",
+      "label": "mempool-outspends-candidate-to-live-164f",
+      "url": "https://mempool.space/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150636Z-mempool-outspends-candidate-to-live-164f.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:36.537929+00:00",
+      "label": "blockstream-tx-candidate-consolidation-1962",
+      "url": "https://blockstream.info/api/tx/1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150636Z-blockstream-tx-candidate-consolidation-1962.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:37.395350+00:00",
+      "label": "blockstream-outspends-candidate-consolidation-1962",
+      "url": "https://blockstream.info/api/tx/1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150637Z-blockstream-outspends-candidate-consolidation-1962.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "4d23a22853686456ae2d8345d0402182ac301bf5aa4010a1f04df90581c2bd8f",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 849048,
+            "block_hash": "00000000000000000002ac78c9fa0122ddbd5a0d4ca6668acfd67c980c31e50c",
+            "block_time": 1719067047
+          }
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:38.315946+00:00",
+      "label": "mempool-tx-candidate-consolidation-1962",
+      "url": "https://mempool.space/api/tx/1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150638Z-mempool-tx-candidate-consolidation-1962.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": "saved"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:38.635817+00:00",
+      "label": "mempool-outspends-candidate-consolidation-1962",
+      "url": "https://mempool.space/api/tx/1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150638Z-mempool-outspends-candidate-consolidation-1962.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": true,
+          "txid": "4d23a22853686456ae2d8345d0402182ac301bf5aa4010a1f04df90581c2bd8f",
+          "vin": 0,
+          "status": {
+            "confirmed": true,
+            "block_height": 849048,
+            "block_hash": "00000000000000000002ac78c9fa0122ddbd5a0d4ca6668acfd67c980c31e50c",
+            "block_time": 1719067047
+          }
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:38.954828+00:00",
+      "label": "blockstream-tx-live-dust-4fad",
+      "url": "https://blockstream.info/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150638Z-blockstream-tx-live-dust-4fad.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+        "version": 2,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "3de3560c6cec7643d982274194eb093751b356ae0db59f05be874f4ef21664c5",
+            "vout": 0,
+            "prevout": {
+              "scriptpubkey": "0014f1b5697be82fe0a46a1176f55ac28be02d641cad",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 f1b5697be82fe0a46a1176f55ac28be02d641cad",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1q7x6kj7lg9ls2g6s3wm644s5tuqkkg89dp5t532",
+              "value": 330
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "3045022100df5684c218b6624a2aafb62912bb34d8c2be7709443fea22c081a3fe31b63d1602207aeececbb9a710795c6f1a29039a7276756d389658d0171449524c24216802a601",
+              "0212561f176da50e91b4dd63d4294e7c27cbdbec40a7c20dc4f5d2b82b291e5022"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967293
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "001422d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 22d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+            "value": 294
+          }
+        ],
+        "size": 192,
+        "weight": 438,
+        "fee": 36,
+        "status": {
+          "confirmed": true,
+          "block_height": 940313,
+          "block_hash": "00000000000000000001cf54ab779baec4ed4924ed88f8e2002eedd79cd28923",
+          "block_time": 1773266564
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:39.921450+00:00",
+      "label": "blockstream-outspends-live-dust-4fad",
+      "url": "https://blockstream.info/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150639Z-blockstream-outspends-live-dust-4fad.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:40.817408+00:00",
+      "label": "mempool-tx-live-dust-4fad",
+      "url": "https://mempool.space/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150640Z-mempool-tx-live-dust-4fad.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "txid": "4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+        "version": 2,
+        "locktime": 0,
+        "vin": [
+          {
+            "txid": "3de3560c6cec7643d982274194eb093751b356ae0db59f05be874f4ef21664c5",
+            "vout": 0,
+            "prevout": {
+              "scriptpubkey": "0014f1b5697be82fe0a46a1176f55ac28be02d641cad",
+              "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 f1b5697be82fe0a46a1176f55ac28be02d641cad",
+              "scriptpubkey_type": "v0_p2wpkh",
+              "scriptpubkey_address": "bc1q7x6kj7lg9ls2g6s3wm644s5tuqkkg89dp5t532",
+              "value": 330
+            },
+            "scriptsig": "",
+            "scriptsig_asm": "",
+            "witness": [
+              "3045022100df5684c218b6624a2aafb62912bb34d8c2be7709443fea22c081a3fe31b63d1602207aeececbb9a710795c6f1a29039a7276756d389658d0171449524c24216802a601",
+              "0212561f176da50e91b4dd63d4294e7c27cbdbec40a7c20dc4f5d2b82b291e5022"
+            ],
+            "is_coinbase": false,
+            "sequence": 4294967293
+          }
+        ],
+        "vout": [
+          {
+            "scriptpubkey": "001422d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 22d5eaf8659c5a1300e342e993870f010a07e198",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+            "value": 294
+          }
+        ],
+        "size": 192,
+        "weight": 438,
+        "sigops": 1,
+        "fee": 36,
+        "status": {
+          "confirmed": true,
+          "block_height": 940313,
+          "block_hash": "00000000000000000001cf54ab779baec4ed4924ed88f8e2002eedd79cd28923",
+          "block_time": 1773266564
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:41.136831+00:00",
+      "label": "mempool-outspends-live-dust-4fad",
+      "url": "https://mempool.space/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5/outspends",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150641Z-mempool-outspends-live-dust-4fad.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": [
+        {
+          "spent": false
+        }
+      ]
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:41.468402+00:00",
+      "label": "midgard-action-655a",
+      "url": "https://gateway.liquify.com/chain/thorchain_midgard/v2/actions?txid=655A2A55BC724718BCA78B7645347F448D1CA52B9F051AC3B6B8F2E36651D204",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150641Z-midgard-action-655a.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "actions": [
+          {
+            "date": "1689949063813587641",
+            "height": "11803577",
+            "in": [
+              {
+                "address": "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+                "coins": [
+                  {
+                    "amount": "12544715147",
+                    "asset": "ETH.ETH"
+                  }
+                ],
+                "txID": "655A2A55BC724718BCA78B7645347F448D1CA52B9F051AC3B6B8F2E36651D204"
+              }
+            ],
+            "metadata": {
+              "swap": {
+                "affiliateAddress": "t",
+                "affiliateFee": "30",
+                "inPriceUSD": "1802.667208033677",
+                "isStreamingSwap": true,
+                "liquidityFee": "837257226231",
+                "memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:704635983:t:30",
+                "networkFees": [
+                  {
+                    "amount": "2000000",
+                    "asset": "THOR.RUNE"
+                  },
+                  {
+                    "amount": "37500",
+                    "asset": "BTC.BTC"
+                  }
+                ],
+                "outPriceUSD": "30764.837616068096",
+                "swapSlip": "363",
+                "swapTarget": "704635983",
+                "txType": "swap"
+              }
+            },
+            "out": [
+              {
+                "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+                "coins": [
+                  {
+                    "amount": "729622713",
+                    "asset": "BTC.BTC"
+                  }
+                ],
+                "height": "11804301",
+                "txID": "CA88B4956964E3D8BFDAE2800B48F4CB15F8CC52A8554B4BFA301A400805E053"
+              },
+              {
+                "address": "thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk",
+                "affiliate": true,
+                "coins": [
+                  {
+                    "amount": "70874912638",
+                    "asset": "THOR.RUNE"
+                  }
+                ],
+                "height": "11803585",
+                "txID": ""
+              }
+            ],
+            "pools": [
+              "ETH.ETH",
+              "BTC.BTC"
+            ],
+            "status": "success",
+            "type": "swap"
+          }
+        ],
+        "count": "1",
+        "meta": {
+          "nextPageToken": "118035779000000001",
+          "prevPageToken": "118035779000000001"
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:42.388144+00:00",
+      "label": "midgard-action-40a3",
+      "url": "https://gateway.liquify.com/chain/thorchain_midgard/v2/actions?txid=40A3D546F349F9CF8E907B6676E6187AD01F24C76AD9D0B9D2958E8C9E059E2C",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150642Z-midgard-action-40a3.json",
+      "status": 200,
+      "content_type": "application/json",
+      "json_preview": {
+        "actions": [
+          {
+            "date": "1689953657711942037",
+            "height": "11804338",
+            "in": [
+              {
+                "address": "0xeec35fd50b5e7344b3e1a7f4384b3cb9365e204a",
+                "coins": [
+                  {
+                    "amount": "72729568000",
+                    "asset": "ETH.ETH"
+                  }
+                ],
+                "txID": "40A3D546F349F9CF8E907B6676E6187AD01F24C76AD9D0B9D2958E8C9E059E2C"
+              }
+            ],
+            "metadata": {
+              "swap": {
+                "affiliateAddress": "t",
+                "affiliateFee": "30",
+                "inPriceUSD": "1693.5413087950442",
+                "isStreamingSwap": true,
+                "liquidityFee": "20159892967115",
+                "memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:3000764182:t:30",
+                "networkFees": [
+                  {
+                    "amount": "22500",
+                    "asset": "BTC.BTC"
+                  },
+                  {
+                    "amount": "2000000",
+                    "asset": "THOR.RUNE"
+                  }
+                ],
+                "outPriceUSD": "33019.52171092837",
+                "swapSlip": "1717",
+                "swapTarget": "3000764182",
+                "txType": "swap"
+              }
+            },
+            "out": [
+              {
+                "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+                "coins": [
+                  {
+                    "amount": "3137643194",
+                    "asset": "BTC.BTC"
+                  }
+                ],
+                "height": "11805067",
+                "txID": "D40F9B8C207CFE8BDFF9D054A7C2BADF838DE47CB1CB65E0EDBA63200A677A89"
+              },
+              {
+                "address": "thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk",
+                "affiliate": true,
+                "coins": [
+                  {
+                    "amount": "367043905525",
+                    "asset": "THOR.RUNE"
+                  }
+                ],
+                "height": "11804338",
+                "txID": ""
+              }
+            ],
+            "pools": [
+              "ETH.ETH",
+              "BTC.BTC"
+            ],
+            "status": "success",
+            "type": "swap"
+          }
+        ],
+        "count": "1",
+        "meta": {
+          "nextPageToken": "118043389000000001",
+          "prevPageToken": "118043389000000001"
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:43.288319+00:00",
+      "label": "eth-tx-sheet-row-5-655a",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150643Z-eth-tx-sheet-row-5-655a.json",
+      "method": "eth_getTransactionByHash",
+      "params": [
+        "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204"
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:43.761414+00:00",
+      "label": "eth-tx-sheet-row-7-662e",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150643Z-eth-tx-sheet-row-7-662e.json",
+      "method": "eth_getTransactionByHash",
+      "params": [
+        "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2"
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:44.240126+00:00",
+      "label": "eth-tx-sheet-row-8-2ed7",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150644Z-eth-tx-sheet-row-8-2ed7.json",
+      "method": "eth_getTransactionByHash",
+      "params": [
+        "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157"
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:44.715952+00:00",
+      "label": "eth-tx-thorchain-staging-40a3",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150644Z-eth-tx-thorchain-staging-40a3.json",
+      "method": "eth_getTransactionByHash",
+      "params": [
+        "0x40a3d546f349f9cf8e907b6676e6187ad01f24c76ad9d0b9d2958e8c9e059e2c"
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:45.186102+00:00",
+      "label": "eth-block-sheet-row-5-655a",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150645Z-eth-block-sheet-row-5-655a.json",
+      "method": "eth_getBlockByHash",
+      "params": [
+        "0x5d44722c08a30a62a8af2f16e012c4688a40e7de099f4f92f854c95fe040c4bf",
+        false
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:45.684164+00:00",
+      "label": "eth-block-sheet-row-7-662e",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150645Z-eth-block-sheet-row-7-662e.json",
+      "method": "eth_getBlockByHash",
+      "params": [
+        "0x21ee7b1f1ecbd56f989d87658663dd4aad55620375aded977ae4ebfa3eaca569",
+        false
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:46.178367+00:00",
+      "label": "eth-block-sheet-row-8-2ed7",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150646Z-eth-block-sheet-row-8-2ed7.json",
+      "method": "eth_getBlockByHash",
+      "params": [
+        "0x50d8356a5bb4236ed67354444609ca061c85a4b5a5b093670fb759a4255a8b9a",
+        false
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:06:46.678592+00:00",
+      "label": "eth-block-thorchain-staging-40a3",
+      "url": "https://ethereum.publicnode.com",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150646Z-eth-block-thorchain-staging-40a3.json",
+      "method": "eth_getBlockByHash",
+      "params": [
+        "0x832f535d8e989a49509b6f1705cacae853ea2d2ec7e78447e25ff43ee1039c88",
+        false
+      ],
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "timestamp_utc": "2026-05-25T15:07:43.066548+00:00",
+      "label": "blockstream-address-demix-candidate-retry",
+      "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+      "path": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/bitcoin-followthrough/20260525T150743Z-blockstream-address-demix-candidate-retry.json",
+      "status": 200,
+      "content_type": "application/json",
+      "note": "retry after one connection reset"
+    }
+  ],
+  "updated_utc": "2026-05-25T15:11:44.101706+00:00"
+}

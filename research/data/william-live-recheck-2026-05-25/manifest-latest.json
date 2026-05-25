@@ -1,0 +1,222 @@
+[
+  {
+    "source": "blockstream",
+    "label": "live-address",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:18:55.343970+00:00",
+    "finished_utc": "2026-05-25T14:18:56.223508+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141855Z-blockstream-live-address.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "live-utxo",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:18:56.426596+00:00",
+    "finished_utc": "2026-05-25T14:18:57.608622+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141856Z-blockstream-live-utxo.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "live-mempool",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs/mempool",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:18:57.809266+00:00",
+    "finished_utc": "2026-05-25T14:18:58.692537+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141857Z-blockstream-live-mempool.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "funding-tx",
+    "url": "https://blockstream.info/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:18:58.893260+00:00",
+    "finished_utc": "2026-05-25T14:18:59.763126+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141858Z-blockstream-funding-tx.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "funding-outspends",
+    "url": "https://blockstream.info/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187/outspends",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:18:59.963627+00:00",
+    "finished_utc": "2026-05-25T14:19:01.190900+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141859Z-blockstream-funding-outspends.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "dust-tx",
+    "url": "https://blockstream.info/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:01.393929+00:00",
+    "finished_utc": "2026-05-25T14:19:02.316148+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141901Z-blockstream-dust-tx.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "dust-outspends",
+    "url": "https://blockstream.info/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5/outspends",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:02.516610+00:00",
+    "finished_utc": "2026-05-25T14:19:03.554777+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141902Z-blockstream-dust-outspends.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "demix-address",
+    "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:03.756339+00:00",
+    "finished_utc": "2026-05-25T14:19:04.679501+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141903Z-blockstream-demix-address.json"
+  },
+  {
+    "source": "blockstream",
+    "label": "wasabi-address",
+    "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:04.880917+00:00",
+    "finished_utc": "2026-05-25T14:19:05.756881+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141904Z-blockstream-wasabi-address.json"
+  },
+  {
+    "source": "mempool",
+    "label": "live-address",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:05.957315+00:00",
+    "finished_utc": "2026-05-25T14:19:06.106749+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141905Z-mempool-live-address.json"
+  },
+  {
+    "source": "mempool",
+    "label": "live-utxo",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:06.308191+00:00",
+    "finished_utc": "2026-05-25T14:19:06.467823+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141906Z-mempool-live-utxo.json"
+  },
+  {
+    "source": "mempool",
+    "label": "live-mempool",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs/mempool",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:06.668961+00:00",
+    "finished_utc": "2026-05-25T14:19:06.820470+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141906Z-mempool-live-mempool.json"
+  },
+  {
+    "source": "mempool",
+    "label": "funding-tx",
+    "url": "https://mempool.space/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:07.020984+00:00",
+    "finished_utc": "2026-05-25T14:19:07.189063+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141907Z-mempool-funding-tx.json"
+  },
+  {
+    "source": "mempool",
+    "label": "funding-outspends",
+    "url": "https://mempool.space/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187/outspends",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:07.391252+00:00",
+    "finished_utc": "2026-05-25T14:19:07.545248+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141907Z-mempool-funding-outspends.json"
+  },
+  {
+    "source": "mempool",
+    "label": "dust-tx",
+    "url": "https://mempool.space/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:07.750183+00:00",
+    "finished_utc": "2026-05-25T14:19:07.904688+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141907Z-mempool-dust-tx.json"
+  },
+  {
+    "source": "mempool",
+    "label": "dust-outspends",
+    "url": "https://mempool.space/api/tx/4fadadf21aa579fa6b2ee370c903b1220ce1c815598ddb3110b8a2087ebd83e5/outspends",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:08.106093+00:00",
+    "finished_utc": "2026-05-25T14:19:08.264677+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141908Z-mempool-dust-outspends.json"
+  },
+  {
+    "source": "mempool",
+    "label": "demix-address",
+    "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:08.469116+00:00",
+    "finished_utc": "2026-05-25T14:19:08.780625+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141908Z-mempool-demix-address.json"
+  },
+  {
+    "source": "mempool",
+    "label": "wasabi-address",
+    "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:08.981095+00:00",
+    "finished_utc": "2026-05-25T14:19:09.268612+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141908Z-mempool-wasabi-address.json"
+  },
+  {
+    "source": "blockchain-info",
+    "label": "live-address",
+    "url": "https://blockchain.info/rawaddr/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g?limit=0",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:09.469186+00:00",
+    "finished_utc": "2026-05-25T14:19:09.758091+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141909Z-blockchain-info-live-address.json"
+  },
+  {
+    "source": "blockcypher",
+    "label": "live-balance",
+    "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/balance",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:09.959940+00:00",
+    "finished_utc": "2026-05-25T14:19:10.315397+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141909Z-blockcypher-live-balance.json"
+  },
+  {
+    "source": "liquify-midgard",
+    "label": "thorchain-actions",
+    "url": "https://gateway.liquify.com/chain/thorchain_midgard/v2/actions?txid=655A2A55BC724718BCA78B7645347F448D1CA52B9F051AC3B6B8F2E36651D204",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:10.518112+00:00",
+    "finished_utc": "2026-05-25T14:19:11.370079+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141910Z-liquify-midgard-thorchain-actions.json"
+  },
+  {
+    "source": "liquify-midgard",
+    "label": "thorchain-actions",
+    "url": "https://gateway.liquify.com/chain/thorchain_midgard/v2/actions?txid=40A3D546F349F9CF8E907B6676E6187AD01F24C76AD9D0B9D2958E8C9E059E2C",
+    "status": 200,
+    "error": null,
+    "started_utc": "2026-05-25T14:19:11.570918+00:00",
+    "finished_utc": "2026-05-25T14:19:12.344036+00:00",
+    "path": "/Users/alphab/.mdx/research/data/william-live-recheck-2026-05-25/20260525T141911Z-liquify-midgard-thorchain-actions.json"
+  }
+]

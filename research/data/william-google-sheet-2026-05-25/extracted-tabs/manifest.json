@@ -1,0 +1,538 @@
+{
+  "created_at_utc": "2026-05-25T15:00:59.793622+00:00",
+  "source_xlsx": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/william-source-spreadsheet.xlsx",
+  "sheet_count": 13,
+  "sheets": [
+    {
+      "index": 1,
+      "sheet_name": "Summary",
+      "xlsx_xml_path": "xl/worksheets/sheet1.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "rows": 52,
+      "nonempty_rows": 50,
+      "max_columns_seen": 10,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "",
+          "",
+          "Total Value",
+          "1675929.2"
+        ],
+        [
+          "",
+          "",
+          "Total ETH",
+          "-884.8222"
+        ],
+        [
+          "",
+          "",
+          "Total BNB",
+          "-8.6"
+        ],
+        [
+          "Address",
+          "Date",
+          "Transaction",
+          "sent to",
+          "Value",
+          "Amount",
+          "Token"
+        ],
+        [
+          "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+          "45128.41735",
+          "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+          "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+          "237313.39",
+          "-125.4472",
+          "ETH",
+          "1891.74"
+        ],
+        [
+          "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+          "45129.24457",
+          "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+          "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+          "1530.3",
+          "-0.82",
+          "ETH",
+          "1866.22"
+        ],
+        [
+          "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+          "45128.41402",
+          "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+          "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+          "1178554.02",
+          "-623",
+          "ETH",
+          "1891.74"
+        ],
+        [
+          "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+          "45128.40791",
+          "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+          "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+          "197308.48",
+          "-104.3",
+          "ETH",
+          "1891.74"
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "sheet_name": "Fixed Float Deposit",
+      "xlsx_xml_path": "xl/worksheets/sheet2.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/02-Fixed_Float_Deposit.csv",
+      "rows": 0,
+      "nonempty_rows": 0,
+      "max_columns_seen": 0,
+      "preview_first_8_rows_first_8_cols": []
+    },
+    {
+      "index": 3,
+      "sheet_name": "Sheet5",
+      "xlsx_xml_path": "xl/worksheets/sheet3.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/03-Sheet5.csv",
+      "rows": 0,
+      "nonempty_rows": 0,
+      "max_columns_seen": 0,
+      "preview_first_8_rows_first_8_cols": []
+    },
+    {
+      "index": 4,
+      "sheet_name": "0xaadd5f",
+      "xlsx_xml_path": "xl/worksheets/sheet4.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/04-0xaadd5f.csv",
+      "rows": 8,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0/history?mode=analysis"
+        ],
+        [
+          "Address",
+          "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0"
+        ],
+        [],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "sent to",
+          "Value"
+        ],
+        [
+          "ETH",
+          "45128.417349537034",
+          "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+          "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+          "237313.39",
+          "-125.4472",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 5,
+      "sheet_name": "0x1c0b5b8",
+      "xlsx_xml_path": "xl/worksheets/sheet5.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/05-0x1c0b5b8.csv",
+      "rows": 6,
+      "nonempty_rows": 6,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c/history"
+        ],
+        [
+          "Address",
+          "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "Sent To",
+          "Value"
+        ],
+        [
+          "",
+          "45129.244571759256",
+          "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+          "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+          "1530.3",
+          "-0.82",
+          "ETH",
+          "1866.22"
+        ],
+        [
+          "",
+          "45128.4140162037",
+          "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+          "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+          "1178554.02",
+          "-623.0",
+          "ETH",
+          "1891.74"
+        ],
+        [
+          "",
+          "45128.407905092594",
+          "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+          "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+          "197308.48",
+          "-104.3",
+          "ETH",
+          "1891.74"
+        ]
+      ]
+    },
+    {
+      "index": 6,
+      "sheet_name": "0x055e6b08",
+      "xlsx_xml_path": "xl/worksheets/sheet6.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/06-0x055e6b08.csv",
+      "rows": 4,
+      "nonempty_rows": 4,
+      "max_columns_seen": 9,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0x055e6b081f175db1170350ba4f23e3a8e0895492/history"
+        ],
+        [
+          "",
+          "Address",
+          "0x055e6b081f175db1170350ba4f23e3a8e0895492"
+        ],
+        [
+          "",
+          "",
+          "Date",
+          "Transaction",
+          "Sent to",
+          "Value",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "45128.42109953704",
+          "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+          "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+          "5372.54",
+          "-2.84",
+          "ETH"
+        ]
+      ]
+    },
+    {
+      "index": 7,
+      "sheet_name": "0xd20a9",
+      "xlsx_xml_path": "xl/worksheets/sheet7.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/07-0xd20a9.csv",
+      "rows": 7,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xd20a9ed00e37fdaef0a064bc32feb10845053f09/history"
+        ],
+        [
+          "Address",
+          "0xd20a9ed00e37fdaef0a064bc32feb10845053f09"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.425405092596",
+          "https://etherscan.io/tx/0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+          "0xb7917ee3520c4aa56add5d55f6026edeebe99d02",
+          "12203.61",
+          "-6.451",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 8,
+      "sheet_name": "0xa30e54c",
+      "xlsx_xml_path": "xl/worksheets/sheet8.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/08-0xa30e54c.csv",
+      "rows": 8,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xa30e54cb3593c6afca653621c4d3ee2105f015aa/history?token=eth_ETH_eth"
+        ],
+        [
+          "Address",
+          "0xa30e54cb3593c6afca653621c4d3ee2105f015aa"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.42304398148",
+          "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+          "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+          "11445.03",
+          "-6.05",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 9,
+      "sheet_name": "0xdFb05",
+      "xlsx_xml_path": "xl/worksheets/sheet9.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/09-0xdFb05.csv",
+      "rows": 8,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xdfb05c98320d126bcc74f6eb7960e99669dcd49a/history?token=eth_ETH_eth"
+        ],
+        [
+          "Address",
+          "0xdFb05c98320D126Bcc74F6EB7960E99669dcd49a"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.42554398148",
+          "https://etherscan.io/tx/0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+          "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+          "3541.34",
+          "-1.872",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 10,
+      "sheet_name": "0x9Dc08",
+      "xlsx_xml_path": "xl/worksheets/sheet10.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/10-0x9Dc08.csv",
+      "rows": 8,
+      "nonempty_rows": 5,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0x9dc08da4cbf74f81cffb54cecbd8fdf6554e1d34/history"
+        ],
+        [
+          "Address",
+          "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.608564814815",
+          "https://bscscan.com/tx/0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+          "0x08178b429CA29853fa33014F635D12bD7f706297",
+          "2096.68",
+          "-8.6",
+          "BNB",
+          "243.8"
+        ],
+        [
+          "",
+          "45128.426099537035",
+          "https://etherscan.io/tx/0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+          "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+          "2971.92",
+          "-1.571",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 11,
+      "sheet_name": "0x265626",
+      "xlsx_xml_path": "xl/worksheets/sheet11.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/11-0x265626.csv",
+      "rows": 8,
+      "nonempty_rows": 5,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac/history?token="
+        ],
+        [
+          "Address",
+          "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.62207175926",
+          "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+          "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+          "7358.87",
+          "-3.89",
+          "ETH",
+          "1891.74"
+        ],
+        [
+          "",
+          "45128.42637731481",
+          "https://etherscan.io/tx/0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+          "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+          "1413.13",
+          "-0.747",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 12,
+      "sheet_name": "0xFA5F6e",
+      "xlsx_xml_path": "xl/worksheets/sheet12.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/12-0xFA5F6e.csv",
+      "rows": 8,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xfa5f6ed82ae1eac484b91ccde42fe7d64cb68d03/history"
+        ],
+        [
+          "Address",
+          "0xFA5F6eD82Ae1EAC484B91cCDE42fe7d64cb68D03"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.424988425926",
+          "https://etherscan.io/tx/0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+          "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+          "9496.53",
+          "-5.02",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "index": 13,
+      "sheet_name": "0xf40c0",
+      "xlsx_xml_path": "xl/worksheets/sheet13.xml",
+      "csv_path": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/13-0xf40c0.csv",
+      "rows": 9,
+      "nonempty_rows": 4,
+      "max_columns_seen": 8,
+      "preview_first_8_rows_first_8_cols": [
+        [
+          "Transations",
+          "https://debank.com/profile/0xf40c09c782c74e932b81473ae68b078f31a358f6/history"
+        ],
+        [
+          "Address",
+          "0xf40c09C782C74e932b81473ae68B078F31a358f6"
+        ],
+        [
+          "",
+          "Date",
+          "Transaction",
+          "To",
+          "Value"
+        ],
+        [
+          "",
+          "45128.42582175926",
+          "https://etherscan.io/tx/0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+          "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+          "5323.36",
+          "-2.814",
+          "ETH",
+          "1891.74"
+        ],
+        [],
+        [],
+        [],
+        []
+      ]
+    }
+  ]
+}

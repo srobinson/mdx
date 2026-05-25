@@ -1,0 +1,80 @@
+{
+  "actions": [
+    {
+      "date": "1689953657711942037",
+      "height": "11804338",
+      "in": [
+        {
+          "address": "0xeec35fd50b5e7344b3e1a7f4384b3cb9365e204a",
+          "coins": [
+            {
+              "amount": "72729568000",
+              "asset": "ETH.ETH"
+            }
+          ],
+          "txID": "40A3D546F349F9CF8E907B6676E6187AD01F24C76AD9D0B9D2958E8C9E059E2C"
+        }
+      ],
+      "metadata": {
+        "swap": {
+          "affiliateAddress": "t",
+          "affiliateFee": "30",
+          "inPriceUSD": "1693.5413087950442",
+          "isStreamingSwap": true,
+          "liquidityFee": "20159892967115",
+          "memo": "=:BTC.BTC:bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s:3000764182:t:30",
+          "networkFees": [
+            {
+              "amount": "22500",
+              "asset": "BTC.BTC"
+            },
+            {
+              "amount": "2000000",
+              "asset": "THOR.RUNE"
+            }
+          ],
+          "outPriceUSD": "33019.52171092837",
+          "swapSlip": "1717",
+          "swapTarget": "3000764182",
+          "txType": "swap"
+        }
+      },
+      "out": [
+        {
+          "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+          "coins": [
+            {
+              "amount": "3137643194",
+              "asset": "BTC.BTC"
+            }
+          ],
+          "height": "11805067",
+          "txID": "D40F9B8C207CFE8BDFF9D054A7C2BADF838DE47CB1CB65E0EDBA63200A677A89"
+        },
+        {
+          "address": "thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk",
+          "affiliate": true,
+          "coins": [
+            {
+              "amount": "367043905525",
+              "asset": "THOR.RUNE"
+            }
+          ],
+          "height": "11804338",
+          "txID": ""
+        }
+      ],
+      "pools": [
+        "ETH.ETH",
+        "BTC.BTC"
+      ],
+      "status": "success",
+      "type": "swap"
+    }
+  ],
+  "count": "1",
+  "meta": {
+    "nextPageToken": "118043389000000001",
+    "prevPageToken": "118043389000000001"
+  }
+}

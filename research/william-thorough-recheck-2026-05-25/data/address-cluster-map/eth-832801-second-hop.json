@@ -1,0 +1,20 @@
+{
+  "source": "https://eth.blockscout.com/api/v2/addresses/0x8328018C863346937816833E8Eac958D85B23990/transactions",
+  "raw_json": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/address-cluster-map/eth-blockscout-address-0x8328018c863346937816833e8eac958d85b23990-transactions.json",
+  "first_tx": {
+    "hash": "0x5fa29671feaf777f437b706cdb95122e9e08896bc13fb3313cc0c4eae93e50db",
+    "timestamp_utc": "2023-07-21T14:15:23.000000Z",
+    "from": "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+    "to": "0x8328018C863346937816833E8Eac958D85B23990",
+    "amount_eth": 18.46
+  },
+  "second_tx": {
+    "hash": "0xc16a810661e5c099bbe802c841751a4afdfff447caa3c609378170d1f59de793",
+    "timestamp_utc": "2023-07-21T14:44:59.000000Z",
+    "from": "0x8328018C863346937816833E8Eac958D85B23990",
+    "to": "0x4E5B2e1dc63F6b91cb6Cd759936495434C7e972F",
+    "to_label": "FixedFloat 1; HOT WALLET; Exchange; FIXEDFLOAT",
+    "amount_eth": 18.459223
+  },
+  "confidence": "confirmed from Blockscout address transaction history"
+}

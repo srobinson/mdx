@@ -1,0 +1,10 @@
+{
+  "source": "https://bscscan.com/tx/0xd68a6dccbb3aaed884ad5181dfcc2246e2efad690b838343202ec37ca157bb77",
+  "raw_html": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/address-cluster-map/bscscan-tx-0xd68a6dccbb3aaed884ad5181dfcc2246e2efad690b838343202ec37ca157bb77.html",
+  "meta_description": "Transfer 8.6 BNB to SimpleSwap: Binance Deposit | Success | Jul-21-2023 06:36:26 PM (UTC)",
+  "from": "0x08178b429CA29853fa33014F635D12bD7f706297",
+  "to": "0xeE7f2D8257Aa658c5895796f070e4046bA8Fb37e",
+  "to_label": "SimpleSwap: Binance Deposit",
+  "amount_bnb": 8.6,
+  "confidence": "confirmed from BscScan page metadata and address label in raw HTML"
+}

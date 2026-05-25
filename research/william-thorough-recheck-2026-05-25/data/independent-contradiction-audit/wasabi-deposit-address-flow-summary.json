@@ -1,0 +1,89 @@
+{
+  "address": "bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+  "incoming": [
+    {
+      "time_utc": "2023-07-21T19:36:15Z",
+      "txid": "cd58e1364f52349fc4dcf85dac99f23b26c7877152680e4609b9195ed3633129",
+      "value_btc": "0.24514855",
+      "value_sats": 24514855
+    },
+    {
+      "time_utc": "2023-07-21T18:47:07Z",
+      "txid": "642142870cb2b13772721ebef9e1ae0ef63c3c32b0e165a56efb94cc414817f0",
+      "value_btc": "0.06929552",
+      "value_sats": 6929552
+    },
+    {
+      "time_utc": "2023-07-21T16:57:27Z",
+      "txid": "d40f9b8c207cfe8bdff9d054a7c2badf838de47cb1cb65e0edba63200a677a89",
+      "value_btc": "31.37643194",
+      "value_sats": 3137643194
+    },
+    {
+      "time_utc": "2023-07-21T16:24:48Z",
+      "txid": "ca88b4956964e3d8bfdae2800b48f4cb15f8cc52a8554b4bfa301a400805e053",
+      "value_btc": "7.29622713",
+      "value_sats": 729622713
+    },
+    {
+      "time_utc": "2023-07-21T15:02:31Z",
+      "txid": "1d732334c22a0903b46ab55e04da64b4e079f127f6ba5558b5dcc9af85a4776d",
+      "value_btc": "1.16193859",
+      "value_sats": 116193859
+    },
+    {
+      "time_utc": "2023-07-21T14:55:24Z",
+      "txid": "19b73c42a4186ff5d235c1b88f786e46bfc45661312730be7696812b46794073",
+      "value_btc": "0.38111890",
+      "value_sats": 38111890
+    },
+    {
+      "time_utc": "2023-07-21T14:11:01Z",
+      "txid": "ee7d104eab9f24778d41e9814c60281993275b609b56ad641d88f69d1a34d6e1",
+      "value_btc": "0.17886065",
+      "value_sats": 17886065
+    }
+  ],
+  "incoming_count": 7,
+  "incoming_sats": 4070902128,
+  "outgoing": [
+    {
+      "time_utc": "2023-07-23T00:57:46Z",
+      "txid": "185bb4b695f603cefcde666acc740f10559e7ef53ff719970c0b8b7bd6cf7ddd",
+      "value_btc": "0.24514855",
+      "value_sats": 24514855
+    },
+    {
+      "time_utc": "2023-07-23T00:57:46Z",
+      "txid": "4ef38eddb2e091b2d849a06dd5e8c6f8eded722bc29646d7abfc60f4326574ad",
+      "value_btc": "0.06929552",
+      "value_sats": 6929552
+    },
+    {
+      "time_utc": "2023-07-23T00:34:04Z",
+      "txid": "b0d0afa49018bd9233298b7076a0857ee1599056400d8d459f117211d4da2372",
+      "value_btc": "7.29622713",
+      "value_sats": 729622713
+    },
+    {
+      "time_utc": "2023-07-22T23:24:26Z",
+      "txid": "aa885cb70b96cdf41aa4a4d275dfe8239bf168e6840efd8d6a1f1063b50937b7",
+      "value_btc": "1.54305749",
+      "value_sats": 154305749
+    },
+    {
+      "time_utc": "2023-07-22T22:36:24Z",
+      "txid": "447484229542bdf306892f60fdd328bdfe7c670e42013af4247302e6d3bf0be8",
+      "value_btc": "31.37643194",
+      "value_sats": 3137643194
+    },
+    {
+      "time_utc": "2023-07-21T20:36:18Z",
+      "txid": "98e5a5cc3a832518b42cdcfe8d73f036d10ec323fb93f2a08801f7e79ab4961c",
+      "value_btc": "0.17886065",
+      "value_sats": 17886065
+    }
+  ],
+  "outgoing_count": 6,
+  "outgoing_sats": 4070902128
+}

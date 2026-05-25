@@ -1,0 +1,10 @@
+{
+  "url": "https://eth.drpc.org",
+  "method": "eth_getTransactionReceipt",
+  "params": [
+    "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204"
+  ],
+  "fetched_at": "2026-05-25T15:10:33.340915+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

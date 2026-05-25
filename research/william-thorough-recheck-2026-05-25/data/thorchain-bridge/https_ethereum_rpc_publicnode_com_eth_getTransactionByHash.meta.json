@@ -1,0 +1,7 @@
+{
+  "url": "https://ethereum-rpc.publicnode.com",
+  "method": "eth_getTransactionByHash",
+  "fetched_at": "2026-05-25T15:10:11.958675+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

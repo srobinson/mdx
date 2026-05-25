@@ -1,0 +1,174 @@
+{
+  "bitcoin": [
+    {
+      "block_height": 812907,
+      "chain": "bitcoin",
+      "chain_timestamp_utc": "2023-10-19T11:22:51Z",
+      "confirmed": true,
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/bitcoin-tx-164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187.json",
+      "tx": "164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187",
+      "url": "https://blockstream.info/api/tx/164f311dea5ac820de0b52677d0e3ce5673bad6e5a45df8d994513588505b187"
+    },
+    {
+      "block_height": 810890,
+      "chain": "bitcoin",
+      "chain_timestamp_utc": "2023-10-06T11:12:03Z",
+      "confirmed": true,
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/bitcoin-tx-1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2.json",
+      "tx": "1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2",
+      "url": "https://blockstream.info/api/tx/1962037495cfc6f39cd0c525b78fdcffddb98de34babdcf785b12208152e9bb2"
+    },
+    {
+      "address": "bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+      "chain": "bitcoin",
+      "chain_tx_count": 2,
+      "funded_txo_sum": 649998534,
+      "mempool_tx_count": 0,
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/bitcoin-address-bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g.json",
+      "spent_txo_sum": 0,
+      "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g"
+    }
+  ],
+  "evm": [
+    {
+      "blockNumber": "0x10eb852",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T13:47:23Z",
+      "displayed": "2023/07/21 9:56:11",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "7",
+      "tx": "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2"
+    },
+    {
+      "blockNumber": "0x10eb87e",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T13:56:11Z",
+      "displayed": "2023/07/21 9:47:23",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "8",
+      "tx": "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157"
+    },
+    {
+      "blockNumber": "0x10eb896",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:00:59Z",
+      "displayed": "2023/07/21 10:00:59",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "5",
+      "tx": "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204"
+    },
+    {
+      "blockNumber": "0x10eb8b1",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:06:23Z",
+      "displayed": "2023/07/21 10:06:23",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "9",
+      "tx": "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f"
+    },
+    {
+      "blockNumber": "0x10eb8bf",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:09:11Z",
+      "displayed": "2023/07/21 10:09:11",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "11",
+      "tx": "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3"
+    },
+    {
+      "blockNumber": "0x10eb8cd",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:11:59Z",
+      "displayed": "2023/07/21 10:11:59",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "17",
+      "tx": "0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8"
+    },
+    {
+      "blockNumber": "0x10eb8d0",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:12:35Z",
+      "displayed": "2023/07/21 10:12:35",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "10",
+      "tx": "0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8"
+    },
+    {
+      "blockNumber": "0x10eb8d1",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:12:47Z",
+      "displayed": "2023/07/21 10:12:47",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "12",
+      "tx": "0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3"
+    },
+    {
+      "blockNumber": "0x10eb8d3",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:13:11Z",
+      "displayed": "2023/07/21 10:13:11",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "18",
+      "tx": "0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1"
+    },
+    {
+      "blockNumber": "0x10eb8d5",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:13:35Z",
+      "displayed": "2023/07/21 10:13:35",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "14",
+      "tx": "0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681"
+    },
+    {
+      "blockNumber": "0x10eb8d7",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T14:13:59Z",
+      "displayed": "2023/07/21 10:13:59",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "16",
+      "tx": "0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d"
+    },
+    {
+      "blockNumber": "0x1cc43ea",
+      "chain": "bsc",
+      "chain_timestamp_utc": "2023-07-21T18:36:20Z",
+      "displayed": "2023/07/21 14:36:20",
+      "endpoint": "https://bsc-dataseed.binance.org",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/bsc-0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1-transaction.json",
+      "source_row": "13",
+      "tx": "0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1"
+    },
+    {
+      "blockNumber": "0x10ebe51",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-21T18:55:47Z",
+      "displayed": "2023/07/21 14:55:47",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "15",
+      "tx": "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f"
+    },
+    {
+      "blockNumber": "0x10ecfb6",
+      "chain": "ethereum",
+      "chain_timestamp_utc": "2023-07-22T09:52:11Z",
+      "displayed": "2023/07/22 5:52:11",
+      "endpoint": "https://ethereum.publicnode.com",
+      "raw_file": "/Users/alphab/.mdx/research/william-thorough-recheck-2026-05-25/data/event-gap-audit/ethereum-batch-transactions.json",
+      "source_row": "6",
+      "tx": "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655"
+    }
+  ]
+}

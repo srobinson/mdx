@@ -1,0 +1,57 @@
+## npm package status
+### @sanlim/mempool-mcp-server
+name = '@sanlim/mempool-mcp-server'
+version = '1.0.1'
+description = 'A sample of MCP implementation using DDD structure with some APIs call.'
+repository.url = 'git+https://github.com/alexandresanlim/mempool-mcp-server.git'
+homepage = 'https://github.com/alexandresanlim/mempool-mcp-server'
+time.modified = '2025-07-23T17:56:09.905Z'
+### mempool-mcp
+npm error code E404
+npm error 404 Not Found - GET https://registry.npmjs.org/mempool-mcp - Not found
+npm error 404
+npm error 404  The requested resource 'mempool-mcp@*' could not be found or you do not have permission to access it.
+npm error 404
+npm error 404 Note that you can also install from a
+npm error 404 tarball, folder, http url, or git url.
+npm error A complete log of this run can be found in: /Users/alphab/.npm/_logs/2026-05-25T13_14_56_871Z-debug-0.log
+### @missionsquad/mcp-thorchain
+name = '@missionsquad/mcp-thorchain'
+version = '1.0.0'
+description = 'MCP server for accessing THORChain blockchain data'
+repository.url = 'git+https://github.com/MissionSquad/mcp-thorchain.git'
+homepage = 'https://github.com/MissionSquad/mcp-thorchain#readme'
+time.modified = '2025-11-22T08:07:31.085Z'
+### misttrack
+name = 'misttrack'
+version = '1.0.7'
+description = 'MistTrack MCP Server - 为Claude提供MistTrack区块链分析功能'
+time.modified = '2026-02-27T04:41:44.671Z'
+### @tatumio/blockchain-mcp
+name = '@tatumio/blockchain-mcp'
+version = '1.0.5'
+description = "Model Context Protocol server providing access to Tatum's comprehensive blockchain API across 130+ networks with 13 tools"
+repository.url = 'git+https://github.com/tatumio/blockchain-mcp.git'
+homepage = 'https://docs.tatum.io'
+time.modified = '2025-07-24T16:34:27.744Z'
+### @easysolutions906/mcp-ofac
+name = '@easysolutions906/mcp-ofac'
+version = '1.0.2'
+description = 'OFAC SDN sanctions screening API with fuzzy matching - screen names against the Treasury Department SDN list'
+time.modified = '2026-03-15T19:25:44.325Z'
+### @anchainai/aml-mcp
+npm error code E404
+npm error 404 Not Found - GET https://registry.npmjs.org/@anchainai%2faml-mcp - Not found
+npm error 404
+npm error 404  The requested resource '@anchainai/aml-mcp@*' could not be found or you do not have permission to access it.
+npm error 404
+npm error 404 Note that you can also install from a
+npm error 404 tarball, folder, http url, or git url.
+npm error A complete log of this run can be found in: /Users/alphab/.npm/_logs/2026-05-25T13_15_01_651Z-debug-0.log
+## pypi status
+mcp-server-duckdb (1.1.0)
+Available versions: 1.1.0, 1.0.1, 1.0.0, 0.2.4, 0.2.3, 0.2.1, 0.2.0, 0.1.0
+mempool-mcp (0.1.4)
+Available versions: 0.1.4, 0.1.2, 0.1.0
+neo4j-mcp-server (1.5.2)
+Available versions: 1.5.2, 1.5.1, 1.5.0, 1.4.70

@@ -1,0 +1,11 @@
+{
+  "url": "https://eth.drpc.org",
+  "method": "eth_getBlockByNumber",
+  "params": [
+    "0x10eb896",
+    false
+  ],
+  "fetched_at": "2026-05-25T15:10:33.720184+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

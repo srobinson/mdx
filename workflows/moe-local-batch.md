@@ -21,7 +21,9 @@ The quality signal comes from fresh item contexts, Phase A design review, Phase 
 
 **Fits:** refactors, bug-batch fixes, lint passes, dead-code removal, test-gap fills, naming consistency cleanup, dependency bumps with light migration, profile-driven micro-optimizations.
 
-**Does not fit:** single one-off changes (warroom overhead too high), Nancy/Linear-tracked work (different orchestration), cross-repo work (warroom is single-cwd), brainstorm/spec-writing (use those modes instead), text-only artifacts (use peer-consensus instead).
+**Does not fit:** single one-off changes (warroom overhead too high), Nancy/Linear-tracked work (different orchestration), cross-repo work (warroom is single-cwd), open-ended brainstorm (divergent exploration, use that mode), one-shot unstructured text (use peer-consensus instead).
+
+**Spec-consensus adapts in.** A converged design spec is long single-artifact work that fits the *rounds variant* (see *Fresh warroom per item (and per context budget)*). Keep the two-phase sign-off and the exact phrases; swap per-item commits for per-section writes (`DR` approach, then `W` write, then `S|B`), make the spec file the durable artifact, and respawn the pair at each round boundary so no pair ever carries the whole spec. Worked instance: an 8-dimension protocol spec run end-to-end in ONE warroom carried 7 dimensions of accumulated context into the last dimension with no fresh-eyes reset. Phasing it into rounds would have fixed both the context-rot risk and the lost fresh-eyes.
 
 ## Shape
 
@@ -55,6 +57,18 @@ Phase F  Open single PR
 ### Phase 0 — identify items
 
 Output is a named list with enough specificity that you can write each item's brief in 5 minutes. For each item record: target path, current shape, desired shape, behaviour-preservation constraint, sign-off phrase suffix (e.g. "ServerState split", "CLI verb split").
+
+**Scoping rule (per-item warroom is not the default):** The workflow's "fresh warroom per item" cycle is load-bearing only when the item has real design surface — i.e. mechanics where the engineer's implementation could plausibly diverge from the orchestrator's intent. Examples that justify a warroom: multi-file refactors, partition decisions across mutex or trait boundaries, signature changes touching many callers, anything where a Phase A misclassification would force a commit rewrite. For each candidate item, ask before assigning a warroom:
+
+- **Is the change mechanically locked by the brief?** A one-to-three-line edit with a single obvious implementation (toml inheritance, a lint attribute, a string rename, a deletion) has no design surface for two-phase sign-off to catch.
+- **Is the design already adjudicated upstream?** If a prior review pass, design doc, or this same batch's earlier item has already locked the mechanics, Phase A becomes ceremonial.
+- **Would the orchestrator's local verification gate (the same `cargo`/`just` commands the warroom would run) be sufficient evidence the change is correct?** If yes, the warroom adds latency without adding catch rate.
+
+If the answer to all three is "yes," **do the item directly in the orchestrator session.** Edit, run the acceptance gate, commit, push. The verification gate is the load-bearing safety; the warroom cycle is not. Reserve warrooms for items where the engineer's design choices are still open.
+
+**Token economy follow-through:** an agent should do as much *in-scope mechanically-locked work* as possible in a single session rather than fanning out to per-item warrooms by reflex. Per-item respawn is cheap for context-decay (the original justification), but the spawn + cold read + brief delivery + protocol roundtrips per item costs real tokens that should be spent only where the engineer's judgment is genuinely needed. Mixed batches are normal: F4 might warrant a warroom (and the warroom may even catch a brief defect via E-escalation), while F3 and F2 in the same batch land directly because their mechanics are pre-locked.
+
+**Brief self-test before dispatch:** when a brief includes an acceptance command (e.g. `cargo metadata --no-deps -p <name> | jq ...`), the orchestrator runs that command locally first to confirm it works on this machine's tool versions. A broken acceptance command discovered via warroom E-escalation is workflow value; a broken acceptance command discovered via local self-test is the same value at zero tokens.
 
 ### Per-item loop
 
@@ -124,14 +138,27 @@ These are the choices that make the workflow work. Skip any one and the pattern 
 
 The user (or orchestrator) commits to the single-branch shape before item 1 starts. Without this, each item drifts into "should this be its own branch?" decisions. Naming convention: `refactor/<scope>-cleanup`, `fix/<scope>-batch`, `chore/<scope>-pass`.
 
-### Fresh warroom per item
+### Fresh warroom per item (and per context budget)
 
-The respawn between items is the load-bearing piece. Two reasons:
+Respawn is the load-bearing piece, for three reasons:
 
-- **Context decay is the point.** Each new pair reads `git log main..HEAD` and the current file state cold. Carried context anchors agents to earlier decisions and prior code shapes. Fresh contexts catch defects that stale context would rationalize away.
-- **Cheap.** Spawn/kill is seconds. The cost is far less than the cost of one bad commit slipping through.
+- **Fresh eyes.** Each new pair reads `git log main..HEAD` and the current file state cold. A respawn is a fresh pair of eyes: carried context anchors agents to earlier decisions and prior code shapes, and fresh contexts catch defects that stale context would rationalize away.
+- **Avoids context rot and compaction.** A pane that runs the whole batch accumulates every item's reasoning, slides into context rot, and eventually trips compaction mid-work. Compaction silently drops detail and degrades judgement precisely when the agent is deepest in a problem. Killing at the item boundary keeps every pane well inside its window, so no agent ever reasons from a compacted summary of its own earlier work.
+- **Cheap.** Spawn/kill is seconds. Far less than the cost of one bad commit slipping through.
 
-Exception: multi-round iteration on the *same* item (Phase A → blocker → resolution → Phase A sign-off → Phase B → blocker → fix → Phase B sign-off) stays in the same warroom. Respawn fires on item boundaries, not iteration boundaries.
+Respawn is also the remedy WITHIN a single long item. When a pane approaches its context wall before sign-off (watch the live token counter via pane capture, below), have it checkpoint to the durable artifact (the commit, or for spec-writing the spec file), post a one-line near-limit `M`, then kill and respawn a fresh pane that resumes from that artifact. The durable artifact is what makes respawn lossless: nothing load-bearing should live only in a pane's head. For long single-artifact work (a spec, a large migration), phase it into rounds so each round is its own warroom with the artifact-on-disk plus a short orchestrator-maintained ledger as the cold handoff. Size a round so neither pane crosses roughly half its window before the round's sign-off: in practice about 3 to 5 units (spec sections or dimensions, migration sites), or a natural section boundary, whichever comes first. Respawn at every round boundary, not only when a wall is hit. A fresh pair that reads the artifact plus ledger cold is the fresh-eyes benefit applied at round granularity. The ledger is the orchestrator's running list of closed units and load-bearing decisions, so the next pair resumes without re-deriving prior rounds.
+
+Exception: ordinary multi-round iteration on the *same* item (Phase A → blocker → resolution → sign-off → Phase B → blocker → fix → sign-off) stays in the same warroom. Respawn fires on item boundaries and on context-budget limits, not on every iteration.
+
+### Pane capture for liveness and context budget
+
+`tmux capture-pane -t <target> -p | tail -n` reads an agent's recent output without messaging it. Use it to:
+
+- **Check progress without spending context.** A status `M` costs the agent a whole turn; a pane capture costs nothing on their side and a few tokens on yours. Prefer it for routine "where are they" checks; reserve messages for actual course corrections.
+- **Tell "working hard" from "stuck".** A pane mid-think shows its spinner and elapsed time, so a long quiet stretch reads as deep work, not a stall. A genuinely idle prompt with queued mail reads as stuck. The two look identical from the bus.
+- **Watch the context budget.** The pane footer shows the live token count. That is your respawn trigger: when a pane nears its wall before sign-off, capture confirms it and you respawn per above, before compaction fires.
+
+Do NOT sleep-poll the bus for mail: agent messages nudge the orchestrator's pane on arrival and wake it. Sleep only to capture panes during a worrying silence.
 
 ### Two-phase sign-off
 
@@ -164,11 +191,14 @@ Briefs must say this explicitly: "After every milestone, send a one-line `M` mai
 
 The orchestrator must `register_agent` on the bus before briefing. Otherwise resolved-but-unregistered addresses can drop messages or land in the wrong inbox. Verify with `list_agents` before sending briefs; `whoami` is unreliable.
 
+Orchestrator restart strands in-flight panes. The bus delivers to an inbox keyed by the orchestrator's agent_id, which encodes its tmux pane (e.g. `...:5:1.1`). If the orchestrator's CLI restarts mid-run, its pane id can change, the old address goes stale, and every in-flight pane keeps mailing the dead inbox, so milestones and escalations vanish silently. On any restart: re-`register_agent`, confirm the new agent_id with `list_agents`, bake that current address into every subsequent brief, and drain the stale inbox (`get_messages` on the old agent_id) for anything queued before the move. Long runs should treat the durable artifact, cm, and the ledger as the source of truth so a restart loses nothing recoverable.
+
 ## Anti-patterns
 
 | Don't | Instead |
 |-------|---------|
 | Reuse the warroom across items | Kill + respawn between items for fresh-eyes |
+| Run a long spec or migration through one warroom | Phase into rounds; respawn at each round boundary before context rot and compaction |
 | Skip Phase A and let engineer commit before design review | Two-phase sign-off catches partitioning errors cheaply |
 | Use free-form sign-off ("looks good") | Exact phrases are parseable; "looks good" isn't |
 | Paste full designs, diffs, or logs into bus | Use `D`, `C`, and evidence refs; peers read files and diffs directly |

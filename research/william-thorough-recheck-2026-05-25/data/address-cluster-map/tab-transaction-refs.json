@@ -1,0 +1,728 @@
+{
+  "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 5,
+      "row": [
+        "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+        "45128.41735",
+        "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+        "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+        "237313.39",
+        "-125.4472",
+        "ETH",
+        "1891.74",
+        "",
+        "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 5,
+      "row": [
+        "0xaadd5f9d0fa1411f612d75336eee5eb87092f1f0",
+        "45128.41735",
+        "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+        "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+        "237313.39",
+        "-125.4472",
+        "ETH",
+        "1891.74",
+        "",
+        "0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/04-0xaadd5f.csv",
+      "line": 5,
+      "row": [
+        "ETH",
+        "45128.417349537034",
+        "https://etherscan.io/tx/0x655a2a55bc724718bca78b7645347f448d1ca52b9f051ac3b6b8f2e36651d204",
+        "depositWithExpiry\nTHORChain 0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+        "237313.39",
+        "-125.4472",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 6,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45129.24457",
+        "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+        "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+        "1530.3",
+        "-0.82",
+        "ETH",
+        "1866.22",
+        "",
+        "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 6,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45129.24457",
+        "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+        "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+        "1530.3",
+        "-0.82",
+        "ETH",
+        "1866.22",
+        "",
+        "0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 43,
+      "row": [
+        "\n0x1c0b5b8D36587d0516839df7EbFB49AD8F3c543c",
+        "22 Jul, 2023 09:52:11 UTC",
+        "0.82",
+        "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+        "0x1c0b5b8D36587d0516839df7EbFB49AD8F3c543c"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/05-0x1c0b5b8.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45129.244571759256",
+        "https://etherscan.io/tx/0xb5e309a09f479a87f71b1258380d8b8e62c84163364b3b06762927c476c4d655",
+        "0x6a7E9ed15eA2C1C7787E68F2CA2dF68379ed437e",
+        "1530.3",
+        "-0.82",
+        "ETH",
+        "1866.22"
+      ]
+    }
+  ],
+  "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 7,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45128.41402",
+        "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "1178554.02",
+        "-623",
+        "ETH",
+        "1891.74",
+        "",
+        "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 7,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45128.41402",
+        "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "1178554.02",
+        "-623",
+        "ETH",
+        "1891.74",
+        "",
+        "0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/05-0x1c0b5b8.csv",
+      "line": 5,
+      "row": [
+        "",
+        "45128.4140162037",
+        "https://etherscan.io/tx/0x662e469715056d9501da5184ec4a2a466b05b3fa656c73d0fb067598b88013c2",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "1178554.02",
+        "-623.0",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 8,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45128.40791",
+        "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "197308.48",
+        "-104.3",
+        "ETH",
+        "1891.74",
+        "",
+        "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 8,
+      "row": [
+        "0x1c0b5b8d36587d0516839df7ebfb49ad8f3c543c",
+        "45128.40791",
+        "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "197308.48",
+        "-104.3",
+        "ETH",
+        "1891.74",
+        "",
+        "0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/05-0x1c0b5b8.csv",
+      "line": 6,
+      "row": [
+        "",
+        "45128.407905092594",
+        "https://etherscan.io/tx/0x2ed79b067f3afa2e636ae82f8c0c6cbd59d504aa7f25f146a4d22ef2186fc157",
+        "0xeEC35fd50B5E7344b3E1A7F4384b3Cb9365e204A",
+        "197308.48",
+        "-104.3",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 9,
+      "row": [
+        "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+        "45128.4211",
+        "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+        "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+        "5372.54",
+        "-2.84",
+        "ETH",
+        "1891.74",
+        "",
+        "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 9,
+      "row": [
+        "0x055e6b081f175db1170350ba4f23e3a8e0895492",
+        "45128.4211",
+        "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+        "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+        "5372.54",
+        "-2.84",
+        "ETH",
+        "1891.74",
+        "",
+        "0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 41,
+      "row": [
+        "\n0x055e6b081F175dB1170350Ba4f23E3a8E0895492",
+        "21 Jul, 2023 14:06 UTC",
+        "2.84",
+        "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+        "0x4EC986035B635D09474fC390AcDF5c107DDa4c70"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/06-0x055e6b08.csv",
+      "line": 4,
+      "row": [
+        "",
+        "",
+        "45128.42109953704",
+        "https://etherscan.io/tx/0x91a3d5976df4c7fb6d000a081855b4fc217d61d6e1b71f5c99205e7dc7c2f63f",
+        "0x4ec986035b635d09474fc390acdf5c107dda4c70",
+        "5372.54",
+        "-2.84",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 10,
+      "row": [
+        "0xd20a9ed00e37fdaef0a064bc32feb10845053f09",
+        "45128.42541",
+        "https://etherscan.io/tx/0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+        "0xb7917ee3520c4aa56add5d55f6026edeebe99d02",
+        "12203.61",
+        "-6.451",
+        "ETH",
+        "1891.74",
+        "",
+        "0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 10,
+      "row": [
+        "0xd20a9ed00e37fdaef0a064bc32feb10845053f09",
+        "45128.42541",
+        "https://etherscan.io/tx/0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+        "0xb7917ee3520c4aa56add5d55f6026edeebe99d02",
+        "12203.61",
+        "-6.451",
+        "ETH",
+        "1891.74",
+        "",
+        "0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/07-0xd20a9.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.425405092596",
+        "https://etherscan.io/tx/0xc2235fdf93d6ed97f17ea248d40fbc6c910cb502a63c75f0bb131bbb0fb465a8",
+        "0xb7917ee3520c4aa56add5d55f6026edeebe99d02",
+        "12203.61",
+        "-6.451",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 11,
+      "row": [
+        "0xa30e54cb3593c6afca653621c4d3ee2105f015aa",
+        "45128.42304",
+        "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+        "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+        "11445.03",
+        "-6.05",
+        "ETH",
+        "1891.74",
+        "",
+        "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 11,
+      "row": [
+        "0xa30e54cb3593c6afca653621c4d3ee2105f015aa",
+        "45128.42304",
+        "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+        "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+        "11445.03",
+        "-6.05",
+        "ETH",
+        "1891.74",
+        "",
+        "0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 40,
+      "row": [
+        "0xa30E54Cb3593c6afCA653621C4D3Ee2105F015aa",
+        "21 Jul, 2023 19:15:47 UTC",
+        "3.88",
+        "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+        "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/08-0xa30e54c.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.42304398148",
+        "https://etherscan.io/tx/0x931ebd9671d532e81ef15211ce16e193615765747e4a906d9dabb278f792f2f3",
+        "0xbdC4b2D85d9DCC42C3799b4569bd1D7D25D29C03",
+        "11445.03",
+        "-6.05",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 12,
+      "row": [
+        "0xdFb05c98320D126Bcc74F6EB7960E99669dcd49a",
+        "45128.42554",
+        "https://etherscan.io/tx/0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "3541.34",
+        "-1.872",
+        "ETH",
+        "1891.74",
+        "",
+        "0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 12,
+      "row": [
+        "0xdFb05c98320D126Bcc74F6EB7960E99669dcd49a",
+        "45128.42554",
+        "https://etherscan.io/tx/0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "3541.34",
+        "-1.872",
+        "ETH",
+        "1891.74",
+        "",
+        "0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/09-0xdFb05.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.42554398148",
+        "https://etherscan.io/tx/0x0fa037ee4e0a99004dd98ca4827a9aaa9e45e56acd2b74334f09b16ad57050c3",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "3541.34",
+        "-1.872",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 13,
+      "row": [
+        "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+        "45128.60856",
+        "https://bscscan.com/tx/0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+        "0x08178b429CA29853fa33014F635D12bD7f706297",
+        "2096.68",
+        "-8.6",
+        "BNB",
+        "243.8",
+        "",
+        "0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 13,
+      "row": [
+        "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+        "45128.60856",
+        "https://bscscan.com/tx/0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+        "0x08178b429CA29853fa33014F635D12bD7f706297",
+        "2096.68",
+        "-8.6",
+        "BNB",
+        "243.8",
+        "",
+        "0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/10-0x9Dc08.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.608564814815",
+        "https://bscscan.com/tx/0x266ef6a62efc7fc3e6e8c9e4c0d31f844208429d9e3b58f5d998f8da58c230d1",
+        "0x08178b429CA29853fa33014F635D12bD7f706297",
+        "2096.68",
+        "-8.6",
+        "BNB",
+        "243.8"
+      ]
+    }
+  ],
+  "0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 14,
+      "row": [
+        "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+        "45128.4261",
+        "https://etherscan.io/tx/0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "2971.92",
+        "-1.571",
+        "ETH",
+        "1891.74",
+        "",
+        "0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 14,
+      "row": [
+        "0x9Dc08Da4cBF74F81CFfb54CECbD8fDf6554E1D34",
+        "45128.4261",
+        "https://etherscan.io/tx/0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "2971.92",
+        "-1.571",
+        "ETH",
+        "1891.74",
+        "",
+        "0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/10-0x9Dc08.csv",
+      "line": 5,
+      "row": [
+        "",
+        "45128.426099537035",
+        "https://etherscan.io/tx/0xa2dc0cff0e555bf26d8044e39e92071e69587e62bfe4128f827b0eb9bdfc8681",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "2971.92",
+        "-1.571",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 15,
+      "row": [
+        "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+        "45128.62207",
+        "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+        "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+        "7358.87",
+        "-3.89",
+        "ETH",
+        "1891.74",
+        "",
+        "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 15,
+      "row": [
+        "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+        "45128.62207",
+        "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+        "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+        "7358.87",
+        "-3.89",
+        "ETH",
+        "1891.74",
+        "",
+        "0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 42,
+      "row": [
+        "0x2656269BB878cA0c4250A0DF4C15A9CFca0C21AC",
+        "21 Jul, 2023 18:55:47 UTC",
+        "3.89",
+        "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+        "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/11-0x265626.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.62207175926",
+        "https://etherscan.io/tx/0x72d855932534ca55ae820f5ed17de8ac729b1f05b093352b5bca19dcf868f26f",
+        "0x09066E7857D3a9a53c9142f8a7eFFcBc7989F1B5",
+        "7358.87",
+        "-3.89",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 16,
+      "row": [
+        "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+        "45128.42638",
+        "https://etherscan.io/tx/0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "1413.13",
+        "-0.747",
+        "ETH",
+        "1891.74",
+        "",
+        "0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 16,
+      "row": [
+        "0x2656269bb878ca0c4250a0df4c15a9cfca0c21ac",
+        "45128.42638",
+        "https://etherscan.io/tx/0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "1413.13",
+        "-0.747",
+        "ETH",
+        "1891.74",
+        "",
+        "0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/11-0x265626.csv",
+      "line": 5,
+      "row": [
+        "",
+        "45128.42637731481",
+        "https://etherscan.io/tx/0xd5a730adbe95e809d765372997260dd7057e959399e9b41d415816218de3686d",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "1413.13",
+        "-0.747",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 17,
+      "row": [
+        "0xFA5F6eD82Ae1EAC484B91cCDE42fe7d64cb68D03",
+        "45128.42499",
+        "https://etherscan.io/tx/0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "9496.53",
+        "-5.02",
+        "ETH",
+        "1891.74",
+        "",
+        "0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 17,
+      "row": [
+        "0xFA5F6eD82Ae1EAC484B91cCDE42fe7d64cb68D03",
+        "45128.42499",
+        "https://etherscan.io/tx/0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "9496.53",
+        "-5.02",
+        "ETH",
+        "1891.74",
+        "",
+        "0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/12-0xFA5F6e.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.424988425926",
+        "https://etherscan.io/tx/0x3f58b9738767a04a8d4701052cbfa378f7cdf9d8a0cfac34b43b0d62f766a7e8",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "9496.53",
+        "-5.02",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 18,
+      "row": [
+        "0xf40c09C782C74e932b81473ae68B078F31a358f6",
+        "45128.42582",
+        "https://etherscan.io/tx/0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "5323.36",
+        "-2.814",
+        "ETH",
+        "1891.74",
+        "",
+        "0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 18,
+      "row": [
+        "0xf40c09C782C74e932b81473ae68B078F31a358f6",
+        "45128.42582",
+        "https://etherscan.io/tx/0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "5323.36",
+        "-2.814",
+        "ETH",
+        "1891.74",
+        "",
+        "0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1"
+      ]
+    },
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/13-0xf40c0.csv",
+      "line": 4,
+      "row": [
+        "",
+        "45128.42582175926",
+        "https://etherscan.io/tx/0x85955c171d41591fb52b85f3e4135704f2afb4305ea9ceee1de1ba503703e7f1",
+        "0xB7917eE3520C4AA56ADd5d55f6026EdeEBE99d02",
+        "5323.36",
+        "-2.814",
+        "ETH",
+        "1891.74"
+      ]
+    }
+  ],
+  "0xaa49f832a539cabee457ca3fc2e3e47e70ca7e364ba48161aae8c4e788d07b33": [
+    {
+      "file": "/Users/alphab/.mdx/research/data/william-google-sheet-2026-05-25/extracted-tabs/01-Summary.csv",
+      "line": 36,
+      "row": [
+        "https://etherscan.io/tx/0xaa49f832a539cabee457ca3fc2e3e47e70ca7e364ba48161aae8c4e788d07b33"
+      ]
+    }
+  ]
+}

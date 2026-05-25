@@ -1,0 +1,11 @@
+{
+  "url": "https://1rpc.io/eth",
+  "method": "eth_getBlockByNumber",
+  "params": [
+    "0x10eb896",
+    false
+  ],
+  "fetched_at": "2026-05-25T15:10:35.244067+00:00",
+  "returncode": 0,
+  "stderr": ""
+}

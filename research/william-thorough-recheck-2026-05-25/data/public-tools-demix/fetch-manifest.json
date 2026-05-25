@@ -1,0 +1,218 @@
+[
+  {
+    "file": "blockstream-wasabi_deposit-address.json",
+    "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+    "fetched_at": "2026-05-25T15:08:41Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 291
+  },
+  {
+    "file": "blockstream-wasabi_deposit-txs.json",
+    "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs",
+    "fetched_at": "2026-05-25T15:08:43Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 1302521
+  },
+  {
+    "file": "blockstream-wasabi_deposit-utxo.json",
+    "url": "https://blockstream.info/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/utxo",
+    "fetched_at": "2026-05-25T15:08:45Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2
+  },
+  {
+    "file": "mempool-wasabi_deposit-address.json",
+    "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+    "fetched_at": "2026-05-25T15:08:47Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 291
+  },
+  {
+    "file": "mempool-wasabi_deposit-txs.json",
+    "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/txs",
+    "fetched_at": "2026-05-25T15:08:47Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 1302676
+  },
+  {
+    "file": "mempool-wasabi_deposit-utxo.json",
+    "url": "https://mempool.space/api/address/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s/utxo",
+    "fetched_at": "2026-05-25T15:08:48Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2
+  },
+  {
+    "file": "blockchaininfo-wasabi_deposit-rawaddr.json",
+    "url": "https://blockchain.info/rawaddr/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s?limit=50",
+    "fetched_at": "2026-05-25T15:08:49Z",
+    "status": 200,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1065682
+  },
+  {
+    "file": "blockcypher-wasabi_deposit-addr.json",
+    "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s?limit=50",
+    "fetched_at": "2026-05-25T15:08:51Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 5766
+  },
+  {
+    "file": "walletexplorer-wasabi_deposit-lookup.json",
+    "url": "https://www.walletexplorer.com/api/1/address-lookup?address=bc1qwxwl5l209je4c2ycr8hc7dq7jqfptk23esmn5s",
+    "fetched_at": "2026-05-25T15:08:51Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 71
+  },
+  {
+    "file": "blockstream-post_wasabi_candidate-address.json",
+    "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+    "fetched_at": "2026-05-25T15:08:54Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 291
+  },
+  {
+    "file": "blockstream-post_wasabi_candidate-txs.json",
+    "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs",
+    "fetched_at": "2026-05-25T15:08:55Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 69107
+  },
+  {
+    "file": "blockstream-post_wasabi_candidate-utxo.json",
+    "url": "https://blockstream.info/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/utxo",
+    "fetched_at": "2026-05-25T15:08:56Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2
+  },
+  {
+    "file": "mempool-post_wasabi_candidate-address.json",
+    "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+    "fetched_at": "2026-05-25T15:08:57Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 291
+  },
+  {
+    "file": "mempool-post_wasabi_candidate-txs.json",
+    "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/txs",
+    "fetched_at": "2026-05-25T15:08:58Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 69219
+  },
+  {
+    "file": "mempool-post_wasabi_candidate-utxo.json",
+    "url": "https://mempool.space/api/address/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl/utxo",
+    "fetched_at": "2026-05-25T15:08:59Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2
+  },
+  {
+    "file": "blockchaininfo-post_wasabi_candidate-rawaddr.json",
+    "url": "https://blockchain.info/rawaddr/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl?limit=50",
+    "fetched_at": "2026-05-25T15:09:00Z",
+    "status": 200,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 56526
+  },
+  {
+    "file": "blockcypher-post_wasabi_candidate-addr.json",
+    "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl?limit=50",
+    "fetched_at": "2026-05-25T15:09:01Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 6549
+  },
+  {
+    "file": "walletexplorer-post_wasabi_candidate-lookup.json",
+    "url": "https://www.walletexplorer.com/api/1/address-lookup?address=bc1q9vl045g9ln6eu8vgh2r47zd4sustac9jrtjzdl",
+    "fetched_at": "2026-05-25T15:09:02Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 71
+  },
+  {
+    "file": "blockstream-live_btc_lead-address.json",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+    "fetched_at": "2026-05-25T15:09:03Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 280
+  },
+  {
+    "file": "blockstream-live_btc_lead-txs.json",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs",
+    "fetched_at": "2026-05-25T15:09:04Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2450
+  },
+  {
+    "file": "blockstream-live_btc_lead-utxo.json",
+    "url": "https://blockstream.info/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+    "fetched_at": "2026-05-25T15:09:05Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 509
+  },
+  {
+    "file": "mempool-live_btc_lead-address.json",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+    "fetched_at": "2026-05-25T15:09:06Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 280
+  },
+  {
+    "file": "mempool-live_btc_lead-txs.json",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/txs",
+    "fetched_at": "2026-05-25T15:09:06Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 2472
+  },
+  {
+    "file": "mempool-live_btc_lead-utxo.json",
+    "url": "https://mempool.space/api/address/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g/utxo",
+    "fetched_at": "2026-05-25T15:09:07Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 509
+  },
+  {
+    "file": "blockchaininfo-live_btc_lead-rawaddr.json",
+    "url": "https://blockchain.info/rawaddr/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g?limit=50",
+    "fetched_at": "2026-05-25T15:09:08Z",
+    "status": 200,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 2348
+  },
+  {
+    "file": "blockcypher-live_btc_lead-addr.json",
+    "url": "https://api.blockcypher.com/v1/btc/main/addrs/bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g?limit=50",
+    "fetched_at": "2026-05-25T15:09:08Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 1037
+  },
+  {
+    "file": "walletexplorer-live_btc_lead-lookup.json",
+    "url": "https://www.walletexplorer.com/api/1/address-lookup?address=bc1qyt2747r9n3dpxq8rgt5e8pc0qy9q0cvcptt85g",
+    "fetched_at": "2026-05-25T15:09:09Z",
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 71
+  }
+]

@@ -4,7 +4,7 @@ type: project-plan-synthesis
 tags: [littleorgans, monorepo, migration, moon, synthesis, decisions-queue]
 summary: Two independent expert plans (Claude general-purpose + Codex project-planner) converged on the load-bearing decisions (single workspace, v0.8.0, ~/.lilo, clean slate, MIT mirrors) but diverged on six material structural questions. This synthesis lays out the convergence as locked, the divergence as Stuart-decisions, and surfaces gaps neither plan covered.
 status: consensus-locked
-source: synthesis + 5-phase warroom consensus
+source: synthesis + 7-phase warroom consensus (Phases 1-6 decision-locking + Phase 7 defect-finding)
 confidence: high
 created: 2026-05-25
 ---
@@ -224,7 +224,7 @@ These six are real but lower-stakes than the above. Quick calls on each.
 Six things to think about now, before Phase 0 closes:
 
 1. **`Cargo.lock` strategy.** **LOCKED rev01.** Commit `Cargo.lock` at workspace root. Binary crates benefit from reproducible builds.
-2. **`.fmm.db` in the new monorepo.** **RESOLVED rev06 (Phase 5 warroom).** Initialize fmm at `littleorgans/littleorgans/` after Phase 1 scaffold (if `.fmmrc.toml` absent). Active DB at `<monorepo>/.fmm.db`. Commit `.fmmrc.toml` (identity-matters precedent); gitignore `.fmm.db`, `.fmm.db-shm`, `.fmm.db-wal`. Regen triggers: file adds/deletes/moves, workspace-manifest changes (`Cargo.toml`, `pnpm-workspace.yaml`, `pyproject.toml` members), generated surface refreshes, structural review. Solo workflow: manual `fmm generate && fmm validate`. `fmm watch` only during larger refactors. Parent multi-root `.fmm.db` stays as migration aid until Phase 8 cleanup, then removed with the sibling repo dirs.
+2. **`.fmm.db` in the new monorepo.** **RESOLVED rev06 (Phase 5 warroom).** Initialize fmm at `littleorgans/littleorgans/` after Phase 1 scaffold (if `.fmmrc.toml` absent). Active DB at `<monorepo>/.fmm.db`. Commit `.fmmrc.toml` (identity-matters precedent); gitignore `.fmm.db`, `.fmm.db-shm`, `.fmm.db-wal`. Regen triggers: file adds/deletes/moves, workspace-manifest changes (`Cargo.toml`, `pnpm-workspace.yaml`, `pyproject.toml` members), generated surface refreshes, structural review. Solo workflow: manual `fmm generate && fmm validate`. `fmm watch` only during larger refactors. Parent multi-root `.fmm.db` stays as migration aid until **Phase 9 cleanup** (corrected from "Phase 8" in the rev06 Decision Log row, which used the pre-Codex 9-phase numbering), then removed with the sibling repo dirs.
 3. **`CLAUDE.md` / `AGENTS.md` content for the monorepo.** **RESOLVED rev06 (Phase 5 warroom).** 11-section outline: top note (inherits `~/.claude/CLAUDE.md`); (1) project identity and status, (2) migration drivers, (3) bounded contexts, (4) K8s mental model post-monorepo (`lilo` CLI = kubectl, `internal/session` = API server, `internal/runtime` = kubelet, identity = ServiceAccount+RBAC+audit, transport-matters = external observability out-of-scope, `lilod` composition after Phase 7), (5) repository layout, (6) command surface + substrate-boundary rule, (7) data and environment, (8) engineering standards (DRY, 700/150 LOC, fmm, context preservation), (9) build/test/generated surfaces, (10) release and mirrors, (11) closeout checklist. `AGENTS.md` symlinks to `CLAUDE.md`. Per-substrate `CLAUDE.md` only at `internal/<substrate>/CLAUDE.md` when root is insufficient.
 4. **Daemon-merge testing strategy (Codex Phase 7).** **RESOLVED rev03 (Phase 2 warroom).** In-process integration tests at `tests/integration/` spin up `RuntimeService + SessionService + IdentityService` in one process, exercise cross-service flows, and assert: (a) `session-spawn → identity-audit → runtime-kqueue → session-record` ordering, (b) merged Stop / Ctrl-C / SIGTERM shutdown ordering. Wired into Phase 7 acceptance criteria.
 5. **`lilo-mirror-publish` contract.** **RESOLVED rev06 (Phase 5 warroom).** Manifest: `[[mirror]]` per substrate with `name`, `repo`, `paths`, `public_crates` (may be empty — session-matters), `binaries` (README/Release metadata only — cargo-dist builds `lilo` once), `README source`, `changelog filter`, `previous_history_url`, `excludes`. Outputs: deterministic staging dirs, rewritten Cargo workspace, README, filtered CHANGELOG, LICENSE, provenance metadata, machine-readable report. Cargo workspace inheritance flattened. External public path deps → registry deps at release version. Same-mirror public deps stay local. Substrate-owned internal deps embedded only if manifest-selected. Cross-substrate internal deps are hard errors unless replaced by public contracts. Empty-`public_crates` mirrors rewrite `internal/session` deps to published `lilo-rm-*` and `lilo-im-*` registry crates. Each mirror builds in isolation. Dry-run never mutates remotes. Apply refuses unless every registry dep is on crates.io at the release version; force-push requires `previous_history_url` AND remote match; errors typed; no rollback. Fixtures: dependency rewrites, workspace flattening, binaries metadata, empty `public_crates`, previous history links, dry-run safety, apply planning, registry publication preflight. Full SPEC lives at `tools/mirror-publish/SPEC.md` when implemented.
@@ -251,10 +251,8 @@ littleorgans/littleorgans/                  # the new private monorepo
 │   ├── lilo/                               # the binary crate (published)
 │   ├── lilo-common/
 │   ├── lilo-paths/
-│   ├── lilo-types/                         # cross-substrate base types (optional, see §2)
 │   ├── lilo-rm-core/   lilo-rm-client/
-│   ├── lilo-im-core/   lilo-im-store/  lilo-im-stub/  (stub TBD per D5)
-│   └── lilo-client/                        # added when daemon merges (Phase 7)
+│   └── lilo-im-core/   lilo-im-store/  lilo-im-stub/
 ├── internal/                               # NON-PUBLISHED, substrate-grouped (LOCKED rev02)
 │   ├── runtime/{app, daemon, launchers, platform, store}/
 │   ├── session/{app, core, daemon, driver, store}/   # core added rev02 — sm-core's home
@@ -297,7 +295,8 @@ littleorgans/littleorgans/                  # the new private monorepo
 One binary: `lilo`. Multi-call dispatch.
 
 - **User-facing verbs** (kubectl-shaped): `lilo run`, `lilo create session`, `lilo get session`, `lilo delete session`, `lilo label`, `lilo mail`, `lilo nudge`, `lilo capture`, `lilo logs`, `lilo wait`, `lilo mcp`.
-- **Operator namespaces** (substrate-prefixed): `lilo runtime spawn|status|events|kill|doctor`, `lilo session ...` (raw), `lilo identity audit|whoami`. Identity gate applies to these too (LOCKED rev03).
+- **Operator namespaces** (substrate-prefixed): `lilo runtime spawn|status|events|kill`, `lilo session ...` (raw), `lilo identity audit|whoami`. Identity gate applies to these too (LOCKED rev03). Aggregate health stays on top-level `lilo doctor`; no `lilo runtime doctor`.
+- **Raw `lilo runtime spawn` rule** (LOCKED rev05 d7, rev07 R11): identity-gated, creates **no** `session_record`, writes **no** `session_spawn_intents` row, **NOT** returned by `lilo get session`, appears only in `lilo runtime status/events`. Tests assert these substrate-boundary semantics and identity audit on both `lilo run` (session-backed) and `lilo runtime spawn` (raw) paths.
 - **Daemon**: `lilo daemon start|stop|status`. After Phase 7, one merged `lilod` process at `~/.lilo/run/lilod.sock`. Compose layer at `internal/session/app/daemon.rs`.
 - **Hidden**: `lilo __runtime-shim --session-id <uuid>` (LOCKED rev03). Daemon resolves via `current_exe()` and execs argv `[lilo, __runtime-shim, --session-id, <uuid>]`. Bootstrap env `LILO_SOCKET_PATH` only. Shim impl at `internal/runtime/app/shim.rs`.
 - `lilo doctor` aggregates per-substrate health.
@@ -307,10 +306,24 @@ One binary: `lilo`. Multi-call dispatch.
 ### §4 Versioning model
 
 - One workspace version. First monorepo release: **`v0.8.0`**. All crates publish at `0.8.0` on cut day.
-- `release-plz.toml` with `git_tag_name = "{{ package }}-v{{ version }}"`; release workflow additionally creates a top-level `v0.8.0` tag for the binary release.
-- (See merged plan §4 for the complete published-crate list, locked across rev01 and rev04.)
-- New published crates added only when an external consumer appears. No `lilo-sm-*` published in v0.8.0.
+- `release-plz.toml` with `git_tag_name = "{{ package }}-v{{ version }}"`; release workflow additionally creates a top-level `v0.8.0` tag for the binary release after crate publication succeeds (LOCKED rev04).
+- New published crates added only when an external consumer appears. **No `lilo-sm-*`** published in v0.8.0 (LOCKED rev04). **No `lilo-types` and no `lilo-client`** in v0.8.0 either — both are deferred until a concrete need surfaces.
 - `cargo semver-checks` runs in the release gate per published crate.
+
+**Published-crate set for v0.8.0** (locked rev01 + rev04, the only crates that ship to crates.io at first cut):
+
+| Crate | Source path | Role |
+|---|---|---|
+| `lilo` | `crates/lilo/` | The binary crate (`cargo install lilo`). |
+| `lilo-common` | `crates/lilo-common/` | Shared plumbing: tracing init, version string, Diagnostic, exit codes. |
+| `lilo-paths` | `crates/lilo-paths/` | `LiloHome`, `LiloPaths`, `DaemonEndpoint`. `LILO_HOME` only (rev02 d10). |
+| `lilo-rm-core` | `crates/lilo-rm-core/` | Runtime-matters wire types. Continues from `0.7.1` → `0.8.0`. |
+| `lilo-rm-client` | `crates/lilo-rm-client/` | Typed client to `lilod` runtime RPC. Continues from `0.7.1` → `0.8.0`. |
+| `lilo-im-core` | `crates/lilo-im-core/` | Identity-matters `Authorizer` trait + types. `0.1.1` → `0.8.0`. |
+| `lilo-im-store` | `crates/lilo-im-store/` | SQLite audit sink. `0.1.1` → `0.8.0`. |
+| `lilo-im-stub` | `crates/lilo-im-stub/` | v1 `StubAuthorizer`. `0.1.1` → `0.8.0`. Cannot be unpublished (rev01 D5). |
+
+Eight crates, period. Anything else (`lilo-types`, `lilo-client`, `lilo-sm-*`) requires an explicit lock before publish.
 
 ### §5 `~/.lilo/` data layout
 
@@ -336,9 +349,22 @@ One binary: `lilo`. Multi-call dispatch.
 └── tmp/
 ```
 
-- `LILO_HOME` overrides root. `LILO_SOCKET_PATH`, `LILO_DB_PATH`, `LILO_LOG` for finer overrides.
+- `LILO_HOME` overrides root. `LILO_SOCKET_PATH` and `LILO_LOG` are the only finer-grained overrides honoured (rev02 d10 `lilo-paths` API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only). DB path is derived from `LiloPaths`; **no `LILO_DB_PATH`**.
 - Old `RTM_*`, `SM_*`, `AGM_*` env vars are not honoured. `lilo doctor` warns if it sees them.
 - No automatic migration from `~/.rtm/`, `~/.sm/`, `~/.agm/`. Release notes tell Stuart to stop old daemons and start fresh.
+
+**Transaction and recovery model** (LOCKED rev07 R11). Phase 7 introduces:
+
+- **`LiloDb`** backed by one shared **`sqlx::SqlitePool`** for all `lilod` SQLite state. `sm-store::SqliteStore` + `im-store::SqliteAuditSink` migrate **rusqlite → sqlx**; `rtm-store` rewires its existing sqlx pool to the shared pool. **No `lilod`-internal store owns its own `SqlitePool`.**
+- PRAGMAs locked: `journal_mode=WAL, busy_timeout=5000ms, synchronous=NORMAL, wal_autocheckpoint=1000`.
+- DB-only cross-substrate transitions: **one `BEGIN IMMEDIATE/COMMIT`** in fixed order — identity audit row first, then substrate state rows.
+- **No SQLite transaction held across** process launch, signal delivery, tmux, Docker, ShimReady wait, or d9 JSONL append.
+- **Two-phase session-spawn**: tx A (allow audit + `session_spawn_intents(pending)` + lifecycle Forking) → runtime side effect → tx B (insert `session.sessions` + lifecycle Running + resolve intent).
+- **Raw `lilo runtime spawn`** writes no `session_spawn_intents` row, no `session_record`. Explicit DB-shape discriminator.
+- `session-mail` is one audit+mail tx; `session-nudge` / `session-delete` use analogous pre-/post-side-effect phases.
+- **`runtime.jsonl`** (d9) is the sole event-cursor-of-record. Appended **after SQLite commit** from committed state. Idempotent by `(session_id, event_kind)`. Never commit authority.
+- **Startup reconciliation** uses pending `session_spawn_intents` as the session-backed-vs-raw discriminator; abort / complete / preserve raw runtime state accordingly.
+- New table: `session_spawn_intents(session_id PK, operation_id, status [pending|resolved|aborted], spawn_request_json, session_draft_json, created_at, updated_at, resolved_at, aborted_reason)`.
 
 ### §6 Unified standards
 
@@ -359,58 +385,109 @@ One binary: `lilo`. Multi-call dispatch.
 
 ### §8 Migration sequence
 
-Nine phases (Codex's count; closer to lift-and-merge granularity):
+Ten phases (0–9; Codex's count, closer to lift-and-merge granularity):
 
-0. **Decision day.** Confirm convergence locks, resolve six divergence calls, freeze SHAs.
-1. **Scaffold.** Empty workspace, `lilo --version` works, CI green, no source migration. *One commit.*
+0. **Decision day.** ✅ **COMPLETE** — this synthesis (rev01–rev07 + sanity-patch rev08) is the decision record. Convergence locks set; all six divergences resolved; R11 + clean-slate locked. Phase 1 unblocked.
+1. **Scaffold.** Workspace skeleton, `lilo --version` AND `lilo doctor --output json` (empty-state stub) both work, CI green, no source migration. *One commit.* See §9 for the day-one mechanics against existing on-disk state.
 2. **Identity import.** Move `lilo-im-*` to `crates/`, `internal/identity/service/`. ~1.4K LOC.
 3. **Runtime contracts + client import.** Move `lilo-rm-core` + `lilo-rm-client` to `crates/`; `internal/runtime/{app,daemon,launchers,platform,store}/`. ~20K LOC.
-4. **Session import.** Move session crates into `internal/session/`. Split `mcp_tools.rs` (700 LOC cap). ~17K LOC.
-5. **`~/.lilo/` cutover.** Replace `rtm-paths` + `sm-paths` with `lilo-paths`; delete old env vars.
-6. **Unified `lilo` command surface.** Move `rtm-cli` + `sm-cli` modules into `internal/{runtime,session}/app/`; implement top-level `lilo` command; hide shim subcommand.
-7. **Compose one daemon.** Merge `rmd` + `smd` into `lilod`. RuntimeService + SessionService + IdentityService share one process and one socket. Critical-path architecture work.
+4. **Session import.** Move session crates into `internal/session/{app,core,daemon,driver,store}/` (5-subdir layout, LOCKED rev02). Split `mcp_tools.rs` (700 LOC cap). ~17K LOC.
+5. **`~/.lilo/` cutover.** Replace `rtm-paths` + `sm-paths` with `lilo-paths`; delete old env vars (`RTM_*`, `SM_*`, `AGM_*`). DB path is derived from `LiloPaths`; no `LILO_DB_PATH`.
+6. **Unified `lilo` command surface.** Move `rtm-cli` + `sm-cli` modules into `internal/{runtime,session}/app/`; implement top-level `lilo` command; hide shim subcommand at `internal/runtime/app/shim.rs`; lock raw-spawn substrate-boundary semantics (no `session_record`, no `session_spawn_intents` row).
+7. **Compose one daemon.** Merge `rmd` + `smd` into `lilod`. Compose entry at `internal/session/app/daemon.rs`. `LiloDb` + shared `sqlx::SqlitePool`; `sm-store` and `im-store` migrate rusqlite → sqlx; `rtm-store` rewires to the shared pool. Two-phase session-spawn with `session_spawn_intents` (LOCKED rev07 R11). **Acceptance:** in-process integration tests at `tests/integration/` asserting `session-spawn → identity-audit → runtime-kqueue → session-record` ordering; PRAGMA assertion tests + concurrent-writes-without-`SQLITE_BUSY`; merged Stop / Ctrl-C / SIGTERM shutdown-ordering tests; startup-reconcile tests against pending-intent fixtures. Critical-path architecture work.
 8. **Release + mirror tooling.** Build `tools/mirror-publish`, GitHub Actions release cascade, mirror dry-runs.
-9. **Cutover release.** Tag `v0.8.0`, publish crates, push mirrors, archive (rename) old repos.
+9. **Cutover release + local cleanup.** Tag `v0.8.0`, publish crates, push mirrors, archive (rename + recreate) old repos per rev05 D6. **After mirror force-push succeeds and each generated mirror builds in isolation**, delete the local sibling source dirs `/Users/alphab/Dev/LLM/DEV/helioy/littleorgans/{identity,runtime,session,schedule}-matters/` and the empty `*-worktrees/` siblings. Delete the parent multi-root `.fmm.db` (replaced by the monorepo's own `.fmm.db`).
 
 Each phase decomposes into 4–8 moe-local-batch items per the existing workflow.
 
 ### §9 What ships first
 
-PR 1 = Phase 1 alone. Verbatim from Codex's §9 with Claude's mechanics:
+PR 1 = Phase 1 alone. The monorepo directory **already exists** on disk (Stuart pre-created `/Users/alphab/Dev/LLM/DEV/helioy/littleorgans/littleorgans/` with `.git`, `NOTES/v1-v2-strategy.md`, `README.md`, and an early `.fmm.db`), so the scaffold is **adding into** that existing structure, not creating it. Mechanics:
 
 ```bash
-cd /Users/alphab/Dev/LLM/DEV/helioy/littleorgans
-mkdir littleorgans && cd littleorgans
-git init -b main
-# Create directory tree, Cargo.toml, rust-toolchain.toml, .moon/, justfile,
-# crates/lilo with src/main.rs printing version, crates/lilo-common stub,
-# crates/lilo-paths with LILO_HOME tests.
-# .gitignore (Rust template), commit Cargo.lock.
-# CI workflow.
-cargo build --workspace && cargo test --workspace && cargo run --bin lilo -- --version
-git add . && git commit -m "chore: scaffold littleorgans monorepo workspace"
+# Sanity-check pre-existing state (does NOT mutate)
+cd /Users/alphab/Dev/LLM/DEV/helioy/littleorgans/littleorgans
+test -d .git || { echo "expected git repo"; exit 1; }
+test -f NOTES/v1-v2-strategy.md || { echo "expected NOTES seed"; exit 1; }
+git status --short    # may show pre-existing untracked files (README.md, .fmm.db, NOTES/)
+
+# Add Phase-1 scaffold idempotently into the existing repo
+# Each `mkdir -p` is safe-if-exists. Each Cargo.toml / source stub is a Write,
+# refusing if file exists, OR an Edit that no-ops if content matches.
+mkdir -p crates/lilo/src crates/lilo-common/src crates/lilo-paths/src
+mkdir -p tools/xtask/src .moon/tasks scripts docs/provenance
+
+# Files to add (Write only; refuse to clobber):
+#   Cargo.toml                  (workspace manifest from §2)
+#   rust-toolchain.toml         (1.90 + clippy + rustfmt)
+#   .moon/workspace.yml         (projects: crates/*, internal/*/*, tools/*)
+#   .moon/toolchains.yml        (rust 1.90 pinned; node/python placeholders)
+#   .moon/tasks/rust.yml        (fmt-check, clippy, build, test, loc)
+#   justfile                    (fmt, fmt-check, clippy, build, test, check-loc, check)
+#   crates/lilo/Cargo.toml      (thin binary crate manifest)
+#   crates/lilo/src/main.rs     (clap shell with --version + doctor stub)
+#   crates/lilo-common/Cargo.toml + src/lib.rs   (VERSION_STRING + Diagnostic skeleton)
+#   crates/lilo-paths/Cargo.toml + src/lib.rs    (LiloHome / LiloPaths / DaemonEndpoint + LILO_HOME tests)
+#   tools/xtask/Cargo.toml + src/main.rs
+#   .github/workflows/pr.yml    (cargo fmt --check, clippy, build, test)
+#   docs/provenance/imported-repos.md (frozen remotes/tags/SHAs of identity/runtime/session-matters)
+#   LICENSE                     (MIT, "Copyright (c) 2026 Stuart Robinson")
+#   CLAUDE.md + AGENTS.md (symlink) (11-section outline from rev06 G3)
+#   .gitignore                  (Rust template + .fmm.db, .fmm.db-shm, .fmm.db-wal)
+#   .fmmrc.toml                 (if absent — identity-matters precedent)
+# Pre-existing files left alone: NOTES/v1-v2-strategy.md, README.md, .git/, .fmm.db (regenerated later).
+
+# Build + test gate (Phase 1 acceptance)
+cargo build --workspace
+cargo test --workspace
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets -- -D warnings
+./target/debug/lilo --version           # prints `lilo 0.8.0`
+./target/debug/lilo doctor --output json | jq .   # valid empty-state structure
+
+# fmm initialization (G2 lock)
+fmm generate && fmm validate
+
+# Commit
+git add Cargo.toml Cargo.lock rust-toolchain.toml .moon/ justfile crates/ tools/ \
+        .github/ docs/ LICENSE CLAUDE.md AGENTS.md .gitignore .fmmrc.toml
+git commit -m "chore: scaffold littleorgans monorepo workspace (Phase 1)"
+
+# Remote — confirm with `gh repo view littleorgans/littleorgans` before push.
+# If the remote does not yet exist:
 gh repo create littleorgans/littleorgans --private --source=. --remote=origin --push
+# If the remote already exists (e.g., Stuart pre-created it), just push:
+# git push -u origin main
 ```
 
-Exit criteria: green CI, `lilo --version` prints `0.8.0`, `lilo doctor --output json` returns a valid empty-state structure.
+**Phase 1 exit criteria** (LOCKED rev08-amend, harmonized with §8 Phase 1):
+
+- `cargo build --workspace` clean.
+- `cargo test --workspace` green (includes `lilo-paths` `LILO_HOME` tests).
+- `cargo fmt --check` + `cargo clippy -D warnings` pass.
+- `./target/debug/lilo --version` prints `lilo 0.8.0`.
+- `./target/debug/lilo doctor --output json` returns a valid empty-state structure (no daemon, no substrates active).
+- `moon ci` runs the same set with Moon as orchestrator (validates the rev04 Moon lock).
+- `fmm validate` passes on the new monorepo root.
+- Push to `github.com/littleorgans/littleorgans` (private) succeeds.
 
 ### §10 Risks and unknowns
 
-Ten material risks (consolidating Claude §10 and Codex §10):
+Eleven material risks (consolidating Claude §10 and Codex §10, plus R11 added rev05):
 
 1. Moon's Rust support is young — validate in Phase 1.
-2. `release-plz` workspace-version handling — dry-run before Phase 9.
+2. `release-plz` workspace-version handling — dry-run before Phase 9. (Installed release-plz 0.3.158 has no `update_workspace_version` field; the per-package tag scheme is locked rev04.)
 3. `lilo-mirror-publish` is novel CI engineering — separate design pass before Phase 8.
 4. Cross-substrate path-dep cycles — `cargo publish --dry-run` gate.
 5. Phase 5 (`~/.lilo/` cutover) has no easy revert — tests/e2e must cover full lifecycle first.
-6. Daemon merge (Phase 7) is real architecture work — in-process integration tests required.
+6. Daemon merge (Phase 7) is real architecture work — in-process integration tests required (LOCKED rev03 / rev07).
 7. `internal/` vs `crates/` boundary needs CI enforcement (no `internal/` crate accidentally getting `publish = true`).
-8. `lilo-im-stub` publication status needs crates.io verification (D5 above).
+8. ~~`lilo-im-stub` publication status needs crates.io verification.~~ **RESOLVED rev01** — confirmed published at `0.1.1`; kept in published set.
 9. Mirror force-push policy means commit history on mirrors resets every release — accept this.
 10. `transport-matters` is out of scope but may share wire types with session-matters; audit during Phase 4.
-11. **(R11, added rev05, RESOLVED rev07)** Phase 7 cross-substrate transaction / recovery semantics — **option-1 spine with phase-aware recovery around runtime side effects**.
+11. **(R11, added rev05, RESOLVED rev07)** Phase 7 cross-substrate transaction / recovery semantics — **the "option-1 spine"** (a shared `LiloDb` plus one shared `sqlx::SqlitePool` carrying all DB-only cross-substrate transitions) **with phase-aware recovery around runtime side effects** (DB transactions split around any non-DB step):
     - One shared `LiloDb` backed by one `sqlx::SqlitePool` for all `lilod` SQLite state.
-    - `sm-store::SqliteStore`, `im-store::SqliteAuditSink`, and the AuditSink call surface migrate from `rusqlite` to `sqlx`. No `lilod`-internal store opens rusqlite directly.
+    - `sm-store::SqliteStore` + `im-store::SqliteAuditSink` migrate from `rusqlite` to `sqlx`. `rtm-store` (already on sqlx) **rewires its existing pool to the shared `LiloDb` pool**. No `lilod`-internal store owns its own `SqlitePool`.
     - DB-only cross-substrate transitions: one `BEGIN IMMEDIATE/COMMIT` in fixed order (identity audit row first, then substrate state rows).
     - No SQLite transaction held across process launch, signal delivery, tmux, Docker, ShimReady wait, or d9 JSONL append.
     - Session-spawn is two-phase: **tx A** writes allow-audit + `session_spawn_intents(pending)` + lifecycle Forking → runtime side effect → **tx B** atomically inserts session row + updates lifecycle Running + resolves intent.
@@ -418,7 +495,7 @@ Ten material risks (consolidating Claude §10 and Codex §10):
     - `session-mail` is one audit+mail tx; `session-nudge` / `session-delete` use analogous pre-/post-side-effect phases.
     - d9 JSONL remains the sole event-cursor-of-record. Appended after SQLite commit. Idempotent by `(session_id, event_kind)`. Never commit authority.
     - Startup reconciliation uses pending `session_spawn_intents` as the session-backed-vs-raw discriminator; abort / complete / preserve raw runtime state accordingly.
-    - **Single-writer WAL serialization is accepted at Stuart-scale. Scale-out and multi-operator semantics are out of scope for v0.8.0.**
+    - **v2 mapping is out of scope for v0.8.0.** Single-writer WAL serialization is accepted at Stuart-scale (per the preamble + `NOTES/v1-v2-strategy.md`); the intent-and-reconcile *pattern* survives the v2 pivot, the *substrate* (SQLite → distributed store + saga / event-sourced reconciliation) does not.
     - New table schema: `session_spawn_intents(session_id PK, operation_id, status [pending|resolved|aborted], spawn_request_json, session_draft_json, created_at, updated_at, resolved_at, aborted_reason)`.
 
 ### §11 schedule-matters status
@@ -437,15 +514,48 @@ Ten material risks (consolidating Claude §10 and Codex §10):
 - Cascading release wiring per Codex §12 manifest shape (TOML-driven, data-not-shell):
 
 ```toml
+# Substrate with published crates and a binary mention
 [[mirror]]
 name = "runtime-matters"
 repo = "git@github.com:littleorgans/runtime-matters.git"
-paths = ["crates/lilo-rm-core", "crates/lilo-rm-client", "internal/runtime", "docs/mirrors/runtime-matters.md", "LICENSE"]
+paths = ["crates/lilo-rm-core", "crates/lilo-rm-client", "internal/runtime",
+         "docs/mirrors/runtime-matters.md", "LICENSE"]
 public_crates = ["lilo-rm-core", "lilo-rm-client"]
+binaries = ["lilo"]                    # README/Release metadata only; lilo is built once in monorepo CI
+readme_source = "docs/mirrors/runtime-matters.md"
+changelog_filter = "scope:rm OR path:internal/runtime OR path:crates/lilo-rm-*"
+previous_history_url = "https://github.com/littleorgans/runtime-matters-archive"
+excludes = []
+
+# Substrate with NO published crates (session-matters case, rev04 lock)
+[[mirror]]
+name = "session-matters"
+repo = "git@github.com:littleorgans/session-matters.git"
+paths = ["internal/session", "docs/mirrors/session-matters.md", "LICENSE"]
+public_crates = []                     # empty — lilo-sm-* NOT published in v0.8.0
 binaries = ["lilo"]
+readme_source = "docs/mirrors/session-matters.md"
+changelog_filter = "scope:sm OR path:internal/session"
+previous_history_url = "https://github.com/littleorgans/session-matters-archive"
+excludes = []
+# Empty public_crates means: rewrite internal/session deps on lilo-rm-* and
+# lilo-im-* to crates.io registry deps at the release version; mirror builds
+# in isolation; advertise `cargo install lilo` for the binary.
+
+[[mirror]]
+name = "identity-matters"
+repo = "git@github.com:littleorgans/identity-matters.git"
+paths = ["crates/lilo-im-core", "crates/lilo-im-store", "crates/lilo-im-stub",
+         "internal/identity", "docs/mirrors/identity-matters.md", "LICENSE"]
+public_crates = ["lilo-im-core", "lilo-im-store", "lilo-im-stub"]
+binaries = []                          # no binary release on the identity mirror
+readme_source = "docs/mirrors/identity-matters.md"
+changelog_filter = "scope:im OR path:internal/identity OR path:crates/lilo-im-*"
+previous_history_url = "https://github.com/littleorgans/identity-matters-archive"
+excludes = []
 ```
 
-The `lilo-mirror-publish` tool reads this manifest, stages the substrate, rewrites Cargo.toml workspace fields to concrete values, replaces path deps with crates.io registry deps at the release version, generates README + CHANGELOG, runs `cargo build` in the staged dir to prove buildability, then force-pushes to the mirror repo.
+The `lilo-mirror-publish` tool reads this manifest, stages the substrate, rewrites Cargo.toml workspace fields to concrete values, replaces external public path deps with crates.io registry deps at the release version, generates README + CHANGELOG + LICENSE + provenance metadata, runs `cargo build` in the staged dir to prove buildability, then force-pushes to the mirror repo. **Apply mode refuses unless every registry dep is already published on crates.io at the release version**; force-push requires `previous_history_url` AND remote match; errors typed; no rollback. Full SPEC lives at `tools/mirror-publish/SPEC.md` when implemented.
 
 ---
 
