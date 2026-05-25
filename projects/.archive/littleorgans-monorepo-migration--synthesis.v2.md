@@ -34,7 +34,6 @@ Snapshot timeline. Each row is a phase boundary committed to git. Source of trut
 |---|---|---|---|
 | rev01 | 2026-05-25 | Phase 0 (orchestrator pre-pass) | **Q1/D5** `lilo-im-stub@0.1.1` confirmed published via `cargo search` → kept in published set (orphaning would violate monotonic-version rule). **d9** JSONL event log → kept as the file-vs-DB exception, both plans converged. **d12** `lilo` binary crate → published (canonical `cargo install lilo` path). **G1** `Cargo.lock` → committed at workspace root for reproducible binary builds. |
 | rev02 | 2026-05-25 | Phase 1 LAYOUT (warroom `moe-synthesis-p1`, 1 block-resolution round per item) | **D1/Q2** Internal-crate location → **hierarchical** `internal/<substrate>/<role>/`, amended to `internal/session/{app, core, daemon, driver, store}/` (5 role subdirs, not 4) so every current session impl crate has an explicit destination. Catch by reviewer: initial 4-subdir proposal would have orphaned `sm-core`. **d10** `lilo-paths` → **kept as a separate published crate** with narrow v0.8.0 API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only. No legacy `RTM_*` / `SM_*` env-var leakage. Real cross-substrate seam is `sm-paths::rtmd_socket_path` re-exported by `sm-core`; that is what `lilo-paths::DaemonEndpoint` replaces. |
-| rev03 | 2026-05-25 | Phase 2 BINARY (warroom `moe-synthesis-p2`, 1 block-resolution round on D2, S first-round on D3) | **D2/Q3** Daemon count → **single merged `lilod`, staged**. Phases 2–6 preserve `rmd` and `smd` as import scaffolding. Phase 7 introduces the compose entry at `internal/session/app/daemon.rs` (session = API server surface for `lilod.sock`). `internal/runtime/daemon/`, `internal/session/daemon/`, and `internal/identity/service/` expose **service factory APIs**; the compose entry wires `RuntimeService` + `SessionService` + `IdentityService` into one Tokio runtime, one socket at `~/.lilo/run/lilod.sock`, one pid file, one log file, one SQLite ownership plan, one coherent cancellation scope, an in-process `RuntimeRpc`-shaped runtime service boundary, and **identity gating fronts every `lilod.sock` RPC including operator namespace runtime commands** (no bypass). Acceptance (resolves Gap 4): in-process integration tests at `tests/integration/` asserting `session-spawn → identity-audit → runtime-kqueue → session-record` ordering AND merged Stop / Ctrl-C / SIGTERM shutdown ordering. **D3/Q4** Shim binary → **hidden subcommand**, no separate `lilo-shim` crate, no second installed binary. Shim impl lives at `internal/runtime/app/shim.rs` after Phase 6 app import. Daemon resolves via `std::env::current_exe()` and launches `[lilo, __runtime-shim, --session-id, <uuid>]`. Hidden command not shown in `lilo --help`. Bootstrap env narrowed to **`LILO_SOCKET_PATH` only** (replaces `RTM_SOCKET_PATH`); tests prove tmux and headless paths do not leak daemon env into the runtime. Real command/argv/env/cwd/optional shell resume still arrive through the `ShimLaunch → LaunchSpec` handoff. Shim remains a distinct child process for signal and lifecycle purposes; only the executable file is shared with `lilo`. |
 
 ---
 
@@ -102,29 +101,16 @@ The convention is convention-enforced and Cargo-enforced: `internal/**/Cargo.tom
 
 **Tradeoff.** Claude preserves the K8s mental-model alignment (kubelet vs apiserver+etcd are separate binaries in real K8s) and keeps a future host-vs-control-plane split open. Codex achieves a stronger driver-5 simplification: one process, one socket, one health check, one log file, one pid file.
 
-**LOCKED rev03 (Phase 2 warroom consensus, 1 block-resolution round).** **Single merged `lilod`, staged.**
+**Recommendation.** **Codex's single daemon, but staged.** Specifically:
+- Phases 2–6 leave `rmd` and `smd` as two processes (per Claude's plan). This makes the per-substrate imports incremental.
+- Phase 7 is the explicit daemon-merge phase Codex prescribes. After Phase 7, one `lilod` process serves everything.
 
-- **Phases 2–6** preserve `rmd` and `smd` as two separate processes. Imports stay incremental.
-- **Phase 7** is the explicit merge. After it, one `lilod` process serves every substrate.
+Reasons:
+1. Driver #5 is verbatim: "single binary runtime rather than manage `rtm`, `sm`, etc. separately." Two daemons inside one CLI is half-measure.
+2. Stuart is the sole user. The "future host-vs-control-plane split" Claude preserves has no current value to weigh against the simplicity cost today.
+3. The K8s mental model in CLAUDE.md is documentation, not architecture. K8s has those two processes because it has thousands of nodes and one control plane. Stuart has one node.
 
-Compose-layer mechanics (added by reviewer block):
-
-- Compose entry at `internal/session/app/daemon.rs` — session is the API server surface for `lilod.sock`, mirroring the kubectl mental model.
-- `internal/runtime/daemon/`, `internal/session/daemon/`, and `internal/identity/service/` each expose a **service factory API** (e.g. `RuntimeService::build(ctx) -> Result<Self>`).
-- The compose entry wires `RuntimeService` + `SessionService` + `IdentityService` into:
-  - One Tokio runtime.
-  - One socket at `~/.lilo/run/lilod.sock`.
-  - One pid file at `~/.lilo/run/lilod.pid`.
-  - One log file at `~/.lilo/logs/lilod.log`.
-  - One SQLite ownership plan (per d8 in Phase 4).
-  - One coherent cancellation scope.
-  - An in-process `RuntimeRpc`-shaped runtime service boundary (today's wire is the seam; in-process it becomes a direct trait call).
-- **Identity gating fronts every `lilod.sock` RPC**, including operator namespace runtime commands (`lilo runtime spawn|status|events|kill`). No bypass. Surface expansion is explicit.
-
-Acceptance (this resolves Gap 4):
-
-- In-process integration tests at `tests/integration/` asserting `session-spawn → identity-audit → runtime-kqueue → session-record` ordering.
-- Shutdown ordering tests covering merged Stop, Ctrl-C, and SIGTERM.
+The work to merge is real (Codex flags this as critical-path). Cost is reflected in Phase 7's existence.
 
 ### D3. The runtime shim
 
@@ -135,14 +121,7 @@ Acceptance (this resolves Gap 4):
 
 **Tradeoff.** Claude is more discoverable (separate binary). Codex hits driver #5 more strictly (one binary on disk, period).
 
-**LOCKED rev03 (Phase 2 warroom, S first-round, no block).** **Hidden subcommand.** No separate `lilo-shim` crate, no second installed binary, no published shim package.
-
-- Shim implementation lives at `internal/runtime/app/shim.rs` after the Phase 6 app import.
-- Daemon resolves via `std::env::current_exe()` (already today's default in `rtm-daemon`) and launches `[lilo, __runtime-shim, --session-id, <uuid>]`.
-- Hidden subcommand declared with `clap::hide = true` so it does not appear in `lilo --help`. Dispatched before ordinary user CLI handling (or via the hidden clap command with identical behaviour and help-snapshot coverage).
-- Bootstrap env narrowed to **`LILO_SOCKET_PATH` only** (replaces today's `RTM_SOCKET_PATH`); `env_clear` is preserved. Tests prove both tmux and headless paths do not leak daemon env into the runtime child.
-- Runtime's real command, argv, env, cwd, and optional shell resume continue to arrive through the existing `ShimLaunch → LaunchSpec` handoff. Wire contract preserved.
-- Shim remains a distinct child process for signal and lifecycle purposes. Only the executable file is shared with `lilo`.
+**Recommendation.** **Codex's hidden subcommand.** Driver #5 wins again. The multi-call pattern is exactly what k8s pattern 1 (cmd/X thin-shell) maps to in Rust: the binary inspects its first arg and dispatches. `lilo` and `lilo __runtime-shim` share the same `current_exe()` path; the daemon executes itself with the hidden subcommand. The hidden flag (`hide = true` in clap) keeps `lilo --help` clean.
 
 ### D4. `lilo-sm-core` / `lilo-sm-client` public crates
 
@@ -207,7 +186,7 @@ Six things to think about now, before Phase 0 closes:
 1. **`Cargo.lock` strategy.** **LOCKED rev01.** Commit `Cargo.lock` at workspace root. Binary crates benefit from reproducible builds.
 2. **`.fmm.db` in the new monorepo.** The current `.fmm.db` at `/Users/alphab/Dev/LLM/DEV/helioy/littleorgans/.fmm.db` indexes the four sibling repos. Once the monorepo subsumes them, the `.fmm.db` should be **regenerated at the monorepo root** and the old one deleted at Phase 8 cleanup.
 3. **`CLAUDE.md` / `AGENTS.md` content for the monorepo.** Both plans show the file in the tree but neither drafts content. Recommendation: a single root `CLAUDE.md` capturing the five drivers, the verb tree, the K8s mental model, the `~/.lilo/` layout, the 700/150 LOC rules, and the `release-plz` workflow. Symlink `AGENTS.md → CLAUDE.md`. Per-substrate `CLAUDE.md` files only at `internal/{runtime,session,identity,schedule}/CLAUDE.md` if substrate-specific guidance is needed.
-4. **Daemon-merge testing strategy (Codex Phase 7).** **RESOLVED rev03 (Phase 2 warroom).** In-process integration tests at `tests/integration/` spin up `RuntimeService + SessionService + IdentityService` in one process, exercise cross-service flows, and assert: (a) `session-spawn → identity-audit → runtime-kqueue → session-record` ordering, (b) merged Stop / Ctrl-C / SIGTERM shutdown ordering. Wired into Phase 7 acceptance criteria.
+4. **Daemon-merge testing strategy (Codex Phase 7).** Codex prescribes the merge but doesn't detail how to test composition. Add to Phase 7: **in-process integration tests** at `tests/integration/` that spin up `RuntimeService + SessionService + IdentityService` in one process, exercise cross-service flows (session spawn → identity audit → runtime kqueue → session record), and assert correct ordering.
 5. **`lilo-mirror-publish` contract.** Both flag this as highest-risk but neither writes a full spec. The mirror tool needs its own design pass before Phase 8. Suggested follow-up: a separate `tools/mirror-publish/SPEC.md` with the per-substrate manifest shape, the Cargo.toml rewrite rules, the README template, and the test fixtures.
 6. **`runtime-matters/MAP.md`** (Codex flags) — an untracked architecture map in the runtime-matters repo. Decide before Phase 0: does it land at `docs/architecture/runtime.md` or `docs/provenance/runtime-map.md`?
 
@@ -275,15 +254,15 @@ littleorgans/littleorgans/                  # the new private monorepo
 
 ### §3 Binary surface
 
-One binary: `lilo`. Multi-call dispatch.
+One binary: `lilo`. Multi-call dispatch:
 
-- **User-facing verbs** (kubectl-shaped): `lilo run`, `lilo create session`, `lilo get session`, `lilo delete session`, `lilo label`, `lilo mail`, `lilo nudge`, `lilo capture`, `lilo logs`, `lilo wait`, `lilo mcp`.
-- **Operator namespaces** (substrate-prefixed): `lilo runtime spawn|status|events|kill|doctor`, `lilo session ...` (raw), `lilo identity audit|whoami`. Identity gate applies to these too (LOCKED rev03).
-- **Daemon**: `lilo daemon start|stop|status`. After Phase 7, one merged `lilod` process at `~/.lilo/run/lilod.sock`. Compose layer at `internal/session/app/daemon.rs`.
-- **Hidden**: `lilo __runtime-shim --session-id <uuid>` (LOCKED rev03). Daemon resolves via `current_exe()` and execs argv `[lilo, __runtime-shim, --session-id, <uuid>]`. Bootstrap env `LILO_SOCKET_PATH` only. Shim impl at `internal/runtime/app/shim.rs`.
+- User-facing verbs (kubectl-shaped): `lilo run`, `lilo create session`, `lilo get session`, `lilo delete session`, `lilo label`, `lilo mail`, `lilo nudge`, `lilo capture`, `lilo logs`, `lilo wait`, `lilo mcp`.
+- Operator namespaces (substrate-prefixed): `lilo runtime spawn|status|events|kill|doctor`, `lilo session ...` (raw), `lilo identity audit|whoami`.
+- Daemon: `lilo daemon start|stop|status` (one process, one socket at `~/.lilo/run/lilod.sock`).
+- Hidden: `lilo __runtime-shim --session-id <uuid>` (the kubelet-shim equivalent, dispatched via `current_exe()` from the daemon).
 - `lilo doctor` aggregates per-substrate health.
 
-`main()` is the thin shell per k8s pattern 1: ~30 LOC, dispatches into substrate `app` crates via `internal::*::app::run(args, ctx)`. The compose entry `internal/session/app/daemon.rs::run(cmd, ctx)` is the post-Phase-7 home for daemon composition.
+`main()` is the thin shell per k8s pattern 1: ~30 LOC, dispatches into substrate `app` crates via `internal::*::app::run(args, ctx)`.
 
 ### §4 Versioning model
 
@@ -426,8 +405,8 @@ In order of blocking impact:
 |---|---|---|---|
 | ~~Q1~~ | ~~Is `lilo-im-stub@0.1.1` actually published?~~ | ~~D5, §4 published crate list~~ | **RESOLVED rev01.** Yes, published. Kept in published set. |
 | ~~Q2~~ | ~~Internal layout: flat vs hierarchical?~~ | ~~§1, §2, all phases~~ | **RESOLVED rev02 (Phase 1 warroom).** Hierarchical with 5-subdir session amendment. |
-| ~~Q3~~ | ~~Daemon count: two or one merged?~~ | ~~§3, Phase 7~~ | **RESOLVED rev03 (Phase 2 warroom).** One merged `lilod`, staged. Compose at `internal/session/app/daemon.rs`. Identity gates all RPC. |
-| ~~Q4~~ | ~~Shim binary: separate or hidden subcommand?~~ | ~~§3, §9~~ | **RESOLVED rev03 (Phase 2 warroom).** Hidden `lilo __runtime-shim`. Impl at `internal/runtime/app/shim.rs`. `LILO_SOCKET_PATH` only. |
+| Q3 | Daemon count: two (Claude) or one merged `lilod` (Codex)? | §3, Phase 7 | **One merged (Codex), staged.** Phases 2–6 leave two; Phase 7 merges. Driver #5 wins. |
+| Q4 | Shim binary: separate `lilo-shim` (Claude) or hidden `lilo __runtime-shim` (Codex)? | §3, §9 | **Hidden subcommand (Codex).** Driver #5. |
 | Q5 | Publish `lilo-sm-core` / `lilo-sm-client` now (Claude) or wait for a consumer (Codex)? | §2, §4 | **Wait (Codex).** YAGNI; promote when a consumer appears. |
 | Q6 | Old GitHub repos: rename-archive-recreate (Claude) or in-place repurpose (Codex)? | §12, Phase 9 | **Rename-archive-recreate (Claude).** Preserves discoverable history. |
 | Q7 | Verb tree shape: substrate-prefixed (Claude) or kubectl-shaped + operator namespaces (Codex)? | §3, §6 | **Hybrid: kubectl-shaped user verbs + substrate-prefixed operator verbs.** Both coexist. |
