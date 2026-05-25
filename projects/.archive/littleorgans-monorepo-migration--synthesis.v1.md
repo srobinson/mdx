@@ -33,7 +33,6 @@ Snapshot timeline. Each row is a phase boundary committed to git. Source of trut
 | Rev | Date | Phase | Resolutions |
 |---|---|---|---|
 | rev01 | 2026-05-25 | Phase 0 (orchestrator pre-pass) | **Q1/D5** `lilo-im-stub@0.1.1` confirmed published via `cargo search` → kept in published set (orphaning would violate monotonic-version rule). **d9** JSONL event log → kept as the file-vs-DB exception, both plans converged. **d12** `lilo` binary crate → published (canonical `cargo install lilo` path). **G1** `Cargo.lock` → committed at workspace root for reproducible binary builds. |
-| rev02 | 2026-05-25 | Phase 1 LAYOUT (warroom `moe-synthesis-p1`, 1 block-resolution round per item) | **D1/Q2** Internal-crate location → **hierarchical** `internal/<substrate>/<role>/`, amended to `internal/session/{app, core, daemon, driver, store}/` (5 role subdirs, not 4) so every current session impl crate has an explicit destination. Catch by reviewer: initial 4-subdir proposal would have orphaned `sm-core`. **d10** `lilo-paths` → **kept as a separate published crate** with narrow v0.8.0 API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only. No legacy `RTM_*` / `SM_*` env-var leakage. Real cross-substrate seam is `sm-paths::rtmd_socket_path` re-exported by `sm-core`; that is what `lilo-paths::DaemonEndpoint` replaces. |
 
 ---
 
@@ -80,17 +79,12 @@ Each row gives Claude's choice, Codex's choice, the tradeoff, and a recommended 
 
 **Tradeoff.** Claude's flat tree is simpler to navigate and matches what runtime-matters already does today. Codex's split makes the publish/no-publish boundary visually load-bearing and prevents accidental misclassification — you cannot publish from `internal/` because it is convention-enforced as well as Cargo-enforced.
 
-**LOCKED rev02 (Phase 1 warroom consensus).** **Hierarchical split**, with one amendment from reviewer-blocked iteration: session needs **five** role subdirs, not four, because there are five non-paths session impl crates today (`sm-core`, `sm-cli`, `sm-daemon`, `sm-driver`, `sm-store`). Final shape:
+**Recommendation.** **Codex's hierarchical split.** Three reasons:
+1. The brief calls out "uniform standards for releases/docs/help/CLI" as driver #3. Visual hierarchy is a standard.
+2. With 18+ crates eventually, flat `crates/` becomes hard to scan. Substrate-grouped is the natural reading order.
+3. The brief also flags 700-LOC file and 150-LOC function limits. The hierarchical split makes substrate boundaries explicit, which makes refactors that respect those limits easier to plan.
 
-```
-internal/
-├── runtime/{app, daemon, launchers, platform, store}/
-├── session/{app, core, daemon, driver, store}/       # 5 subdirs — sm-core gets explicit home
-├── identity/service/
-└── schedule/README.md                                  # reserved, no crate yet
-```
-
-The convention is convention-enforced and Cargo-enforced: `internal/**/Cargo.toml` carries `publish = false`. CI gates this via the release-plz dry-run.
+The cost is one extra directory level. Cheap.
 
 ### D2. Number of daemons
 
@@ -173,7 +167,7 @@ These six are real but lower-stakes than the above. Quick calls on each.
 | d7 | Verb tree shape | Substrate-prefixed: `lilo rm spawn`, `lilo sm create session` | kubectl-shaped: `lilo run`, `lilo create session`, with `lilo runtime ...` for operator commands | **Codex's kubectl-shape** for the user-facing verbs; **keep Claude's `lilo rm` / `lilo sm`** for operator commands. Both layers coexist. User-facing default is kubectl-style; substrate-prefixed verbs hidden under `runtime` and `session` namespaces for debugging. |
 | d8 | Database files | Multiple sqlite files (`db/rm.sqlite`, `db/sm.sqlite`, `db/im-audit.sqlite`) | One sqlite file with substrate-prefixed tables | **Codex's single DB.** One backup target, one schema migration coordination point, one connection pool. The "what if writes contend" concern Codex flags can be solved with WAL mode (already enabled in current code). |
 | d9 | JSONL event log | Both keep it | Codex keeps it for runtime events; flags it as the only file-vs-DB exception | **LOCKED rev01.** Keep — append-only cursor model is proven; both plans converged. |
-| d10 | `lilo-paths` crate | Folded into `lilo-common::paths` (Claude lean) | Separate `crates/lilo-paths/` crate | **LOCKED rev02.** Separate **published** crate with a narrow intentional v0.8.0 API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only. No legacy `RTM_*` / `SM_*` env-var leakage. The real cross-substrate seam being replaced is `sm-paths::rtmd_socket_path` re-exported by `sm-core` (not, as previously stated, a runtime dep of `lilo-rm-client` — that was a dev-dep only). Publishing it is a deliberate SemVer commitment; mirror repos can build against a stable path-resolution contract. |
+| d10 | `lilo-paths` crate | Folded into `lilo-common::paths` (Claude lean) | Separate `crates/lilo-paths/` crate | **Codex's separate crate.** Path resolution is a focused concern with its own test surface and its own `LILO_HOME` semantics. Keeping it separate makes `lilo-common` smaller and `lilo-paths` independently swappable. |
 | d11 | release-plz tag format | `v{{version}}` (one tag per release) | `{{package}}-v{{version}}` (per-package), plus separate top-level `v0.8.0` | **Codex's per-package + top-level dual.** This is release-plz's documented default and avoids fighting the tool on multi-package workspaces. |
 | d12 | `lilo` binary crate publication | Published (so `cargo install lilo` works) | Not explicitly addressed | **LOCKED rev01.** Publish — `cargo install lilo` is the canonical install path. |
 
@@ -215,9 +209,9 @@ littleorgans/littleorgans/                  # the new private monorepo
 │   ├── lilo-rm-core/   lilo-rm-client/
 │   ├── lilo-im-core/   lilo-im-store/  lilo-im-stub/  (stub TBD per D5)
 │   └── lilo-client/                        # added when daemon merges (Phase 7)
-├── internal/                               # NON-PUBLISHED, substrate-grouped (LOCKED rev02)
+├── internal/                               # NON-PUBLISHED, substrate-grouped
 │   ├── runtime/{app, daemon, launchers, platform, store}/
-│   ├── session/{app, core, daemon, driver, store}/   # core added rev02 — sm-core's home
+│   ├── session/{app, daemon, driver, store}/
 │   ├── identity/service/
 │   └── schedule/README.md                  # reserved, no crate yet
 ├── tools/
@@ -404,7 +398,7 @@ In order of blocking impact:
 | # | Question | Blocks | Recommendation |
 |---|---|---|---|
 | ~~Q1~~ | ~~Is `lilo-im-stub@0.1.1` actually published?~~ | ~~D5, §4 published crate list~~ | **RESOLVED rev01.** Yes, published. Kept in published set. |
-| ~~Q2~~ | ~~Internal layout: flat vs hierarchical?~~ | ~~§1, §2, all phases~~ | **RESOLVED rev02 (Phase 1 warroom).** Hierarchical with 5-subdir session amendment. |
+| Q2 | Internal layout: flat `crates/` (Claude) or hierarchical `internal/<substrate>/<role>/` (Codex)? | §1, §2, all phases | **Codex's hierarchical.** Larger structural clarity for marginal cost. |
 | Q3 | Daemon count: two (Claude) or one merged `lilod` (Codex)? | §3, Phase 7 | **One merged (Codex), staged.** Phases 2–6 leave two; Phase 7 merges. Driver #5 wins. |
 | Q4 | Shim binary: separate `lilo-shim` (Claude) or hidden `lilo __runtime-shim` (Codex)? | §3, §9 | **Hidden subcommand (Codex).** Driver #5. |
 | Q5 | Publish `lilo-sm-core` / `lilo-sm-client` now (Claude) or wait for a consumer (Codex)? | §2, §4 | **Wait (Codex).** YAGNI; promote when a consumer appears. |
