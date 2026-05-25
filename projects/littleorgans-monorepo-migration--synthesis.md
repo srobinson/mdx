@@ -349,9 +349,9 @@ One binary: `lilo`. Multi-call dispatch.
 
 ### §7 Git history strategy
 
-- **Clean slate.** Provenance recorded in `docs/provenance/imported-repos.md` (remotes, tags, final SHAs).
+- **Clean slate.** LOCKED rev07 (Stuart-confirmed). Provenance recorded in `docs/provenance/imported-repos.md` (remotes, tags, final SHAs).
 - Old repos tagged `pre-monorepo-2026-05-25` before any source migration.
-- Filter-repo merge remains an option Stuart can invoke before Phase 1 if he changes his mind.
+- ~~Filter-repo merge remains an option~~ — option closed at rev07. No history preservation; mirror archives + crates.io tarballs + the `pre-monorepo-2026-05-25` tags carry forward whatever's needed.
 
 ### §8 Migration sequence
 
