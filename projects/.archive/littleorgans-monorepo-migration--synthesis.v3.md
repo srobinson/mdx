@@ -35,7 +35,6 @@ Snapshot timeline. Each row is a phase boundary committed to git. Source of trut
 | rev01 | 2026-05-25 | Phase 0 (orchestrator pre-pass) | **Q1/D5** `lilo-im-stub@0.1.1` confirmed published via `cargo search` → kept in published set (orphaning would violate monotonic-version rule). **d9** JSONL event log → kept as the file-vs-DB exception, both plans converged. **d12** `lilo` binary crate → published (canonical `cargo install lilo` path). **G1** `Cargo.lock` → committed at workspace root for reproducible binary builds. |
 | rev02 | 2026-05-25 | Phase 1 LAYOUT (warroom `moe-synthesis-p1`, 1 block-resolution round per item) | **D1/Q2** Internal-crate location → **hierarchical** `internal/<substrate>/<role>/`, amended to `internal/session/{app, core, daemon, driver, store}/` (5 role subdirs, not 4) so every current session impl crate has an explicit destination. Catch by reviewer: initial 4-subdir proposal would have orphaned `sm-core`. **d10** `lilo-paths` → **kept as a separate published crate** with narrow v0.8.0 API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only. No legacy `RTM_*` / `SM_*` env-var leakage. Real cross-substrate seam is `sm-paths::rtmd_socket_path` re-exported by `sm-core`; that is what `lilo-paths::DaemonEndpoint` replaces. |
 | rev03 | 2026-05-25 | Phase 2 BINARY (warroom `moe-synthesis-p2`, 1 block-resolution round on D2, S first-round on D3) | **D2/Q3** Daemon count → **single merged `lilod`, staged**. Phases 2–6 preserve `rmd` and `smd` as import scaffolding. Phase 7 introduces the compose entry at `internal/session/app/daemon.rs` (session = API server surface for `lilod.sock`). `internal/runtime/daemon/`, `internal/session/daemon/`, and `internal/identity/service/` expose **service factory APIs**; the compose entry wires `RuntimeService` + `SessionService` + `IdentityService` into one Tokio runtime, one socket at `~/.lilo/run/lilod.sock`, one pid file, one log file, one SQLite ownership plan, one coherent cancellation scope, an in-process `RuntimeRpc`-shaped runtime service boundary, and **identity gating fronts every `lilod.sock` RPC including operator namespace runtime commands** (no bypass). Acceptance (resolves Gap 4): in-process integration tests at `tests/integration/` asserting `session-spawn → identity-audit → runtime-kqueue → session-record` ordering AND merged Stop / Ctrl-C / SIGTERM shutdown ordering. **D3/Q4** Shim binary → **hidden subcommand**, no separate `lilo-shim` crate, no second installed binary. Shim impl lives at `internal/runtime/app/shim.rs` after Phase 6 app import. Daemon resolves via `std::env::current_exe()` and launches `[lilo, __runtime-shim, --session-id, <uuid>]`. Hidden command not shown in `lilo --help`. Bootstrap env narrowed to **`LILO_SOCKET_PATH` only** (replaces `RTM_SOCKET_PATH`); tests prove tmux and headless paths do not leak daemon env into the runtime. Real command/argv/env/cwd/optional shell resume still arrive through the `ShimLaunch → LaunchSpec` handoff. Shim remains a distinct child process for signal and lifecycle purposes; only the executable file is shared with `lilo`. |
-| rev04 | 2026-05-25 | Phase 3 PUBLISHING (warroom `moe-synthesis-p3`, S first-round on both items) | **D4/Q5** `lilo-sm-core` / `lilo-sm-client` publication → **do not publish in v0.8.0**. Session-matters mirror is a source-and-binary mirror with no crates.io artifacts. `internal/session/core` stays `publish=false`. Promote a narrow session contract crate only when a concrete external consumer needs stable session types — no placeholder publishing, no core-only half-step. Evidence: today's `sm-core` is broad internal aggregation rather than a narrow public contract; sibling repos do not consume it; the mirror remains buildable through source path deps plus the published `lilo-rm-*` and `lilo-im-*` crates. **d11** release-plz tag format → **per-package `{{ package }}-v{{ version }}` tags managed by release-plz**, with the release workflow creating the top-level `v0.8.0` tag for the binary distribution **after** crate publication succeeds. Preserve `version_group` only for semantically coupled contract sets, starting with `rm-contract` for `lilo-rm-core` + `lilo-rm-client`. Do not use single-workspace-tag mode for crate publication. Evidence: today's `runtime-matters` and `identity-matters` release-plz configs already use package-version tags; the installed release-plz 0.3.158 **has no `update_workspace_version` field** (the Claude original proposal was based on a flag that does not exist); single tag mode requires disabling per-package tags and opting one package back in, which fights the tool. |
 
 ---
 
@@ -154,17 +153,9 @@ Acceptance (this resolves Gap 4):
 
 **Tradeoff.** Claude prepares the symmetric shape; Codex avoids publishing crates with no consumers (k8s pattern: "publish exactly what external consumers need, nothing more").
 
-**LOCKED rev04 (Phase 3 warroom, S first-round).** **Do not publish `lilo-sm-core` or `lilo-sm-client` in v0.8.0.**
+**Recommendation.** **Codex's restraint.** Adding two empty published crates locks in a wire-stability commitment that has no consumer. If a real session-matters consumer ever appears, we can promote then. Cost of deferral: zero. Cost of premature publication: every breaking change to the session protocol now requires a SemVer-breaking bump.
 
-- `internal/session/core` stays `publish = false`.
-- Session-matters mirror is a **source-and-binary mirror** with no crates.io artifacts (Codex §12 acknowledged this; consensus confirms).
-- Promote a narrow session contract crate only when a concrete external consumer needs stable session types. No placeholder publishing. No core-only half-step.
-
-Evidence the warroom gathered:
-
-- Today's `sm-core` is a broad internal aggregation, not a narrow public contract crate.
-- Sibling repos (runtime-matters, identity-matters) do not depend on it.
-- The mirror remains buildable through source path deps plus the already-published `lilo-rm-*` and `lilo-im-*` crates.
+The mirror for session-matters becomes a source-and-binary mirror (no published crates) — Codex addresses this explicitly in §12.
 
 ### D5. `lilo-im-stub` publication status
 
@@ -204,7 +195,7 @@ These six are real but lower-stakes than the above. Quick calls on each.
 | d8 | Database files | Multiple sqlite files (`db/rm.sqlite`, `db/sm.sqlite`, `db/im-audit.sqlite`) | One sqlite file with substrate-prefixed tables | **Codex's single DB.** One backup target, one schema migration coordination point, one connection pool. The "what if writes contend" concern Codex flags can be solved with WAL mode (already enabled in current code). |
 | d9 | JSONL event log | Both keep it | Codex keeps it for runtime events; flags it as the only file-vs-DB exception | **LOCKED rev01.** Keep — append-only cursor model is proven; both plans converged. |
 | d10 | `lilo-paths` crate | Folded into `lilo-common::paths` (Claude lean) | Separate `crates/lilo-paths/` crate | **LOCKED rev02.** Separate **published** crate with a narrow intentional v0.8.0 API: `LiloHome`, `LiloPaths`, `DaemonEndpoint`, `LILO_HOME` only. No legacy `RTM_*` / `SM_*` env-var leakage. The real cross-substrate seam being replaced is `sm-paths::rtmd_socket_path` re-exported by `sm-core` (not, as previously stated, a runtime dep of `lilo-rm-client` — that was a dev-dep only). Publishing it is a deliberate SemVer commitment; mirror repos can build against a stable path-resolution contract. |
-| d11 | release-plz tag format | `v{{version}}` (one tag per release) | `{{package}}-v{{version}}` (per-package), plus separate top-level `v0.8.0` | **LOCKED rev04 (Phase 3 warroom).** Per-package `{{ package }}-v{{ version }}` managed by release-plz; release workflow creates the top-level `v0.8.0` tag for binary distribution **after** crate publication succeeds. Preserve `version_group` only for coupled contract sets (start with `rm-contract` for `lilo-rm-core` + `lilo-rm-client`). Evidence: installed release-plz 0.3.158 has no `update_workspace_version` field — the Claude single-tag proposal was based on a flag that does not exist. |
+| d11 | release-plz tag format | `v{{version}}` (one tag per release) | `{{package}}-v{{version}}` (per-package), plus separate top-level `v0.8.0` | **Codex's per-package + top-level dual.** This is release-plz's documented default and avoids fighting the tool on multi-package workspaces. |
 | d12 | `lilo` binary crate publication | Published (so `cargo install lilo` works) | Not explicitly addressed | **LOCKED rev01.** Publish — `cargo install lilo` is the canonical install path. |
 
 ---
@@ -298,7 +289,7 @@ One binary: `lilo`. Multi-call dispatch.
 
 - One workspace version. First monorepo release: **`v0.8.0`**. All crates publish at `0.8.0` on cut day.
 - `release-plz.toml` with `git_tag_name = "{{ package }}-v{{ version }}"`; release workflow additionally creates a top-level `v0.8.0` tag for the binary release.
-- (See merged plan §4 for the complete published-crate list, locked across rev01 and rev04.)
+- Published crates (locked rev01): `lilo`, `lilo-common`, `lilo-paths`, `lilo-rm-core`, `lilo-rm-client`, `lilo-im-core`, `lilo-im-store`, `lilo-im-stub`.
 - New published crates added only when an external consumer appears. No `lilo-sm-*` published in v0.8.0.
 - `cargo semver-checks` runs in the release gate per published crate.
 
@@ -437,7 +428,7 @@ In order of blocking impact:
 | ~~Q2~~ | ~~Internal layout: flat vs hierarchical?~~ | ~~§1, §2, all phases~~ | **RESOLVED rev02 (Phase 1 warroom).** Hierarchical with 5-subdir session amendment. |
 | ~~Q3~~ | ~~Daemon count: two or one merged?~~ | ~~§3, Phase 7~~ | **RESOLVED rev03 (Phase 2 warroom).** One merged `lilod`, staged. Compose at `internal/session/app/daemon.rs`. Identity gates all RPC. |
 | ~~Q4~~ | ~~Shim binary: separate or hidden subcommand?~~ | ~~§3, §9~~ | **RESOLVED rev03 (Phase 2 warroom).** Hidden `lilo __runtime-shim`. Impl at `internal/runtime/app/shim.rs`. `LILO_SOCKET_PATH` only. |
-| ~~Q5~~ | ~~Publish `lilo-sm-core` / `lilo-sm-client` now or wait?~~ | ~~§2, §4~~ | **RESOLVED rev04 (Phase 3 warroom).** Wait. Session-matters mirror is source-and-binary only. Promote when a real consumer appears. |
+| Q5 | Publish `lilo-sm-core` / `lilo-sm-client` now (Claude) or wait for a consumer (Codex)? | §2, §4 | **Wait (Codex).** YAGNI; promote when a consumer appears. |
 | Q6 | Old GitHub repos: rename-archive-recreate (Claude) or in-place repurpose (Codex)? | §12, Phase 9 | **Rename-archive-recreate (Claude).** Preserves discoverable history. |
 | Q7 | Verb tree shape: substrate-prefixed (Claude) or kubectl-shaped + operator namespaces (Codex)? | §3, §6 | **Hybrid: kubectl-shaped user verbs + substrate-prefixed operator verbs.** Both coexist. |
 | Q8 | Database: multiple sqlite files (Claude) or one DB with prefixed tables (Codex)? | §5, Phase 5/7 | **One DB (Codex).** Single backup target, WAL handles contention. |
