@@ -24,10 +24,6 @@ This synthesis structures the result into three layers:
 
 The numbered sections at the end mirror the brief's twelve required sections, recording the merged position per section.
 
-## Strategy framing — v1 local-first, v2 K8s-shaped
-
-This synthesis locks the v0.8.0 design — **v1** of a two-stage product. v1 (`littleorgans`) is a local-first dev tool: one human operator, one workstation, one `lilod` process. It is the **design laboratory** where the substrate boundaries, verb tree, and data layout are shaped while one person can hold all of it in their head and refactor freely. **v2** maps that design to Kubernetes + CRDs + Knative deployments, may be a distinct product (possibly under the **Helioy** brand reserved by direction doc #12), and is **explicitly out of scope for v0.8.0**. The K8s vocabulary that appears throughout — kubelet / apiserver / ServiceAccount / RBAC / controller-reconciler — is **forward-compatibility contract, not metaphor**: every substrate-grouped layout choice, service-factory API, kubectl-shaped verb, and intent-reconcile pattern locked in v0.8.0 is shaped to map cleanly to its K8s equivalent in v2. Decisions that look "over-engineered for one human" are paying forward the v2 mapping; decisions that look "too tied to local disk" are deliberately deferred to v2 redesign. Full strategy: `littleorgans/littleorgans/NOTES/v1-v2-strategy.md`.
-
 ---
 
 ## Decision Log
