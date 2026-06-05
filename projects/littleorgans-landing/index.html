@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>littleorgans | lilo</title>
+    <meta
+      name="description"
+      content="littleorgans is a local control plane for running and observing coding agents on your own machine."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Instrument+Serif:opsz,wght@14..72,500;14..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-nav" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="littleorgans home">littleorgans <span>lilo</span></a>
+        <nav class="nav-links">
+          <a href="#contexts">Contexts</a>
+          <a href="#operator-loop">Operator loop</a>
+          <a href="#install">Install</a>
+          <a class="nav-cta" href="#install">Try `lilo`</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <img
+            class="hero-media"
+            src="assets/ring-figure.png"
+            alt="A small white figure standing at the center of black and white concentric rings."
+          >
+          <div class="hero-inner">
+            <div>
+              <p class="eyebrow">Local control plane for coding agents</p>
+              <h1 id="hero-title">littleorgans</h1>
+              <p class="hero-copy">
+                Run, observe, message, and retire local agent sessions through one operator surface.
+              </p>
+              <div class="hero-actions">
+                <a class="button primary" href="#install">Install `lilo`</a>
+                <a class="button" href="#operator-loop">See the loop</a>
+              </div>
+            </div>
+
+            <aside class="hero-proof" aria-label="Daemon status preview">
+              <div class="proof-top">
+                <span>lilod</span>
+                <span class="status-dot">ready</span>
+              </div>
+              <div class="proof-body">
+                <p class="proof-line"><span class="prompt">$</span><span>lilo doctor</span></p>
+                <p class="proof-line"><span></span><span class="muted">socket ok<br>database ok<br>runtime ok</span></p>
+                <p class="proof-line"><span class="prompt">$</span><span>lilo get session</span></p>
+                <p class="proof-line"><span></span><span class="muted">one host<br>one daemon<br>every session visible</span></p>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="signal-strip" aria-label="littleorgans product facts">
+          <div class="signal-grid">
+            <div class="signal">
+              <strong>01</strong>
+              <span>One operator controls the local agent surface.</span>
+            </div>
+            <div class="signal">
+              <strong>01</strong>
+              <span>One host owns process launch and supervision.</span>
+            </div>
+            <div class="signal">
+              <strong>01</strong>
+              <span>One daemon keeps live state behind a unix socket.</span>
+            </div>
+            <div class="signal">
+              <strong>lilo</strong>
+              <span>The command surface for run, get, mail, capture, logs, and wait.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="contexts">
+          <div class="section-inner">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Bounded contexts</p>
+                <h2>The local system has a shape.</h2>
+              </div>
+              <p class="section-lede">
+                littleorgans keeps the operator model compact. Session owns intent. Runtime owns the host.
+                Identity owns authorization. Transport observes the wire without taking control.
+              </p>
+            </div>
+            <div class="context-grid">
+              <article class="context-card moss">
+                <h3>Session</h3>
+                <p>Records, mail, nudges, labels, selectors, and the user verbs that turn intent into running work.</p>
+                <code>lilo get session</code>
+              </article>
+              <article class="context-card clay">
+                <h3>Runtime</h3>
+                <p>Process launch, shim behavior, platform adapters, lifecycle events, capture, and raw status.</p>
+                <code>lilo runtime ...</code>
+              </article>
+              <article class="context-card blue">
+                <h3>Identity</h3>
+                <p>The local service account and RBAC layer, applied inside session and runtime boundaries.</p>
+                <code>authorize, audit</code>
+              </article>
+              <article class="context-card gold">
+                <h3>Transport</h3>
+                <p>Wire observation for agent traffic, captured turns, transcripts, and provider fidelity checks.</p>
+                <code>lilo transport ...</code>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section flow-section" id="operator-loop">
+          <div class="section-inner">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Operator loop</p>
+                <h2>Run the work. Keep the evidence.</h2>
+              </div>
+              <p class="section-lede">
+                The page below mirrors the intended rhythm: create a managed session, inspect it, send mail,
+                capture what happened, and verify local health before calling work done.
+              </p>
+            </div>
+
+            <div class="flow-shell">
+              <section class="command-panel" aria-label="Command explorer">
+                <div class="command-tabs" role="group" aria-label="Select a lilo command">
+                  <button class="command-tab" type="button" data-command="run" aria-pressed="true">run</button>
+                  <button class="command-tab" type="button" data-command="get" aria-pressed="false">get</button>
+                  <button class="command-tab" type="button" data-command="mail" aria-pressed="false">mail</button>
+                  <button class="command-tab" type="button" data-command="capture" aria-pressed="false">capture</button>
+                  <button class="command-tab" type="button" data-command="doctor" aria-pressed="false">doctor</button>
+                </div>
+                <div class="command-view">
+                  <div>
+                    <code id="command-code">lilo run claude --role reviewer</code>
+                    <h3 id="command-title">Start a managed session.</h3>
+                    <p id="command-copy">
+                      The operator asks for work. Session mints the record, runtime launches the process,
+                      and the daemon keeps it visible.
+                    </p>
+                  </div>
+                  <div class="command-output" id="command-output">session 7f4a91d running
+role reviewer
+workspace ~/work/littleorgans</div>
+                </div>
+              </section>
+
+              <aside class="operator-panel" aria-labelledby="rings-title">
+                <img
+                  class="operator-image"
+                  src="assets/ring-figure.png"
+                  alt="Concentric rings around a single figure, reused as the page visual system."
+                >
+                <div>
+                  <h3 id="rings-title">The rings are the model.</h3>
+                  <p>
+                    One operator at the center, surrounded by sessions, runtime state, mailbox evidence,
+                    and transport captures. Each ring is visible from the same command surface.
+                  </p>
+                </div>
+              </aside>
+            </div>
+
+            <div class="steps">
+              <div class="step">
+                <span>Step 1</span>
+                <strong>Create</strong>
+                <p>Start an agent as a session, not as an unmanaged terminal process.</p>
+              </div>
+              <div class="step">
+                <span>Step 2</span>
+                <strong>Observe</strong>
+                <p>Read state, logs, mailbox activity, and captures without switching surfaces.</p>
+              </div>
+              <div class="step">
+                <span>Step 3</span>
+                <strong>Close</strong>
+                <p>Wait for conditions, verify output, and retire the session cleanly.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section proof-section">
+          <div class="section-inner proof-layout">
+            <div class="proof-copy">
+              <p class="section-kicker">Why it exists</p>
+              <h2>Local agent work should be inspectable.</h2>
+              <p>
+                Coding agents are useful when their state is legible. littleorgans gives the operator a durable
+                control plane for local sessions, not just another terminal convention.
+              </p>
+            </div>
+            <div class="rail-list">
+              <article class="rail-item moss">
+                <span>Control</span>
+                <div>
+                  <strong>Session records before process mystery.</strong>
+                  <p>Managed work is created, listed, labeled, waited on, messaged, and deleted through `lilo`.</p>
+                </div>
+              </article>
+              <article class="rail-item clay">
+                <span>Runtime</span>
+                <div>
+                  <strong>Host execution stays explicit.</strong>
+                  <p>Raw runtime access remains diagnostic, gated, and separate from session backed user verbs.</p>
+                </div>
+              </article>
+              <article class="rail-item blue">
+                <span>Evidence</span>
+                <div>
+                  <strong>Observation is a first class path.</strong>
+                  <p>Transport captures the wire while session keeps the operator record and mailbox trail.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section install-section" id="install">
+          <div class="section-inner">
+            <div class="install-card">
+              <div>
+                <p class="section-kicker">Install</p>
+                <h2>Bring `lilo` onto the local machine.</h2>
+                <p>
+                  The repo is pre release and operator focused. Build from source, check local health,
+                  then start using the command surface as the control plane for agent sessions.
+                </p>
+                <div class="hero-actions">
+                  <a class="button primary" href="#top">Back to top</a>
+                  <a class="button" href="#operator-loop">Review commands</a>
+                </div>
+              </div>
+              <section class="install-terminal" aria-label="Install commands">
+                <pre id="install-code">just install
+lilo doctor
+lilo run claude --role general
+lilo get session</pre>
+                <div class="terminal-actions">
+                  <button class="copy-button" type="button" data-copy="install-code">Copy</button>
+                  <span class="copy-state" id="copy-state">ready</span>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <span>littleorgans</span>
+          <span>one operator / one host / one daemon / `lilo`</span>
+        </div>
+      </footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

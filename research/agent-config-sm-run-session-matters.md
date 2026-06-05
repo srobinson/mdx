@@ -2,7 +2,7 @@
 title: sm run agent config implementation in session-matters
 type: research
 tags: [session-matters, sm-run, agent-config, rtmd, runtime-matters]
-summary: `sm run --agent-config` resolves named or explicit TOML files in smd and currently affects runtime launch only through environment variables.
+summary: '`sm run --agent-config` resolves named or explicit TOML files in smd and currently affects runtime launch only through environment variables.'
 status: active
 source: codebase-analyst
 confidence: high

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM · IR Overlays · 00 Reveal &amp; optimize</title>
+<style>
+  :root {
+    --ink: #1c1c1a; --ink-soft: #6b6b66; --ink-faint: #9c9c96;
+    --paper: #fafaf7; --panel: #ffffff; --accent: #e8e4dc;
+    --line: #d9d7d0; --line-soft: #eceae4;
+    --good: #2e6e4e; --good-bg: #e7f2ec;
+    --note: #4a5f8a; --note-bg: #eef1f8;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+  a { color: inherit; }
+
+  .wf-bar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:1px solid var(--line); background:var(--panel); }
+  .wf-bar .crumb { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .wf-bar nav { margin-left:auto; display:flex; gap:2px; font-size:12px; }
+  .wf-bar nav a { text-decoration:none; padding:4px 10px; border:1px solid transparent; border-radius:4px; color:var(--ink-soft); }
+  .wf-bar nav a.on { background:var(--accent); border-color:var(--line); color:var(--ink); }
+  .wf-bar nav a:hover { border-color:var(--line); }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:22px 24px; margin-bottom:16px; }
+  .card .stepno { font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:6px; display:block; }
+  .card h1 { font-size:20px; font-weight:650; margin-bottom:4px; }
+  .card h2 { font-size:16px; font-weight:650; }
+  .card .sub { color:var(--ink-soft); font-size:13.5px; max-width:64ch; }
+
+  /* one-time onboarding panel: preferred agent, never blocks the journey */
+  .onboard { border:1px dashed var(--line); background:var(--panel); border-radius:10px; padding:16px 20px; margin-bottom:16px; }
+  .onboard.saved .ob-open { display:none; }
+  .onboard .ob-done { display:none; }
+  .onboard.saved .ob-done { display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ink-soft); }
+  .onboard.saved { padding:10px 20px; }
+  .ob-head { display:flex; align-items:baseline; gap:10px; }
+  .ob-head h2 { font-size:14px; font-weight:650; }
+  .ob-head .once { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .onboard p.obsub { font-size:12.5px; color:var(--ink-soft); margin-top:2px; max-width:66ch; }
+  .subs { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .sub-card { display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:8px; padding:9px 14px; cursor:pointer; background:var(--panel); font-size:12.5px; }
+  .sub-card:hover { border-color:var(--ink-faint); }
+  .sub-card.sel { border-color:var(--ink); box-shadow:0 0 0 1px var(--ink); }
+  .sub-card .radio { width:14px; height:14px; border-radius:50%; border:2px solid var(--line); flex:none; }
+  .sub-card.sel .radio { border-color:var(--ink); background:radial-gradient(circle at center, var(--ink) 0 45%, transparent 50%); }
+  .sub-card .name { font-weight:600; }
+  .sub-card .pm { font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .ob-actions { display:flex; align-items:center; gap:12px; margin-top:12px; }
+  .ob-actions .skip { font-size:12px; color:var(--ink-faint); background:none; border:none; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+  button.small { font:inherit; font-size:12.5px; font-weight:600; padding:7px 16px; border-radius:6px; background:var(--ink); color:var(--paper); border:1px solid var(--ink); cursor:pointer; }
+  .ob-done .tickchip { font-family:var(--mono); font-size:11px; background:var(--good-bg); color:var(--good); border:1px solid #bcd7c8; border-radius:10px; padding:2px 9px; }
+  .ob-done .change { margin-left:auto; font-size:12px; color:var(--note); background:none; border:none; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+
+  /* reveal */
+  .bignum { display:flex; align-items:baseline; gap:12px; margin:18px 0 4px; }
+  .bignum .n { font-family:var(--mono); font-size:40px; font-weight:700; letter-spacing:-.02em; }
+  .bignum .per { font-size:14px; color:var(--ink-soft); }
+  .runline { font-size:12.5px; color:var(--ink-soft); margin-bottom:14px; }
+  .runline b { font-family:var(--mono); font-size:12px; color:var(--ink); }
+  .bar { display:flex; height:26px; border-radius:5px; overflow:hidden; border:1px solid var(--line); font-family:var(--mono); font-size:10.5px; margin-bottom:10px; }
+  .bar span { display:flex; align-items:center; justify-content:center; overflow:hidden; white-space:nowrap; }
+  .seg-system { background:#d8dfeb; }
+  .seg-tools { background:#e3e0d4; }
+  .seg-messages { background:#efeee9; }
+  .revealrows { display:flex; flex-direction:column; gap:6px; margin-top:12px; }
+  .rrow { display:flex; align-items:baseline; gap:10px; font-size:13px; padding:8px 12px; border:1px solid var(--line-soft); border-radius:6px; }
+  .rrow .what { font-weight:600; min-width:170px; }
+  .rrow .detail { color:var(--ink-soft); font-size:12.5px; flex:1; }
+  .rrow .tok { font-family:var(--mono); font-size:12px; color:var(--ink); white-space:nowrap; }
+  .cume { margin-top:12px; font-size:12.5px; color:var(--ink-soft); }
+  .cume b { font-family:var(--mono); color:var(--ink); }
+
+  /* the gate: one toggle, room for more later */
+  .gate { border-color:var(--ink); }
+  .gate .gatehead { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+  .gate .gatehead .req { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--paper); background:var(--ink); border-radius:3px; padding:2px 7px; }
+  .optlist { border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .optlist .listhead { font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); padding:8px 14px 4px; background:var(--paper); }
+  .optrow { display:flex; align-items:center; gap:14px; padding:12px 14px; background:var(--paper); }
+  .optrow .optname { font-weight:650; font-size:14px; }
+  .optrow .optsub { font-size:12px; color:var(--ink-soft); display:block; margin-top:1px; max-width:52ch; }
+  .optrow .fp { font-family:var(--mono); font-size:11px; background:var(--accent); border:1px solid var(--line); border-radius:4px; padding:1px 7px; white-space:nowrap; }
+  .optrow .spacer { flex:1; }
+  .switch { position:relative; width:46px; height:26px; border-radius:13px; background:var(--line); border:none; cursor:pointer; padding:0; flex:none; }
+  .switch::after { content:""; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%; background:var(--panel); transition:left .15s; box-shadow:0 1px 2px rgba(0,0,0,.25); }
+  .switch[aria-checked="true"] { background:var(--good); }
+  .switch[aria-checked="true"]::after { left:23px; }
+  .gate .gatefoot { font-size:12px; color:var(--ink-faint); margin-top:10px; }
+
+  /* operating state */
+  .operating { display:none; }
+  body.enabled .operating { display:block; }
+  body.enabled .gate-state .gatehead .req { background:var(--good); }
+  .ophead { display:flex; align-items:center; gap:12px; }
+  .ophead .tick { width:34px; height:34px; border-radius:50%; background:var(--good-bg); color:var(--good); display:flex; align-items:center; justify-content:center; font-size:18px; border:1px solid #bcd7c8; flex:none; }
+  .savenum { display:flex; align-items:baseline; gap:12px; margin:16px 0 6px; }
+  .savenum .n { font-family:var(--mono); font-size:34px; font-weight:700; color:var(--good); }
+  .savenum .per { font-size:13.5px; color:var(--ink-soft); }
+  .dbar { display:flex; height:20px; border-radius:5px; overflow:hidden; border:1px solid var(--line); font-family:var(--mono); font-size:9.5px; margin:8px 0 12px; }
+  .dbar .kept { background:var(--good-bg); color:var(--good); display:flex; align-items:center; justify-content:center; }
+  .dbar .cut { background:var(--accent); color:var(--ink-soft); display:flex; align-items:center; justify-content:center; border-left:1px dashed var(--ink-faint); }
+  .evidence-link { display:inline-block; font-size:14px; font-weight:600; text-decoration:underline; text-underline-offset:3px; margin-top:6px; }
+  .after-links { display:flex; gap:18px; margin-top:16px; font-size:12.5px; color:var(--ink-soft); flex-wrap:wrap; }
+  .after-links a { text-decoration:underline; text-underline-offset:2px; }
+
+  .anno { border-left:3px solid var(--note); background:var(--note-bg); color:var(--note); font-size:12px; padding:8px 12px; border-radius:0 6px 6px 0; margin:18px 0; max-width:78ch; }
+  .anno b { font-weight:700; }
+  .anno code { font-family:var(--mono); font-size:11px; }
+</style>
+</head>
+<body>
+
+<header class="wf-bar">
+  <span class="crumb">transport-matters / runs / acme-api / <b>optimize</b></span>
+  <nav>
+    <a class="on" href="00-reveal-optimize.html">00 Reveal &amp; optimize</a>
+    <a href="01-overlay-library.html">01 Overlays</a>
+    <a href="03-exchange-view.html">03 Evidence</a>
+    <a href="04-codex-sparse-turn.html">04 Edge cases</a>
+    <a href="02-overlay-editor.html">02 Advanced</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <!-- ONBOARDING · one-time, never blocks the journey -->
+  <aside class="onboard" id="onboard">
+    <div class="ob-open">
+      <div class="ob-head"><h2>Choose your preferred agent</h2><span class="once">asked once</span></div>
+      <p class="obsub">You have 3 active subscriptions. Pick the one TM should use when it helps you
+        downstream: summaries, suggestions, future optimization tuning. This never blocks anything below.</p>
+      <div class="subs" id="subs">
+        <div class="sub-card" data-sub="Claude Max · anthropic · claude-fable-5" tabindex="0">
+          <span class="radio"></span><span class="name">Claude Max</span><span class="pm">anthropic · claude-fable-5</span>
+        </div>
+        <div class="sub-card" data-sub="ChatGPT Pro · openai · gpt-5.2" tabindex="0">
+          <span class="radio"></span><span class="name">ChatGPT Pro</span><span class="pm">openai · gpt-5.2</span>
+        </div>
+        <div class="sub-card" data-sub="Anthropic API · claude-sonnet-5" tabindex="0">
+          <span class="radio"></span><span class="name">Anthropic API key</span><span class="pm">anthropic · claude-sonnet-5</span>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button class="small" id="ob-save" disabled style="opacity:.4">Save preference</button>
+        <button class="skip" id="ob-skip">decide later</button>
+      </div>
+    </div>
+    <div class="ob-done">
+      <span class="tickchip">✓ preferred agent</span>
+      <span id="ob-summary">Claude Max · anthropic · claude-fable-5</span>
+      <button class="change" id="ob-change">change</button>
+    </div>
+  </aside>
+
+  <!-- STATE A · GATE: reveal first, then the one required toggle -->
+  <section class="card" id="s-reveal">
+    <span class="stepno">Reveal</span>
+    <h1>These are all the tokens your harness sends to the API on every request.</h1>
+    <p class="runline">Run <b>acme-api</b> · viewing turn 14 · numbers are for this run, measured on the wire.</p>
+
+    <div class="bignum"><span class="n">15,590</span><span class="per">tokens, resent with every request</span></div>
+    <div class="bar" aria-label="request composition">
+      <span class="seg-system" style="width:22%">system 3.4k</span>
+      <span class="seg-tools" style="width:63%">tool &amp; skill prompts 11.9k</span>
+      <span class="seg-messages" style="width:15%">your conversation 2.4k</span>
+    </div>
+
+    <div class="revealrows">
+      <div class="rrow"><span class="what">System prompts</span><span class="detail">harness identity, rules, and injected reminders you never typed</span><span class="tok">3,440 tok</span></div>
+      <div class="rrow"><span class="what">Tool &amp; skill prompts</span><span class="detail">18 tool definitions with schemas and usage essays, resent verbatim</span><span class="tok">11,765 tok</span></div>
+      <div class="rrow"><span class="what">Your conversation</span><span class="detail">the part you actually see</span><span class="tok">2,385 tok</span></div>
+    </div>
+    <p class="cume">Over this run's 14 turns so far, that is <b>218,260 tokens</b> sent, most of it identical every time.</p>
+  </section>
+
+  <section class="card gate gate-state" id="s-gate">
+    <div class="gatehead">
+      <h2>Enable optimization to start using TM</h2>
+      <span class="req" id="gate-req">required</span>
+    </div>
+    <p class="sub">TM does not operate until this is on. The curation for your harness is already computed;
+      enabling applies it instantly from the next request. Originals are always preserved.</p>
+    <div class="optlist" style="margin-top:12px">
+      <div class="listhead">Optimizations · v1 ships exactly one</div>
+      <div class="optrow">
+        <div>
+          <span class="optname">Optimization</span>
+          <span class="optsub">Curate system and tool prompts automatically on every request. Precomputed for
+            <span class="fp">claude · 2.1.161</span> · no agent runs, nothing waits.</span>
+        </div>
+        <span class="spacer"></span>
+        <button class="switch" id="gate-switch" role="switch" aria-checked="false" aria-label="Enable optimization"></button>
+      </div>
+    </div>
+    <p class="gatefoot" id="gate-foot">Off · TM is idle. Flip the switch after reading the reveal above.</p>
+  </section>
+
+  <!-- STATE B · OPERATING: savings plus evidence -->
+  <section class="card operating" id="s-operating">
+    <span class="stepno">Operating</span>
+    <div class="ophead">
+      <span class="tick">✓</span>
+      <div>
+        <h2>Optimization is on. Applying from the next request.</h2>
+        <p class="sub">The known curation for <b>claude 2.1.161</b> runs as overlay
+          <b>TM optimized · acme-api</b> in your <a href="01-overlay-library.html">library</a>.
+          Non-blocking; your agent never waits.</p>
+      </div>
+    </div>
+    <div class="savenum"><span class="n">−2,741</span><span class="per">tokens per request (−17.6%) · projected −38k over a run this length</span></div>
+    <div class="dbar" aria-label="after optimization">
+      <span class="kept" style="width:82%">kept 12,849 tok</span>
+      <span class="cut" style="width:18%">cut 2,741</span>
+    </div>
+    <a class="evidence-link" href="03-exchange-view.html">See exactly what changed, request by request →</a>
+    <div class="after-links">
+      <a href="04-codex-sparse-turn.html">How this behaves on incremental harnesses (codex)</a>
+      <a href="02-overlay-editor.html">Advanced · fine-grained control</a>
+    </div>
+  </section>
+
+  <div class="anno">
+    <b>Design notes.</b> The optimize decision is one toggle, not a flow. Screen 00 has two states: the
+    <b>gate state</b> (pre-enable) is reveal-first, the per-run token disclosure above a single required
+    "Enable optimization" switch, the strong variant where TM cannot operate until the override is enabled;
+    the <b>operating state</b> (post-enable) shows savings and the evidence link. The optimization is
+    precomputed per harness release version, so flipping the switch applies instantly with no
+    optimizer-running state and no runtime model call implied. The toggle sits in a labeled list that ships
+    with exactly one row in v1, leaving room for future optimization toggles without a redesign. The
+    preferred-agent choice stays a one-time onboarding panel, decoupled from the gate and never blocking it.
+    The end state hands off to 03 for evidence and 04 for edge cases; the full editor remains a labeled side
+    door.
+  </div>
+</div>
+
+<script>
+  // Onboarding: pick a subscription, save collapses the panel; skippable; never gates the flow.
+  const onboard = document.getElementById("onboard");
+  const obSave = document.getElementById("ob-save");
+  let obChoice = null;
+  document.querySelectorAll(".sub-card").forEach(card => {
+    const pick = () => {
+      document.querySelectorAll(".sub-card").forEach(c => c.classList.remove("sel"));
+      card.classList.add("sel");
+      obChoice = card.dataset.sub;
+      obSave.disabled = false;
+      obSave.style.opacity = "1";
+    };
+    card.addEventListener("click", pick);
+    card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+  });
+  obSave.addEventListener("click", () => {
+    if (!obChoice) return;
+    document.getElementById("ob-summary").textContent = obChoice;
+    onboard.classList.add("saved");
+  });
+  document.getElementById("ob-skip").addEventListener("click", () => { onboard.style.display = "none"; });
+  document.getElementById("ob-change").addEventListener("click", () => { onboard.classList.remove("saved"); });
+
+  // The gate: one switch flips the whole screen between gate state and operating state.
+  const gateSwitch = document.getElementById("gate-switch");
+  gateSwitch.addEventListener("click", () => {
+    const on = gateSwitch.getAttribute("aria-checked") === "true";
+    gateSwitch.setAttribute("aria-checked", String(!on));
+    document.body.classList.toggle("enabled", !on);
+    document.getElementById("gate-req").textContent = !on ? "enabled" : "required";
+    document.getElementById("gate-foot").textContent = !on
+      ? "On · TM is operating. Savings and evidence below."
+      : "Off · TM is idle. Flip the switch after reading the reveal above.";
+    if (!on) document.getElementById("s-operating").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+</script>
+</body>
+</html>

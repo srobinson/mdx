@@ -1,0 +1,85 @@
+# tm-controlplane scout B: OBSERVE + PUSH + SKIN seams and slice decomposition
+
+Scouted against main @ 0d88c10 (tree pristine, read-only). Spec: CONTROLPLANE.md (approved 2026-07-10).
+All citations are file + symbol. Companion: scout A covers the remaining seams.
+
+## Headline
+
+The control plane spans two processes. The Python FastAPI server (`api/src/transport_matters/`)
+owns the session store, the normalized timeline, Postgres LISTEN/NOTIFY, and home seeding.
+The Node gateway (one Fastify process composed by `packages/gateway/src/main.ts`) owns the
+run registry (`RunManager`), the PTY write funnel, the tm_events listener, and the
+agent-state machine plus workspace-activity subscriptions. Every push-plane primitive WATCH
+and PROMPT need already lives in the gateway; nothing state-derivation-shaped should be
+rebuilt in Python. The Python `controlplane/` service owns identity, audit, the
+conversation projection, and verb orchestration; it reaches the gateway through the
+existing `run_proxy` seam.
+
+## Reuse Map
+
+### OBSERVE: normalized timeline (conversation feed)
+
+- `session/timeline.py` `project_timeline` — pure projector `EventRow[] -> TimelineResponse`, provider-neutral (both harnesses normalize through `EventRow.ir` before projection). Reusable as-is; feed = filter its output.
+- `session/timeline_models.py` `MessageItem`, `MessageRole` — per-message row with `role: user|assistant|system|tool`, `turn_index`, `parts`. System reminders / hook context / native records are separate item kinds (`StateItem`, `ContextItem`, `DiagnosticItem`), so taking only `MessageItem` already excludes them.
+- `ir.py` `ContentBlock` union (`TextBlock`, `ToolUseBlock`, `ToolResultBlock`, `ThinkingBlock`) — `parts` are opaque dicts discriminated on `type`; the text-only filter is `part["type"] == "text"`, dropping `tool_use`/`tool_result`/`thinking`. This is the one place the feed must know the IR vocabulary.
+- `session/turn_index.py` `turn_indices_by_seq` + `session/async_dao.py` `AsyncSessionDao.count_turns_before_for_owner` — the existing 1-based turn cursor; `MessageItem.turn_index` carries it. `after_turn` maps directly onto this.
+- `session/async_dao.py` `AsyncSessionDao.get_events_with_raw_for_owner` — the timeline row fetch (SQL in `session/dao_statements.py`).
+- `api/v1/session_routes.py` `get_session_timeline` — existing `GET /v1/sessions/{session_id}/timeline`; closest route precedent, but session-scoped and unstripped. The run-scoped, text-only `conversation()` endpoint is net-new service logic over the anchors above.
+- Gap: every DAO query is session-scoped. `EventRow.run_id` exists on every row and `SessionRow.run_id` maps run to session(s); `conversation(run_id, ...)` needs one new run-scoped query (or run-to-sessions resolution) in the DAO.
+
+### OBSERVE: roster fields
+
+- `run_id`, lifecycle state: gateway `packages/runtime/src/server/runtimeRouter.ts` `GET /v1/runs` returning `RunView` (`www/packages/core/src/transport.ts`) `{runId, spaceId, worktreeId, sessionId, harness, state, createdAt}`. Python side has only `api/v1/runs_unavailable.py` (501 when the gateway is absent — controlplane verbs must degrade the same way).
+- harness: `session/models.py` `SessionRow.harness`; `captured_run_models.py` `CapturedRunHarness`.
+- workdir: `session/models.py` `SessionRow.cwd`; `launch_manifest.py` `write_workspace_manifest` (`Manifest.cwd`).
+- model: `EventRow.model` only (per-event). No run-level column; derive from the latest turn event.
+- name: none found (no run name field anywhere; searched captured_run, launch_manifest, RunView). Synthesize `SessionRow.title` -> `SessionListRow.last_message_preview` -> `run_id`, or add a real `name` at spawn (spec's `launch(name?)` implies the latter; net-new field through the spawn spec).
+- state / needs_you: the derivation is TypeScript-only. `packages/activity/src/domain/runActivityMachine.ts` (xstate: reasoning/generating/running-tools/needs-you-asked/idle/stalled/exited), tiered by `packages/contract/src/activity/wire.ts` `activityStatusTier` and `needsYouForStatus`, projected by `packages/activity/src/projections/workspaceActivity.ts` `runActivityProjection` `{runId, harness, status, needsYou, sinceTs, ...}`, served at `GET /v1/workspaces/{id}/activity` (`packages/activity/src/server/activityRouter.ts`). Python has the raw `run_live_status` inputs (`session/models.py` `RunLiveStatusRow`, kinds reasoning/running_tool/generating/asked in `live_status.py` `LIVE_STATUS_KINDS`) but no read path and no stall/exited derivation. DRY verdict: roster state must come from the gateway activity surface, not a Python re-derivation.
+- last_turn_at / last-activity age: `session/dao_statements.py` `SESSION_VIEW_SELECT_SQL` computes `last_activity_at = COALESCE(max(event.ts), ...)` per session (`SessionListRow.last_activity_at`); the activity projection carries `sinceTs`. Per-run `last_turn_at` needs one new run-scoped `max(event.ts)` query (`EventRow.run_id` exists).
+
+### WATCH (push)
+
+- Event source of truth: `session/writer.py` `_notify` emits typed JSON on the single channel `NOTIFY_CHANNEL = "tm_events"` (`session/listen.py`). Four flavors today: `session_events`, `run_lifecycle`, `run_live_status`, `wire_exchange` (+ deletion). Mapping: `wire_exchange` ~ turn_completed, `run_live_status`/activity delta ~ state_changed, `needs-you-asked` tier ~ needs_you.
+- Gateway-side consumer (complete): `packages/activity/src/adapters/tmEvents.ts` `TmEventsActivityListener` LISTENs tm_events and reconciles per run; `packages/activity/src/projections/workspaceActivity.ts` `subscribeWorkspaceActivity` is an in-process callback registry emitting deltas exactly when `status`/`needsYou` change (dedup via `sameRunActivityProjection`). This is the watch trigger surface.
+- Python-side hub (partial): `session/listen.py` `SessionEventHub` + `SessionEventListener` — but `parse_notify_payload` decodes only `type == "session_events"` and silently drops the other three flavors (verified). A Python-hosted watch engine would have to extend this and then still lack the state derivation.
+- Run registry: `packages/runtime/src/service/RunManager.ts` `RunManager` (`runs: Map<string, ManagedRuntimeRun>`; per-run `view`, `session: PtySession`, `fanout`). Subscriptions "in-memory beside the run registry" naturally live in this process; `packages/gateway/src/main.ts` `installShutdownHandlers` confirms runs die with the process.
+- PTY delivery: `RunManager.write(runId, owner, data)` -> `PtySession.write` (`packages/runtime/src/ports.ts`, `adapters/NodePtyAdapter.ts`). Today reached only from the terminal WS (`packages/runtime/src/server/runTerminalConnection.ts` `handleRunTerminalConnection`; verified sole caller). Programmatic-injection precedent exists: `RunManager.register` writes OSC color replies into the PTY via `oscColorResponder` — non-keystroke `session.write` is established.
+- Gaps (all greenfield): no programmatic PTY-inject endpoint; no `[tm ...]` envelope convention anywhere; no debounce/coalesce/throttle precedent in the repo. Nearest damping idioms to model on: single-flight coalescing in `workspaceActivity.ts` `refreshOwnerWorkspace`, keepalive interval in `activityRouter.ts`, and `Promise.race` + `unref` grace timers in `RunManager`.
+- Fanout-queue precedent: `broadcast.py` `subscribe`/`emit` (run-scoped asyncio queues, drop-on-full) — clean shape if any Python-side fanout is needed.
+
+### SKINS: REST and MCP
+
+- App factory: `main.py` `create_app` (FastAPI, not bare Starlette; `fastapi[standard]`). Routers: `api/v1/router.py` `api_router` under prefix `/api` (UI CRUD: overrides, breakpoint, meta, capabilities) and a parallel family directly under `/v1` (capture_rpc, run_proxy, exchanges, stream, session_routes, space_routes). Module placement convention: everything in `api/src/transport_matters/api/v1/`, each exposing `router`.
+- Gateway proxy seam: `api/v1/run_proxy.py` `create_run_proxy_mount` / `RunProxyMount` forwards HTTP/SSE/WS to `gateway_url`, held at `app.state.run_proxy_mount`. This is the Python-to-gateway path controlplane verbs ride.
+- Lifespan/state seam: `main.py` `lifespan` initializes `app.state.session_event_hub`, `session_pool` (+ `apply_migrations`), `session_event_listener`, `shared_proxy_manager`, `capture_registry`, `gateway_process`; `_close_lifespan_resource` is the shutdown helper. The controlplane service object and the MCP session manager's `.run()` context wire here.
+- MCP mount: `mcp` Python SDK is not a dependency (verified pyproject); no MCP server code exists. Mount precedent is `main.py` `mount_frontend_bundles` (`app.mount`). Critical ordering (verified in `create_app`): the `/` SPA catch-all is mounted last via `mount_frontend_bundles`, so `app.mount("/mcp", ...)` must be registered before that call or the SPA fallback swallows it (`SpaStaticFiles` + `_looks_like_api_path` show the carve-out convention).
+- Auth: none today beyond loopback trust (`TrustedHostMiddleware` with localhost `Settings.trusted_hosts`, per-route `require_http_origin` in `api/v1/origin.py` / `terminal_bridge.py`). No bearer/token/minting anywhere (grep for HTTPBearer/APIKeyHeader/secrets.token came up empty). Token -> run_id -> grant is net-new; shape it as a FastAPI dependency like `require_http_origin`, backed by an `app.state` resolver (structural model: `capture_rpc.py` `CaptureLeaseRegistry`, a run_id-keyed in-process registry).
+- Grant seeding at spawn: `cli/home_seeders.py` `seed_home_dir` / `prepare_runtime_home_overlay` orchestrates per-harness home overlays. `cli/claude_home.py` `apply_claude_proxy_env_settings` is the exact precedent (atomic merge of run-scoped keys into the overlay settings) — a `.mcp.json` write with the bearer in the Authorization header hooks beside it. Codex: `cli/codex_home.py` `CodexSeeder.seed` + the atomic TOML merge helpers for a `[mcp_servers.*]` block. Spawn wiring: `captured_run.py` `prepare_captured_run` -> `captured_claude.py` / `captured_codex.py`.
+- Audit and migrations: `override_audit.py` is in-memory char accounting, not a precedent. Model `control_plane_actions` on the run-lifecycle event rows (migrations `0007_run_lifecycle_event`, `0009_run_live_status`; emitted via `session/writer.py` `run_lifecycle_emitter`). Alembic chain head is `0011_run_live_status_asked`; new tables start at `0012_...` in `api/migrations/versions/`, applied at startup by `session/migrate.py` `apply_migrations`.
+
+## Quality Map
+
+Hygiene measurements (all anchors green, none over 700 LOC): `session/writer.py` 644, `session/dao_statements.py` 600, `session/timeline.py` 539, `RunManager.ts` 538, `api/v1/session_routes.py` 522, `main.py` 424, `session/async_dao.py` 417.
+
+1. Headroom, not violations: `writer.py` (644) and `dao_statements.py` (600) are close to the 700 hard limit. Control-plane audit writes and grant DAO must land in new modules (`controlplane/audit.py`, `controlplane/grants.py` or a `session/` sibling), never grow these two.
+2. DRY trap: the working/idle/needs_you/stalled derivation exists once, in the TS xstate machine. Any Python re-derivation (even a "simple kind mapping") forks the state vocabulary and will drift; it also cannot produce `stalled`/`exited`. Bind roster state to the gateway activity projection.
+3. Latent trap: `session/listen.py` `parse_notify_payload` silently drops three of four tm_events flavors. Fine today (the hub only feeds session SSE), but anyone extending it for watch must add typed parsing plus tests, not widen the dict passthrough.
+4. Degradation contract: `api/v1/runs_unavailable.py` 501s run surfaces when the gateway is absent. Controlplane verbs that ride the gateway must return the spec's structured `busy_gateway`, matching this precedent rather than leaking proxy errors.
+5. Envelope convention needs one owner. It is consumed in two languages (Python composes prompt envelopes; the gateway composes watch nudge lines). Repo precedent for cross-language constants: mirrored contracts guarded by `test_type_mirrors.py`. Specify the envelope format once and mirror-test it.
+6. Skins must stay logic-free (spec principle 1). The existing `api/v1` modules mostly honor this (routes delegate to service/DAO); contract tests asserting thin skins are already the spec's testing plan — enforce from slice 1.
+7. URL prefix ambiguity: today UI CRUD lives under `/api` and run/RPC surfaces under `/v1`; the spec says "REST under `api/v1/`", which matches the module directory but not a single URL prefix. Decide once (recommend `/v1/controlplane/...`, since the consumers are run-scoped surfaces) before the first route lands.
+8. `run_live_status` reads: Python has no production SELECT (only `session/live_status_test_support.py`). If any Python surface ever reads it directly, promote a real read DAO; do not import test support.
+
+## Plan
+
+Seven PR-sized slices. Order: identity -> service+observe -> skins -> watch -> prompt -> launch/manage -> integration. Audit lands early (table in S2) and threads through each verb as it ships; S7 proves the loop end to end.
+
+- S1 identity + grants. Migration `0012_control_plane_grants` (`{run_id, role, workspace_id}` + token hash; revoke = delete row). Token minting inside `prepare_captured_run` gated on the three-state grant option (threads through the gateway spawn payload: `RunManager.createNew` -> `CapturePort.prepareCapture` -> `capture_rpc.py`). Seeding: `.mcp.json` write beside `apply_claude_proxy_env_settings`; Codex `[mcp_servers.*]` TOML merge in `codex_home.py`. Resolution: FastAPI dependency (bearer -> run_id -> grant) on an `app.state` resolver. Tests: seeding round-trip both harnesses, resolve, revoke-kills-token. Blast radius flag: touches the spawn spec across Python and gateway.
+- S2 controlplane service + observe. New `api/src/transport_matters/controlplane/` package; service object wired in `lifespan`. `conversation(run_id, after_turn?, limit?, max_chars?)` = new run-scoped DAO query + `project_timeline` + `MessageItem`-only + IR text filter + `turn_index` cursor + hard caps/`truncated`. `roster()`/`workspace_summary()` = gateway activity projection (via `run_proxy` seam) joined with `SessionRow.cwd`/title and a new per-run `last_turn_at` query. Also lands `0013_control_plane_actions` + the audit writer module. Unit tests against both harnesses' timeline fixtures; graceful `busy_gateway` when the gateway is down.
+- S3 twin skins. Add `mcp` SDK dependency. REST module `api/v1/controlplane_routes.py` (thin, observe-only at this point). MCP streamable-HTTP ASGI app mounted at `/mcp` in `create_app` before `mount_frontend_bundles`; session manager `.run()` entered in `lifespan`; bearer dependency from S1 guards both skins. Contract tests: tool schemas, skins carry no logic, `/mcp` not swallowed by the SPA catch-all. Risk: SDK auth-hook fit for token->grant needs a short spike.
+- S4 watch. Gateway-hosted engine (recommendation, see Headline): subscription map beside `RunManager`, triggers from `subscribeWorkspaceActivity` (state_changed, needs_you) + the wire_exchange reconcile path (turn_completed); damping is net-new (per-watcher coalesce buffer + minimum-interval flush, modeled on the single-flight and keepalive idioms). Delivery calls `RunManager.write` directly (no HTTP hop) with the envelope prefix. Python `watch`/`unwatch` verbs proxy registration to new gateway routes and write audit rows. Envelope format specified once, mirror-tested.
+- S5 prompt. New gateway route (programmatic PTY inject: text, mode nudge|interrupt; Esc-first + settle is harness-aware and lives beside the PTY). Python service verb: fan-out to N targets, `dispatch_id`, per-target receipts (partial failure in receipt, never raised), envelope composition, audit row per action. Exposed on both skins.
+- S6 launch + manage. `launch()` -> gateway `POST /v1/runs` (same `prepare_captured_run` seam) with the grant option from S1; `stop()` -> `POST /v1/runs/{id}/terminate`; `interrupt()` -> S5 inject route, break only. Entitlement checks (observer vs director) enforced in the service. Resolve the run `name` decision here (net-new field through spawn spec vs synthesized).
+- S7 integration + audit proof. The spec's end-to-end test: spawn with grant, agent calls `workspace_summary`, prompts a peer, receipt and audit row verified. Error taxonomy hardening (`not_found`, `forbidden`, `busy_gateway`, `delivery_failed`) across all verbs; dispatch-group queryability check.
+
+Key risks: (1) watch-engine placement is a real architecture decision the spec leaves ambiguous (Python service layer vs gateway process owning registry+state+PTY); gateway-hosted is the DRY answer but puts control-plane logic in TS — needs an explicit call before S4. (2) All of auth is greenfield (no token infra, no `mcp` dependency, SDK auth fit unproven). (3) The grant option threads through the cross-process spawn path, the widest blast radius of any slice. (4) Envelope + interrupt timing + damping have zero repo precedent. (5) Run-level `name` and `model` do not exist yet as fields.

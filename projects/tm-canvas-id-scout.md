@@ -1,0 +1,59 @@
+# Scout: canvas_id on the control-plane read surfaces
+
+Repo: transport-matters worktree `multi-launch`, branch `ml/next` at `b131de2d`. Read-only pass. Scout and future reviewer: fable5.
+
+## Verdict on the load-bearing question
+
+**canvas_id is known, and we are in the "expose the field" world for both surfaces, with one honest-null carve-out.** For canvas launches, `api/v1/capture_rpc_routes.py:_resolved_domain_request` resolves the Canvas server-side (`api/v1/launch_resolution.py:resolve_run_canvas` → `ResolvedCanvasLaunch.affinity`, a `session/affinity.py:SessionAffinityStamp` containing `canvas_id`) and stamps it onto both the domain request (`captured_run_models.py:CapturedRunRequest.canvas_id`) and the launch fields carrier. That resolved request is the exact object `capture_rpc.py:CaptureLeaseRegistry.prepare_capture` receives when it mints `capture_rpc.py:_CaptureRunFacts`, the record that later backs `whoami` via `capture_rpc.py:CaptureLeaseRegistry.resolve_control_plane_grant` → `controlplane/models.py:ControlPlanePrincipal`. Facts already retain `request.space_id` and `request.worktree_id` and simply drop `request.canvas_id`. Independently, the roster read path already fetches rows that carry it: `controlplane/service.py:ControlPlaneService._roster_snapshot` loads `session/models.py:SessionListRow`, which includes the write-once `canvas_id` affinity stamp persisted in Postgres. So neither surface needs a launch-contract change. The orchestrator's doubt about `GatewayCreateRunRequest` lacking canvas_id is real but scoped: it only affects runs launched by the control-plane **launch verb** (agent-launched), which `api/v1/controlplane_gateway_runs.py:create_run` sends as `launchKind: "service"` with no canvasId, after `controlplane/launch_service.py:ControlPlaneLauncher._prepare` drops `receipt.canvas_id` from the acting-context result. Those runs genuinely have no canvas affinity today and must report null, which the standing "absent is better than wrong" rule endorses.
+
+## The two read paths, precisely
+
+**whoami.** `api/v1/controlplane_routes.py:whoami` and `api/v1/controlplane_mcp.py` (whoami tool) → `controlplane/service.py:ControlPlaneService.whoami` → `SelfIdentityResult.model_validate(principal.identity.as_payload())`. `principal.identity` is `run_identity.py:RunSelfIdentity`, frozen at spawn from `run_identity.py:RunIdentitySeed`; neither carries canvas, space, or worktree. The principal itself is minted per request by `capture_rpc.py:CaptureLeaseRegistry.resolve_control_plane_grant` from the in-process `_facts` dict: **the backing store is process-resident Python capture state, not the TS gateway and not Postgres.** `ControlPlanePrincipal` already carries `space_id` and `worktree_id` from facts; `whoami` does not expose them.
+
+**roster.** `controlplane/service.py:ControlPlaneService.roster` → `_roster_snapshot`: live states come from the TS gateway (`controlplane/activity.py:WorkspaceActivityReader.read_workspace_activity` → `controlplane/activity.py:GatewayActivityRun`, no canvas field), and identity/metadata comes from Postgres via `controlplane/read_store.py:ControlPlaneReadStore.sessions_for_runs` → `session/async_dao.py:AsyncSessionDao.get_session_views_for_runs_for_owner` → `SessionListRow` (has `canvas_id`, `parent_canvas_id`, `canvas_name`, `canvas_path`). `controlplane/roster_projection.py:project_roster` merges the two into `controlplane/observe_models.py:RosterItem`, which has no canvas field. The data is already in hand at read time; the projection just does not copy it.
+
+**Is the acting-context receipt persisted?** No. `run_models.py:GatewayActingContextReceipt` (with `canvas_id`) is consumed transiently in `launch_service.py:ControlPlaneLauncher._prepare` and dropped. It is also the wrong canvas for run identity anyway: `packages/space/src/domain/actingContext.ts:resolveWorkdirCandidate` resolves a workdir to `worktree.rootCanvasId`, the worktree's ROOT canvas, not the pane canvas a run lives in. Inheriting it would be exactly the guess the no-fallback rule forbids.
+
+**TS side.** `packages/runtime/src/service/runManagerTypes.ts:CreateManagedRunInput` accepts `canvasId` and `RunManager.createNew` forwards it to the capture RPC (`packages/runtime/src/adapters/CaptureRpcClient.ts`), but the returned `packages/runtime/src/ports.ts:CapturedRunSpawnSpec` has only `spaceId`/`worktreeId`, and the retained record `packages/runtime/src/domain/runtimeRun.ts:RuntimeRunView` has no canvas field. The `DEFAULT_SPACE_ID`/`DEFAULT_WORKTREE_ID` sentinels (`stub-space`/`stub-worktree` in `RunManager.ts`) live only on that in-memory view when the capture side returns nulls; they back the gateway `/v1/runs` list, **not** the roster's identity fields (Postgres) and not whoami (capture facts). A newly exposed canvas_id on either Python surface can never report a sentinel. No TS change is needed for this slice.
+
+**Session-row writer (who wins).** One writer: `session/writer.py:SessionWriter` executing `session/session_statements.py:UPSERT_SESSION_SQL`, whose CASE guards make the affinity group write-once (only when the stored `canvas_id` IS NULL). The stamp originates from launch fields (`session/affinity.py:affinity_from_launch_fields`) through the tailer binding (`index/tailer.py` via `index/adapters/base.py:affinity_fields`) and `session/ingest.py:_binding_affinity`, which enforces all-or-nothing via `session/affinity.py:validate_affinity_group`. Consequence for roster: a run's canvas_id is null until the tailer creates the session row, the same window in which `harness` and `workdir` already fall back to activity values in `project_roster`. Consistent, honest behavior.
+
+**Precedent.** `api/v1/meta.py:get_meta` already exposes `canvas_id` on a read surface, decoded from launch fields with `affinity_from_launch_fields`, `str(CanvasId) | None`. Mirror that shape.
+
+## Reuse Map
+
+| Capability | Existing owner | Writer / reader / who wins |
+| --- | --- | --- |
+| Canvas identity type | `space/models.py:CanvasId` | minted at Space store boundary only |
+| Server-resolved launch affinity | `api/v1/launch_resolution.py:resolve_run_canvas` → `session/affinity.py:build_session_affinity_stamp` | written once per canvas launch; single producer |
+| Affinity carrier codec | `session/affinity.py:affinity_launch_fields` / `affinity_from_launch_fields` / `validate_affinity_group` | reserved `session_affinity` launch field; server stamp always replaces caller input |
+| Durable canvas_id per run | Postgres `session.canvas_id`; writer `session/writer.py:SessionWriter` via `session/session_statements.py:UPSERT_SESSION_SQL` | write-once CASE (first non-null wins); readers `AsyncSessionDao.get_session_views_for_runs_for_owner` |
+| whoami backing state | `capture_rpc.py:_CaptureRunFacts` (written in `CaptureLeaseRegistry.prepare_capture`, read in `resolve_control_plane_grant`) | process-resident; one writer at prepare |
+| whoami result contract | `controlplane/observe_models.py:SelfIdentityResult`; payload source `run_identity.py:RunSelfIdentity.as_payload` (pinned by `test_run_identity.py`) | Python-owned snake_case MCP/REST result |
+| Roster projection | `controlplane/roster_projection.py:project_roster` → `observe_models.py:RosterItem` | pure merge of activity + session rows |
+| Session rows at roster read | `controlplane/read_store.py:ControlPlaneReadStore.sessions_for_runs` | already fetched per roster call; zero new reads needed |
+| Honest-null exposure precedent | `api/v1/meta.py:get_meta` | `str(canvas_id)` or null from launch fields |
+| Cross-plane name pinning | shared fixture corpus `space/testing.py:shared_contract_fixture_root` (`space-parity*.json`) + `api/v1/test_acting_context_conformance.py`; TS wire DTOs in `packages/contract/src/space/wire.ts` | pins acting-context camelCase aliases both planes; **not needed for this slice** because `SelfIdentityResult`/`RosterItem` are Python-owned results that never cross to TS |
+| None found | canvas on `RunSelfIdentity`, `SelfIdentityResult`, `RosterItem`, `GatewayActivityRun`, `RuntimeRunView` | searches: `grep -rn "canvas" observe_models.py run_identity.py runtimeRun.ts` (rc=1), `grep -rln canvas_id api/src/transport_matters --include=*.py` (full list inspected), `grep -rln canvasId packages www/packages` (full list inspected) |
+
+## Quality Map
+
+- `capture_rpc.py:_CaptureRunFacts` docstring says the facts exist "so release can emit RUN_EXITED", but the record now also mints control-plane principals. Doc drift; worth one line while touching the class.
+- Two seams silently drop canvas identity the caller resolved: `launch_service.py:_PreparedLaunch` (drops `receipt.canvas_id`) and `controlplane_gateway_runs.py:create_run` (no canvasId, hardcoded `launchKind: "service"`). Both are defensible today (root canvas would be a guess) but should become a **recorded decision**, not an accident; a one-line comment at `_prepare` naming the choice would stop the next reader from "fixing" it.
+- `SelfIdentityResult` re-declares the `as_payload()` key set by hand with no conformance test between them (only `test_run_identity.py` pins the payload side). Additive fields are where this silently skews; the slice should extend whoami's composition deliberately rather than via `model_validate(as_payload())` growing implicit keys.
+- `RosterItem` model precedence logic (`_accepted_model`) and session-vs-activity fallbacks live inline in `project_roster`; fine at current size, no grooming needed before this slice.
+- No blockers found. Nothing in this area needs refactoring before the change; every touched file is well under thresholds.
+
+## Plan
+
+1. **whoami:** add `canvas_id: CanvasId | None` to `_CaptureRunFacts`; populate from `request.canvas_id` in `CaptureLeaseRegistry.prepare_capture` (the request is already the resolved domain). Add `canvas_id: CanvasId | None = None` to `ControlPlanePrincipal`; thread it in `resolve_control_plane_grant`. Add nullable `canvas_id` to `SelfIdentityResult` and compose it in `ControlPlaneService.whoami` as an explicit overlay on the identity payload (do not widen `RunSelfIdentity`: its `as_payload` feeds the launch env carrier and the rendered markdown, a much larger blast radius for zero read-surface gain). Reuse: `CanvasId`, meta.py null convention.
+2. **roster:** add nullable `canvas_id` to `RosterItem`; in `project_roster`, copy `session.canvas_id` when the session row exists, else null. Zero new queries.
+3. **Tests** (colocated per api/CLAUDE.md): extend `controlplane/test_service.py` whoami cases (canvas present → value; principal without canvas → null) and roster projection cases (session row with stamp → projected; missing session row → null); one capture RPC test asserting facts retain `canvas_id` through `prepare_capture` → `resolve_control_plane_grant`. Assert the observable result payloads, not intermediate wiring.
+4. **Gates:** `just check` and `just test-affected` in the build loop, verbatim; full `just check` + `just test` as the pre-merge gate.
+5. **No seeding anywhere:** every step reads existing state; a missing stamp is null, never a lookup that creates.
+
+### Decisions for the owner
+
+- **Field scope on whoami:** canvas_id only (matches the brief), or the full `space_id`/`worktree_id`/`canvas_id` triple already sitting on the principal? Same mechanism, three fields instead of one; the walkthrough gap is canvas, so I recommend canvas_id only unless the triple is wanted for symmetry.
+- **Roster field scope:** `canvas_id` only, or also `canvas_name` (already on `SessionListRow`) for display? Recommend canvas_id only; name is a rendering concern.
+- **Service-launched runs stay null:** confirm that runs from the launch verb report `canvas_id: null` rather than inheriting the acting-context root canvas. Recommend confirming null; the receipt's canvas is the worktree root canvas, not the run's pane.

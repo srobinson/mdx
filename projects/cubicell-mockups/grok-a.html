@@ -1,0 +1,434 @@
+<!--
+  Idea A — Camera timeline at the state timeline's craft level.
+  Keyframes become VIEW cards with captured-angle thumbnails; segments between them become PATH cards (ORBIT / LINEAR / CUT) with easing and duration, mirroring BUILD IN → STATE → TRANSITION rhythm.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cubicell · Camera craft (A)</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #111111;
+    --panel-2: #161616;
+    --border: #2a2a2a;
+    --border-hi: #3a3a3a;
+    --text: #f2f2f2;
+    --muted: #8a8a8a;
+    --dim: #5a5a5a;
+    --accent: #f5a623;
+    --chip: #1c1c1c;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #050505;
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 40px 28px 60px;
+  }
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .btn {
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    padding: 6px 10px;
+    border-radius: 3px;
+    cursor: default;
+  }
+  .btn.on {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px rgba(245, 166, 35, 0.25);
+  }
+  .scrub {
+    flex: 1;
+    height: 2px;
+    background: #2a2a2a;
+    border-radius: 1px;
+    position: relative;
+    margin: 0 12px;
+  }
+  .scrub::after {
+    content: "";
+    position: absolute;
+    left: 0; top: -3px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(245,166,35,0.2);
+  }
+  .meta { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; white-space: nowrap; }
+  .meta strong { color: var(--text); font-weight: 500; }
+
+  .section {
+    padding: 14px 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .section-head p {
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.04em;
+  }
+
+  .strip {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .strip::-webkit-scrollbar { height: 4px; }
+  .strip::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+  .card {
+    flex: 0 0 auto;
+    width: 108px;
+    min-height: 128px;
+    border: 1px solid var(--border);
+    background: var(--chip);
+    display: flex;
+    flex-direction: column;
+    margin-right: -1px;
+  }
+  .card.selected {
+    border-color: var(--accent);
+    z-index: 1;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .card-head {
+    padding: 8px 8px 0;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+  .card.selected .card-head { color: var(--accent); }
+  .thumb {
+    flex: 1;
+    margin: 8px;
+    background: #000;
+    border: 1px solid #1a1a1a;
+    display: grid;
+    place-items: center;
+    min-height: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb svg { width: 42px; height: 42px; }
+  .card-foot {
+    padding: 0 8px 8px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: center;
+  }
+
+  /* Transition / path cards are narrower */
+  .card.seg {
+    width: 78px;
+    background: #0e0e0e;
+  }
+  .card.seg .seg-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 6px;
+  }
+  .seg-type {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .seg-ease {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .seg-ms {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 3px 6px;
+    border-radius: 2px;
+  }
+
+  /* Camera view thumbs: suggest angle with small wire cube + orbit arc */
+  .view-badge {
+    position: absolute;
+    bottom: 4px; right: 4px;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
+  .note {
+    max-width: 1180px;
+    margin: 16px auto 0;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--dim);
+    letter-spacing: 0.02em;
+  }
+  .note em { color: var(--muted); font-style: normal; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="transport">
+      <button class="btn">Play</button>
+      <button class="btn">Stop</button>
+      <button class="btn on">Loop</button>
+      <div class="scrub"></div>
+      <span class="meta"><strong>3.3s</strong> / 3.3s</span>
+      <button class="btn">1.00×</button>
+    </div>
+
+    <!-- State strip (reference craft) -->
+    <div class="section">
+      <div class="section-head">
+        <h2>State motion</h2>
+        <p>Build · state · transition cards</p>
+      </div>
+      <div class="strip">
+        <div class="card">
+          <div class="card-head">Build in</div>
+          <div class="thumb">
+            <svg viewBox="0 0 40 40" fill="none" stroke="#666" stroke-width="1.2">
+              <circle cx="12" cy="12" r="1.4" fill="#666"/><circle cx="20" cy="12" r="1.4" fill="#666"/><circle cx="28" cy="12" r="1.4" fill="#666"/>
+              <circle cx="12" cy="20" r="1.4" fill="#666"/><circle cx="20" cy="20" r="1.4" fill="#666"/><circle cx="28" cy="20" r="1.4" fill="#666"/>
+              <circle cx="12" cy="28" r="1.4" fill="#666"/><circle cx="20" cy="28" r="1.4" fill="#666"/><circle cx="28" cy="28" r="1.4" fill="#666"/>
+            </svg>
+          </div>
+          <div class="card-foot">Start delay 0.0s</div>
+        </div>
+        <div class="card">
+          <div class="card-head">State 1</div>
+          <div class="thumb">
+            <svg viewBox="0 0 40 40"><rect x="10" y="10" width="20" height="20" fill="#fff"/></svg>
+          </div>
+          <div class="card-foot">—</div>
+        </div>
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Z</div>
+            <div class="seg-ease">Settle</div>
+            <div class="seg-ms">300 ms</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">State 2</div>
+          <div class="thumb">
+            <svg viewBox="0 0 40 40" stroke="#fff" stroke-width="0.8" fill="none">
+              <rect x="8" y="8" width="24" height="24"/>
+              <line x1="16" y1="8" x2="16" y2="32"/><line x1="24" y1="8" x2="24" y2="32"/>
+              <line x1="8" y1="16" x2="32" y2="16"/><line x1="8" y1="24" x2="32" y2="24"/>
+            </svg>
+          </div>
+          <div class="card-foot">—</div>
+        </div>
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Made</div>
+            <div class="seg-ease">Settle</div>
+            <div class="seg-ms">350 ms</div>
+          </div>
+        </div>
+        <div class="card selected">
+          <div class="card-head">State 3</div>
+          <div class="thumb">
+            <svg viewBox="0 0 40 40" fill="#fff">
+              <rect x="16" y="8" width="8" height="8"/><rect x="8" y="16" width="8" height="8"/>
+              <rect x="16" y="16" width="8" height="8"/><rect x="24" y="16" width="8" height="8"/>
+              <rect x="16" y="24" width="8" height="8"/>
+            </svg>
+          </div>
+          <div class="card-foot">—</div>
+        </div>
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Shell</div>
+            <div class="seg-ease">Settle</div>
+            <div class="seg-ms">350 ms</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">State 4</div>
+          <div class="thumb">
+            <svg viewBox="0 0 40 40" fill="#fff">
+              <rect x="16" y="6" width="8" height="8"/><rect x="8" y="14" width="8" height="8"/>
+              <rect x="16" y="14" width="8" height="8"/><rect x="24" y="14" width="8" height="8"/>
+              <rect x="16" y="22" width="8" height="8"/><rect x="16" y="30" width="8" height="6"/>
+            </svg>
+          </div>
+          <div class="card-foot">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Camera strip elevated to same craft -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Camera path</h2>
+        <p>View cards · path cards · same rhythm as state</p>
+      </div>
+      <div class="strip">
+        <!-- VIEW 1 · 0.0s -->
+        <div class="card selected">
+          <div class="card-head">View 1</div>
+          <div class="thumb">
+            <!-- front-ish cube -->
+            <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+              <path d="M12 18 L24 12 L36 18 L36 30 L24 36 L12 30 Z" fill="rgba(255,255,255,0.06)"/>
+              <path d="M12 18 L24 24 L36 18"/><path d="M24 24 L24 36"/>
+            </svg>
+            <span class="view-badge">0.0s</span>
+          </div>
+          <div class="card-foot">Captured</div>
+        </div>
+        <!-- PATH: ORBIT -->
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Orbit</div>
+            <div class="seg-ease">Inout</div>
+            <div class="seg-ms">750 ms</div>
+          </div>
+        </div>
+        <!-- VIEW 2 · 0.75s -->
+        <div class="card">
+          <div class="card-head">View 2</div>
+          <div class="thumb">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+              <path d="M16 14 L30 10 L38 20 L34 34 L20 38 L12 28 Z" fill="rgba(255,255,255,0.06)"/>
+              <path d="M16 14 L24 24 L30 10"/><path d="M24 24 L20 38"/>
+            </svg>
+            <span class="view-badge">0.75s</span>
+          </div>
+          <div class="card-foot">Captured</div>
+        </div>
+        <!-- PATH: LINEAR -->
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Linear</div>
+            <div class="seg-ease">Out</div>
+            <div class="seg-ms">550 ms</div>
+          </div>
+        </div>
+        <!-- VIEW 3 · 1.3s -->
+        <div class="card">
+          <div class="card-head">View 3</div>
+          <div class="thumb">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+              <path d="M10 22 L24 14 L38 22 L38 30 L24 38 L10 30 Z" fill="rgba(255,255,255,0.06)"/>
+              <path d="M10 22 L24 28 L38 22"/><path d="M24 28 L24 38"/>
+            </svg>
+            <span class="view-badge">1.3s</span>
+          </div>
+          <div class="card-foot">Captured</div>
+        </div>
+        <!-- PATH: CUT -->
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Cut</div>
+            <div class="seg-ease">—</div>
+            <div class="seg-ms">0 ms</div>
+          </div>
+        </div>
+        <!-- VIEW 4 · 1.5s -->
+        <div class="card">
+          <div class="card-head">View 4</div>
+          <div class="thumb">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+              <path d="M14 16 L28 12 L36 24 L32 36 L18 40 L10 28 Z" fill="rgba(255,255,255,0.06)"/>
+              <path d="M14 16 L22 26 L28 12"/><path d="M22 26 L18 40"/>
+              <circle cx="38" cy="12" r="3" stroke="var(--accent)" stroke-width="1"/>
+            </svg>
+            <span class="view-badge">1.5s</span>
+          </div>
+          <div class="card-foot">Proj blend</div>
+        </div>
+        <!-- PATH: ORBIT full turn -->
+        <div class="card seg">
+          <div class="seg-body">
+            <div class="seg-type">Orbit</div>
+            <div class="seg-ease">Settle</div>
+            <div class="seg-ms">1.3 s</div>
+          </div>
+        </div>
+        <!-- VIEW 5 · 2.8s -->
+        <div class="card">
+          <div class="card-head">View 5</div>
+          <div class="thumb">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+              <path d="M12 20 L24 10 L36 20 L36 32 L24 40 L12 32 Z" fill="rgba(255,255,255,0.06)"/>
+              <path d="M12 20 L24 28 L36 20"/><path d="M24 28 L24 40"/>
+              <path d="M36 14 A10 10 0 0 1 40 28" stroke="var(--accent)" stroke-width="1" fill="none"/>
+            </svg>
+            <span class="view-badge">2.8s</span>
+          </div>
+          <div class="card-foot">Captured</div>
+        </div>
+        <!-- CAPTURE slot -->
+        <div class="card" style="border-style: dashed; background: transparent;">
+          <div class="card-head" style="color: var(--dim);">New view</div>
+          <div class="thumb" style="border-style: dashed; color: var(--dim); font-size: 18px;">+</div>
+          <div class="card-foot">At 3.3s</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">
+    <em>A · craft parity.</em>
+    Camera stops being a form dump: each keyframe is a VIEW card with a captured-angle thumbnail; each outgoing segment is a PATH card (orbit / linear / cut) carrying easing and duration, same grammar as STATE and TRANSITION.
+  </p>
+</body>
+</html>

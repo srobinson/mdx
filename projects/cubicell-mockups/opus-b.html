@@ -1,0 +1,544 @@
+<!--
+  B — ONE RAIL EDITS EVERYTHING.
+  The state strip already obeys a rule the camera track breaks: cards are summaries and every value
+  they show is edited in the shared right-rail inspector, so the camera's four toggle rows, ms field
+  and remove button move into that same rail. What is left in the dock is a lean camera lane, a thin
+  ruler of view diamonds joined by move bars, and selecting any of them, or any state or transition
+  card, retitles the one inspector: same rail, same section shapes, four kinds of selection.
+  Click the lane and the strip to see the rail retarget.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cubicell — Properties move to the inspector (B)</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --dock: #171717;
+    --rail: #151515;
+    --panel: #1c1c1c;
+    --card: #242424;
+    --card-hover: #2b2b2b;
+    --well: #0a0a0a;
+    --ink: #ededed;
+    --muted: #8c8c8c;
+    --dim: #5c5c5c;
+    --line: #333333;
+    --line-soft: #292929;
+    --accent: #e5822e;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --r: 5px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    margin: 0;
+    padding: 26px 22px 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-head { align-items: baseline; display: flex; gap: 14px; margin: 0 auto 16px; max-width: 1380px; }
+  .page-head b { font: 600 12px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+  .page-head span { color: var(--dim); font: 400 11px/1.5 var(--mono); letter-spacing: 0.04em; }
+
+  .micro { color: var(--muted); font: 600 9.5px/1 var(--mono); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* ---------- app frame ---------- */
+
+  .app {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 316px;
+    margin: 0 auto;
+    max-width: 1380px;
+    overflow: hidden;
+  }
+  .main { display: flex; flex-direction: column; min-width: 0; }
+
+  /* ---------- viewport ---------- */
+
+  .viewport {
+    align-items: center;
+    background:
+      radial-gradient(ellipse at 50% 40%, #1b1b1b 0%, #0b0b0b 70%),
+      repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,0.028) 39px 40px),
+      repeating-linear-gradient(90deg, transparent 0 39px, rgba(255,255,255,0.028) 39px 40px);
+    display: flex;
+    height: 292px;
+    justify-content: center;
+    position: relative;
+  }
+  .viewport .hud { left: 14px; position: absolute; top: 13px; }
+  .viewport .hud2 { position: absolute; right: 14px; top: 13px; }
+
+  /* ---------- dock ---------- */
+
+  .dock { background: var(--dock); border-top: 1px solid var(--line); }
+
+  .transport { align-items: center; border-bottom: 1px solid var(--line-soft); display: flex; gap: 10px; padding: 11px 15px; }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    color: var(--ink);
+    cursor: pointer;
+    font: 600 10px/1 var(--mono);
+    letter-spacing: 0.13em;
+    padding: 8px 13px;
+    text-transform: uppercase;
+    transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+  }
+  .btn:hover { background: #232323; border-color: #4a4a4a; }
+  .btn.is-on { border-color: var(--accent); color: var(--accent); }
+  .btn.solid { background: var(--ink); border-color: var(--ink); color: #101010; }
+  .btn.solid:hover { background: #fff; }
+  .btn.xs { font-size: 9.5px; padding: 6px 10px; }
+
+  .scrub { align-items: center; display: flex; flex: 1; height: 18px; margin: 0 6px; position: relative; }
+  .scrub-track { background: #3a3a3a; border-radius: 2px; height: 3px; width: 100%; }
+  .scrub-fill { background: #d8d8d8; border-radius: 2px; height: 3px; left: 0; position: absolute; width: 45.5%; }
+  .scrub-head { background: #f2f2f2; border-radius: 1px; height: 15px; left: 45.5%; position: absolute; width: 3px; }
+  .readout { color: var(--muted); font: 400 11px/1 var(--mono); white-space: nowrap; }
+  .rate { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); font: 400 11px/1 var(--mono); padding: 8px 14px; text-align: right; width: 84px; }
+
+  /* ---------- state strip ---------- */
+
+  .strip { display: flex; gap: 8px; overflow-x: auto; padding: 12px 15px 12px; }
+  .strip::-webkit-scrollbar { height: 6px; }
+  .strip::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 4px; }
+
+  .card {
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    cursor: pointer;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 11px 11px;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .card:hover { background: var(--card-hover); border-color: #4a4a4a; }
+  .card.is-sel { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .card-title { font: 700 10px/1 var(--mono); letter-spacing: 0.13em; text-transform: uppercase; }
+  .card-line { color: var(--muted); font: 500 10px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+  .pill { background: var(--well); border: 1px solid var(--line-soft); border-radius: 4px; font: 400 10.5px/1 var(--mono); padding: 5px 11px; }
+  .card--state { width: 112px; }
+  .card--trans { justify-content: space-between; width: 104px; }
+  .thumb { background: #000; border-radius: 3px; display: block; height: 76px; width: 76px; }
+  .dots { display: grid; gap: 5px; grid-template-columns: repeat(3, 3px); padding: 14px 0 4px; }
+  .dots i { background: #6a6a6a; border-radius: 50%; height: 3px; width: 3px; }
+
+  /* ---------- lean camera lane ---------- */
+
+  .camera { border-top: 1px solid var(--line-soft); padding: 11px 15px 15px; }
+  .camera-head { align-items: center; display: flex; gap: 12px; margin-bottom: 11px; }
+  .camera-head h2 { font: 700 10px/1 var(--mono); letter-spacing: 0.15em; margin: 0; text-transform: uppercase; }
+  .camera-head p { color: var(--dim); font: 400 10.5px/1 var(--mono); margin: 0; }
+  .camera-head .spacer { flex: 1; }
+
+  .lane {
+    background: #121212;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--r);
+    height: 78px;
+    position: relative;
+  }
+  .ruler { border-bottom: 1px solid var(--line-soft); height: 17px; position: relative; }
+  .ruler i { background: #333; bottom: 0; position: absolute; top: 6px; width: 1px; }
+  .ruler span { color: var(--dim); font: 400 9px/1 var(--mono); left: 4px; position: absolute; top: 5px; }
+
+  .moves { height: 61px; position: relative; }
+
+  .move {
+    background: #202020;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    font: 600 8.5px/1 var(--mono);
+    height: 18px;
+    letter-spacing: 0.11em;
+    line-height: 16px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 38px;
+    transition: background 110ms ease, border-color 110ms ease, color 110ms ease;
+    white-space: nowrap;
+  }
+  .move:hover { background: #2a2a2a; border-color: #4a4a4a; color: var(--ink); }
+  .move.is-sel { background: rgba(229,130,46,0.16); border-color: var(--accent); color: var(--accent); }
+
+  .kf {
+    background: #1a1a1a;
+    border: 1px solid #6f6f6f;
+    cursor: pointer;
+    height: 13px;
+    position: absolute;
+    top: 5px;
+    transform: rotate(45deg) translate(-0.5px, -0.5px);
+    transform-origin: center;
+    transition: background 110ms ease, border-color 110ms ease;
+    width: 13px;
+  }
+  .kf:hover { background: #3a3a3a; border-color: #fff; }
+  .kf.is-sel { background: var(--accent); border-color: var(--accent); }
+  .kf-wrap { position: absolute; top: 0; width: 0; }
+  .kf-label { color: var(--dim); font: 400 8.5px/1 var(--mono); left: 50%; position: absolute; top: 24px; transform: translateX(-50%); white-space: nowrap; }
+
+  .playhead { background: var(--accent); bottom: 0; position: absolute; top: 0; width: 1px; z-index: 3; }
+  .playhead::before {
+    background: var(--accent);
+    content: "";
+    height: 4px;
+    left: -3px;
+    position: absolute;
+    top: 0;
+    width: 7px;
+  }
+
+  /* ---------- inspector rail ---------- */
+
+  .inspector { background: var(--rail); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+
+  .tabs { border-bottom: 1px solid var(--line-soft); display: flex; gap: 2px; padding: 9px 10px 0; }
+  .tab {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    color: var(--dim);
+    cursor: pointer;
+    font: 600 9.5px/1 var(--mono);
+    letter-spacing: 0.13em;
+    padding: 8px 10px 9px;
+    text-transform: uppercase;
+  }
+  .tab:hover { color: var(--muted); }
+  .tab[aria-selected="true"] { border-bottom-color: var(--accent); color: var(--ink); }
+
+  .insp-title { border-bottom: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 5px; padding: 14px 15px 13px; }
+  .insp-kind { color: var(--muted); font: 600 9.5px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+  .insp-name { color: var(--ink); font: 400 14px/1.2 var(--mono); letter-spacing: 0.01em; }
+
+  .insp-body { display: flex; flex-direction: column; gap: 0; overflow-y: auto; }
+  .sec { border-bottom: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 11px; padding: 14px 15px 16px; }
+  .sec:last-child { border-bottom: 0; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field-label { color: var(--muted); font: 500 9.5px/1 var(--mono); letter-spacing: 0.13em; text-transform: uppercase; }
+
+  .seg { background: var(--well); border: 1px solid var(--line); border-radius: var(--r); display: flex; padding: 2px; }
+  .seg button {
+    background: transparent;
+    border: 0;
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    flex: 1;
+    font: 600 9.5px/1 var(--mono);
+    letter-spacing: 0.1em;
+    padding: 7px 4px;
+    text-transform: uppercase;
+    transition: background 110ms ease, color 110ms ease;
+  }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #0f0f0f; }
+
+  .num-row { align-items: center; display: flex; gap: 9px; }
+  .num {
+    background: var(--well);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    color: var(--ink);
+    font: 400 11px/1 var(--mono);
+    padding: 8px 11px;
+    text-align: right;
+    width: 82px;
+  }
+  .num-hint { color: var(--dim); font: 400 9.5px/1.4 var(--mono); }
+
+  .row { display: flex; gap: 7px; }
+  .row .btn { flex: 1; text-align: center; }
+
+  .preview { background: #000; border: 1px solid var(--line-soft); border-radius: 4px; display: block; height: 138px; width: 100%; }
+
+  .danger { border-color: #4a2b2b; color: #d08a8a; }
+  .danger:hover { background: rgba(180,70,70,0.1); border-color: #6a3636; }
+
+  .foot { color: var(--dim); font: 400 10.5px/1.6 var(--mono); margin: 0 auto; max-width: 1380px; padding-top: 14px; }
+  .foot b { color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <b>Direction B</b>
+  <span>the timeline stays lean; selection populates the one inspector rail</span>
+</div>
+
+<div class="app">
+  <div class="main">
+
+    <div class="viewport">
+      <span class="micro hud">Studio &middot; Persp &middot; 45&deg; / 20&deg;</span>
+      <span class="micro hud2">Playhead 1.5s</span>
+      <svg width="190" height="190" viewBox="0 0 60 60">
+        <g fill="#f2f2f2"><rect x="25" y="12" width="10" height="36"/><rect x="14" y="24" width="32" height="9"/><rect x="27" y="33" width="12" height="12"/></g>
+      </svg>
+    </div>
+
+    <div class="dock">
+      <div class="transport">
+        <button class="btn">Play</button>
+        <button class="btn">Stop</button>
+        <button class="btn is-on">Loop</button>
+        <div class="scrub">
+          <div class="scrub-track"></div><div class="scrub-fill"></div><div class="scrub-head"></div>
+        </div>
+        <span class="readout">1.5s / 3.3s</span>
+        <div class="rate">1.00&times;</div>
+      </div>
+
+      <div class="strip">
+        <div class="card" style="width:104px" data-sel="build" data-name="Arrival">
+          <div class="card-title">Build in</div>
+          <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="card-line">Start delay</div>
+          <div class="pill">0.0s</div>
+        </div>
+
+        <div class="card card--state" data-sel="state" data-name="State 1">
+          <div class="card-title">State 1</div>
+          <svg class="thumb" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/><rect x="15" y="15" width="30" height="30" fill="#fff"/></svg>
+        </div>
+
+        <div class="card card--trans" data-sel="transition" data-name="State 1 &rarr; State 2">
+          <div class="card-title">Transition</div><div class="card-line">Z</div><div class="card-line">Settle</div><div class="pill">300 ms</div>
+        </div>
+
+        <div class="card card--state" data-sel="state" data-name="State 2">
+          <div class="card-title">State 2</div>
+          <svg class="thumb" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff"><rect x="15" y="15" width="8" height="8"/><rect x="26" y="15" width="8" height="8"/><rect x="37" y="15" width="8" height="8"/>
+            <rect x="15" y="26" width="8" height="8"/><rect x="26" y="26" width="8" height="8"/><rect x="37" y="26" width="8" height="8"/>
+            <rect x="15" y="37" width="8" height="8"/><rect x="26" y="37" width="8" height="8"/><rect x="37" y="37" width="8" height="8"/></g></svg>
+        </div>
+
+        <div class="card card--trans" data-sel="transition" data-name="State 2 &rarr; State 3">
+          <div class="card-title">Transition</div><div class="card-line">Made</div><div class="card-line">Settle</div><div class="pill">350 ms</div>
+        </div>
+
+        <div class="card card--state" data-sel="state" data-name="State 3">
+          <div class="card-title">State 3</div>
+          <svg class="thumb" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff"><rect x="25" y="12" width="10" height="36"/><rect x="14" y="24" width="32" height="9"/><rect x="27" y="33" width="12" height="12"/></g></svg>
+        </div>
+
+        <div class="card card--trans" data-sel="transition" data-name="State 3 &rarr; State 4">
+          <div class="card-title">Transition</div><div class="card-line">Shell</div><div class="card-line">Settle</div><div class="pill">350 ms</div>
+        </div>
+
+        <div class="card card--state" data-sel="state" data-name="State 4">
+          <div class="card-title">State 4</div>
+          <svg class="thumb" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff"><rect x="12" y="20" width="36" height="9"/><rect x="26" y="20" width="9" height="26"/></g></svg>
+        </div>
+
+        <div class="card card--trans" data-sel="transition" data-name="State 4 &rarr; State 5">
+          <div class="card-title">Transition</div><div class="card-line">Radial</div><div class="card-line">Settle</div><div class="pill">250 ms</div>
+        </div>
+
+        <div class="card card--state" data-sel="state" data-name="State 5">
+          <div class="card-title">State 5</div>
+          <svg class="thumb" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff"><rect x="12" y="26" width="36" height="8"/><rect x="27" y="12" width="8" height="20"/><rect x="27" y="40" width="8" height="8"/></g></svg>
+        </div>
+      </div>
+
+      <div class="camera">
+        <div class="camera-head">
+          <h2>Camera track</h2>
+          <p>Orbit, zoom, or switch projection, then capture at the playhead.</p>
+          <span class="spacer"></span>
+          <button class="btn solid xs">Capture view at 1.5s</button>
+        </div>
+
+        <div class="lane">
+          <div class="ruler">
+            <span>0.0s</span>
+            <i style="left:21.2%"></i><i style="left:39.4%"></i><i style="left:45.5%"></i><i style="left:60.6%"></i><i style="left:84.8%"></i>
+          </div>
+          <div class="moves">
+            <div class="move" data-sel="move" data-name="View 1 &rarr; View 2" style="left:1.5%;width:19%">Orbit 120&deg;</div>
+            <div class="move" data-sel="move" data-name="View 2 &rarr; View 3" style="left:22%;width:16.6%">Linear</div>
+            <div class="move is-sel" data-sel="move" data-name="View 3 &rarr; View 4" style="left:39.8%;width:5.3%">&#8635;</div>
+            <div class="move" data-sel="move" data-name="View 4 &rarr; View 5" style="left:46%;width:38.3%">Orbit 360&deg; &middot; Blend</div>
+
+            <div class="kf-wrap" style="left:0.4%"><div class="kf" data-sel="view" data-name="View 1 &middot; 0.0s"></div><span class="kf-label">1</span></div>
+            <div class="kf-wrap" style="left:21.2%"><div class="kf" data-sel="view" data-name="View 2 &middot; 0.7s"></div><span class="kf-label">2</span></div>
+            <div class="kf-wrap" style="left:39.4%"><div class="kf" data-sel="view" data-name="View 3 &middot; 1.3s"></div><span class="kf-label">3</span></div>
+            <div class="kf-wrap" style="left:45.5%"><div class="kf" data-sel="view" data-name="View 4 &middot; 1.5s"></div><span class="kf-label">4</span></div>
+            <div class="kf-wrap" style="left:84.8%"><div class="kf" data-sel="view" data-name="View 5 &middot; 2.8s"></div><span class="kf-label">5</span></div>
+          </div>
+          <div class="playhead" style="left:45.5%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- the one rail ---------- -->
+  <aside class="inspector">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="false">Scene</button>
+      <button class="tab" role="tab" aria-selected="false">Part</button>
+      <button class="tab" role="tab" aria-selected="true">Motion</button>
+    </div>
+
+    <div class="insp-title">
+      <span class="insp-kind" id="ik">Camera move</span>
+      <span class="insp-name" id="in">View 3 &rarr; View 4</span>
+    </div>
+
+    <div class="insp-body" id="ib"></div>
+  </aside>
+</div>
+
+<p class="foot">
+  <b>The rule already exists.</b> PieceStateStrip's own contract reads "cards are summaries; every value they
+  show is edited in the shared right-rail inspector." The camera track is the only surface that breaks it.
+  Honouring it deletes the ms field, the remove button, four toggle runs and the sweep row from the dock,
+  and buys back the vertical space the state strip wants.
+</p>
+
+<script>
+  const PANELS = {
+    build: {
+      kind: "Build in",
+      name: "Arrival",
+      body: `
+        <div class="sec">
+          <div class="field"><span class="field-label">Start delay ms</span>
+            <div class="num-row"><input class="num" value="0" readonly /><span class="num-hint">Held before State 1</span></div></div>
+          <div class="field"><span class="field-label">Order</span>
+            <div class="seg"><button aria-pressed="true">Made</button><button>Radial</button><button>Shell</button><button>Dice</button></div></div>
+          <div class="field"><span class="field-label">Curve</span>
+            <div class="seg"><button>Even</button><button aria-pressed="true">Accel</button><button>Rit</button><button>Swing</button></div></div>
+        </div>`
+    },
+    state: {
+      kind: "State",
+      name: "State 3",
+      body: `
+        <div class="sec">
+          <svg class="preview" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff"><rect x="25" y="12" width="10" height="36"/><rect x="14" y="24" width="32" height="9"/><rect x="27" y="33" width="12" height="12"/></g></svg>
+        </div>
+        <div class="sec">
+          <div class="row"><button class="btn">Update</button><button class="btn">New</button><button class="btn">Rename</button></div>
+          <div class="field"><span class="field-label">Order in piece</span>
+            <div class="row"><button class="btn">&larr; Earlier</button><button class="btn">Later &rarr;</button></div></div>
+          <div class="row"><button class="btn danger">Delete state</button></div>
+        </div>`
+    },
+    transition: {
+      kind: "Transition",
+      name: "State 3 &rarr; State 4",
+      body: `
+        <div class="sec">
+          <div class="field"><span class="field-label">Order</span>
+            <div class="seg"><button>Made</button><button>X</button><button>Y</button><button>Z</button></div>
+            <div class="seg"><button>Radial</button><button>Spiral</button><button aria-pressed="true">Shell</button><button>Dice</button></div></div>
+          <div class="field"><span class="field-label">Easing</span>
+            <div class="seg"><button>Out</button><button>InOut</button><button>Linear</button><button aria-pressed="true">Settle</button></div></div>
+          <div class="field"><span class="field-label">Duration ms</span>
+            <div class="num-row"><input class="num" value="350" readonly /><span class="num-hint">Drag to scrub</span></div></div>
+        </div>`
+    },
+    view: {
+      kind: "Camera view",
+      name: "View 3 &middot; 1.3s",
+      body: `
+        <div class="sec">
+          <svg class="preview" viewBox="0 0 60 60"><rect width="60" height="60" fill="#000"/>
+            <g fill="#fff" opacity="0.93"><rect x="25" y="12" width="10" height="36"/><rect x="14" y="24" width="32" height="9"/><rect x="27" y="33" width="12" height="12"/></g>
+            <g stroke="rgba(255,255,255,0.18)" stroke-width="0.5"><path d="M30 6v48M6 30h48"/></g>
+            <rect x="6" y="6" width="48" height="48" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.6"/></svg>
+        </div>
+        <div class="sec">
+          <div class="field"><span class="field-label">Keyframe ms</span>
+            <div class="num-row"><input class="num" value="1300" readonly /><span class="num-hint">Drag to move on lane</span></div></div>
+          <div class="field"><span class="field-label">Pose</span>
+            <div class="num-row"><input class="num" value="180&deg;" readonly /><span class="num-hint">Azimuth</span></div>
+            <div class="num-row"><input class="num" value="0&deg;" readonly /><span class="num-hint">Elevation</span></div></div>
+          <div class="field"><span class="field-label">Projection</span>
+            <div class="seg"><button>Persp</button><button aria-pressed="true">Ortho</button></div></div>
+          <div class="row"><button class="btn">Recapture here</button><button class="btn danger">Remove view</button></div>
+        </div>`
+    },
+    move: {
+      kind: "Camera move",
+      name: "View 3 &rarr; View 4",
+      body: `
+        <div class="sec">
+          <div class="field"><span class="field-label">Pose path</span>
+            <div class="seg"><button>Cut</button><button>Linear</button><button aria-pressed="true">Orbit</button></div></div>
+          <div class="field"><span class="field-label">Pose easing</span>
+            <div class="seg"><button>Out</button><button aria-pressed="true">InOut</button><button>Linear</button><button>Settle</button></div></div>
+          <div class="field"><span class="field-label">Pose cut</span>
+            <div class="num-row"><input class="num" value="0.50" readonly /><span class="num-hint">0 &rarr; 1 across the move</span></div></div>
+        </div>
+        <div class="sec">
+          <div class="field"><span class="field-label">Projection</span>
+            <div class="seg"><button>Cut</button><button aria-pressed="true">Blend</button></div></div>
+          <div class="field"><span class="field-label">Projection easing</span>
+            <div class="seg"><button>Out</button><button aria-pressed="true">InOut</button><button>Linear</button><button>Settle</button></div></div>
+          <div class="field"><span class="field-label">Projection cut</span>
+            <div class="num-row"><input class="num" value="0.50" readonly /><span class="num-hint">0 &rarr; 1 across the move</span></div></div>
+        </div>
+        <div class="sec">
+          <div class="field"><span class="field-label">Sweep 45&deg;</span>
+            <div class="row"><button class="btn">Reverse</button><button class="btn">+ Turn</button><button class="btn">&minus; Turn</button></div></div>
+          <div class="field"><span class="field-label">Duration</span>
+            <div class="num-row"><input class="num" value="200 ms" readonly /><span class="num-hint">Set by the two views</span></div></div>
+        </div>`
+    }
+  };
+
+  const kindEl = document.getElementById("ik");
+  const nameEl = document.getElementById("in");
+  const bodyEl = document.getElementById("ib");
+
+  function show(key, el) {
+    const panel = PANELS[key];
+    if (!panel) return;
+    kindEl.innerHTML = panel.kind;
+    nameEl.innerHTML = (el && el.dataset.name) || panel.name;
+    bodyEl.innerHTML = panel.body;
+    // the rail previews what was actually clicked, not a canned tile
+    const source = el && el.querySelector("svg.thumb");
+    const target = bodyEl.querySelector("svg.preview");
+    if (source && target) target.innerHTML = source.innerHTML;
+    document.querySelectorAll(".is-sel, .card.is-sel").forEach((n) => n.classList.remove("is-sel"));
+    if (el) el.classList.add("is-sel");
+  }
+
+  document.querySelectorAll("[data-sel]").forEach((el) => {
+    el.addEventListener("click", () => show(el.dataset.sel, el));
+  });
+
+  show("move", document.querySelector('.move[style*="39.8"]'));
+</script>
+
+</body>
+</html>

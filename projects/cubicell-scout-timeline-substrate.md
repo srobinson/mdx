@@ -1,0 +1,68 @@
+# Scout: timeline substrate (cubicell)
+
+Scouted on `feat/animation-studio` at 0dbdf38 (slices 1-4 merged, tree clean), worktree `.claude/worktrees/animation-studio`, read-only. Target capability: a timeline surface in the Animation Studio — horizontal time axis over the bound snapshot's score, scrubbable playhead driving the existing transport clock, track rows mirroring the score's tracks, later drag-retiming of keyframes. Everything below is derived from code; symbols cited as `file:symbol`.
+
+## Reuse Map
+
+### 1. Transport clock write path (the playhead's spine)
+
+- **Single writer**: `state/actions/transportActions.ts:createTransportActions`. A scrub joins the clock through `setTransportTime(timeMs)`, which clamps to `getPieceTransportDurationMs(state.workbench, state.editor.transport.pieceSource)` and clears `morphScrub` on any non-null write. `setTransportTime(null)` detaches and stops. There is no other legitimate `timeMs` writer besides the tick (`transport/advanceTransportTime.ts` via the actions) and `authoredReducer`'s enumerated pause sites. A timeline playhead must route every scrub through this action and hold no time state of its own beyond a bounded display value.
+- **Command routing**: `editor/commands.ts:createTransportScrubCommand` → `interaction/commands/transport.commands.ts` → `ports.transport.setTransportTime`. The full transport rail exists as commands: `createTransportPlayCommand`, `createTransportPauseCommand`, `createTransportPlayToggleCommand`, `createTransportLoopToggleCommand`, `createTransportSetRateCommand` (+ `transportRateMin/Max/Step`).
+- **Studio dispatch**: `app/useEditorCommands.ts` already returns `runEditorCommand`; `studios/animation/AnimationStudio.tsx:AnimationApp` already calls `useEditorCommands` (it destructures only `core`/`initialCamera` today). `panels/EditorCommandProvider.tsx` is a thin context wrapper needing only `onCommand`; today it is mounted only by `studios/editor/EditorStudio.tsx`. Mounting it in `AnimationApp` with the existing `runEditorCommand` gives the whole motion-panel component family its dispatch for free. Direct store actions (as `setTransportPieceSource` is already called) are the equally valid lighter path.
+- **Play/restart semantics**: `transportActions.ts:withTransportPlaying` (restart from detached or held end), refusal to play at duration 0, `setSaveState` pause on blocking saves.
+- **Loop scoping**: `setTransportLoop` / `toggleTransportLoop` / `setTransportLoopWindow` with `state:TransportLoopWindow`. `panels/motion/PieceMotionPanel.tsx` shows the pattern: a focused segment derives its window via `getStateTransitionSegmentMs` and re-derives live on duration edits. A timeline region-loop reuses this unchanged.
+- **Duration (axis extent)**: `state/transportSelectors.ts:getPieceTransportDurationMs(workbench, pieceSource)` — since slice 4 it is source-aware and resolves the bound snapshot's own score via `domain/workbench.ts:getOriginPieceSnapshot`. The timeline axis length is exactly this selector's value; never `getScoreDurationMs` directly on an assumed asset.
+
+### 2. Score / track / keyframe shapes and time semantics
+
+- **Score**: `domain/score.ts:Score` holds `tracks: ScoreTrack[]` where `ScoreTrack = AssemblyTrack | StateTransitionTrack | CameraTrack`. A snapshot's score is a `PieceScore` (at most one assembly + one state-transition track, `isPieceScore`).
+- **AssemblyTrack**: `cadence: AssemblyCadence { arriveMs, stepMs, curve?: CadenceCurve }` (`"linear" | "accelerando" | "ritardando" | "swing"`), optional `quantize` (stop-motion progress snapping, applied in `evaluation/scoreAt.ts:quantizeProgress`), optional `exit: AssemblyExit { departMs, holdMs, order, stepMs, curve }`, `easing: EasingId`, `order: string[]`. Per-cube start offsets come from `domain/assemblyTiming.ts:getAssemblyStartOffsetMs` (curve-shaped stagger); durations from `getAssemblyBuildDurationMs` / `getAssemblyDurationMs`.
+- **StateTransitionTrack**: `startMs` + `keyframes: Keyframe[] ({ id, stateId })` + `transitions: Transition[] ({ mode: "auto"|"cut", settings: MorphSettings })`. **There are no per-keyframe timestamps.** Keyframe times are derived: keyframe *n* sits at `startMs + Σ durationMs of transitions 0..n-1`. Drag-retiming a keyframe is therefore an edit of adjacent transition `settings.durationMs` values (or `startMs` for the first), not a timestamp write. Segment boundaries: `domain/stateTransition.ts:getStateTransitionSegmentMs` (per-transition `{startMs, endMs}`), `getStateTransitionEndMs`, `getStateTransitionDurationMs`. Position at t: `resolveStateTransitionPosition` (pre-`startMs` holds the first State static; local time measured from `startMs`). A timeline must consume these, never re-derive cumulative sums.
+- **Duration rule**: `evaluation/scoreAt.ts:getScoreDurationMs` — once a state-transition exists, its end is the piece end (assembly cannot create a hidden tail).
+
+### 3. Sampling at arbitrary t
+
+- Stage pipeline (already snapshot-aware): `transport/stagedScene.ts:resolveStageSource` → `evaluation/pieceAt.ts:resolveSnapshotPieceSource` → `resolvePieceSample` (uses `resolveStateTransitionPosition`, resolves snapshot endpoints through `getSnapshotStateScene` pins) → `samplePieceAt` (assembly presence via `scoreAt`). Transition frames: `evaluation/sceneTransition.ts:sampleSceneTransition` (cut swaps at `cutAt * durationMs`; morph via `sampleSceneMorph`). A timeline scrub needs **zero new sampling code**: writing `timeMs` through the clock re-samples the stage.
+- Easing/quantize vocabulary for drawing cadence shapes on rows if desired: `scoreAt.ts:easingFor`, `quantizeProgress`.
+
+### 4. Scrub input machinery (candidate playhead input)
+
+- **Engine**: `components/ui/scrub-field/useScrubGesture.ts` — pointer drag (px→step via `scrubValue.ts:getScrubbedValue`, `scrubFieldPixelsPerStep`), wheel (`useWheelScrub`, idle-commit after `scrubFieldWheelIdleMs`), keyboard with repeat and Escape-cancel. Handles begin/preview/commit/cancel lifecycles and render pulses (`scene/renderProducers.ts:requestRenderPulse`/`finishRenderPulse` with `renderProducers.scrub`).
+- **Non-passive wheel**: `components/ui/useNonPassiveWheel.ts` — the slice that fixed React's passive root listener; both `ScrubField.tsx` and `NumberStepper.tsx` bind through it. A timeline strip that wheel-scrubs must use this hook, not `onWheel`.
+- **Transaction port**: `interaction/gestureTransaction.ts:ScrubGesturePort` (begin/preview/commit/cancel with owner finish). `app/useAuthoredScrubGesture.ts` adapts the store's `authoredGesture` so scrub previews of *authored* values coalesce into one undo entry with interaction cancellation. Transport scrubs are transient (no gesture port needed); retiming scrubs must go through this port exactly as `panels/motion/MotionInspector.tsx` does.
+- **Feel knobs**: all in `config/cubicellConfig.ts` (`scrubField*`, `transportPlayheadMaxHz`). New timeline feel constants belong there too.
+
+### 5. Existing playhead and track-row precedents
+
+- **Playhead**: `panels/motion/TransportPlayhead.tsx` — a native `input[type=range]` scaled to `durationMs`, loop-window overlay band, `formatSecondsLabel` time readout, scrub pulses, writes via `createTransportScrubCommand`. **Bounded reads**: `panels/motion/usePublishedTransportTime.ts` publishes live time at ≤ `transportPlayheadMaxHz` while preserving exact rest values, and returns a `publish` for optimistic local echo during a scrub. A timeline playhead is this component generalized to a wider strip; the read/write discipline transfers verbatim.
+- **Track rows**: `panels/motion/PieceStateStrip.tsx` — the filmstrip of build-in card, State cards, and gap (transition) cards with durations, already a horizontal projection of the piece score's two tracks in card form (`cc-strip` CSS vocabulary, sr-only pan instructions).
+- **Row inspector**: `panels/motion/MorphInspector.tsx` — presentational per-transition editor (durationMs scrub 100–8000 step 50, cutAt, mode, per-class motion). Its doc comment states it is "shared across authoring levels: a piece default in the Editor and an animation's own copy in the Studio" — it was built for exactly this reuse; the owner decides where patches land. Option labels in `panels/motion/motionOptions.ts`.
+- **Studio integration**: `AnimationStudio.tsx:AnimationApp` — `hasStage` gate, `setTransportPieceSource` bind/unbind in a layoutEffect, `readCurrentStage` forced-source framing read. A timeline mounts beside the Canvas under the same `hasStage` gate and reads the same `studioPieceSource`.
+
+### 6. Retiming operations (authored write path)
+
+- **Structure rail (complete)**: `domain/structureSequenceOperations.ts` — `append-keyframe`, `move-keyframe`, `remove-keyframe`, `patch-transition` (durationMs lives in `TransitionPatch.settings`); `domain/structureOperations.ts:set-piece-transition-start`; undo inverses in `domain/authoredInverse.ts`; pure helpers `domain/stateTransition.ts:appendKeyframe/moveKeyframe/removeKeyframeAt/patchTransition`. History coalescing: `beginHistoryBatch`/`endHistoryBatch` (see `PieceMotionPanel.tsx:snapshot`).
+- **Snapshot rail (absent)** — see the flag below.
+
+## Quality Map
+
+- All load-bearing files are healthy: largest touched are `transportActions.ts` (218), `PieceMotionPanel.tsx` (260), `PieceStateStrip.tsx` (225), `MorphInspector.tsx` (230), `useScrubGesture.ts` (346). No 700-line pressure anywhere on this seam.
+- **Two scrub idioms coexist**: `TransportPlayhead` uses a native range input with hand-wired pulses; `ScrubField`/`useScrubGesture` is the richer engine (cancel, wheel-idle commit, keyboard repeat, gesture port). A timeline playhead should not introduce a third idiom; either generalize `useScrubGesture` with a px→ms mapping for the strip or extend the range-input pattern. If the timeline playhead gains wheel/keyboard scrubbing, folding `TransportPlayhead` onto the same engine is the consolidation opportunity.
+- The command dispatch context (`EditorCommandProvider`) is Editor-mounted only; the studio calling store actions directly is the current precedent (`setTransportPieceSource`). Either path is clean; mixing both in one surface would not be.
+- `resolveStateTransitionPosition` / `getStateTransitionSegmentMs` are the sole owners of segment math; the strip and loop-window code already share them. Any timeline geometry helper that re-sums durations is a duplication defect.
+- `usePublishedTransportTime` is the sole sanctioned high-frequency transport read for DOM; a timeline subscribing rawly to `timeMs` would violate the bounded-read invariant (I11 of the playback seam map).
+
+## Plan
+
+1. **Timeline surface** (new component under `src/studios/animation/` or `src/panels/motion/` if Editor will share it): axis scaled by `getPieceTransportDurationMs(workbench, pieceSource)`; playhead reads `usePublishedTransportTime`, writes `setTransportTime` (store action, or `createTransportScrubCommand` after mounting `EditorCommandProvider` with the studio's existing `runEditorCommand`); scrub pulses via `renderProducers.scrub`. No new state, no new clock, no new sampling.
+2. **Scrub input**: reuse `useScrubGesture` (or its wheel/pointer sub-hooks) with a strip-local px→ms step; wheel through `useNonPassiveWheel`. Feel constants into `cubicellConfig.ts`.
+3. **Track rows**: derive row geometry from the bound snapshot's score via `getStateTransitionSegmentMs` + `assemblyTiming` helpers; card vocabulary from `PieceStateStrip`; per-transition editing panel is `MorphInspector` as-is (it is already owner-agnostic).
+4. **Drag-retiming (later slice)**: UI-side it is a `ScrubGesturePort` gesture emitting `TransitionPatch { settings: { durationMs } }` / start edits — but see the flag.
+
+## Cannot do without domain changes
+
+- **Editing the bound snapshot's score.** `domain/workbenchOperations.ts:AnimationDocumentOperation` is exactly `create-animation-asset`, `rename-animation-asset`, `delete-animation-asset`, `seed-animation-from-structure`. No operation mutates `pieceSnapshots[].score`; the sequence operations (`structureSequenceOperations.ts`) target `StructureAsset.score` only. Drag-retiming of keyframes on a timeline drawn over the snapshot therefore needs new domain code: snapshot-scoped score operations (at minimum a `patch-transition`/`set-transition-start` analogue addressing `{animationAssetId, snapshotId}`), their `authoredInverse` entries, and validation/repair coverage. Searches run: `rg 'kind: "' domain/workbenchOperations.ts`; `rg 'moveKeyframe|patchTransition|appendKeyframe|removeKeyframeAt'` (consumers: `structureSequenceOperations` only); `rg 'pieceSnapshots'` in `src/domain` (creation, seed, and lookup sites only).
+- **Per-keyframe timestamps do not exist** (derived-time model above). A timeline offering free x-positioning of keyframes would be a semantic change to `StateTransitionTrack`; retiming as duration edits fits the existing model and needs no shape change.
+- **Timeline tracks on the animation's own score** are camera-only today: `domain/stateTransition.ts:repairAnimationScore` enforces `StageScore` (≤1 camera track); `domain/score.ts` docs note `CueTrack` "arrives with Studio composition". Rows beyond the snapshot mirror + camera are future domain work, out of scope for this surface.
+
+Capabilities mapped: 22 (transport write/routing/dispatch/play/loop/rate/duration; score shapes, segment geometry, position-at-t, sampling, easing vocabulary; scrub engine, non-passive wheel, scrub controls, gesture port; playhead, bounded time reads, track-row strip, transition inspector, studio stage binding, time formatting, history batching; structure-rail retiming ops).

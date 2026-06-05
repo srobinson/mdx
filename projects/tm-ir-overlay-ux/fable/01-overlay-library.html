@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM · IR Overlays · 01 Library</title>
+<style>
+  :root {
+    --ink: #1c1c1a; --ink-soft: #6b6b66; --ink-faint: #9c9c96;
+    --paper: #fafaf7; --panel: #ffffff; --accent: #e8e4dc;
+    --line: #d9d7d0; --line-soft: #eceae4;
+    --good: #2e6e4e; --good-bg: #e7f2ec;
+    --noop: #8a6d1f; --noop-bg: #f6efdf;
+    --note: #4a5f8a; --note-bg: #eef1f8;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+  a { color: inherit; }
+
+  .wf-bar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:1px solid var(--line); background:var(--panel); }
+  .wf-bar .crumb { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .wf-bar nav { margin-left:auto; display:flex; gap:2px; font-size:12px; }
+  .wf-bar nav a { text-decoration:none; padding:4px 10px; border:1px solid transparent; border-radius:4px; color:var(--ink-soft); }
+  .wf-bar nav a.on { background:var(--accent); border-color:var(--line); color:var(--ink); }
+  .wf-bar nav a:hover { border-color:var(--line); }
+
+  .page { max-width: 1180px; margin: 0 auto; padding: 24px 20px 80px; }
+  .page-head { display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .page-head h1 { font-size:20px; font-weight:600; }
+  .page-head .sub { color:var(--ink-soft); font-size:13px; }
+  .page-head .cta { margin-left:auto; display:flex; gap:8px; }
+  button.primary, button.ghost { font:inherit; font-size:13px; padding:7px 14px; border-radius:5px; cursor:pointer; }
+  button.primary { background:var(--ink); color:var(--paper); border:1px solid var(--ink); }
+  button.ghost { background:transparent; border:1px solid var(--line); color:var(--ink); }
+  button.ghost:hover { background:var(--accent); }
+
+  .lede { color:var(--ink-soft); font-size:13px; max-width:72ch; margin-bottom:20px; }
+  .lede code { font-family:var(--mono); font-size:12px; background:var(--line-soft); padding:1px 4px; border-radius:3px; }
+
+  .cols { display:grid; grid-template-columns: 1fr 320px; gap:20px; align-items:start; }
+
+  .group-head { font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-faint); margin:0 0 8px; }
+  .group-head:not(:first-child) { margin-top:22px; }
+  .ovl-list { display:flex; flex-direction:column; gap:10px; }
+
+  .ovl { background:var(--panel); border:1px solid var(--line); border-radius:8px; cursor:pointer; transition: border-color .12s; overflow:hidden; }
+  .ovl:hover { border-color:var(--ink-faint); }
+  .ovl.sel { border-color:var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .ovl.off .ovl-id, .ovl.off .fp-list { opacity:.5; }
+
+  .ovl-id { padding:14px 16px 10px; }
+  .ovl-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .ovl-name { font-weight:600; font-size:15px; }
+  .chip { font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; border:1px solid var(--line); background:var(--paper); white-space:nowrap; }
+  .chip.scope-shared { background:var(--accent); }
+  .chip.scope-project { background:var(--note-bg); border-color:#c9d2e6; color:var(--note); }
+  .ovl-meta { display:flex; gap:16px; margin-top:8px; font-size:12px; color:var(--ink-soft); flex-wrap:wrap; }
+  .ovl-meta b { color:var(--ink); font-weight:600; }
+  .prov { font-size:12px; color:var(--ink-soft); margin-top:6px; }
+  .prov .src { font-family:var(--mono); font-size:11px; }
+
+  /* scalable application profile: one row per harness+version+model fingerprint */
+  .fp-list { border-top:1px solid var(--line-soft); }
+  .fp-title { font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-faint); padding:8px 16px 2px; }
+  .fp { display:flex; align-items:center; gap:10px; padding:5px 16px; font-size:12px; }
+  .fp + .fp { border-top:1px dotted var(--line-soft); }
+  .fp .print { font-family:var(--mono); font-size:11px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .fp .print .hn { font-weight:700; }
+  .fp .print .dim { color:var(--ink-faint); }
+  .fp .mode { color:var(--ink-soft); font-size:11px; white-space:nowrap; margin-left:auto; }
+  .outcome { display:inline-block; font-family:var(--mono); font-size:10px; padding:1px 7px; border-radius:3px; white-space:nowrap; }
+  .outcome.applied { background:var(--good-bg); color:var(--good); border:1px solid #bcd7c8; }
+  .outcome.noop { background:var(--noop-bg); color:var(--noop); border:1px solid #e0d3ae; }
+  .fp-more { padding:5px 16px 9px; }
+  .fp-more button { font:inherit; font-family:var(--mono); font-size:10.5px; color:var(--note); background:none; border:none; cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:2px; }
+  .fp.extra { display:none; }
+  .ovl.fp-open .fp.extra { display:flex; }
+
+  .ovl-foot { display:flex; align-items:center; gap:10px; border-top:1px solid var(--line-soft); padding:8px 16px; font-size:12px; color:var(--ink-soft); }
+  .ovl-foot .spacer { flex:1; }
+  .switch { position:relative; width:36px; height:20px; border-radius:10px; background:var(--line); border:none; cursor:pointer; padding:0; flex:none; }
+  .switch::after { content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--panel); transition:left .12s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+  .switch[aria-checked="true"] { background:var(--good); }
+  .switch[aria-checked="true"]::after { left:18px; }
+
+  .draft-card { background:var(--panel); border:1px dashed var(--line); border-radius:8px; padding:14px 16px; }
+  .draft-card .pending { font-style:italic; color:var(--ink-faint); font-weight:400; }
+  .draft-actions { display:flex; gap:8px; margin-top:10px; align-items:center; }
+  .draft-actions .hint { font-size:12px; color:var(--ink-faint); margin-left:6px; }
+
+  .rail { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; position:sticky; top:16px; }
+  .rail h2 { font-size:14px; margin-bottom:2px; }
+  .rail .railsub { font-size:12px; color:var(--ink-soft); margin-bottom:12px; }
+  .rail h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin:14px 0 6px; }
+  .edit-list { display:flex; flex-direction:column; gap:6px; }
+  .edit { display:flex; align-items:baseline; gap:8px; font-size:12px; padding:6px 8px; border:1px solid var(--line-soft); border-radius:5px; background:var(--paper); }
+  .edit .kind { font-family:var(--mono); font-size:10px; color:var(--note); background:var(--note-bg); padding:1px 5px; border-radius:3px; white-space:nowrap; }
+  .edit .tgt { font-family:var(--mono); font-size:11px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .edit .delta { font-family:var(--mono); font-size:11px; color:var(--good); white-space:nowrap; }
+  .rail .actions { display:flex; gap:8px; margin-top:16px; }
+  .rail .actions button { flex:1; }
+  .adv-door { margin-top:14px; border-top:1px solid var(--line-soft); padding-top:12px; font-size:12px; color:var(--ink-soft); }
+  .adv-door a { text-decoration:underline; text-underline-offset:2px; }
+
+  .anno { border-left:3px solid var(--note); background:var(--note-bg); color:var(--note); font-size:12px; padding:8px 12px; border-radius:0 6px 6px 0; margin:18px 0; max-width:78ch; }
+  .anno b { font-weight:700; }
+  .anno code { font-family:var(--mono); font-size:11px; }
+</style>
+</head>
+<body>
+
+<header class="wf-bar">
+  <span class="crumb">transport-matters / <b>overlays</b></span>
+  <nav>
+    <a href="00-reveal-optimize.html">00 Reveal &amp; optimize</a>
+    <a class="on" href="01-overlay-library.html">01 Overlays</a>
+    <a href="03-exchange-view.html">03 Evidence</a>
+    <a href="04-codex-sparse-turn.html">04 Edge cases</a>
+    <a href="02-overlay-editor.html">02 Advanced</a>
+  </nav>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>Overlays</h1>
+    <span class="sub">curate the IR once · native wire regenerated per provider</span>
+    <span class="cta">
+      <button class="primary" title="wireframe: starts the screen-00 journey">Optimize a run</button>
+    </span>
+  </div>
+  <p class="lede">
+    An overlay is a named, scoped bundle of IR edits, applied automatically and never blocking a turn.
+    Application depends on wire shape, so each overlay reports per fingerprint
+    (<code>harness · version · model</code>): full-context harnesses apply every turn, incremental ones apply
+    when their targets cross the wire. Token numbers are always per run; the reveal lives on
+    <a href="00-reveal-optimize.html">Reveal &amp; optimize</a>.
+  </p>
+
+  <div class="cols">
+    <div>
+      <h2 class="group-head">Drafts · 1 · confirm name and scope before an overlay can run</h2>
+      <div class="ovl-list">
+        <article class="draft-card">
+          <div class="ovl-top">
+            <span class="ovl-name pending">Unnamed draft</span>
+            <span class="chip scope-project">project · ~/dev/acme-api</span>
+            <span class="chip">2 edits · messages</span>
+          </div>
+          <p class="prov">Born from a breakpoint edit · run <span class="src">acme-api-main · 2026-08-07</span> · redacts internal hostnames</p>
+          <div class="draft-actions">
+            <button class="primary">Name &amp; confirm</button>
+            <button class="ghost">Discard</button>
+            <span class="hint">a draft never applies; no enable control until confirmed</span>
+          </div>
+        </article>
+      </div>
+
+      <h2 class="group-head">Overlays · 3</h2>
+      <div class="ovl-list" id="list">
+
+        <article class="ovl sel" data-id="tmopt" tabindex="0">
+          <div class="ovl-id">
+            <div class="ovl-top">
+              <span class="ovl-name">TM optimized · acme-api</span>
+              <span class="chip scope-project">project · ~/dev/acme-api</span>
+            </div>
+            <div class="ovl-meta">
+              <span><b>7</b> edits</span>
+              <span>touches <b>system</b> · <b>tools</b></span>
+              <span>saves <b>~2.7k tok</b> / applied turn</span>
+            </div>
+            <p class="prov">Built by the TM optimizer · preference <span class="src">Claude Max · claude-fable-5</span> · 2026-08-07</p>
+          </div>
+          <div class="fp-list">
+            <div class="fp-title">Application profile · 6 fingerprints seen</div>
+            <div class="fp"><span class="print"><span class="hn">claude</span> · 2.1.161 · <span class="dim">claude-fable-5</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 96</span><span class="outcome noop">NO-OP 0</span></div>
+            <div class="fp"><span class="print"><span class="hn">claude</span> · 2.1.154 · <span class="dim">claude-opus-5</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 32</span><span class="outcome noop">NO-OP 0</span></div>
+            <div class="fp"><span class="print"><span class="hn">codex</span> · 0.48.0 · <span class="dim">gpt-5.2-codex</span></span><span class="mode">when targets cross the wire</span><span class="outcome applied">APPLIED 9</span><span class="outcome noop">NO-OP 32</span></div>
+            <div class="fp extra"><span class="print"><span class="hn">codex</span> · 0.47.2 · <span class="dim">gpt-5.2</span></span><span class="mode">when targets cross the wire</span><span class="outcome applied">APPLIED 2</span><span class="outcome noop">NO-OP 11</span></div>
+            <div class="fp extra"><span class="print"><span class="hn">claude</span> · 2.0.9 · <span class="dim">claude-sonnet-5</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 5</span><span class="outcome noop">NO-OP 0</span></div>
+            <div class="fp extra"><span class="print"><span class="hn">gemini</span> · 0.9.1 · <span class="dim">gemini-3-pro</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 1</span><span class="outcome noop">NO-OP 0</span></div>
+            <div class="fp-more"><button data-more>+ 3 more fingerprints</button></div>
+          </div>
+          <div class="ovl-foot"><span>enabled</span><span class="spacer"></span><button class="switch" role="switch" aria-checked="true" aria-label="enabled" data-stop></button></div>
+        </article>
+
+        <article class="ovl" data-id="trim" tabindex="0">
+          <div class="ovl-id">
+            <div class="ovl-top">
+              <span class="ovl-name">Trim harness boilerplate</span>
+              <span class="chip scope-shared">shared</span>
+            </div>
+            <div class="ovl-meta">
+              <span><b>6</b> edits</span>
+              <span>touches <b>system</b> · <b>tools</b></span>
+              <span>saves <b>~3.1k tok</b> / applied turn</span>
+            </div>
+            <p class="prov">Born from a breakpoint edit · run <span class="src">canvas-overlay-boundary · 2026-08-02</span></p>
+          </div>
+          <div class="fp-list">
+            <div class="fp-title">Application profile · 2 fingerprints seen</div>
+            <div class="fp"><span class="print"><span class="hn">claude</span> · 2.1.161 · <span class="dim">claude-fable-5</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 128</span><span class="outcome noop">NO-OP 0</span></div>
+            <div class="fp"><span class="print"><span class="hn">codex</span> · 0.48.0 · <span class="dim">gpt-5.2-codex</span></span><span class="mode">when targets cross the wire</span><span class="outcome applied">APPLIED 9</span><span class="outcome noop">NO-OP 32</span></div>
+          </div>
+          <div class="ovl-foot"><span>enabled</span><span class="spacer"></span><button class="switch" role="switch" aria-checked="true" aria-label="enabled" data-stop></button></div>
+        </article>
+
+        <article class="ovl" data-id="think" tabindex="0">
+          <div class="ovl-id">
+            <div class="ovl-top">
+              <span class="ovl-name">Cap thinking budget</span>
+              <span class="chip scope-shared">shared</span>
+            </div>
+            <div class="ovl-meta">
+              <span><b>1</b> edit</span>
+              <span>touches <b>sampling / extras</b></span>
+              <span>no char delta · behavior only</span>
+            </div>
+            <p class="prov">Authored in the advanced editor · <span class="src">2026-08-06</span></p>
+          </div>
+          <div class="fp-list">
+            <div class="fp-title">Application profile · 1 fingerprint seen</div>
+            <div class="fp"><span class="print"><span class="hn">claude</span> · 2.1.161 · <span class="dim">claude-fable-5</span></span><span class="mode">every turn</span><span class="outcome applied">APPLIED 31</span><span class="outcome noop">NO-OP 0</span></div>
+          </div>
+          <div class="ovl-foot"><span>enabled</span><span class="spacer"></span><button class="switch" role="switch" aria-checked="true" aria-label="enabled" data-stop></button></div>
+        </article>
+
+      </div>
+    </div>
+
+    <aside class="rail" id="rail">
+      <h2 id="rail-name">TM optimized · acme-api</h2>
+      <p class="railsub" id="rail-sub">project · ~/dev/acme-api · built by the TM optimizer</p>
+
+      <h3>Edits (IR transforms)</h3>
+      <div class="edit-list" id="rail-edits">
+        <div class="edit"><span class="kind">system_part_text</span><span class="tgt">system[0] · identity</span><span class="delta">−1,204 ch</span></div>
+        <div class="edit"><span class="kind">system_part_toggle</span><span class="tgt">system[3] · env reminder</span><span class="delta">−612 ch</span></div>
+        <div class="edit"><span class="kind">tool_description</span><span class="tgt">tools/Bash</span><span class="delta">−2,988 ch</span></div>
+        <div class="edit"><span class="kind">tool_description</span><span class="tgt">tools/WebFetch</span><span class="delta">−1,733 ch</span></div>
+        <div class="edit"><span class="kind">tool_toggle</span><span class="tgt">tools/NotebookEdit</span><span class="delta">−4,101 ch</span></div>
+        <div class="edit"><span class="kind">truncate_tool_result</span><span class="tgt">messages[*] tool_result &gt; 8k</span><span class="delta">varies</span></div>
+        <div class="edit"><span class="kind">sampling_set</span><span class="tgt">max_tokens</span><span class="delta">behavior</span></div>
+      </div>
+
+      <h3>Application semantics</h3>
+      <p style="font-size:12px; color:var(--ink-soft);">
+        Applied at intercept on every captured run in scope. A turn whose wire payload carries none of the
+        targeted sections is a recorded no-op, never an error.
+      </p>
+
+      <div class="actions">
+        <button class="ghost">Duplicate</button>
+        <button class="ghost">Delete</button>
+      </div>
+      <p class="adv-door">Need to hand-tune individual IR fields?
+        <a href="02-overlay-editor.html">Advanced · fine-grained control</a> — a power-user surface, not the
+        primary path.</p>
+    </aside>
+  </div>
+
+  <div class="anno">
+    <b>Design notes.</b> Reworked per Stuart's framing: the application profile is a dynamic vertical list,
+    one row per <code>harness · version · model</code> fingerprint, sorted by recency of traffic. Two
+    fingerprints read as two quiet rows; twenty read as a scrollable list behind a "+ N more" expander, so the
+    layout survives 10x providers without a redesign. There is no N-way token comparison matrix anywhere:
+    per-overlay numbers are per applied turn, and the token reveal is always per run, on screen 00. Drafts keep
+    their separate lifecycle section; the enable switch exists only on confirmed overlays. The optimizer-born
+    overlay records its provenance (preference used) alongside breakpoint-born and hand-authored ones.
+  </div>
+</div>
+
+<script>
+  // Row selection, enable toggles, fingerprint expander.
+  const railData = {
+    tmopt: { name: "TM optimized · acme-api", sub: "project · ~/dev/acme-api · built by the TM optimizer" },
+    trim: { name: "Trim harness boilerplate", sub: "shared · applies to every workspace on this channel" },
+    think: { name: "Cap thinking budget", sub: "shared · sampling / provider-extras only, no char delta" },
+  };
+  document.querySelectorAll(".ovl").forEach(row => {
+    row.addEventListener("click", (e) => {
+      if (e.target.closest("[data-stop],[data-more]")) return;
+      document.querySelectorAll(".ovl").forEach(r => r.classList.remove("sel"));
+      row.classList.add("sel");
+      const d = railData[row.dataset.id];
+      document.getElementById("rail-name").textContent = d.name;
+      document.getElementById("rail-sub").textContent = d.sub;
+    });
+  });
+  document.querySelectorAll(".switch").forEach(sw => {
+    sw.addEventListener("click", () => {
+      const on = sw.getAttribute("aria-checked") === "true";
+      sw.setAttribute("aria-checked", String(!on));
+      sw.closest(".ovl").classList.toggle("off", on);
+    });
+  });
+  document.querySelectorAll("[data-more]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const ovl = btn.closest(".ovl");
+      const open = ovl.classList.toggle("fp-open");
+      btn.textContent = open ? "− collapse" : "+ 3 more fingerprints";
+    });
+  });
+</script>
+</body>
+</html>

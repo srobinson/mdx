@@ -2,7 +2,7 @@
 title: ALP-2724 Pass 4 CLI Surface Review for session-matters
 type: research
 tags: [session-matters, linear, cli, review, helioy-bus]
-summary: Pass 4 review found one substantive W2 gap: daemon selector errors can retain the agent noun unless handler.rs is in scope.
+summary: 'Pass 4 review found one substantive W2 gap: daemon selector errors can retain the agent noun unless handler.rs is in scope.'
 status: active
 source: codebase-analyst
 confidence: high

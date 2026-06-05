@@ -1,0 +1,94 @@
+# Identity seam scout — browser half (fable)
+
+Scout of the browser half of the identity migration, at merged base `d1f499e5` (S2+S3 in, S4 = PR #328 open, not merged). Read-only. Citations are file:symbol. The design-call proposal (`tm-identity-s4-design-call.md`) was treated as a hypothesis and tested against the code; where I confirm it I say so, where I sharpen or disagree I say so.
+
+## 1. Identity write paths, enumerated from the code
+
+Method, stated up front so absence claims are checkable: `git grep` at `d1f499e5` for (a) every `setState` in `www/packages` production code, (b) every writer of `spaceId` / `defaultWorktreeId` / `canvasId` / `launch`, (c) every `history.replaceState`/`pushState`, (d) every caller of `initializeCanvas`, `selectSpace`, `adoptDefaultWorktree`, `createInitialCanvasModel`, `setActiveCanvasId`, (e) `useCanvasStore` imports outside `@tm/canvas` (zero), (f) persistence writers (`canvasStore.persistence.ts`, `canvasPersistOptions.ts`, `canvasCacheStorage.ts`). Test files and testSupport excluded, then re-checked separately.
+
+Acting identity lives in **three representations**, with these production writers:
+
+**A. Canvas store fields (`spaceId`, `defaultWorktreeId`, `canvasId`, `launch`) — six write paths, four owners:**
+1. Module load: `canvasStore.ts` creates the store with `canvasState.ts:createInitialCanvasModel(INITIAL_LAUNCH_CONTEXT)` — all-null identity.
+2. `canvasStoreLifecycle.ts:initializeCanvas`, null-canvas branch — patch merge (`launch.spaceId ?? state.spaceId`, same for worktree), canvasId forced null.
+3. `canvasStoreLifecycle.ts:initializeCanvas`, switching-canvas branch — wholesale model replacement via `createInitialCanvasModel`, plus the manual localStorage blob capture/restore and `persist.rehydrate()`.
+4. `canvasStoreLifecycle.ts:initializeCanvas`, same-canvas branch — patch merge of the three fields plus `launch`.
+5. `canvasStoreLifecycle.ts:selectSpace` — wholesale model replacement from a synthesized worktree-less launch. Deliberately not a store action; its comment already asserts single-caller discipline ("the dispatcher's `activateSpace` is the only caller") — by convention only.
+6. `canvasActions.ts:adoptDefaultWorktree` → `worktreeDefaults.ts:adoptDefaultWorktreePatch` — fills `spaceId`+`defaultWorktreeId` when unset; sole caller is `SessionCanvasRoute.tsx`'s meta-seed effect.
+
+Callers that reach these: `SessionCanvasRoute.tsx` (boot effect → path 2/3/4; meta-seed effect → path 6) and `CanvasCommandDispatcher.ts:initializeVerifiedCanvas` (select-worktree, select-canvas → path 3/4) plus `activateSpace` (→ path 5). `spaceCommandDispatcher.ts:dispatchSpaceMutation` writes only through the injected `activateWorktree`/`activateSpace` callbacks (no new path). `clearCanvas` does not touch identity. Persist rehydrate is **not** a writer: `canvasStore.persistence.ts:createCanvasStorePersistOptions` partializes by whitelist (content refs, rects, order, docked, `paneCounters`); identity fields never enter the blob.
+
+**B. The module mirror `canvasStoreLifecycle.ts:activeCanvasId`** — the persist storage key (`canvasCacheStorage` is constructed over `getActiveCanvasId`). Writers: module-load `resolveLaunchCanvasId()` (parses `window.location.search` at import time), `initializeCanvas` (direct assignment), and the `setActiveCanvasId` callback threaded through `createInitialCanvasModel` (so paths 3, 5 above also write it).
+
+**C. The URL (`window.location.search`)** — three writers, all in `CanvasCommandDispatcher.ts`: the `select-canvas` arm (`canvasSwitchUrl`), `activateSpace` (`spaceSwitchUrl`), `activateWorktree` (`worktreeSwitchUrl`). All `replaceState`; no other production `replaceState`/`pushState` writes identity params.
+
+Total: **10 production write sites across 3 representations** (6 store paths, 1 mirror with 3 assignment sites counted once as a representation, 3 URL writers), plus two representable-but-unused escape hatches: the exported `useCanvasStore.setState` (any module could write identity; none does outside the above) and `resetCanvasStoreForTests` (test-only). Out of scope by boundary, stated so it is not silently absent: per-pane worktree pins (`paneRecords` contentRef, `capturedRunAdoption.ts:candidateFromWire`) are pane state, not acting identity; no package outside `@tm/canvas` imports `useCanvasStore` at all.
+
+PR #328 would add a fourth representation (`actingContextStore` with five writer functions plus its own exported raw `setState`) without closing any of the above — that is the arithmetic of why the bridge cannot be total.
+
+## 2. Seam feasibility: yes, and cheaply
+
+A direct identity write can be made unrepresentable-by-compiler for everything except same-module code, using mechanisms this codebase already relies on:
+
+- **Closure-passed setters.** `canvasActions.ts` already receives `set`/`get` from the `create()` closure and never touches the exported hook. The store module can therefore stop exporting `setState` entirely: export a selector hook and named actions only. The only production user of `useCanvasStore.setState` outside the model layer is `canvasStoreLifecycle` itself (which takes the store as a parameter). Cost of encapsulation: near zero in production code; tests migrate to an exported testSupport reset/seed helper.
+- **Module privacy.** Keep the raw store `const` unexported; export `useCanvasStore = <T>(selector) => store(selector)` plus the actions. TypeScript then rejects any new writer outside the module — the compiler proof the design-call asks for. Precedent for function-wrapped writes: `dragSessionStore.ts:beginDragSession`/`endDragSession` (though that store still exports its raw hook — the pattern exists, the discipline is currently unfinished).
+- **Cross-package enforcement already exists.** `importGraphBoundary.test.ts` enforces entrypoint-only imports (`SPACE_CLIENT_ENTRYPOINT`, `CANVAS_SRC`, deep imports fail closed), and the canvas package's `exports` map does the same at resolution time. A store module not exported from `index.ts` is unreachable from other packages by test and by resolver.
+- **What types cannot do.** Branding (`asSpaceId` et al) constrains wrong *values*, never wrong *writers*. The receipt type cannot prevent a bypass write; only module visibility can. The design-call's claim here is confirmed.
+
+So the mechanism is: private store + closed `IdentityCommand` union through one activation service + the existing boundary test + an absence grep as belt. Nothing new has to be invented.
+
+## 3. One store or two
+
+**A non-persisted slice of the existing canvas store satisfies every §7 constraint.** Checked against the actual persistence code, not the plan text:
+- Nothing added to the blob: `createCanvasPersistOptions` partializes by explicit whitelist; the identity fields *already live in this store today* and already stay out of the blob. Adding aggregate fields (phase, generation) changes nothing persisted.
+- No `CANVAS_STORE_STORAGE_VERSION` bump: version only guards blob shape; the blob is unchanged.
+- canvasId-keys-the-blob: already solved outside the store by the `activeCanvasId` module mirror consulted by the storage adapter — unchanged by store count.
+
+So the §7 argument ("identity must not be in the persist blob") does **not** produce "identity needs its own store". The correction in the brief is right to isolate that step; the step does not hold.
+
+**What the separate `actingContextStore` actually bought, audited:** (a) package placement in `@tm/space-client` — but every consumer of that store is in `@tm/canvas`; no second browser surface exists (inspector has zero identity usage, verified in the plan and by grep); (b) exercising the reducer without the canvas product — a *pure reducer* needs no store for that, `domain/actingContext.test.ts` proves it by testing `resolveActingContext` directly; (c) lifecycle independence from the wholesale model replacement in paths 3/5 — real, but under a single-writer service the same action that replaces the model installs the identity, so independence buys nothing. Meanwhile the second live store is what created the S4 failure class: manual sync pairing (opus M-3), inverted write ordering that can wedge Space switching (opus M-2), and a bridge that is semantically non-total (solmax B-1).
+
+**Verdict: one store.** Aggregate state becomes a module-private, non-persisted slice of the canvas store, written only by the activation service, with the legacy fields written *in the same `setState`* as derived projections during the bridge window. One synchronous write, no cross-store divergence window at all — the atomicity question (what if the second write throws) stops existing rather than being handled. The pure parts stay in `@tm/space-client` (reducer, `urlTupleCodec`, `spaceTransport.verifyActingContext`), which is the correct reading of the plan's §2 placement test: space-client keeps the *rules*, the one product that has browser state keeps the *state*. This sharpens the design-call, which mandates the service but leaves its home unstated.
+
+## 4. The transport gap
+
+Established topology, from `main.py`, `run_proxy.py`, `gateway_supervisor.py`, `config.py`, `packages/gateway/src/{app,main}.ts`, `www/packages/shell/vite.config.ts`:
+
+- **The browser's origin is Python in all three modes.** Packaged: FastAPI serves the built canvas bundle at `/canvas` and every `/v1` route. Desktop: same, with the node gateway either backend-supervised (`config.py:gateway_supervise`, `main.py` spawns `plan_gateway_supervision`'s plan) or Electron-owned via explicit `gateway_url` — either way the browser never learns the gateway's port. Dev: the shell composer's vite server proxies `/api`, `/v1`, `/health` to `TM_DEV_API_BASE_URL` (`vite.config.ts:buildDevServerProxy`), i.e. to the same Python origin.
+- **The gateway is reachable only through explicit per-route Python proxies.** `main.py` mounts `run_proxy.create_run_proxy_mount(gateway_url=…)` for the run-lifecycle and terminal families; with no gateway configured it mounts `runs_unavailable` (503). This is exactly `docs/ARCHITECTURE.md`'s migration-era rule: "Until the Gateway exists, Python remains the origin and reverse-proxies the Runtime routes to it."
+- **The verify route exists only behind that wall.** `spaceRouter.ts:createSpaceRouter` declares `POST /spaces/acting-context/verify` and `/spaces/acting-context/resolve-workdir`; `gateway/src/app.ts:buildGateway` mounts it under `/v1`; `gateway/src/main.ts` wires real DB deps via `createSpaceGatewayDeps` — the route is live on the gateway origin. But Python's `space_routes.py` owns browser-facing `/v1/spaces` and has no `acting-context` routes and no forward. Hence the unconditional 404: S2's verification surface has never been reachable by any browser in any mode.
+- **The missing test.** Nothing asserts the browser origin serves the route — `test_run_proxy.py` covers only run routes, and even the gateway's own origin harness `testSupport/originContractGateway.ts` mounts *only* the runtime router, so no space route appears in any origin-contract check. The one test that would have failed: a `test_space_proxy.py::test_verify_acting_context_forwards_to_gateway` in the `test_run_proxy.py` style (FastAPI TestClient in front of a stub gateway HTTP server), which 404s on today's main.
+- **The fix is a routing slice, not a patch:** a per-route Python forward for `/v1/spaces/acting-context/*` beside `run_proxy` (503-degrading when no gateway is configured, like `runs_unavailable`). Re-implementing verification in Python is ruled out by the one-control-plane rule; pointing the browser at the gateway origin is ruled out by the one-origin contract and by the browser not knowing the port. The design-call's "same-origin product plane proxy" is confirmed as the only shape consistent with the architecture doc.
+
+## 5. What survives PR #328
+
+Keep (≈45% of the added lines, concentrated where the PR was actually good):
+- `packages/contract/src/space/wire.ts:ActingContextResult` + the `@tm/space` re-export — correct DRY, all three reviewers agree.
+- `space-client/src/spaceTransport.ts:verifyActingContext` + `actingContextFailureCode` + both transport tests — correct boundary normalization; becomes real once §4's proxy lands.
+- `space-client/src/domain/actingContext.ts` — the `ActingContext`/`ActingContextEvent` types, `projectActingContextReceipt`, `sameReceipt`, and the bulk of `resolveActingContext`, **after repairing** the known reducer defects: the generation watermark lost on `clear`/`unresolved` (opus m-9, solmax M-2 first sequence) and the missing verified-claim-vs-workdir precedence (solmax Minor 1). Keep `domain/actingContext.test.ts` including the corpus parity harness, tightening the failure branch (opus m-11).
+- `commandTypes.ts`/`commandRows.ts` `anchorWorktreeId` + the `canvasRows.test.ts` split — this is the anchor-vs-default separation solmax's blocker demands, landed at the data source; any successor needs it.
+- The `zustand` catalog entry for `@tm/space-client` only if the service state ends up there; under my §3 verdict it is dropped.
+
+Discard or replace:
+- `actingContextStore.ts` (203 lines) and its 168-line suite — the second live store, exported raw hook, mirror/claim lifecycle; replaced by service-owned private state.
+- `canvasStoreLifecycle.ts:syncActingContextFromCanvasState` and every mirror call site — the dual-write bridge itself.
+- The dispatcher edits (`selectActingContext` calls, `getNavigationSpaceId` guard, pre-clear) — opus M-2/M-3; replaced by the service owning those transitions.
+- `SessionCanvasRoute.tsx`'s fire-and-forget verify effect — replaced by claim verification inside the boot use case.
+- `actingContextConsumerCoverage.test.ts` and the mismatch-ledger test — tautological (opus M-6/m-8, solmax M-3/M-4); enforcement moves to encapsulation plus absence greps.
+- The three reader migrations (CommandCenter, useLauncherData, CanvasWorkbench) as diffs — the *shape* is right and gets re-applied nearly verbatim in the flip slice, but against the service's selectors, with the worktree fallback made explicit so opus M-4 / my S4 Major cannot recur.
+
+## 6. Revised slice plan (replacing S4–S6)
+
+**R1 — Reach the control plane.** Python per-route proxy for `/v1/spaces/acting-context/*` → gateway, 503 when unconfigured; extend `originContractGateway.ts` to mount the space router. Gate: `just check && just test` plus the new `test_space_proxy.py` forward/degrade tests. Works without R2: yes — dark surface, no browser caller. Small, unblocks everything, independently revertable.
+
+**R2 — The seam, behaviour-preserving.** Encapsulate the canvas store (module-private raw store; exported selector hook + actions; testSupport reset). Introduce the activation service in `@tm/canvas` with a closed `IdentityCommand` union — `initialize-from-launch`, `select-space`, `select-worktree`, `select-canvas`, `adopt-default-worktree` — absorbing the six store write paths, the three URL writers, and the mirror updates. It writes only the legacy fields; no aggregate state, no reader changes, no new behaviour. Gate: `just check && just test` (full suite — structural move), plus absence greps: no `setState` reachable on the canvas store outside its module, no identity `replaceState` outside the service. Works without R3: yes — pure refactor.
+
+**R3 — Aggregate authority.** Add the (repaired) `resolveActingContext` state as the service's private non-persisted slice; every command runs the reducer; legacy fields become projections written in the same `setState`; URL/locator candidates verify through R1 with the generation watermark; CMDK selections install inventory rows synchronously (anchor as receipt worktree, default as spawn target — kept distinct); failed selection atomic; readers migrate to service selectors. The plan's six S5 evidence tests land red-first (reload-restore-and-launch — the `canvas_affinity_required` re-run; frozen-meta select-B; child-canvas reload; stale-meta; late-boot generation; failed-selection), plus one live desktop A/B probe. Gate: `just check && just test` plus those six. Optional split if the PR is too large: R3a lands the slice with **no exported selector** (inert by compiler, not by convention, replacing S4's shadow) and a pure old-vs-new comparator in tests only; R3b exports selectors, migrates readers, flips authority. One writer holds at every stage because R2 already made the service the only writer. Works without R4: yes — legacy fields persist as projections for anything unmigrated.
+
+**R4 — Contraction and locator.** Delete the legacy identity fields from `CanvasStoreState`, the meta-wins line, `isUsableIdentity`, `resolveCanvasLaunchIdentity`, `defaultCanvasId`, `canvasIdVerified`, `adoptDefaultWorktree`; re-point the persist storage key getter at the service's state (the mirror survives only as that getter's implementation detail). Add the window-scoped `sessionStorage` locator registered in `storageKeys.ts`, verified through R1 on boot, dangling → discarded; desktop relaunch recovers via `resolveWorkdirContext`. Gate: `just check && just test`, persist-OLD-snapshot-then-rehydrate, two-window isolation, URL-less boot, dangling-locator discard, absence greps for every retired symbol, `CANVAS_STORE_STORAGE_VERSION` unchanged.
+
+Bounding constraints check: no seeding anywhere (R1 proxies a read-only route; R4's relaunch path uses the existing read-only `resolveWorkdirContext`); one command surface (verification stays in `@tm/space`, both clients terminate at `_resolved_domain_request`); version unchanged (R3/R4 gates assert it); verification stays narrow (no checkout-presence folded in); end state fixes reload→launch (R3 evidence a), survives worktree switching (R3 evidence b + atomic selection), survives desktop relaunch (R4 locator + workdir fallback).
+
+## Recommendation
+
+Replace, do not repair: adopt the design-call's seam-first shape, with two sharpenings — the activation service and its state live in `@tm/canvas` as a private non-persisted slice of the *existing* store (one store, one synchronous write for aggregate + projections; `@tm/space-client` keeps only pure rules and transport), and the transport proxy lands first as its own slice because it is the one piece every path needs and the one piece nothing currently tests. The honest counterargument: repair preserves more of #328's landed code and its shadow window was meant to de-risk the flip — but the shadow only de-risks if writes are provably total, which requires building the seam anyway; once the seam exists a second live store adds divergence surface instead of safety, and the two hard defects (the unreachable verify route, the anchor-vs-default semantics) must be fixed under either path, so repair saves less than a third of one slice while keeping the failure class all three reviewers hit.

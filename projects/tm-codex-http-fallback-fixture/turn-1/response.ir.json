@@ -1,0 +1,50 @@
+{
+  "id": "resp_0f7998db130d88ee016a506f2260608191ac723d0306e4bbbc",
+  "model": "codex/gpt-5.6-sol",
+  "provider": "codex",
+  "stop_reason": "completed",
+  "usage": {
+    "input_tokens": 21589,
+    "output_tokens": 158,
+    "cache_read_input_tokens": 20224,
+    "cache_creation_input_tokens": 0
+  },
+  "content": [
+    {
+      "type": "thinking",
+      "text": "**Clarifying absence of web app URL**\n\n<!-- -->",
+      "provider_data": {
+        "id": "rs_0f7998db130d88ee016a506f247104819194167255dde483e6",
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABqUG8n1fjkabqZTJdp049KQ-2vyHDDoriJ0N2bmMh7Y4kfFcJ0mT4h426wnkYmsfaFc_ys5na_754xZw5jNTVj8XlG5j-7S_UVbQGsVe0hSIVBN7v4uMrcAmvK8KMQ-SF5M33p47tYXBC02XatA_w3mwd9hC4Y1G-zw6dZJ6ENDOGv5tA-iP-PeEQnM5rrN6FQQ9IXrkiqcvWDUFnUD5e9LJsHZD6ewmebOzeFw8oYXnyl9XJZPzw7hz5__stPuTCH2G6HlQfMqFvOTTgOaPf5ij7KPzWPMv9JcG76z2PZrVSaLPXmDPPMgKPlhMyIKeqoy-Oc-rjNizTT58GXE1O14liflIEe0NddCYeEwnZZoE4fczfSDGeG7HsocbkgX2TUdNQ6DFXxfiZ6oSP5IyQviXBKKnFqboa3Dq6jaJRjnnP2jei7J5vaGUcumYvFY8g-ok7egJuGpu-Soh3RXNH6tsNBO3xWLBfLIWiGH0F7xAmLdJbiWUBePM4C6lPihHrOFYuNYJhFY4800aSQU5p1eKaN21oBHKahDPPDjfphAP7PDMBgmphMMMSUkzKkRT3Ob8h9-1IsbD6jTraf5a5tZrdQ_krn_db4OTEtQewwXSwADu7HdSib1pN0_rwnTK1-LYmkfez8da3aJIxCdw32qN_Czp_XzCdwLt3pzuU7MxVoMPyMfryQgJw0uCiPv2X77qj7e_AuOHrenawe9mnYHZr36UUE0-w2U5FYiSu5-EMgShInuVbo9uA_CbxQoQdlwBslPavoLDYc3znxgTWeRFn9BJVzdZc1_txvni1KOcnphrsqOe-ZSTP7jozh-r4ZOSeB3dg40ZrAG6pq0SdME-FGmbJKRaxjDLr_0LZgpw4SR-ruUWBmGv-ueMMIWH1KxgNkBhs8uGC1RIHbxAB8ejgdMFTNdlVZUrDY0mDPfwTgX7QtTvcQyOdLz6NvbLB8WuXhlKBUUNugQ6T7CY-GmEciPv_Q5G2NOpp-7tALR4AV60GWHmb5SJ8-m676bk_5kKLaEOnOXnomJtixSwDlgANGL6ZB83seqEKmHg0gqhkWpZPxkqsn36oibY1T6CMyUo4-rJApjI4Ik7siWsAWE9HiXXPEkIBokq814xSv87dboBJqBZPImPKyhYbZegGKg3C_RsDQvbPD4mKBb4EOn5b7HxCj8DB9S4qH20X6VCjTVHhSbvQiFhAoRTq3xqZa3u3K65t7DW3nmURqoB1K4-gV8C-tnjk9CDuTdz1glok7VuXBKLikvNYT62OY5gE2PSr-vxrpDwwutXwh7mMIeSX13P6rDQ6LNJ3yUJNhH4v1MsQ6q1JWcJHw7qRBWzS_2JkV0PCPc-4om5nsgo_kA5dVShFZ1wVgN72HmjZb_4Xc80jEhmJU2CQ21c1Cp58_UN2d2zbwyXIFDX2kDzDGndLE7zjrl-EfYyV35YojUD09tz_sF2R31AuQ0Z-AIQIfXcvjoE7ajLwuCPM0F72zsYjGoWOPIbYjVSCzZxitcPn4yPbNyO9VMejMXMNFpDzM09_1nXzbqFokXkKoURQSColVAqw2CvY3r42dSzz9cWaW0Ut2EcHzBEDhX8rFMvFyvqWfXAhy2I1M8lTQo0_paLBEc8Bw1iN4y2cQb4XEdAjWj308yicqLLsw-dvEwjQ5qeUe",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "019f4a32-1b1f-7a13-b2a1-945e72c83d2b"
+        },
+        "metadata": {
+          "turn_id": "019f4a32-1b1f-7a13-b2a1-945e72c83d2b"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "No web app URL is specified in my system instructions. If you mean ChatGPT, the URL is https://chatgpt.com.",
+      "provider_data": null
+    }
+  ],
+  "provider_extras": {
+    "output_item_meta": [
+      {
+        "id": "rs_0f7998db130d88ee016a506f247104819194167255dde483e6",
+        "type": "reasoning"
+      },
+      {
+        "id": "msg_0f7998db130d88ee016a506f272c488191a0c27a5dfdd32639",
+        "type": "message",
+        "status": "completed",
+        "role": "assistant",
+        "phase": "final_answer"
+      }
+    ]
+  }
+}

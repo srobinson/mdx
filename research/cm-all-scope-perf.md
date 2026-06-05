@@ -2,7 +2,7 @@
 title: Performance cost of ScopeSelector::All in cm_recall and cm_browse
 type: research
 tags: [context-matters, performance, sqlite, fts5, ALP-2103]
-summary: Removing the scope_path WHERE for an All variant is essentially free at realistic store sizes. One real wrinkle: recall's no-query path walks ancestors and would collapse to a single query, changing depth-bias semantics.
+summary: 'Removing the scope_path WHERE for an All variant is essentially free at realistic store sizes. One real wrinkle: recall''s no-query path walks ancestors and would collapse to a single query, changing depth-bias semantics.'
 status: active
 source: codebase-analyst
 confidence: high

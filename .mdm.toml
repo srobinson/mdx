@@ -1,0 +1,58 @@
+# mdm configuration
+# https://github.com/helioy/markdown-matters
+
+[index]
+maxDepth = 10
+excludePatterns = ["node_modules", ".git", "dist", "build"]
+fileExtensions = [".md", ".mdx"]
+followSymlinks = false
+indexDir = ".mdm"
+
+[search]
+defaultLimit = 10
+maxLimit = 100
+minSimilarity = 0.35
+includeSnippets = true
+snippetLength = 200
+autoIndexThreshold = 10
+
+[embeddings]
+provider = "openai"
+model = "text-embedding-3-small"
+dimensions = 512
+batchSize = 100
+maxRetries = 3
+retryDelayMs = 1000
+timeoutMs = 30000
+hnswM = 16
+hnswEfConstruction = 200
+# baseURL = "https://custom-endpoint.example.com"
+# apiKey = "sk-..."
+
+[summarization]
+briefTokenBudget = 100
+summaryTokenBudget = 500
+compressionRatio = 0.3
+minSectionTokens = 20
+maxTopics = 10
+minPartialBudget = 50
+
+[aiSummarization]
+mode = "cli"
+provider = "claude"
+stream = false
+# model = "claude-sonnet-4-20250514"
+# baseURL = "https://api.anthropic.com"
+# apiKey = "sk-ant-..."
+
+[output]
+format = "text"
+color = true
+prettyJson = true
+verbose = false
+debug = false
+
+[paths]
+cacheDir = ".mdm/cache"
+# root = "/path/to/project"
+# configFile = "/path/to/.mdm.toml"

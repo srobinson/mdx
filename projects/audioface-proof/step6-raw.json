@@ -1,0 +1,81 @@
+{
+ "playback": {
+  "mode": "raw",
+  "intent": {
+   "tokenId": "panel.undock",
+   "source": "token-editor",
+   "at": 137425.60000000894,
+   "label": "Proof Undock Copy",
+   "seed": 0,
+   "velocity": 0.72,
+   "assetId": "user:b627f71c-f366-4bb7-8da6-98a7eed01f82"
+  },
+  "theme": "Studio",
+  "tokenId": "panel.undock",
+  "tokenLabel": "Proof Undock Copy",
+  "duration": 0.08,
+  "metrics": {
+   "velocity": 1,
+   "weight": 0.46,
+   "brightness": 0.58,
+   "tension": 0.44,
+   "density": 0.5,
+   "politeness": 0.5,
+   "contrast": 0.5,
+   "mechanical": 0.5,
+   "warmth": 0.5,
+   "variation": 0
+  },
+  "layers": [
+   {
+    "type": "noise",
+    "duration": 0.03,
+    "gain": 0.17600000000000002,
+    "attack": 0.001,
+    "decay": 0.014,
+    "filter": {
+     "type": "bandpass",
+     "frequency": 3000,
+     "q": 3.4
+    }
+   },
+   {
+    "type": "tone",
+    "waveform": "triangle",
+    "frequency": 220,
+    "endFrequency": 315.421686746988,
+    "gain": 0.075,
+    "duration": 0.08,
+    "delay": 0,
+    "attack": 0.0015,
+    "decay": 0.08
+   }
+  ]
+ },
+ "comparison": {
+  "current": "raw",
+  "previous": null,
+  "currentIsPlayback": true
+ },
+ "dom": {
+  "summary": [
+   "Assetuser:b627f71c-f366-4bb7-8da6-98a7eed01f82",
+   "Moderaw",
+   "ThemeStudio",
+   "Tokenpanel.undock",
+   "Duration80 ms"
+  ],
+  "layers": [
+   {
+    "cls": "sound-anatomy__layer",
+    "text": "1. NOISEbandpass 3 kHz30 ms / gain 0.18 / Q 3.4"
+   },
+   {
+    "cls": "sound-anatomy__layer",
+    "text": "2. TONEtriangle 220 Hz to 315 Hz80 ms / gain 0.08"
+   }
+  ],
+  "empty": null
+ },
+ "error": null
+}

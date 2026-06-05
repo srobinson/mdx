@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM · IR Overlays · 3 Exchange</title>
+<style>
+  :root {
+    --ink: #1c1c1a; --ink-soft: #6b6b66; --ink-faint: #9c9c96;
+    --paper: #fafaf7; --panel: #ffffff; --accent: #e8e4dc;
+    --line: #d9d7d0; --line-soft: #eceae4;
+    --good: #2e6e4e; --good-bg: #e7f2ec;
+    --cut: #a33f3f; --cut-bg: #f7e9e9;
+    --note: #4a5f8a; --note-bg: #eef1f8;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+
+  .wf-bar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:1px solid var(--line); background:var(--panel); }
+  .wf-bar .crumb { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .wf-bar nav { margin-left:auto; display:flex; gap:2px; font-size:12px; }
+  .wf-bar nav a { text-decoration:none; padding:4px 10px; border:1px solid transparent; border-radius:4px; color:var(--ink-soft); }
+  .wf-bar nav a.on { background:var(--accent); border-color:var(--line); color:var(--ink); }
+  .wf-bar nav a:hover { border-color:var(--line); }
+
+  .page { max-width: 1420px; margin: 0 auto; padding: 20px 20px 80px; }
+  .page-head { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:4px; }
+  .page-head h1 { font-size:18px; font-weight:600; }
+  .chip { font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; border:1px solid var(--line); background:var(--paper); }
+  .chip.curated { background:var(--good-bg); border-color:#bcd7c8; color:var(--good); }
+
+  .provline { font-size:12.5px; color:var(--ink-soft); margin:4px 0 16px; }
+  .provline b { color:var(--ink); }
+  .provline .ovl-ref { font-family:var(--mono); font-size:11.5px; background:var(--accent); border:1px solid var(--line); border-radius:4px; padding:1px 6px; }
+
+  /* savings bar */
+  .savings { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; margin-bottom:16px; }
+  .savings .srow { display:flex; align-items:baseline; gap:12px; margin-bottom:8px; }
+  .savings .srow h2 { font-size:13px; font-weight:600; }
+  .savings .srow .big { font-family:var(--mono); font-size:13px; color:var(--good); font-weight:700; }
+  .savings .srow .sub { font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .bar { display:flex; height:18px; border-radius:4px; overflow:hidden; border:1px solid var(--line); font-family:var(--mono); font-size:9.5px; }
+  .bar span { display:flex; align-items:center; justify-content:center; color:var(--ink); overflow:hidden; white-space:nowrap; }
+  .seg-system { background:#d8dfeb; }
+  .seg-tools { background:#e3e0d4; }
+  .seg-messages { background:#efeee9; }
+  .seg-cut { background:var(--cut-bg); color:var(--cut); border-left:1px dashed var(--cut); }
+  .legend { display:flex; gap:14px; margin-top:8px; font-size:11px; color:var(--ink-soft); font-family:var(--mono); flex-wrap:wrap; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:4px; vertical-align:-1px; border:1px solid var(--line); }
+
+  /* one correlated view: original | curated | audit */
+  .tri { display:grid; grid-template-columns: 1fr 1fr 360px; gap:0; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .col { min-width:0; }
+  .col + .col { border-left:1px solid var(--line); }
+  .col-h { display:flex; align-items:baseline; gap:8px; padding:10px 14px; border-bottom:1px solid var(--line); background:var(--paper); position:sticky; top:0; }
+  .col-h h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+  .col-h .src { font-family:var(--mono); font-size:10.5px; color:var(--ink-faint); }
+  .col-h .tok { margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .col-h .tok.after { color:var(--good); }
+
+  .sect-label { font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); padding:10px 14px 4px; }
+  .irrow { padding:6px 14px; font-size:12.5px; border-left:3px solid transparent; }
+  .irrow .tgt { font-family:var(--mono); font-size:11px; color:var(--ink-soft); display:block; margin-bottom:2px; }
+  .irrow.hl { background:#fbf7ee; border-left-color:var(--note); }
+  .irrow.quiet { color:var(--ink-faint); font-style:italic; }
+  .cutmark { background:var(--cut-bg); color:var(--cut); text-decoration:line-through; }
+  .addmark { background:var(--good-bg); color:var(--good); }
+  .gonebadge { font-family:var(--mono); font-size:10px; color:var(--cut); background:var(--cut-bg); border-radius:3px; padding:1px 5px; }
+
+  /* audit column */
+  .audit-col .hint { padding:6px 14px 2px; font-size:11px; color:var(--ink-faint); }
+  .aentry { padding:8px 14px; border-left:3px solid transparent; cursor:pointer; border-bottom:1px solid var(--line-soft); }
+  .aentry:hover { background:var(--paper); }
+  .aentry.hl { background:#fbf7ee; border-left-color:var(--note); }
+  .aentry .arow1 { display:flex; align-items:baseline; gap:8px; }
+  .aentry .kind { font-family:var(--mono); font-size:10px; color:var(--note); background:var(--note-bg); padding:1px 5px; border-radius:3px; white-space:nowrap; }
+  .aentry .tgt { font-family:var(--mono); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1; }
+  .aentry .delta { font-family:var(--mono); font-size:11px; }
+  .aentry .delta.neg { color:var(--good); }
+  .aentry .arow2 { display:flex; gap:8px; margin-top:3px; font-size:11px; color:var(--ink-soft); }
+  .aentry .applied { font-family:var(--mono); font-size:10px; padding:1px 6px; border-radius:3px; }
+  .aentry .applied.yes { background:var(--good-bg); color:var(--good); }
+  .aentry .applied.no { background:var(--paper); color:var(--ink-faint); border:1px dashed var(--line); }
+  .aentry .applied.miss { background:var(--cut-bg); color:var(--cut); }
+  .aentry .from { font-family:var(--mono); font-size:10.5px; }
+  .atotal { padding:10px 14px; font-family:var(--mono); font-size:11.5px; display:flex; }
+  .atotal b { margin-left:auto; color:var(--good); }
+
+  .anno { border-left:3px solid var(--note); background:var(--note-bg); color:var(--note); font-size:12px; padding:8px 12px; border-radius:0 6px 6px 0; margin:18px 0; max-width:82ch; }
+  .anno code { font-family:var(--mono); font-size:11px; }
+</style>
+</head>
+<body>
+
+<header class="wf-bar">
+  <span class="crumb">transport-matters / runs / canvas-overlay-boundary / <b>exchange 018f…c2</b></span>
+  <nav>
+    <a href="00-reveal-optimize.html">00 Reveal &amp; optimize</a>
+    <a href="01-overlay-library.html">01 Overlays</a>
+    <a class="on" href="03-exchange-view.html">03 Evidence</a>
+    <a href="04-codex-sparse-turn.html">04 Edge cases</a>
+    <a href="02-overlay-editor.html">02 Advanced</a>
+  </nav>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>Turn 14 · claude-fable-5</h1>
+    <span class="chip">harness: claude</span>
+    <span class="chip">10:42:07 · 200 OK · streamed</span>
+    <span class="chip curated">curated · non-blocking</span>
+  </div>
+  <p class="provline">
+    Rewritten in flight by <span class="ovl-ref">Trim harness boilerplate</span> (shared) and
+    <span class="ovl-ref">Cap thinking budget</span> (shared) · <b>no manual edit</b> this turn ·
+    original preserved, native claude wire regenerated from curated IR.
+  </p>
+
+  <div class="savings">
+    <div class="srow">
+      <h2>This turn</h2>
+      <span class="big">−2,741 tok (−17.6%)</span>
+      <span class="sub">15,590 → 12,849 tok · chars 62,360 → 51,396</span>
+    </div>
+    <div class="bar" aria-label="curated composition with savings">
+      <span class="seg-system" style="width:19%">system 2.9k</span>
+      <span class="seg-tools" style="width:48%">tools 9.7k</span>
+      <span class="seg-messages" style="width:16%">messages 2.4k</span>
+      <span class="seg-cut" style="width:17%">cut 2.7k</span>
+    </div>
+    <div class="legend">
+      <span><i class="seg-system"></i>system 3.4k → 2.9k</span>
+      <span><i class="seg-tools"></i>tools 11.9k → 9.7k</span>
+      <span><i class="seg-messages"></i>messages 2.4k → 2.4k</span>
+      <span><i class="seg-cut"></i>removed this turn</span>
+      <span style="margin-left:auto">run so far: <b style="color:var(--good)">−38.4k tok over 14 turns</b></span>
+    </div>
+  </div>
+
+  <div class="tri">
+    <!-- ORIGINAL -->
+    <div class="col">
+      <div class="col-h"><h2>Original IR</h2><span class="src">request_ir</span><span class="tok">15,590 tok</span></div>
+      <div class="sect-label">system · 4 parts</div>
+      <div class="irrow" data-t="sys0"><span class="tgt">system[0] · identity · 1,310 tok</span>
+        You are Claude Code… <span class="cutmark">IMPORTANT: Assist with authorized security testing…</span> <span class="cutmark">When you use a pronoun for someone…</span></div>
+      <div class="irrow quiet">system[1..2] · unchanged · 1,132 tok</div>
+      <div class="irrow" data-t="sys3"><span class="tgt">system[3] · env reminder · 153 tok</span>
+        <span class="cutmark">Here is useful information about the environment you are running in…</span></div>
+      <div class="sect-label">tools · 18 defs</div>
+      <div class="irrow" data-t="bash"><span class="tgt">tools/Bash · 1,120 tok</span>
+        Executes a bash command… <span class="cutmark">IMPORTANT: Avoid using this tool to run cat, head, tail… # Git…</span></div>
+      <div class="irrow" data-t="webfetch"><span class="tgt">tools/WebFetch · 812 tok</span>
+        Fetches content from a URL… <span class="cutmark">usage notes</span></div>
+      <div class="irrow" data-t="notebook"><span class="tgt">tools/NotebookEdit · 1,025 tok</span>
+        Full definition present (name, description, input_schema).</div>
+      <div class="irrow quiet">tools · 15 others · unchanged · 7,905 tok</div>
+      <div class="sect-label">sampling / provider_extras</div>
+      <div class="irrow" data-t="maxtok"><span class="tgt">sampling.max_tokens</span>32000</div>
+      <div class="irrow" data-t="think"><span class="tgt">provider_extras.thinking.budget_tokens</span>31999</div>
+      <div class="sect-label">messages · 42 blocks</div>
+      <div class="irrow quiet" data-t="trunc">no tool_result over 8k chars this turn · 2,385 tok</div>
+    </div>
+
+    <!-- CURATED -->
+    <div class="col">
+      <div class="col-h"><h2>Curated IR</h2><span class="src">request_curated_ir</span><span class="tok after">12,849 tok</span></div>
+      <div class="sect-label">system · 3 parts</div>
+      <div class="irrow" data-t="sys0"><span class="tgt">system[0] · identity · 1,009 tok</span>
+        You are Claude Code… <span class="addmark">Use they/them unless stated.</span></div>
+      <div class="irrow quiet">system[1..2] · unchanged · 1,132 tok</div>
+      <div class="irrow" data-t="sys3"><span class="tgt">system[3] · env reminder</span><span class="gonebadge">removed</span></div>
+      <div class="sect-label">tools · 17 defs</div>
+      <div class="irrow" data-t="bash"><span class="tgt">tools/Bash · 373 tok</span>
+        Executes a bash command and returns its output. <span class="addmark">Working directory persists; shell state does not.</span></div>
+      <div class="irrow" data-t="webfetch"><span class="tgt">tools/WebFetch · 379 tok</span>
+        Fetches content from a URL… <span class="addmark">trimmed</span></div>
+      <div class="irrow" data-t="notebook"><span class="tgt">tools/NotebookEdit</span><span class="gonebadge">removed</span></div>
+      <div class="irrow quiet">tools · 15 others · unchanged · 7,905 tok</div>
+      <div class="sect-label">sampling / provider_extras</div>
+      <div class="irrow" data-t="maxtok"><span class="tgt">sampling.max_tokens</span><span class="addmark">16000</span></div>
+      <div class="irrow" data-t="think"><span class="tgt">provider_extras.thinking.budget_tokens</span><span class="addmark">4096</span></div>
+      <div class="sect-label">messages · 42 blocks</div>
+      <div class="irrow quiet" data-t="trunc">unchanged · 2,385 tok</div>
+    </div>
+
+    <!-- AUDIT -->
+    <div class="col audit-col">
+      <div class="col-h"><h2>Request audit</h2><span class="src">request_audit</span><span class="tok">9 entries</span></div>
+      <p class="hint">click an entry to trace it across both IR panes</p>
+      <div class="aentry" data-t="sys0">
+        <div class="arow1"><span class="kind">system_part_text</span><span class="tgt">system[0]</span><span class="delta neg">−1,204 ch</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="sys3">
+        <div class="arow1"><span class="kind">system_part_toggle</span><span class="tgt">system[3]</span><span class="delta neg">−612 ch</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="bash">
+        <div class="arow1"><span class="kind">tool_description</span><span class="tgt">tools/Bash</span><span class="delta neg">−2,988 ch</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="webfetch">
+        <div class="arow1"><span class="kind">tool_description</span><span class="tgt">tools/WebFetch</span><span class="delta neg">−1,733 ch</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="notebook">
+        <div class="arow1"><span class="kind">tool_toggle</span><span class="tgt">tools/NotebookEdit</span><span class="delta neg">−4,101 ch</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="trunc">
+        <div class="arow1"><span class="kind">truncate_tool_result</span><span class="tgt">messages[*] &gt; 8k</span><span class="delta">0</span></div>
+        <div class="arow2"><span class="applied no">NO MATCH</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="aentry" data-t="maxtok">
+        <div class="arow1"><span class="kind">sampling_set</span><span class="tgt">max_tokens</span><span class="delta">0</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Cap thinking budget</span></div>
+      </div>
+      <div class="aentry" data-t="think">
+        <div class="arow1"><span class="kind">provider_extras_set</span><span class="tgt">thinking.budget_tokens</span><span class="delta">0</span></div>
+        <div class="arow2"><span class="applied yes">APPLIED</span><span class="from">Cap thinking budget</span></div>
+      </div>
+      <div class="aentry" data-t="legacy">
+        <div class="arow1"><span class="kind">tool_description</span><span class="tgt">tools/LegacyDeploy</span><span class="delta">0</span></div>
+        <div class="arow2"><span class="applied miss">TARGET MISSING</span><span class="from">Trim harness boilerplate</span></div>
+      </div>
+      <div class="atotal"><span>total chars 62,360 → 51,396</span><b>−2,741 tok</b></div>
+    </div>
+  </div>
+
+  <div class="anno">
+    <b>Design notes.</b> Merged from the GPT round: the tab model is gone. Original IR
+    (<code>request_ir</code>), curated IR (<code>request_curated_ir</code>), and the audit
+    (<code>request_audit</code>) sit in one synchronized three-pane view; clicking an audit entry highlights
+    the same target row in both IR panes, so the evidence and the diff it explains are never on different
+    screens. A NO MATCH row is expected drift-tolerant behavior; a TARGET MISSING row is loud here and rolls up
+    as a warning on the overlay in the library. Kept from this set: the proportional per-section savings bar
+    and token surfacing everywhere. The one contract addition this design asks for remains per-entry overlay
+    <b>provenance</b>, so the header can say who rewrote the turn.
+  </div>
+</div>
+
+<script>
+  // Correlated highlight: an audit entry traces its target across both IR panes.
+  document.querySelectorAll(".aentry").forEach(entry => {
+    entry.addEventListener("click", () => {
+      const t = entry.dataset.t;
+      const already = entry.classList.contains("hl");
+      document.querySelectorAll(".aentry, .irrow").forEach(el => el.classList.remove("hl"));
+      if (already) return;
+      entry.classList.add("hl");
+      document.querySelectorAll(`.irrow[data-t="${t}"]`).forEach(el => el.classList.add("hl"));
+    });
+  });
+</script>
+</body>
+</html>

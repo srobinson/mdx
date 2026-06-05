@@ -1,0 +1,81 @@
+{
+ "playback": {
+  "mode": "themed",
+  "intent": {
+   "tokenId": "panel.undock",
+   "source": "token-editor",
+   "at": 138597.5,
+   "label": "Proof Undock Copy",
+   "seed": 1,
+   "velocity": 0.72,
+   "assetId": "user:b627f71c-f366-4bb7-8da6-98a7eed01f82"
+  },
+  "theme": "Studio",
+  "tokenId": "panel.undock",
+  "tokenLabel": "Proof Undock Copy",
+  "duration": 0.11682591230837372,
+  "metrics": {
+   "velocity": 0.72,
+   "weight": 0.41720000000000007,
+   "brightness": 0.5840000000000001,
+   "tension": 0.35800000000000004,
+   "density": 0.4,
+   "politeness": 0.72,
+   "contrast": 0.48,
+   "mechanical": 0.34,
+   "warmth": 0.54,
+   "variation": 0.04
+  },
+  "layers": [
+   {
+    "type": "noise",
+    "duration": 0.04258980390992156,
+    "gain": 0.13613074281817913,
+    "attack": 0.00227066047992,
+    "decay": 0.0142016,
+    "filter": {
+     "type": "bandpass",
+     "frequency": 4344.4118798056925,
+     "q": 3.5621758748722057
+    }
+   },
+   {
+    "type": "tone",
+    "waveform": "triangle",
+    "frequency": 283.47237014586864,
+    "endFrequency": 406.3972871755028,
+    "gain": 0.054854326461890805,
+    "duration": 0.11682591230837372,
+    "delay": 0,
+    "attack": 0.0034059907198799996,
+    "decay": 0.081152
+   }
+  ]
+ },
+ "comparison": {
+  "current": "themed",
+  "previous": "raw",
+  "currentIsPlayback": true
+ },
+ "dom": {
+  "summary": [
+   "Assetuser:b627f71c-f366-4bb7-8da6-98a7eed01f82",
+   "Modethemed",
+   "ThemeStudio",
+   "Tokenpanel.undock",
+   "Duration117 ms"
+  ],
+  "layers": [
+   {
+    "cls": "sound-anatomy__layer is-changed",
+    "text": "1. NOISEbandpass 4.34 kHz43 ms / gain 0.14 / Q 3.56"
+   },
+   {
+    "cls": "sound-anatomy__layer is-changed",
+    "text": "2. TONEtriangle 283 Hz to 406 Hz117 ms / gain 0.05"
+   }
+  ],
+  "empty": null
+ },
+ "error": null
+}

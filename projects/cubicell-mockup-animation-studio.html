@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>cubicell — Animation Studio, playable slice (mockup)</title>
+<style>
+  :root {
+    --font-ui: "Avenir Next", "DIN Alternate", "Trebuchet MS", sans-serif;
+    --font-mono: "Geist Mono", "Roboto Mono", "Cascadia Code", "Menlo", monospace;
+    --black: #050505;
+    --white: #ffffff;
+    --accent: #e87d0d;
+    --panel-bg: rgb(19 19 19 / 0.94);
+    --panel-border: rgb(255 255 255 / 0.18);
+    --panel-shadow: 0 12px 32px rgb(0 0 0 / 0.42);
+    --control-bg: rgb(255 255 255 / 0.09);
+    --button-bg: rgb(255 255 255 / 0.018);
+    --button-border: rgb(255 255 255 / 0.36);
+    --button-fg: rgb(255 255 255 / 0.88);
+    --label-fg: rgb(255 255 255 / 0.9);
+    --label-muted: rgb(255 255 255 / 0.56);
+    --radius-control: 2px;
+    --radius-panel: 4px;
+    --radius-pill: 999px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--black);
+    color: var(--label-fg);
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== studio viewport ===== */
+  .studio {
+    background: var(--black);
+    min-height: 100svh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* stage cube */
+  .stage-piece {
+    inset: 0;
+    display: grid;
+    place-items: center;
+    position: absolute;
+  }
+  .stage-piece svg { max-width: min(52vw, 560px); }
+
+  /* ===== library overlay (as today) ===== */
+  .library {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    box-shadow: var(--panel-shadow);
+    display: grid;
+    gap: 14px;
+    left: 16px;
+    max-width: min(23rem, calc(100vw - 2rem));
+    padding: 12px 14px;
+    position: absolute;
+    top: 16px;
+    width: 100%;
+    z-index: 2;
+  }
+  .library h1 {
+    color: var(--label-fg);
+    font: 400 1.1rem/1.2 var(--font-ui);
+    margin: 0;
+  }
+  .library-header { align-items: center; display: flex; gap: 10px; justify-content: space-between; }
+  .library-item {
+    align-items: center;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 0.6rem 0.9rem;
+  }
+  .library-item-name { font: 400 0.95rem/1.3 var(--font-ui); }
+  .library-actions { display: flex; gap: 0.5rem; }
+
+  /* ===== flat monochrome buttons ===== */
+  .btn {
+    align-items: center;
+    background: var(--button-bg);
+    border: 1px solid var(--button-border);
+    border-radius: var(--radius-panel);
+    color: var(--button-fg);
+    cursor: pointer;
+    display: inline-flex;
+    font: 400 0.8rem/1 var(--font-mono);
+    justify-content: center;
+    letter-spacing: 0.08em;
+    min-height: 26px;
+    padding: 0 10px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .btn--solid {
+    background: rgb(255 255 255 / 0.88);
+    border-color: rgb(255 255 255 / 0.88);
+    color: rgb(5 5 5 / 0.92);
+  }
+  .btn--pressed { background: rgb(255 255 255 / 0.075); border-color: rgb(255 255 255 / 0.52); }
+
+  /* ===== Piece Motion dock ===== */
+  .dock {
+    bottom: 14px;
+    display: grid;
+    justify-items: center;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: min(880px, calc(100vw - 28px));
+    z-index: 2;
+  }
+  .dock-card {
+    backdrop-filter: blur(18px);
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--panel-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 12px 12px;
+    width: 100%;
+  }
+  .dock-grip {
+    background: rgb(255 255 255 / 0.24);
+    border-radius: var(--radius-pill);
+    height: 3px;
+    justify-self: center;
+    margin: 0 auto 2px;
+    width: 34px;
+  }
+  .transport {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+  }
+  .dock-time {
+    color: var(--label-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  .dock-time b { color: var(--label-fg); font-weight: 400; }
+  .rate {
+    background: var(--control-bg);
+    border-radius: var(--radius-control);
+    color: var(--label-fg);
+    cursor: ew-resize;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    padding: 4px 6px;
+  }
+
+  /* ===== timeline strip ===== */
+  .timeline {
+    display: grid;
+    gap: 6px;
+    padding: 4px 2px 0;
+    position: relative;
+  }
+  .tl-row {
+    align-items: center;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 74px 1fr;
+    min-height: 30px;
+  }
+  .tl-row-label {
+    color: var(--label-muted);
+    font: 800 0.7rem/1 var(--font-ui);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tl-rail { align-items: center; display: flex; height: 100%; position: relative; }
+  .tl-line {
+    background: var(--button-border);
+    border-radius: var(--radius-pill);
+    height: 2px;
+    width: 100%;
+  }
+  /* assembly cadence: stagger dots along the build-in span */
+  .tl-dots { display: flex; gap: 7px; left: 0; position: absolute; }
+  .tl-dot {
+    background: var(--label-muted);
+    border-radius: var(--radius-pill);
+    height: 4px;
+    width: 4px;
+  }
+  .tl-span {
+    background: rgb(255 255 255 / 0.16);
+    border-radius: var(--radius-pill);
+    height: 6px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  /* state markers: same card language as the filmstrip, shrunk to the axis */
+  .tl-state {
+    background: var(--panel-bg);
+    border: 1px solid var(--button-border);
+    border-radius: var(--radius-control);
+    color: var(--label-fg);
+    font: 800 0.68rem/1 var(--font-ui);
+    letter-spacing: 0.05em;
+    padding: 4px 7px;
+    position: absolute;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  .tl-state--active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .tl-end {
+    color: var(--label-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    position: absolute;
+    right: 0;
+    top: -14px;
+  }
+  .tl-axis-ticks { display: flex; inset: 0; justify-content: space-between; position: absolute; }
+  .tl-tick { background: rgb(255 255 255 / 0.14); height: 100%; width: 1px; }
+
+  /* playhead spanning the rows: hairline thumb, grab handle on top */
+  .playhead {
+    bottom: 0;
+    left: 41%;
+    pointer-events: none;
+    position: absolute;
+    top: -2px;
+    width: 0;
+  }
+  .playhead-line {
+    background: var(--label-fg);
+    border-radius: var(--radius-pill);
+    height: 100%;
+    margin-left: -1.5px;
+    width: 3px;
+  }
+  .playhead-handle {
+    background: var(--label-fg);
+    border-radius: 3px;
+    height: 8px;
+    left: 50%;
+    position: absolute;
+    top: -7px;
+    transform: translateX(-50%);
+    width: 11px;
+  }
+
+  /* ===== callouts ===== */
+  .callout {
+    align-items: center;
+    background: var(--accent);
+    border-radius: var(--radius-pill);
+    color: #140b02;
+    display: inline-flex;
+    font: 800 0.72rem/1 var(--font-ui);
+    height: 18px;
+    justify-content: center;
+    position: absolute;
+    width: 18px;
+    z-index: 3;
+  }
+  .legend {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-panel);
+    bottom: 14px;
+    display: grid;
+    gap: 6px;
+    max-width: 300px;
+    padding: 10px 12px;
+    position: absolute;
+    right: 16px;
+    z-index: 2;
+  }
+  .legend p { color: var(--label-muted); display: flex; gap: 8px; margin: 0; }
+  .legend .callout { flex: none; position: static; }
+
+  /* ===== slice-after panel ===== */
+  .after {
+    border-top: 1px solid var(--panel-border);
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+    opacity: 0.62;
+    padding: 34px 16px 44px;
+    position: relative;
+  }
+  .after-tag {
+    border: 1px solid var(--label-muted);
+    border-radius: var(--radius-pill);
+    color: var(--label-muted);
+    font: 800 0.7rem/1 var(--font-ui);
+    letter-spacing: 0.12em;
+    padding: 4px 12px;
+    text-transform: uppercase;
+  }
+  .after .dock-card { max-width: 880px; position: relative; }
+  .tl-state--drag {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+    color: var(--white);
+    cursor: grabbing;
+  }
+  .tl-ghost { border-style: dashed; opacity: 0.45; }
+  .drag-delta {
+    background: var(--accent);
+    border-radius: var(--radius-control);
+    color: #140b02;
+    font: 700 0.72rem/1 var(--font-mono);
+    padding: 3px 6px;
+    position: absolute;
+    transform: translate(-50%, -26px);
+  }
+  .drag-arrow { color: var(--accent); font-family: var(--font-mono); position: absolute; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+
+<!-- ============ the studio after the playable slice ============ -->
+<section class="studio">
+
+  <!-- stage: bound snapshot mid-pose on the shared renderer -->
+  <div class="stage-piece" aria-label="Stage: bound snapshot mid-pose">
+    <svg viewBox="0 0 320 240" fill="none" aria-hidden="true">
+      <!-- isometric cube helper: three faces, monochrome -->
+      <g stroke="rgb(255 255 255 / 0.85)" stroke-width="1.4" stroke-linejoin="round">
+        <!-- settled cubes -->
+        <g>
+          <path d="M120 120 l34 -20 34 20 -34 20 z" fill="#2e2e2e"/>
+          <path d="M120 120 l0 40 34 20 0 -40 z" fill="#171717"/>
+          <path d="M188 120 l0 40 -34 20 0 -40 z" fill="#232323"/>
+        </g>
+        <g>
+          <path d="M154 140 l34 -20 34 20 -34 20 z" fill="#2e2e2e"/>
+          <path d="M154 140 l0 40 34 20 0 -40 z" fill="#171717"/>
+          <path d="M222 140 l0 40 -34 20 0 -40 z" fill="#232323"/>
+        </g>
+        <g>
+          <path d="M120 160 l34 -20 34 20 -34 20 z" fill="#2e2e2e"/>
+          <path d="M120 160 l0 40 34 20 0 -40 z" fill="#171717"/>
+          <path d="M188 160 l0 40 -34 20 0 -40 z" fill="#232323"/>
+        </g>
+        <!-- cube mid-arrival: scaled down, morphing in -->
+        <g transform="translate(188 100) scale(0.55) translate(-188 -100)" opacity="0.75">
+          <path d="M154 100 l34 -20 34 20 -34 20 z" fill="#3a3a3a"/>
+          <path d="M154 100 l0 40 34 20 0 -40 z" fill="#1c1c1c"/>
+          <path d="M222 100 l0 40 -34 20 0 -40 z" fill="#2a2a2a"/>
+        </g>
+        <!-- cube mid-departure: fading -->
+        <g transform="translate(100 180) scale(0.8) translate(-100 -180)" opacity="0.35">
+          <path d="M66 180 l34 -20 34 20 -34 20 z" fill="#333"/>
+          <path d="M66 180 l0 40 34 20 0 -40 z" fill="#161616"/>
+          <path d="M134 180 l0 40 -34 20 0 -40 z" fill="#222"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <span class="callout" style="left: calc(50% + 150px); top: 32%;">1</span>
+
+  <!-- library overlay, unchanged from today -->
+  <aside class="library" aria-label="Animation library">
+    <div class="library-header">
+      <h1>Animations</h1>
+      <button class="btn">Seed from structure</button>
+    </div>
+    <div class="library-item">
+      <span class="library-item-name">Animation</span>
+      <span class="library-actions">
+        <button class="btn">Rename</button>
+        <button class="btn">Delete</button>
+      </span>
+    </div>
+  </aside>
+  <span class="callout" style="left: 372px; top: 20px;">2</span>
+
+  <!-- Piece Motion dock against the bound snapshot -->
+  <div class="dock">
+    <div class="dock-card">
+      <div class="dock-grip"></div>
+
+      <div class="transport">
+        <button class="btn btn--solid">Pause</button>
+        <button class="btn">Stop</button>
+        <button class="btn btn--pressed">Loop</button>
+        <span class="dock-time"><b>0:01.31</b> / 0:03.20</span>
+        <span class="rate">1.00×</span>
+      </div>
+      <span class="callout" style="left: -8px; top: 18px;">3</span>
+
+      <div class="timeline">
+        <div class="tl-row">
+          <span class="tl-row-label">Build in</span>
+          <span class="tl-rail">
+            <span class="tl-line"></span>
+            <span class="tl-span" style="left: 0; width: 26%;"></span>
+            <span class="tl-dots" style="left: 2%;">
+              <span class="tl-dot"></span><span class="tl-dot"></span><span class="tl-dot"></span>
+              <span class="tl-dot"></span><span class="tl-dot"></span>
+            </span>
+          </span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-row-label">States</span>
+          <span class="tl-rail">
+            <span class="tl-end">0:03.20</span>
+            <span class="tl-line"></span>
+            <span class="tl-axis-ticks" aria-hidden="true">
+              <span class="tl-tick"></span><span class="tl-tick"></span><span class="tl-tick"></span>
+              <span class="tl-tick"></span><span class="tl-tick"></span>
+            </span>
+            <span class="tl-span" style="left: 26%; width: 74%; background: rgb(255 255 255 / 0.08);"></span>
+            <span class="tl-state tl-state--active" style="left: 26%;">State 1</span>
+            <span class="tl-state" style="left: 100%; transform: translateX(-100%);">State 2</span>
+          </span>
+        </div>
+        <span class="playhead" aria-label="Playhead">
+          <span class="playhead-handle"></span>
+          <span class="playhead-line"></span>
+        </span>
+      </div>
+      <span class="callout" style="left: -8px; bottom: 30px;">4</span>
+    </div>
+  </div>
+
+  <!-- callout legend -->
+  <aside class="legend" aria-label="Callouts">
+    <p><span class="callout">1</span>Stage: the shared renderer Canvas already mounted by slice 4, sampling the bound snapshot at the clock's time.</p>
+    <p><span class="callout">2</span>Animation library: today's overlay, unchanged.</p>
+    <p><span class="callout">3</span>Transport row: the Editor dock's TransportRow re-mounted; same clock, same play/stop/loop/rate commands.</p>
+    <p><span class="callout">4</span>Timeline strip: new surface; axis from the snapshot's score duration, rows mirror its assembly and state-transition tracks, playhead scrubs the transport clock.</p>
+    <p><span class="callout">5</span>Retiming (below, later slice): dragging a state stretches its transition's duration; needs new snapshot-scoped score operations.</p>
+  </aside>
+</section>
+
+<!-- ============ retiming preview, later slice ============ -->
+<section class="after">
+  <span class="after-tag">Slice after — drag retiming</span>
+  <div class="dock-card">
+    <span class="callout" style="left: -8px; top: 44px;">5</span>
+    <div class="timeline">
+      <div class="tl-row">
+        <span class="tl-row-label">States</span>
+        <span class="tl-rail">
+          <span class="tl-end">0:03.44</span>
+          <span class="tl-line"></span>
+          <span class="tl-span" style="left: 26%; width: 60%; background: rgb(232 125 13 / 0.18);"></span>
+          <span class="tl-state" style="left: 26%;">State 1</span>
+          <span class="tl-state tl-ghost" style="left: 74%;">State 2</span>
+          <span class="tl-state tl-state--drag" style="left: 86%;">State 2</span>
+          <span class="drag-delta" style="left: 86%;">+240 ms</span>
+          <span class="drag-arrow" style="left: 80%; top: 2px;">→</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

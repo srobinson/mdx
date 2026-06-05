@@ -2,7 +2,7 @@
 title: Fission-AI/OpenSpec — spec-driven development tool review
 type: research
 tags: [github-review, spec-driven-development, openspec, workflow, helioy-tools, linear-workflows, create-spec, nancyr]
-summary: OpenSpec packages a spec-driven workflow as a CLI with three load-bearing primitives — a YAML-defined artifact DAG, a delta-spec algebra (ADDED/MODIFIED/REMOVED/RENAMED), and three-tier schema resolution. Verdict: borrow the delta-spec algebra and dependency-DAG ideas; do not adopt the CLI.
+summary: 'OpenSpec packages a spec-driven workflow as a CLI with three load-bearing primitives — a YAML-defined artifact DAG, a delta-spec algebra (ADDED/MODIFIED/REMOVED/RENAMED), and three-tier schema resolution. Verdict: borrow the delta-spec algebra and dependency-DAG ideas; do not adopt the CLI.'
 status: active
 source: github-researcher
 confidence: high

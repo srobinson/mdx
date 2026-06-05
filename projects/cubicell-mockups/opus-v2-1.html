@@ -1,0 +1,834 @@
+<!--
+  IDEA: THE CAMERA BAND. Every card in the strip carries a 30px band along its bottom edge, and
+  because adjacent bands bleed across the gaps, a filmed stretch reads as one continuous lit ribbon
+  running under the cards while an unfilmed stretch stays a dark dashed baseline.
+  The second track survives as a band inside the one visible timeline: the camera never gets its own
+  row, but it keeps its own continuous line, so possession, cuts and moves are legible without
+  selecting anything.
+-->
+<meta charset="utf-8">
+<title>Cubicell · camera band</title>
+<style>
+  :root {
+    --accent: #e5822e;
+    --accent-dim: rgba(229, 130, 46, 0.13);
+    --accent-line: rgba(229, 130, 46, 0.55);
+    --bg: #0a0a0a;
+    --dim: #8a8a8a;
+    --dimmer: #575757;
+    --ink: #f2f2f2;
+    --line: #262626;
+    --line-soft: #1a1a1a;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+    --panel: #101010;
+    --panel-2: #151515;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* every glyph in the file is the same wireframe piece */
+  svg rect { fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+  body {
+    background: #050505;
+    color: var(--ink);
+    font-family: var(--mono);
+    margin: 0;
+    padding: 14px;
+  }
+
+  button { font-family: inherit; }
+
+  .app {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    margin: 0 auto;
+    max-width: 1400px;
+  }
+
+  /* ---------- chrome ---------- */
+
+  .topbar {
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 18px;
+    padding: 9px 14px;
+  }
+
+  .micro {
+    color: var(--dim);
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .topbar strong { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar .spacer { flex: 1; }
+
+  .main { display: grid; grid-template-columns: 1fr 300px; }
+  .left { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; }
+
+  /* ---------- stage ---------- */
+
+  .stage {
+    align-items: center;
+    background:
+      radial-gradient(circle at 50% 45%, #171717 0%, #0b0b0b 60%);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-height: 210px;
+    position: relative;
+  }
+
+  .stage .hud {
+    left: 12px;
+    position: absolute;
+    top: 12px;
+  }
+
+  .stage .capture {
+    background: var(--ink);
+    border: none;
+    border-radius: 3px;
+    bottom: 12px;
+    color: #0d0d0d;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 7px 11px;
+    position: absolute;
+    right: 12px;
+    text-transform: uppercase;
+  }
+
+  .stage svg { color: rgba(255, 255, 255, 0.82); height: 128px; width: 128px; }
+
+  /* ---------- transport ---------- */
+
+  .transport {
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    gap: 10px;
+    padding: 9px 14px;
+  }
+
+  .tbtn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 5px 9px;
+    text-transform: uppercase;
+  }
+
+  .tbtn--accent { border-color: var(--accent); color: var(--accent); }
+
+  .scrub {
+    background: #1b1b1b;
+    border-radius: 2px;
+    flex: 1;
+    height: 3px;
+    position: relative;
+  }
+
+  .scrub i { background: var(--ink); border-radius: 2px; display: block; height: 100%; }
+
+  .scrub b {
+    background: var(--accent);
+    border-radius: 50%;
+    height: 7px;
+    margin-left: -3px;
+    position: absolute;
+    top: -2px;
+    width: 7px;
+  }
+
+  .time { font-size: 10px; letter-spacing: 0.06em; }
+
+  /* the possession readout: what the camera is doing at the playhead */
+  .possess {
+    align-items: center;
+    border: 1px solid var(--accent-line);
+    border-radius: 3px;
+    display: flex;
+    gap: 7px;
+    padding: 4px 8px;
+  }
+
+  .possess .dot {
+    background: var(--accent);
+    border-radius: 50%;
+    height: 6px;
+    width: 6px;
+  }
+
+  .possess .state { color: var(--accent); font-size: 9px; letter-spacing: 0.12em; }
+  .possess .detail { color: var(--dim); font-size: 9px; letter-spacing: 0.06em; }
+
+  /* ---------- strip ---------- */
+
+  .dock { padding: 12px 14px 14px; }
+
+  .strip {
+    align-items: stretch;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    padding: 8px 8px 0;
+    position: relative;
+    text-align: left;
+    width: 92px;
+  }
+
+  .card--wide { width: 78px; }
+  .card--buildin { width: 84px; }
+
+  .card:hover { border-color: #3a3a3a; }
+  .card.is-sel { border-color: var(--accent); }
+
+  .card-title {
+    color: var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .thumb {
+    align-self: center;
+    color: rgba(255, 255, 255, 0.78);
+    height: 68px;
+    margin: 6px 0;
+    width: 68px;
+  }
+
+  .rows { display: flex; flex-direction: column; gap: 3px; margin: 8px 0 4px; }
+
+  .rows span {
+    color: var(--dim);
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .value {
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    margin-bottom: 6px;
+    padding: 3px 5px;
+    text-align: center;
+  }
+
+  .dots { align-self: center; display: grid; gap: 4px; grid-template-columns: repeat(3, 6px); margin: 12px 0; }
+  .dots i { background: rgba(255, 255, 255, 0.5); border-radius: 50%; height: 6px; width: 6px; }
+
+  .card--placeholder {
+    align-items: center;
+    background: transparent;
+    border-style: dashed;
+    color: var(--dimmer);
+    font-size: 22px;
+    justify-content: center;
+  }
+
+  /* ---------- the band ---------- */
+
+  .band {
+    align-items: center;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    gap: 5px;
+    height: 30px;
+    margin: auto -8px 0;
+    padding: 0 6px;
+    position: relative;
+  }
+
+  .card--placeholder .band { display: none; }
+
+  /* unfilmed: a dark baseline, so the lane still exists but reads as empty */
+  .band--empty::before {
+    border-top: 1px dashed #2e2e2e;
+    content: "";
+    left: 8px;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+  }
+
+  .band--empty .hint {
+    background: transparent;
+    border: 1px dashed #3a3a3a;
+    border-radius: 3px;
+    color: var(--dimmer);
+    display: none;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    margin: 0 auto;
+    padding: 3px 6px;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  .card:hover .band--empty .hint { display: block; }
+  .card:hover .band--empty::before { border-color: transparent; }
+
+  /* filmed: lit */
+  .band.is-lit {
+    background: var(--accent-dim);
+    border-top: 1px solid var(--accent-line);
+  }
+
+  /* the ribbon crosses the 6px gap when the stretch continues */
+  .band.link-r::after {
+    background: var(--accent-dim);
+    border-top: 1px solid var(--accent-line);
+    content: "";
+    height: 100%;
+    position: absolute;
+    right: -8px;
+    top: -1px;
+    width: 8px;
+  }
+
+  .band .vt { color: var(--accent); flex: none; height: 20px; width: 20px; }
+  .band .vt rect { stroke-width: 2.4; }
+
+  .band .lbl {
+    color: var(--accent);
+    font-size: 8px;
+    letter-spacing: 0.09em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .band .lbl em { color: var(--dim); display: block; font-style: normal; }
+
+  .band--pre { justify-content: center; }
+  .band--pre .lbl { color: var(--dimmer); }
+
+  /* a move: an arc drawn across the transition card */
+  .band--move { justify-content: center; }
+  .band--move svg.arc { color: var(--accent); height: 14px; width: 30px; }
+  .band--move svg.arc path { fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+  /* a move with no captured endpoints is drawn hollow */
+  .band--relative { background: transparent; border-top: 1px dashed var(--accent-line); }
+  .band--relative svg.arc path { stroke-dasharray: 2 2; }
+
+  /* the splice mark: no move between two filmed states */
+  .band--cut { justify-content: center; }
+  .band--cut .mark { color: var(--accent); font-size: 12px; letter-spacing: -1px; }
+
+  .playhead {
+    background: var(--accent);
+    bottom: -1px;
+    position: absolute;
+    top: -1px;
+    width: 1px;
+    z-index: 4;
+  }
+
+  .playhead::before {
+    background: var(--accent);
+    border-radius: 1px;
+    content: "";
+    height: 5px;
+    left: -2px;
+    position: absolute;
+    top: -3px;
+    width: 5px;
+  }
+
+  /* ---------- reading key ---------- */
+
+  .key {
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 9px;
+  }
+
+  .key span { color: var(--dimmer); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .key b { color: var(--dim); font-weight: 400; }
+
+  /* ---------- inspector ---------- */
+
+  .rail { display: flex; flex-direction: column; min-height: 0; }
+
+  .rail-head {
+    border-bottom: 1px solid var(--line);
+    padding: 10px 12px;
+  }
+
+  .rail-kind { color: var(--accent); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .rail-name { font-size: 13px; letter-spacing: 0.04em; margin-top: 4px; }
+
+  .rail-body { display: flex; flex-direction: column; gap: 13px; padding: 12px; }
+
+  .grp { display: flex; flex-direction: column; gap: 9px; }
+
+  .grp > h4 {
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--dim);
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    margin: 0;
+    padding-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .f { display: flex; flex-direction: column; gap: 5px; }
+  .f > label { color: var(--dim); font-size: 8.5px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .two { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; }
+
+  .seg { display: flex; }
+
+  .seg button {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--dim);
+    flex: 1;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    padding: 5px 0;
+    text-transform: uppercase;
+  }
+
+  .seg button + button { border-left: none; }
+  .seg button:first-child { border-radius: 3px 0 0 3px; }
+  .seg button:last-child { border-radius: 0 3px 3px 0; }
+  .seg button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #0d0d0d; }
+
+  .num {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    display: flex;
+    font-size: 10px;
+    justify-content: space-between;
+    padding: 6px 8px;
+  }
+
+  .num em { color: var(--dimmer); font-style: normal; font-size: 8.5px; letter-spacing: 0.1em; }
+
+  .btns { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 6px 8px;
+    text-transform: uppercase;
+  }
+
+  .btn--solid { background: var(--ink); border-color: var(--ink); color: #0d0d0d; }
+
+  .note {
+    border-left: 2px solid var(--accent);
+    color: var(--dim);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    line-height: 1.55;
+    padding-left: 8px;
+  }
+
+  .preview {
+    align-self: center;
+    color: rgba(255, 255, 255, 0.8);
+    height: 84px;
+    width: 84px;
+  }
+
+</style>
+
+<div class="app">
+  <div class="topbar">
+    <strong>Cubicell studio</strong>
+    <span class="micro">Animation · Spin out</span>
+    <span class="spacer"></span>
+    <span class="micro">5 states · 3 views · 2 moves</span>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <div class="stage">
+        <span class="micro hud">Scene · live camera 118° / 34° · persp</span>
+        <svg data-piece="s3" data-view="0 1.14" viewBox="0 0 60 60" aria-hidden="true"></svg>
+        <button class="capture" id="capture-btn">Capture view → state 4</button>
+      </div>
+
+      <div class="transport">
+        <button class="tbtn">Play</button>
+        <button class="tbtn">Stop</button>
+        <button class="tbtn tbtn--accent">Loop</button>
+        <button class="tbtn" id="prev">&#9664;</button>
+        <button class="tbtn" id="next">&#9654;</button>
+        <div class="scrub"><i id="scrub-fill" style="width: 30%"></i><b id="scrub-head" style="left: 30%"></b></div>
+        <span class="time" id="time-label">1.0s / 3.3s</span>
+        <span class="micro">1.00x</span>
+        <span class="possess">
+          <i class="dot"></i>
+          <span class="state" id="pos-state">Moving</span>
+          <span class="detail" id="pos-detail">View 1 → 2 · orbit 44%</span>
+        </span>
+      </div>
+
+      <div class="dock">
+        <div class="strip" id="strip">
+          <!-- build in -->
+          <button class="card card--buildin" data-card="buildin" data-sel="buildin" data-name="Build in">
+            <span class="card-title">Build in</span>
+            <span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="value">0.2 s</span>
+            <span class="band band--pre"><span class="lbl">Opens on V1</span></span>
+          </button>
+
+          <!-- state 1 : filmed -->
+          <div class="card" data-card="s1" data-sel="state1" data-name="State 1">
+            <span class="card-title">State 1</span>
+            <svg class="thumb" data-piece="s1" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            <span class="band is-lit link-r" data-sel="view1" data-name="View 1">
+              <svg class="vt" data-piece="s1" data-view="-14 1.7" viewBox="0 0 60 60" aria-hidden="true"></svg>
+              <span class="lbl">View 1<em>45° / 20°</em></span>
+            </span>
+          </div>
+
+          <!-- transition 1 : carries a move -->
+          <button class="card card--wide" data-card="t1" data-sel="transition1" data-name="Transition 1">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Radial</span><span>Out</span></span>
+            <span class="value">420 ms</span>
+            <span class="band is-lit link-r band--move" data-sel="move1" data-name="Camera move 1">
+              <svg class="arc" viewBox="0 0 30 14" aria-hidden="true"><path d="M2 12 C 8 0, 22 0, 28 12" /><path d="M25 12 l3 0 l0 -3" /></svg>
+              <span class="lbl">Orbit 90°</span>
+            </span>
+          </button>
+
+          <!-- state 2 : filmed -->
+          <div class="card" data-card="s2" data-sel="state2" data-name="State 2">
+            <span class="card-title">State 2</span>
+            <svg class="thumb" data-piece="s2" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            <span class="band is-lit" data-sel="view2" data-name="View 2">
+              <svg class="vt" data-piece="s2" data-view="22 1.6" viewBox="0 0 60 60" aria-hidden="true"></svg>
+              <span class="lbl">View 2<em>135° / 20°</em></span>
+            </span>
+          </div>
+
+          <!-- transition 2 : no move, but both sides filmed → hard cut -->
+          <button class="card card--wide" data-card="t2" data-sel="transition2" data-name="Transition 2">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Made</span><span>Settle</span></span>
+            <span class="value">300 ms</span>
+            <span class="band band--cut" data-sel="cut2" data-name="Hard cut">
+              <span class="mark">&#9553;</span><span class="lbl">Cut</span>
+            </span>
+          </button>
+
+          <!-- state 3 : filmed -->
+          <div class="card" data-card="s3" data-sel="state3" data-name="State 3">
+            <span class="card-title">State 3</span>
+            <svg class="thumb" data-piece="s3" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            <span class="band is-lit" data-sel="view3" data-name="View 3">
+              <svg class="vt" data-piece="s3" data-view="0 1.35" viewBox="0 0 60 60" aria-hidden="true"></svg>
+              <span class="lbl">View 3<em>0° / 62°</em></span>
+            </span>
+          </div>
+
+          <!-- transition 3 : unfilmed -->
+          <button class="card card--wide" data-card="t3" data-sel="transition3" data-name="Transition 3">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Shell</span><span>InOut</span></span>
+            <span class="value">520 ms</span>
+            <span class="band band--empty"><span class="hint">+ Move</span></span>
+          </button>
+
+          <!-- state 4 : unfilmed -->
+          <div class="card" data-card="s4" data-sel="state4" data-name="State 4">
+            <span class="card-title">State 4</span>
+            <svg class="thumb" data-piece="s4" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            <span class="band band--empty"><span class="hint">+ View</span></span>
+          </div>
+
+          <!-- transition 4 : a move with no captured endpoints -->
+          <button class="card card--wide" data-card="t4" data-sel="transition4" data-name="Transition 4">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Spiral</span><span>Linear</span></span>
+            <span class="value">640 ms</span>
+            <span class="band band--move band--relative" data-sel="move4" data-name="Camera move 4">
+              <svg class="arc" viewBox="0 0 30 14" aria-hidden="true"><path d="M2 12 C 8 0, 22 0, 28 12" /><path d="M25 12 l3 0 l0 -3" /></svg>
+              <span class="lbl">↻ 360°</span>
+            </span>
+          </button>
+
+          <!-- state 5 : unfilmed -->
+          <div class="card" data-card="s5" data-sel="state5" data-name="State 5">
+            <span class="card-title">State 5</span>
+            <svg class="thumb" data-piece="s5" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            <span class="band band--empty"><span class="hint">+ View</span></span>
+          </div>
+
+          <button class="card card--placeholder" data-card="snap">+</button>
+        </div>
+
+        <div class="key">
+          <span><b>Reading key:</b> lit band = the camera is authored here</span>
+          <span><b>dashed baseline</b> = no view, camera holds the last one</span>
+          <span><b>&#9553;</b> = hard cut at the card boundary</span>
+          <span><b>dashed arc</b> = a sweep with no captured endpoints</span>
+          <span><b>capture</b> snaps to the state the playhead is entering</span>
+          <span><b>hover any dark band</b> to attach</span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <div class="rail-head">
+        <div class="rail-kind" id="rail-kind">Camera move</div>
+        <div class="rail-name" id="rail-name">Camera move 1</div>
+      </div>
+      <div class="rail-body" id="rail-body"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  // Piece silhouettes: each State is a different arrangement of the same cells.
+  const PIECES = {
+    s1: [[23, 23], [23, 39]],
+    s2: [[23, 23], [23, 39], [39, 39]],
+    s3: [[23, 7], [23, 23], [23, 39], [7, 39]],
+    s4: [[23, 7], [23, 23], [23, 39], [7, 39], [39, 23]],
+    s5: [[7, 7], [23, 7], [23, 23], [23, 39], [39, 39], [7, 39]],
+  };
+
+  // data-view carries "rotation scale": the same piece seen from another camera.
+  function paint(root) {
+    root.querySelectorAll("[data-piece]").forEach((el) => {
+      const cells = PIECES[el.dataset.piece] || [];
+      const [rot, scale] = (el.dataset.view || "0 1").split(" ").map(Number);
+      el.innerHTML =
+        '<g transform="translate(30,30) rotate(' + rot + ") scale(" + scale + ') translate(-30,-30)">' +
+        cells.map(([x, y]) => '<rect x="' + x + '" y="' + y + '" width="14" height="14" rx="1"/>').join("") +
+        "</g>";
+    });
+  }
+
+  const seg = (label, options, active) =>
+    '<div class="f"><label>' + label + '</label><div class="seg">' +
+    options.map((o) => '<button type="button" aria-pressed="' + (o === active) + '">' + o + "</button>").join("") +
+    "</div></div>";
+
+  const num = (label, value) =>
+    '<div class="f"><label>' + label + '</label><div class="num"><span>' + value + "</span><em>drag</em></div></div>";
+
+  const cameraMove = (bound, sweep, relative) =>
+    '<div class="grp"><h4>Bound to</h4><div class="note">' + bound + "</div></div>" +
+    '<div class="grp"><h4>Pose</h4>' +
+    seg("Path", ["Cut", "Linear", "Orbit"], "Orbit") +
+    seg("Easing", ["Out", "InOut", "Linear", "Settle"], relative ? "Linear" : "Out") +
+    num("Pose cut", "0.35") +
+    '</div><div class="grp"><h4>Projection</h4>' +
+    seg("Path", ["Cut", "Blend"], "Blend") +
+    seg("Easing", ["Out", "InOut", "Linear", "Settle"], "InOut") +
+    num("Projection cut", "0.50") +
+    '</div><div class="grp"><h4>Sweep</h4>' + num("Arc", sweep) +
+    '<div class="btns"><button class="btn">Reverse</button><button class="btn">+ Full turn</button>' +
+    '<button class="btn">− Full turn</button></div></div>' +
+    (relative
+      ? '<div class="note">No captured view on either side. A relative sweep is still legal: it orbits the ' +
+        "held view and lands back on it, so the piece keeps turning without the camera changing where it ends up.</div>"
+      : "") +
+    '<div class="btns"><button class="btn">Remove camera move</button></div>';
+
+  const PANELS = {
+    buildin: {
+      kind: "Piece motion",
+      body:
+        '<div class="grp"><h4>Arrival</h4>' + num("Start delay", "200 ms") +
+        seg("Order", ["Made", "Radial", "Spiral"], "Radial") +
+        seg("Curve", ["Even", "Accel", "Rit", "Swing"], "Accel") + "</div>" +
+        '<div class="grp"><h4>Camera</h4><div class="note">The animation opens on View 1, held from 0.0s. ' +
+        "The build in cannot carry its own view.</div></div>",
+    },
+    state1: { kind: "Piece state", body: statePanel("s1", "view1", "Carries View 1 · 45° / 20°") },
+    state2: { kind: "Piece state", body: statePanel("s2", "view2", "Carries View 2 · 135° / 20°") },
+    state3: { kind: "Piece state", body: statePanel("s3", "view3", "Carries View 3 · 0° / 62° ortho") },
+    state4: { kind: "Piece state", body: statePanel("s4", null, "Inherits View 3") },
+    state5: { kind: "Piece state", body: statePanel("s5", null, "Inherits View 3") },
+    view1: { kind: "Camera view", body: viewPanel("s1", "-14 0.86", "State 1", "45°", "20°", "Perspective", "Holds until the move into State 2 begins.") },
+    view2: { kind: "Camera view", body: viewPanel("s2", "22 1.02", "State 2", "135°", "20°", "Perspective", "Cuts to View 3 at the Transition 2 boundary.") },
+    view3: { kind: "Camera view", body: viewPanel("s3", "0 1.14", "State 3", "0°", "62°", "Orthographic", "Holds to the end: States 4 and 5 carry no view of their own.") },
+    transition1: { kind: "Piece motion", body: transitionPanel("Radial", "Accel", "Out", "420 ms", "Carries camera move 1 · orbit 90°", "move1") },
+    transition2: { kind: "Piece motion", body: transitionPanel("Made", "Even", "Settle", "300 ms", "No camera move · View 2 cuts to View 3", "cut2") },
+    transition3: { kind: "Piece motion", body: transitionPanel("Shell", "Rit", "InOut", "520 ms", "No camera move · View 3 holds", null) },
+    transition4: { kind: "Piece motion", body: transitionPanel("Spiral", "Swing", "Linear", "640 ms", "Carries camera move 4 · sweep 360°", "move4") },
+    move1: {
+      kind: "Camera move",
+      body: cameraMove("Transition 1 · State 1 → State 2 · 420 ms<br>View 1 → View 2", "90°", false),
+    },
+    move4: {
+      kind: "Camera move",
+      body: cameraMove("Transition 4 · State 4 → State 5 · 640 ms<br>View 3 → View 3 (held)", "360°", true),
+    },
+    cut2: {
+      kind: "Hard cut",
+      body:
+        '<div class="grp"><h4>Bound to</h4><div class="note">Transition 2 · State 2 → State 3 · 300 ms</div></div>' +
+        '<div class="note">State 2 and State 3 both carry a view and nothing joins them, so the camera cuts on ' +
+        "the card boundary: View 2 through the whole transition, View 3 from the first frame of State 3.</div>" +
+        '<div class="grp"><h4>Resolve</h4><div class="btns"><button class="btn btn--solid">Add camera move</button>' +
+        '<button class="btn">Nudge cut to mid transition</button></div></div>',
+    },
+    snapshot: { kind: "Snapshot", body: '<div class="note">Commits the live scene as State 6 at the end of the strip.</div>' },
+  };
+
+  function statePanel(piece, jump, cameraLine) {
+    return (
+      '<svg class="preview" data-piece="' + piece + '" viewBox="0 0 60 60"></svg>' +
+      '<div class="grp"><h4>State</h4>' + num("Hold", "0 ms") +
+      '<div class="btns"><button class="btn">Update from scene</button></div></div>' +
+      '<div class="grp"><h4>Camera</h4>' +
+      (jump
+        ? '<div class="note">' + cameraLine + '</div><div class="btns"><button class="btn" data-jump="' +
+          jump + '">Edit view</button>' +
+          '<button class="btn">Remove view</button></div>'
+        : '<div class="note">' + cameraLine + ': no view of its own.</div>' +
+          '<div class="btns"><button class="btn btn--solid">Capture view here</button></div>') +
+      "</div>"
+    );
+  }
+
+  function viewPanel(piece, view, card, az, el, projection, holds) {
+    return (
+      '<svg class="preview" data-piece="' + piece + '" data-view="' + view + '" viewBox="0 0 60 60"></svg>' +
+      '<div class="grp"><h4>Bound to</h4><div class="note">' + card + " · captured at the card boundary</div></div>" +
+      '<div class="grp"><h4>Pose</h4><div class="two">' + num("Azimuth", az) + num("Elevation", el) + "</div>" +
+      num("Distance", "4.20") + seg("Projection", ["Persp", "Ortho"], projection === "Orthographic" ? "Ortho" : "Persp") + "</div>" +
+      '<div class="grp"><h4>Holds</h4><div class="note">' + holds + "</div></div>" +
+      '<div class="btns"><button class="btn btn--solid">Recapture from scene</button><button class="btn">Remove view</button></div>'
+    );
+  }
+
+  function transitionPanel(order, curve, easing, duration, cameraLine, jump) {
+    return (
+      '<div class="grp"><h4>Piece motion</h4>' +
+      seg("Order", ["Made", "Radial", "Spiral", "Shell"], order) +
+      seg("Curve", ["Even", "Accel", "Rit", "Swing"], curve) +
+      seg("Easing", ["Out", "InOut", "Linear", "Settle"], easing) +
+      num("Duration", duration) + "</div>" +
+      '<div class="grp"><h4>Camera</h4><div class="note">' + cameraLine + "</div>" +
+      (jump
+        ? '<div class="btns"><button class="btn" data-jump="' + jump + '">Edit camera</button></div>'
+        : '<div class="btns"><button class="btn btn--solid">Add camera move</button></div>') +
+      "</div>"
+    );
+  }
+
+  const railKind = document.getElementById("rail-kind");
+  const railName = document.getElementById("rail-name");
+  const railBody = document.getElementById("rail-body");
+
+  function select(key, el) {
+    const panel = PANELS[key];
+    if (!panel) return;
+    railKind.textContent = panel.kind;
+    railName.textContent = (el && el.dataset.name) || key;
+    railBody.innerHTML = panel.body;
+    paint(railBody);
+    document.querySelectorAll(".is-sel").forEach((n) => n.classList.remove("is-sel"));
+    const card = el && el.closest(".card");
+    if (card) card.classList.add("is-sel");
+  }
+
+  document.addEventListener("click", (event) => {
+    const jump = event.target.closest("[data-jump]");
+    if (jump) {
+      const target = document.querySelector('[data-sel="' + jump.dataset.jump + '"]');
+      select(jump.dataset.jump, target);
+      return;
+    }
+    const pick = event.target.closest("[data-sel]");
+    if (pick) {
+      select(pick.dataset.sel, pick);
+      return;
+    }
+    const option = event.target.closest(".seg button");
+    if (option) {
+      option.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      option.setAttribute("aria-pressed", "true");
+    }
+  });
+
+  // The playhead walks the strip card by card. Possession is whatever the band
+  // under it says: HELD, MOVING, or CUT at the boundary. Capture always lands on a
+  // State, so from inside a transition it snaps to the State being entered.
+  const STOPS = [
+    { card: "buildin", pct: 55, ms: 200, state: "Held", detail: "View 1 · opening", capture: "State 1" },
+    { card: "s1", pct: 50, ms: 400, state: "Held", detail: "View 1 · 45° / 20°", capture: "State 1" },
+    { card: "t1", pct: 44, ms: 1000, state: "Moving", detail: "View 1 → 2 · orbit 44%", capture: "State 2" },
+    { card: "s2", pct: 50, ms: 1500, state: "Held", detail: "View 2 · 135° / 20°", capture: "State 2" },
+    { card: "t2", pct: 92, ms: 1800, state: "Cut", detail: "View 2 ‖ 3 · at the boundary", capture: "State 3" },
+    { card: "s3", pct: 50, ms: 2100, state: "Held", detail: "View 3 · 0° / 62° ortho", capture: "State 3" },
+    { card: "t3", pct: 50, ms: 2400, state: "Held", detail: "View 3 · no move", capture: "State 4" },
+    { card: "s4", pct: 50, ms: 2600, state: "Held", detail: "View 3 · inherited", capture: "State 4" },
+    { card: "t4", pct: 58, ms: 3000, state: "Moving", detail: "View 3 ↻ 3 · sweep 212°", capture: "State 5" },
+    { card: "s5", pct: 50, ms: 3300, state: "Held", detail: "View 3 · inherited", capture: "State 5" },
+  ];
+
+  const head = document.createElement("div");
+  head.className = "playhead";
+  let index = 2;
+
+  function moveHead() {
+    const stop = STOPS[index];
+    const card = document.querySelector('[data-card="' + stop.card + '"]');
+    card.appendChild(head);
+    head.style.left = stop.pct + "%";
+    document.getElementById("pos-state").textContent = stop.state;
+    document.getElementById("pos-detail").textContent = stop.detail;
+    document.getElementById("time-label").textContent = (stop.ms / 1000).toFixed(1) + "s / 3.3s";
+    const fraction = (stop.ms / 3300) * 100;
+    document.getElementById("scrub-fill").style.width = fraction + "%";
+    document.getElementById("scrub-head").style.left = fraction + "%";
+    // Capture targets the card the playhead is inside, never a free time.
+    document.getElementById("capture-btn").textContent = "Capture view → " + stop.capture;
+  }
+
+  document.getElementById("prev").addEventListener("click", () => {
+    index = Math.max(0, index - 1);
+    moveHead();
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    index = Math.min(STOPS.length - 1, index + 1);
+    moveHead();
+  });
+
+  paint(document);
+  moveHead();
+  select("move1", document.querySelector('[data-sel="move1"]'));
+</script>

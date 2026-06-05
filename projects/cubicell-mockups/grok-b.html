@@ -1,0 +1,582 @@
+<!--
+  Idea B — Properties leave the timeline for the inspector.
+  The camera track collapses to a lean keyframe rail under the state strip; selecting a keyframe (or its outgoing segment) populates the inspector panel with pose path, easing, projection, and sweep — timeline stays visual, inspector owns knobs.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cubicell · Camera inspector (B)</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #111111;
+    --panel-2: #161616;
+    --border: #2a2a2a;
+    --border-hi: #3a3a3a;
+    --text: #f2f2f2;
+    --muted: #8a8a8a;
+    --dim: #5a5a5a;
+    --accent: #f5a623;
+    --chip: #1c1c1c;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #050505;
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 40px 28px 60px;
+  }
+  .stage {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 12px;
+    align-items: start;
+  }
+  .shell {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .btn {
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    padding: 6px 10px;
+    border-radius: 3px;
+    cursor: default;
+  }
+  .btn.on {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px rgba(245, 166, 35, 0.25);
+  }
+  .btn.solid {
+    background: var(--text);
+    color: #111;
+    border-color: var(--text);
+  }
+  .scrub {
+    flex: 1;
+    height: 2px;
+    background: #2a2a2a;
+    border-radius: 1px;
+    position: relative;
+    margin: 0 12px;
+  }
+  .scrub::after {
+    content: "";
+    position: absolute;
+    left: 42%; top: -3px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .meta { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; white-space: nowrap; }
+  .meta strong { color: var(--text); font-weight: 500; }
+
+  .section { padding: 14px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .section-head p { font-size: 10px; color: var(--dim); }
+
+  .strip { display: flex; overflow-x: auto; }
+  .card {
+    flex: 0 0 auto;
+    width: 100px;
+    min-height: 118px;
+    border: 1px solid var(--border);
+    background: var(--chip);
+    display: flex;
+    flex-direction: column;
+    margin-right: -1px;
+  }
+  .card.selected {
+    border-color: var(--accent);
+    z-index: 1;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .card-head {
+    padding: 8px 6px 0;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+  .card.selected .card-head { color: var(--accent); }
+  .thumb {
+    flex: 1;
+    margin: 8px;
+    background: #000;
+    border: 1px solid #1a1a1a;
+    display: grid;
+    place-items: center;
+    min-height: 56px;
+  }
+  .thumb svg { width: 36px; height: 36px; }
+  .card-foot {
+    padding: 0 6px 8px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: center;
+  }
+  .card.seg {
+    width: 70px;
+    background: #0e0e0e;
+  }
+  .card.seg .seg-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 4px;
+  }
+  .seg-type { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .seg-ease { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .seg-ms { font-size: 9px; color: var(--dim); border: 1px solid var(--border); padding: 2px 5px; }
+
+  /* Lean camera rail */
+  .cam-rail {
+    position: relative;
+    padding: 18px 8px 10px;
+  }
+  .cam-line {
+    position: absolute;
+    left: 12px; right: 12px;
+    top: 36px;
+    height: 2px;
+    background: #2a2a2a;
+  }
+  .cam-line .playhead {
+    position: absolute;
+    left: 42%;
+    top: -10px;
+    width: 1px;
+    height: 52px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+  .cam-keys {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 4px;
+  }
+  .kf {
+    width: 56px;
+    text-align: center;
+    cursor: default;
+  }
+  .kf .dot {
+    width: 12px;
+    height: 12px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    border: 2px solid var(--border-hi);
+    background: var(--panel);
+    position: relative;
+    z-index: 1;
+  }
+  .kf.selected .dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.2);
+  }
+  .kf .t {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .kf.selected .t { color: var(--accent); }
+  .kf .tag {
+    margin-top: 4px;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cam-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  /* Inspector */
+  .inspector {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .insp-head {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .insp-head h2 {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .insp-head .sel {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .insp-body { padding: 12px 14px 16px; }
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+  .field > label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 8px;
+  }
+  .seg-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .seg-tabs span {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+  }
+  .seg-tabs span:last-child { border-right: none; }
+  .seg-tabs span.on {
+    background: #1a1a1a;
+    color: var(--accent);
+  }
+  .toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tog {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+    background: transparent;
+  }
+  .tog.on {
+    background: var(--text);
+    color: #111;
+    border-color: var(--text);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .num {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    border-radius: 2px;
+    background: #0c0c0c;
+  }
+  .num span { font-size: 9px; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; }
+  .num strong { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; margin-left: auto; }
+  .preview {
+    aspect-ratio: 1;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 14px;
+  }
+  .preview svg { width: 72px; height: 72px; }
+  .danger {
+    width: 100%;
+    margin-top: 4px;
+    font: inherit;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 2px;
+  }
+
+  .note {
+    max-width: 1240px;
+    margin: 16px auto 0;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--dim);
+  }
+  .note em { color: var(--muted); font-style: normal; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="shell">
+      <div class="transport">
+        <button class="btn">Play</button>
+        <button class="btn">Stop</button>
+        <button class="btn on">Loop</button>
+        <div class="scrub"></div>
+        <span class="meta"><strong>1.5s</strong> / 3.3s</span>
+        <button class="btn">1.00×</button>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>State motion</h2>
+          <p>Unchanged craft</p>
+        </div>
+        <div class="strip">
+          <div class="card">
+            <div class="card-head">Build in</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#555">
+                <circle cx="12" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/><circle cx="28" cy="12" r="1.5"/>
+                <circle cx="12" cy="20" r="1.5"/><circle cx="20" cy="20" r="1.5"/><circle cx="28" cy="20" r="1.5"/>
+                <circle cx="12" cy="28" r="1.5"/><circle cx="20" cy="28" r="1.5"/><circle cx="28" cy="28" r="1.5"/>
+              </svg>
+            </div>
+            <div class="card-foot">0.0s</div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 1</div>
+            <div class="thumb"><svg viewBox="0 0 40 40"><rect x="10" y="10" width="20" height="20" fill="#fff"/></svg></div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Z</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">300ms</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 2</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" stroke="#fff" stroke-width="0.8" fill="none">
+                <rect x="8" y="8" width="24" height="24"/>
+                <line x1="16" y1="8" x2="16" y2="32"/><line x1="24" y1="8" x2="24" y2="32"/>
+                <line x1="8" y1="16" x2="32" y2="16"/><line x1="8" y1="24" x2="32" y2="24"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Made</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">350ms</div>
+            </div>
+          </div>
+          <div class="card selected">
+            <div class="card-head">State 3</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#fff">
+                <rect x="16" y="8" width="8" height="8"/><rect x="8" y="16" width="8" height="8"/>
+                <rect x="16" y="16" width="8" height="8"/><rect x="24" y="16" width="8" height="8"/>
+                <rect x="16" y="24" width="8" height="8"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Shell</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">350ms</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 4</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#fff">
+                <rect x="16" y="6" width="8" height="8"/><rect x="8" y="14" width="8" height="8"/>
+                <rect x="16" y="14" width="8" height="8"/><rect x="24" y="14" width="8" height="8"/>
+                <rect x="16" y="22" width="8" height="8"/><rect x="16" y="30" width="8" height="6"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2>Camera</h2>
+          <p>Lean rail · select a keyframe → inspector</p>
+        </div>
+        <div class="cam-rail">
+          <div class="cam-line"><div class="playhead"></div></div>
+          <div class="cam-keys">
+            <div class="kf">
+              <div class="dot"></div>
+              <div class="t">1 · 0.0s</div>
+              <div class="tag">Front</div>
+            </div>
+            <div class="kf">
+              <div class="dot"></div>
+              <div class="t">2 · 0.75s</div>
+              <div class="tag">Orbit</div>
+            </div>
+            <div class="kf">
+              <div class="dot"></div>
+              <div class="t">3 · 1.3s</div>
+              <div class="tag">Linear</div>
+            </div>
+            <div class="kf selected">
+              <div class="dot"></div>
+              <div class="t">4 · 1.5s</div>
+              <div class="tag">Cut · blend</div>
+            </div>
+            <div class="kf">
+              <div class="dot"></div>
+              <div class="t">5 · 2.8s</div>
+              <div class="tag">Orbit</div>
+            </div>
+          </div>
+          <div class="cam-actions">
+            <button class="btn solid">Capture view at 1.5s</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="inspector">
+      <div class="insp-head">
+        <h2>Inspector</h2>
+        <span class="sel">View 4</span>
+      </div>
+      <div class="insp-body">
+        <div class="preview">
+          <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+            <path d="M14 16 L28 12 L36 24 L32 36 L18 40 L10 28 Z" fill="rgba(255,255,255,0.06)"/>
+            <path d="M14 16 L22 26 L28 12"/><path d="M22 26 L18 40"/>
+          </svg>
+        </div>
+
+        <div class="seg-tabs">
+          <span>Keyframe</span>
+          <span class="on">Outgoing</span>
+        </div>
+
+        <div class="field">
+          <label>Pose path</label>
+          <div class="toggles">
+            <span class="tog">Cut</span>
+            <span class="tog">Linear</span>
+            <span class="tog on">Orbit</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pose easing</label>
+          <div class="toggles">
+            <span class="tog">Out</span>
+            <span class="tog on">Inout</span>
+            <span class="tog">Linear</span>
+            <span class="tog">Settle</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Projection</label>
+          <div class="toggles">
+            <span class="tog">Cut</span>
+            <span class="tog on">Blend</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Projection easing</label>
+          <div class="toggles">
+            <span class="tog">Out</span>
+            <span class="tog on">Inout</span>
+            <span class="tog">Linear</span>
+            <span class="tog">Settle</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Cuts &amp; sweep</label>
+          <div class="row">
+            <div class="num"><span>Pose cut</span><strong>0.50</strong></div>
+            <div class="num"><span>Proj cut</span><strong>0.50</strong></div>
+          </div>
+          <div style="height:8px"></div>
+          <div class="toggles">
+            <span class="tog">Reverse</span>
+            <span class="tog">+ Full turn</span>
+            <span class="tog">− Full turn</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Time</label>
+          <div class="num"><span>Keyframe</span><strong>1500 ms</strong></div>
+        </div>
+        <button class="danger">Remove view</button>
+      </div>
+    </aside>
+  </div>
+  <p class="note">
+    <em>B · lean rail + inspector.</em>
+    Camera stops competing with the state strip: a thin keyframe rail owns position in time; all pose/projection knobs move into the existing inspector pattern, revealed by selection.
+  </p>
+</body>
+</html>

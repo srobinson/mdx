@@ -1,0 +1,615 @@
+<!--
+  Idea C — Unified dual-lane timeline under one transport and playhead.
+  State and camera become peer lanes: STATE (build / state / transition cards) and CAMERA (view / path cards), sharing the same scrubber, playhead, and craft language so the camera track is no longer an afterthought bolted underneath.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cubicell · Unified timeline (C)</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #111111;
+    --panel-2: #161616;
+    --border: #2a2a2a;
+    --border-hi: #3a3a3a;
+    --text: #f2f2f2;
+    --muted: #8a8a8a;
+    --dim: #5a5a5a;
+    --accent: #f5a623;
+    --chip: #1c1c1c;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #050505;
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 40px 28px 60px;
+  }
+  .shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* Shared transport */
+  .transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .btn {
+    font: inherit;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    padding: 6px 10px;
+    border-radius: 3px;
+    cursor: default;
+  }
+  .btn.on {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: inset 0 0 0 1px rgba(245, 166, 35, 0.25);
+  }
+  .btn.ghost {
+    color: var(--muted);
+    border-color: var(--border);
+  }
+  .meta {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .meta strong { color: var(--text); font-weight: 500; }
+
+  /* Ruler + shared playhead */
+  .ruler-wrap {
+    position: relative;
+    padding: 10px 0 0;
+    border-bottom: 1px solid var(--border);
+    background: #0c0c0c;
+  }
+  .ruler {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 72px 8px 88px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .ruler span { position: relative; }
+  .ruler span::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 1px;
+    height: 6px;
+    background: #333;
+  }
+  .shared-scrub {
+    position: relative;
+    height: 18px;
+    margin: 0 72px 0 88px;
+  }
+  .shared-scrub .track {
+    position: absolute;
+    left: 0; right: 0;
+    top: 8px;
+    height: 2px;
+    background: #2a2a2a;
+  }
+  .shared-scrub .playhead {
+    position: absolute;
+    left: 42%;
+    top: 0;
+    width: 1px;
+    height: 18px;
+    background: var(--accent);
+  }
+  .shared-scrub .playhead::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(245,166,35,0.25);
+  }
+
+  /* Dual lanes share one horizontal scroll + one vertical playhead ghost */
+  .lanes {
+    position: relative;
+    overflow-x: auto;
+  }
+  .lanes::-webkit-scrollbar { height: 6px; }
+  .lanes::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  .lane {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    border-bottom: 1px solid var(--border);
+    min-width: 980px;
+  }
+  .lane:last-child { border-bottom: none; }
+  .lane-label {
+    padding: 16px 10px;
+    border-right: 1px solid var(--border);
+    background: var(--panel-2);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+  }
+  .lane-label .name {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .lane-label .sub {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--dim);
+  }
+  .lane-body {
+    position: relative;
+    padding: 12px 16px 14px;
+    display: flex;
+    gap: 0;
+  }
+
+  /* Shared playhead spanning both lanes (visual only) */
+  .lanes-playhead {
+    position: absolute;
+    left: calc(72px + 16px + 42% * (980px - 72px - 32px) / 100);
+    /* approximate: use fixed offset matching scrub 42% inside content */
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(245, 166, 35, 0.55);
+    z-index: 5;
+    pointer-events: none;
+  }
+  /* Simpler approach: place playhead via % of lane body using a wrapper */
+  .lane-body::before {
+    content: "";
+    position: absolute;
+    left: 42%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(245, 166, 35, 0.45);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .card {
+    flex: 0 0 auto;
+    width: 100px;
+    min-height: 112px;
+    border: 1px solid var(--border);
+    background: var(--chip);
+    display: flex;
+    flex-direction: column;
+    margin-right: -1px;
+    position: relative;
+    z-index: 1;
+  }
+  .card.selected {
+    border-color: var(--accent);
+    z-index: 2;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .card-head {
+    padding: 7px 6px 0;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+  .card.selected .card-head { color: var(--accent); }
+  .thumb {
+    flex: 1;
+    margin: 7px;
+    background: #000;
+    border: 1px solid #1a1a1a;
+    display: grid;
+    place-items: center;
+    min-height: 52px;
+    position: relative;
+  }
+  .thumb svg { width: 36px; height: 36px; }
+  .card-foot {
+    padding: 0 6px 7px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: center;
+  }
+  .card.seg {
+    width: 68px;
+    background: #0e0e0e;
+  }
+  .card.seg .seg-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 4px;
+  }
+  .seg-type {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .seg-ease {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .seg-ms {
+    font-size: 9px;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 2px 5px;
+  }
+  .view-badge {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    font-size: 8px;
+    letter-spacing: 0.06em;
+    color: var(--dim);
+  }
+
+  /* Camera lane: time-aligned blocks (variable width to suggest duration) */
+  .cam-block {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    background: var(--chip);
+    margin-right: -1px;
+    min-height: 112px;
+    position: relative;
+    z-index: 1;
+  }
+  .cam-block.view { width: 88px; }
+  .cam-block.path {
+    background: #0e0e0e;
+  }
+  .cam-block.path.w1 { width: 120px; }
+  .cam-block.path.w2 { width: 88px; }
+  .cam-block.path.w3 { width: 48px; }
+  .cam-block.path.w4 { width: 160px; }
+  .cam-block.selected {
+    border-color: var(--accent);
+    z-index: 2;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .cam-block .card-head { padding-top: 7px; }
+  .cam-block.selected .card-head { color: var(--accent); }
+  .cam-block .path-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+  }
+  .path-arc {
+    width: 100%;
+    height: 28px;
+    display: grid;
+    place-items: center;
+  }
+  .path-arc svg { width: 90%; height: 24px; }
+  .cam-block .card-foot { padding-bottom: 7px; }
+
+  .footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .footer-bar .hint {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .note {
+    max-width: 1200px;
+    margin: 16px auto 0;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--dim);
+  }
+  .note em { color: var(--muted); font-style: normal; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="transport">
+      <button class="btn">Play</button>
+      <button class="btn">Stop</button>
+      <button class="btn on">Loop</button>
+      <span class="meta" style="margin-left:8px"><strong>1.5s</strong> / 3.3s</span>
+      <div style="flex:1"></div>
+      <button class="btn ghost">Snap to state</button>
+      <button class="btn">1.00×</button>
+    </div>
+
+    <div class="ruler-wrap">
+      <div class="ruler">
+        <span>0.0s</span>
+        <span>0.8s</span>
+        <span>1.6s</span>
+        <span>2.4s</span>
+        <span>3.3s</span>
+      </div>
+      <div class="shared-scrub">
+        <div class="track"></div>
+        <div class="playhead"></div>
+      </div>
+    </div>
+
+    <div class="lanes">
+      <!-- STATE LANE -->
+      <div class="lane">
+        <div class="lane-label">
+          <span class="name">State</span>
+          <span class="sub">motion</span>
+        </div>
+        <div class="lane-body">
+          <div class="card">
+            <div class="card-head">Build in</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#555">
+                <circle cx="12" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/><circle cx="28" cy="12" r="1.5"/>
+                <circle cx="12" cy="20" r="1.5"/><circle cx="20" cy="20" r="1.5"/><circle cx="28" cy="20" r="1.5"/>
+                <circle cx="12" cy="28" r="1.5"/><circle cx="20" cy="28" r="1.5"/><circle cx="28" cy="28" r="1.5"/>
+              </svg>
+            </div>
+            <div class="card-foot">0.0s</div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 1</div>
+            <div class="thumb"><svg viewBox="0 0 40 40"><rect x="10" y="10" width="20" height="20" fill="#fff"/></svg></div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Z</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">300ms</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 2</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" stroke="#fff" stroke-width="0.8" fill="none">
+                <rect x="8" y="8" width="24" height="24"/>
+                <line x1="16" y1="8" x2="16" y2="32"/><line x1="24" y1="8" x2="24" y2="32"/>
+                <line x1="8" y1="16" x2="32" y2="16"/><line x1="8" y1="24" x2="32" y2="24"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Made</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">350ms</div>
+            </div>
+          </div>
+          <div class="card selected">
+            <div class="card-head">State 3</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#fff">
+                <rect x="16" y="8" width="8" height="8"/><rect x="8" y="16" width="8" height="8"/>
+                <rect x="16" y="16" width="8" height="8"/><rect x="24" y="16" width="8" height="8"/>
+                <rect x="16" y="24" width="8" height="8"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Shell</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">350ms</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 4</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#fff">
+                <rect x="16" y="6" width="8" height="8"/><rect x="8" y="14" width="8" height="8"/>
+                <rect x="16" y="14" width="8" height="8"/><rect x="24" y="14" width="8" height="8"/>
+                <rect x="16" y="22" width="8" height="8"/><rect x="16" y="30" width="8" height="6"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+          <div class="card seg">
+            <div class="seg-body">
+              <div class="seg-type">Radial</div>
+              <div class="seg-ease">Settle</div>
+              <div class="seg-ms">250ms</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State 5</div>
+            <div class="thumb">
+              <svg viewBox="0 0 40 40" fill="#fff">
+                <rect x="16" y="4" width="8" height="8"/><rect x="8" y="12" width="8" height="8"/>
+                <rect x="16" y="12" width="8" height="8"/><rect x="24" y="12" width="8" height="8"/>
+                <rect x="16" y="20" width="8" height="8"/><rect x="16" y="28" width="8" height="8"/>
+              </svg>
+            </div>
+            <div class="card-foot">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMERA LANE — peer craft, time-weighted path widths -->
+      <div class="lane">
+        <div class="lane-label">
+          <span class="name">Camera</span>
+          <span class="sub">path</span>
+        </div>
+        <div class="lane-body">
+          <div class="cam-block view selected">
+            <div class="card-head">View 1</div>
+            <div class="thumb">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+                <path d="M12 18 L24 12 L36 18 L36 30 L24 36 L12 30 Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M12 18 L24 24 L36 18"/><path d="M24 24 L24 36"/>
+              </svg>
+              <span class="view-badge">0.0s</span>
+            </div>
+            <div class="card-foot">Front</div>
+          </div>
+          <div class="cam-block path w1">
+            <div class="card-head">Orbit</div>
+            <div class="path-body">
+              <div class="path-arc">
+                <svg viewBox="0 0 100 24" fill="none" stroke="#888" stroke-width="1.2">
+                  <path d="M4 18 Q 50 2 96 18"/>
+                  <circle cx="4" cy="18" r="2" fill="#888"/>
+                  <circle cx="96" cy="18" r="2" fill="#888"/>
+                </svg>
+              </div>
+              <div class="seg-ease">Inout</div>
+              <div class="seg-ms">750 ms</div>
+            </div>
+          </div>
+          <div class="cam-block view">
+            <div class="card-head">View 2</div>
+            <div class="thumb">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+                <path d="M16 14 L30 10 L38 20 L34 34 L20 38 L12 28 Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M16 14 L24 24 L30 10"/><path d="M24 24 L20 38"/>
+              </svg>
+              <span class="view-badge">0.75s</span>
+            </div>
+            <div class="card-foot">¾ orbit</div>
+          </div>
+          <div class="cam-block path w2">
+            <div class="card-head">Linear</div>
+            <div class="path-body">
+              <div class="path-arc">
+                <svg viewBox="0 0 100 24" fill="none" stroke="#888" stroke-width="1.2">
+                  <path d="M4 18 L96 6"/>
+                  <circle cx="4" cy="18" r="2" fill="#888"/>
+                  <circle cx="96" cy="6" r="2" fill="#888"/>
+                </svg>
+              </div>
+              <div class="seg-ease">Out</div>
+              <div class="seg-ms">550 ms</div>
+            </div>
+          </div>
+          <div class="cam-block view">
+            <div class="card-head">View 3</div>
+            <div class="thumb">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+                <path d="M10 22 L24 14 L38 22 L38 30 L24 38 L10 30 Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M10 22 L24 28 L38 22"/><path d="M24 28 L24 38"/>
+              </svg>
+              <span class="view-badge">1.3s</span>
+            </div>
+            <div class="card-foot">Wide</div>
+          </div>
+          <div class="cam-block path w3">
+            <div class="card-head">Cut</div>
+            <div class="path-body">
+              <div class="path-arc">
+                <svg viewBox="0 0 40 24" fill="none" stroke="#888" stroke-width="1.2">
+                  <path d="M8 4 L8 20 M32 4 L32 20"/>
+                  <path d="M14 12 L26 12" stroke-dasharray="2 2"/>
+                </svg>
+              </div>
+              <div class="seg-ease">—</div>
+              <div class="seg-ms">0 ms</div>
+            </div>
+          </div>
+          <div class="cam-block view">
+            <div class="card-head">View 4</div>
+            <div class="thumb">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+                <path d="M14 16 L28 12 L36 24 L32 36 L18 40 L10 28 Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M14 16 L22 26 L28 12"/><path d="M22 26 L18 40"/>
+              </svg>
+              <span class="view-badge">1.5s</span>
+            </div>
+            <div class="card-foot">Blend</div>
+          </div>
+          <div class="cam-block path w4">
+            <div class="card-head">Orbit</div>
+            <div class="path-body">
+              <div class="path-arc">
+                <svg viewBox="0 0 100 24" fill="none" stroke="#888" stroke-width="1.2">
+                  <path d="M4 18 Q 30 2 50 12 Q 70 22 96 6"/>
+                  <circle cx="4" cy="18" r="2" fill="#888"/>
+                  <circle cx="96" cy="6" r="2" fill="#f5a623"/>
+                </svg>
+              </div>
+              <div class="seg-ease">Settle · +turn</div>
+              <div class="seg-ms">1.3 s</div>
+            </div>
+          </div>
+          <div class="cam-block view">
+            <div class="card-head">View 5</div>
+            <div class="thumb">
+              <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="1.2">
+                <path d="M12 20 L24 10 L36 20 L36 32 L24 40 L12 32 Z" fill="rgba(255,255,255,0.06)"/>
+                <path d="M12 20 L24 28 L36 20"/><path d="M24 28 L24 40"/>
+              </svg>
+              <span class="view-badge">2.8s</span>
+            </div>
+            <div class="card-foot">End</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <span class="hint">One transport · two peer lanes · shared playhead</span>
+      <button class="btn">Capture view at 1.5s</button>
+    </div>
+  </div>
+  <p class="note">
+    <em>C · unified dual-lane.</em>
+    State and camera stop living in different UI languages: one ruler, one playhead, two lanes that speak the same card grammar. Path blocks width-encode duration so camera motion is readable at a glance the way transition cards already are.
+  </p>
+</body>
+</html>

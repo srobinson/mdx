@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM · IR Overlays · 2 Editor</title>
+<style>
+  :root {
+    --ink: #1c1c1a; --ink-soft: #6b6b66; --ink-faint: #9c9c96;
+    --paper: #fafaf7; --panel: #ffffff; --accent: #e8e4dc;
+    --line: #d9d7d0; --line-soft: #eceae4;
+    --good: #2e6e4e; --good-bg: #e7f2ec;
+    --cut: #a33f3f; --cut-bg: #f7e9e9;
+    --noop: #8a6d1f; --noop-bg: #f6efdf;
+    --note: #4a5f8a; --note-bg: #eef1f8;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+
+  .wf-bar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:1px solid var(--line); background:var(--panel); }
+  .wf-bar .crumb { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .wf-bar nav { margin-left:auto; display:flex; gap:2px; font-size:12px; }
+  .wf-bar nav a { text-decoration:none; padding:4px 10px; border:1px solid transparent; border-radius:4px; color:var(--ink-soft); }
+  .wf-bar nav a.on { background:var(--accent); border-color:var(--line); color:var(--ink); }
+  .wf-bar nav a:hover { border-color:var(--line); }
+
+  .page { max-width: 1400px; margin: 0 auto; padding: 20px 20px 80px; }
+  .page-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+  .page-head h1 { font-size:18px; font-weight:600; }
+  .chip { font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; border:1px solid var(--line); background:var(--accent); }
+  .page-head .spacer { flex:1; }
+  button.primary, button.ghost { font:inherit; font-size:13px; padding:7px 14px; border-radius:5px; cursor:pointer; }
+  button.primary { background:var(--ink); color:var(--paper); border:1px solid var(--ink); }
+  button.ghost { background:transparent; border:1px solid var(--line); color:var(--ink); }
+
+  .layout { display:grid; grid-template-columns: 230px 1fr 320px; gap:18px; align-items:start; }
+
+  /* section tree: focus / filter control */
+  .tree { position:sticky; top:16px; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .tree h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); padding:12px 14px 4px; }
+  .tnode { display:flex; align-items:baseline; gap:8px; padding:7px 14px; font-size:13px; cursor:pointer; border-left:3px solid transparent; }
+  .tnode:hover { background:var(--paper); }
+  .tnode.on { border-left-color:var(--ink); background:var(--accent); font-weight:600; }
+  .tnode .tok { margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .tnode .tok .cutn { color:var(--cut); }
+  .tree .hint { padding:8px 14px 12px; font-size:11px; color:var(--ink-faint); border-top:1px solid var(--line-soft); }
+
+  /* field cards */
+  .fields { display:flex; flex-direction:column; gap:14px; min-width:0; }
+  .sect-head { display:flex; align-items:baseline; gap:10px; margin:8px 0 0; }
+  .sect-head h2 { font-size:15px; }
+  .sect-head .tok { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .field { background:var(--panel); border:1px solid var(--line); border-radius:8px; }
+  .field.dropped { border-style:dashed; opacity:.6; }
+  .field.focus { border-color:var(--ink); }
+  .fhead { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line-soft); flex-wrap:wrap; }
+  .fhead .fname { font-family:var(--mono); font-size:12px; font-weight:700; }
+  .fhead .ftok { font-family:var(--mono); font-size:11px; color:var(--ink-soft); }
+  .fhead .ftok .edited { color:var(--good); }
+  .fhead .spacer { flex:1; }
+
+  .rmode { display:inline-flex; border:1px solid var(--line); border-radius:5px; overflow:hidden; }
+  .rmode button { font:inherit; font-size:11px; font-family:var(--mono); padding:3px 10px; border:none; background:var(--panel); color:var(--ink-soft); cursor:pointer; }
+  .rmode button + button { border-left:1px solid var(--line); }
+  .rmode button.on { background:var(--ink); color:var(--paper); }
+
+  .fdrop { font-size:11px; font-family:var(--mono); border:1px solid var(--line); background:var(--paper); border-radius:5px; padding:3px 10px; cursor:pointer; color:var(--ink-soft); }
+  .fdrop.dropped-btn { background:var(--cut-bg); color:var(--cut); border-color:#dcb9b9; }
+
+  .fbody { padding:12px 14px; }
+  .view { display:none; }
+  .view.on { display:block; }
+  .view.combined.on { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .view.combined .half h4 { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:6px; }
+
+  .md { font-size:13px; max-width:80ch; }
+  .md p { margin:0 0 8px; }
+  .md h5 { font-size:13px; margin:10px 0 4px; }
+  .md ul { margin:0 0 8px 20px; }
+  .md code { font-family:var(--mono); font-size:12px; background:var(--line-soft); padding:1px 4px; border-radius:3px; }
+  pre.json { font-family:var(--mono); font-size:11.5px; line-height:1.5; background:var(--paper); border:1px solid var(--line-soft); border-radius:6px; padding:10px 12px; overflow-x:auto; white-space:pre; }
+  .json .k { color:var(--note); }
+  .json .s { color:#5a5a54; }
+
+  .cutmark { background:var(--cut-bg); color:var(--cut); text-decoration:line-through; }
+  .addmark { background:var(--good-bg); color:var(--good); }
+
+  textarea.editbox { width:100%; font-family:var(--mono); font-size:12px; border:1px solid var(--line); border-radius:6px; padding:8px 10px; background:#fffef9; min-height:72px; resize:vertical; }
+
+  .budget-row { display:flex; align-items:center; gap:12px; padding:6px 0; font-size:13px; flex-wrap:wrap; }
+  .budget-row .lab { font-family:var(--mono); font-size:12px; width:200px; color:var(--ink-soft); }
+  .budget-row input[type="text"] { font-family:var(--mono); font-size:12px; padding:4px 8px; border:1px solid var(--line); border-radius:4px; width:110px; background:#fffef9; }
+  .budget-row .was { font-family:var(--mono); font-size:11px; color:var(--ink-faint); }
+
+  /* persistent curated IR preview rail */
+  .curated { position:sticky; top:16px; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .curated .chead { display:flex; align-items:center; gap:8px; padding:12px 14px 8px; }
+  .curated .chead h3 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); }
+  .tokpill { font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:4px; border:1px solid var(--line); }
+  .tokpill.before { background:var(--noop-bg); border-color:#e0d3ae; color:var(--noop); }
+  .tokpill.after { background:var(--good-bg); border-color:#bcd7c8; color:var(--good); }
+  .curated .active-field { margin:0 14px 10px; padding:8px 10px; border:1px solid var(--line); border-radius:6px; background:var(--paper); font-size:11.5px; }
+  .curated .active-field .af-name { font-family:var(--mono); font-weight:700; font-size:11px; display:block; }
+  .curated .active-field .af-tok { font-family:var(--mono); color:var(--ink-soft); }
+  .curated .active-field .af-tok .after-n { color:var(--good); font-weight:700; }
+  .cir { font-family:var(--mono); font-size:11px; line-height:1.7; padding:4px 14px 12px; border-top:1px solid var(--line-soft); }
+  .cir .sect { display:flex; align-items:baseline; padding-top:6px; }
+  .cir .sect .n { font-weight:700; }
+  .cir .sect .t { margin-left:auto; color:var(--ink-soft); }
+  .cir .leaf { display:flex; padding-left:14px; color:var(--ink-soft); }
+  .cir .leaf .t { margin-left:auto; }
+  .cir .leaf.hot { background:var(--accent); border-radius:3px; }
+  .cir .leaf .gone { text-decoration:line-through; color:var(--ink-faint); }
+  .cir .leaf .t.saved { color:var(--good); }
+
+  .anno { border-left:3px solid var(--note); background:var(--note-bg); color:var(--note); font-size:12px; padding:8px 12px; border-radius:0 6px 6px 0; margin:18px 0; max-width:82ch; }
+  .anno code { font-family:var(--mono); font-size:11px; }
+
+  .adv-banner { display:flex; align-items:baseline; gap:14px; border:1px solid #e0d3ae; background:var(--noop-bg); border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:12.5px; flex-wrap:wrap; }
+  .adv-banner .adv-tag { font-family:var(--mono); font-size:10px; letter-spacing:.07em; font-weight:700; color:var(--noop); border:1px dashed #e0d3ae; border-radius:3px; padding:2px 7px; white-space:nowrap; }
+  .adv-banner p { color:var(--ink-soft); max-width:72ch; flex:1; min-width:280px; }
+  .adv-banner p b { color:var(--ink); }
+  .adv-banner a { color:var(--note); text-decoration:underline; text-underline-offset:2px; }
+  .adv-banner .adv-back { white-space:nowrap; font-size:12px; }
+</style>
+</head>
+<body>
+
+<header class="wf-bar">
+  <span class="crumb">transport-matters / overlays / advanced / <b>Trim harness boilerplate</b></span>
+  <nav>
+    <a href="00-reveal-optimize.html">00 Reveal &amp; optimize</a>
+    <a href="01-overlay-library.html">01 Overlays</a>
+    <a href="03-exchange-view.html">03 Evidence</a>
+    <a href="04-codex-sparse-turn.html">04 Edge cases</a>
+    <a class="on" href="02-overlay-editor.html">02 Advanced</a>
+  </nav>
+</header>
+
+<div class="page">
+  <div class="adv-banner">
+    <span class="adv-tag">ADVANCED</span>
+    <p><b>Fine-grained control, for power users.</b> This editor hand-tunes individual IR fields. It is not the
+      primary path: most users only ever flip the switch on
+      <a href="00-reveal-optimize.html">Reveal &amp; optimize</a> and read the evidence. It exists for the edge
+      case where the precomputed curation is not enough.</p>
+    <a class="adv-back" href="00-reveal-optimize.html">← back to the guided journey</a>
+  </div>
+  <div class="page-head">
+    <h1>Trim harness boilerplate</h1>
+    <span class="chip">shared</span>
+    <span class="chip" style="background:var(--paper)">source: run canvas-overlay-boundary · turn 14</span>
+    <span class="spacer"></span>
+    <button class="ghost">Preview against a live exchange</button>
+    <button class="primary">Save overlay</button>
+  </div>
+
+  <div class="layout">
+    <aside class="tree" id="tree">
+      <h3>IR sections</h3>
+      <div class="tnode on" data-filter="all"><span>All sections</span><span class="tok"><span class="cutn">−2.7k</span> / 15.6k</span></div>
+      <div class="tnode" data-filter="system"><span>System prompts</span><span class="tok">4 parts · <span class="cutn">−0.5k</span></span></div>
+      <div class="tnode" data-filter="tools"><span>Skills &amp; tool prompts</span><span class="tok">18 tools · <span class="cutn">−2.2k</span></span></div>
+      <div class="tnode" data-filter="budget"><span>Thinking &amp; budget</span><span class="tok">2 fields</span></div>
+      <div class="tnode" data-filter="messages"><span>Messages</span><span class="tok">1 rule</span></div>
+      <div class="hint">click to focus one section; the field list filters to it</div>
+    </aside>
+
+    <main class="fields" id="fields">
+      <div class="sect-head" data-sect="system"><h2>System prompts</h2><span class="tok">system[0..3] · 3.4k tok before · 2.9k after</span></div>
+
+      <section class="field" data-sect="system" data-field="identity"
+               data-af-name="system[0] · identity" data-af-tok="1,310 → 1,009 tok">
+        <div class="fhead">
+          <span class="fname">system[0] · identity</span>
+          <span class="ftok">1,310 tok → <span class="edited">1,009 tok</span></span>
+          <span class="spacer"></span>
+          <span class="rmode" role="tablist" aria-label="rendering">
+            <button class="on" data-mode="md">md</button>
+            <button data-mode="json">json</button>
+            <button data-mode="combined">both</button>
+          </span>
+          <button class="fdrop">drop part</button>
+        </div>
+        <div class="fbody">
+          <div class="view md on" data-view="md">
+            <p>You are Claude Code, Anthropic's official CLI for Claude.</p>
+            <p><span class="cutmark">IMPORTANT: Assist with authorized security testing, defensive security, CTF challenges, and educational contexts. Refuse requests for destructive techniques…</span></p>
+            <h5>Harness</h5>
+            <p>Text you output outside of tool use is displayed to the user as Github-flavored markdown…</p>
+            <p><span class="cutmark">When you use a pronoun for someone — the user or anyone else you mention…</span> <span class="addmark">Use they/them unless stated.</span></p>
+          </div>
+          <div class="view" data-view="json">
+<pre class="json">{
+  <span class="k">"type"</span>: <span class="s">"text"</span>,
+  <span class="k">"text"</span>: <span class="s">"You are Claude Code, Anthropic's official CLI for Claude.\n\n# Harness\nText you output outside of tool use is displayed…"</span>,
+  <span class="k">"cache_hint"</span>: { <span class="k">"type"</span>: <span class="s">"ephemeral"</span> },
+  <span class="k">"provider_data"</span>: null
+}</pre>
+          </div>
+          <div class="view combined" data-view="combined">
+            <div class="half">
+              <h4>rendered</h4>
+              <div class="md"><p>You are Claude Code, Anthropic's official CLI…</p><p><span class="cutmark">IMPORTANT: Assist with authorized security testing…</span></p></div>
+            </div>
+            <div class="half">
+              <h4>ir json</h4>
+<pre class="json">{
+  <span class="k">"type"</span>: <span class="s">"text"</span>,
+  <span class="k">"text"</span>: <span class="s">"You are Claude Code…"</span>,
+  <span class="k">"cache_hint"</span>: { <span class="k">"type"</span>: <span class="s">"ephemeral"</span> }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="field dropped" data-sect="system" data-field="envreminder"
+               data-af-name="system[3] · env reminder" data-af-tok="153 → 0 tok (dropped)">
+        <div class="fhead">
+          <span class="fname">system[3] · env reminder</span>
+          <span class="ftok">153 tok → <span class="edited">0 tok</span></span>
+          <span class="spacer"></span>
+          <span class="rmode" role="tablist" aria-label="rendering">
+            <button class="on" data-mode="md">md</button>
+            <button data-mode="json">json</button>
+            <button data-mode="combined">both</button>
+          </span>
+          <button class="fdrop dropped-btn">restore part</button>
+        </div>
+        <div class="fbody">
+          <div class="view md on" data-view="md">
+            <p><span class="cutmark">Here is useful information about the environment you are running in: working directory, platform, OS version, model id…</span></p>
+          </div>
+          <div class="view" data-view="json">
+<pre class="json">{
+  <span class="k">"type"</span>: <span class="s">"text"</span>,
+  <span class="k">"text"</span>: <span class="s">"&lt;env&gt;Working directory: …&lt;/env&gt;"</span>,
+  <span class="k">"cache_hint"</span>: null
+}</pre>
+          </div>
+          <div class="view combined" data-view="combined">
+            <div class="half"><h4>rendered</h4><div class="md"><p><span class="cutmark">Here is useful information about the environment…</span></p></div></div>
+            <div class="half"><h4>ir json</h4><pre class="json">{ <span class="k">"type"</span>: <span class="s">"text"</span>, <span class="k">"text"</span>: <span class="s">"&lt;env&gt;…&lt;/env&gt;"</span> }</pre></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sect-head" data-sect="tools"><h2>Skills &amp; tool prompts</h2><span class="tok">18 tool defs · 11.9k tok before · 9.7k after</span></div>
+
+      <section class="field" data-sect="tools" data-field="bash"
+               data-af-name="tools/Bash · description" data-af-tok="1,120 → 373 tok">
+        <div class="fhead">
+          <span class="fname">tools/Bash · description</span>
+          <span class="ftok">1,120 tok → <span class="edited">373 tok</span></span>
+          <span class="spacer"></span>
+          <span class="rmode" role="tablist" aria-label="rendering">
+            <button class="on" data-mode="md">md</button>
+            <button data-mode="json">json</button>
+            <button data-mode="combined">both</button>
+          </span>
+          <button class="fdrop">drop tool</button>
+        </div>
+        <div class="fbody">
+          <div class="view md on" data-view="md">
+            <p>Executes a bash command and returns its output.</p>
+            <ul>
+              <li>Working directory persists between calls…</li>
+              <li><span class="cutmark">IMPORTANT: Avoid using this tool to run <code>cat</code>, <code>head</code>, <code>tail</code>, <code>sed</code>, <code>awk</code>, or <code>echo</code> commands, unless explicitly instructed…</span></li>
+              <li><span class="cutmark"># Git — Interactive flags are not supported… Use the gh CLI for GitHub operations…</span></li>
+            </ul>
+            <textarea class="editbox" aria-label="replacement description">Executes a bash command and returns its output. Working directory persists; shell state does not. Timeout ms: default 120000, max 600000.</textarea>
+          </div>
+          <div class="view" data-view="json">
+<pre class="json">{
+  <span class="k">"name"</span>: <span class="s">"Bash"</span>,
+  <span class="k">"description"</span>: <span class="s">"Executes a bash command and returns its output.…"</span>,
+  <span class="k">"input_schema"</span>: { <span class="k">"type"</span>: <span class="s">"object"</span>, <span class="k">"properties"</span>: { <span class="k">"command"</span>: … } }
+}</pre>
+          </div>
+          <div class="view combined" data-view="combined">
+            <div class="half"><h4>rendered</h4><div class="md"><p>Executes a bash command and returns its output.</p><ul><li><span class="cutmark">IMPORTANT: Avoid using this tool to run cat, head…</span></li></ul></div></div>
+            <div class="half"><h4>ir json</h4><pre class="json">{ <span class="k">"name"</span>: <span class="s">"Bash"</span>, <span class="k">"description"</span>: <span class="s">"Executes a bash…"</span> }</pre></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sect-head" data-sect="budget"><h2>Thinking &amp; budget</h2><span class="tok">sampling + provider_extras · no char delta</span></div>
+
+      <section class="field" data-sect="budget" data-field="budget"
+               data-af-name="sampling / provider_extras" data-af-tok="behavior only · no char delta">
+        <div class="fhead">
+          <span class="fname">sampling / provider_extras</span>
+          <span class="ftok">behavior only</span>
+          <span class="spacer"></span>
+          <span class="rmode" role="tablist" aria-label="rendering">
+            <button class="on" data-mode="md">form</button>
+            <button data-mode="json">json</button>
+            <button data-mode="combined">both</button>
+          </span>
+        </div>
+        <div class="fbody">
+          <div class="view on" data-view="md">
+            <div class="budget-row"><span class="lab">sampling.max_tokens</span><input type="text" value="16000"><span class="was">wire: 32000</span></div>
+            <div class="budget-row"><span class="lab">provider_extras.thinking.budget_tokens</span><input type="text" value="4096"><span class="was">wire: 31999</span></div>
+            <div class="budget-row"><span class="lab">sampling.temperature</span><input type="text" value="" placeholder="passthrough"><span class="was">wire: 1</span></div>
+          </div>
+          <div class="view" data-view="json">
+<pre class="json">[
+  { <span class="k">"kind"</span>: <span class="s">"sampling_set"</span>, <span class="k">"target"</span>: <span class="s">"max_tokens"</span>, <span class="k">"value"</span>: 16000 },
+  { <span class="k">"kind"</span>: <span class="s">"provider_extras_set"</span>, <span class="k">"target"</span>: <span class="s">"thinking.budget_tokens"</span>, <span class="k">"value"</span>: 4096 }
+]</pre>
+          </div>
+          <div class="view combined" data-view="combined">
+            <div class="half"><h4>form</h4><div class="budget-row"><span class="lab">max_tokens</span><input type="text" value="16000"></div></div>
+            <div class="half"><h4>override json</h4><pre class="json">[{ <span class="k">"kind"</span>: <span class="s">"sampling_set"</span>, <span class="k">"target"</span>: <span class="s">"max_tokens"</span>, <span class="k">"value"</span>: 16000 }]</pre></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="sect-head" data-sect="messages"><h2>Messages</h2><span class="tok">1 standing rule</span></div>
+
+      <section class="field" data-sect="messages" data-field="truncate"
+               data-af-name="messages[*] · truncate rule" data-af-tok="varies per turn">
+        <div class="fhead">
+          <span class="fname">messages[*] · truncate_tool_result</span>
+          <span class="ftok">applies when a tool_result exceeds 8k chars</span>
+          <span class="spacer"></span>
+          <span class="rmode" role="tablist" aria-label="rendering">
+            <button class="on" data-mode="md">form</button>
+            <button data-mode="json">json</button>
+            <button data-mode="combined">both</button>
+          </span>
+        </div>
+        <div class="fbody">
+          <div class="view on" data-view="md">
+            <div class="budget-row"><span class="lab">truncate tool_result over</span><input type="text" value="8000"><span class="was">chars, keep head + tail</span></div>
+          </div>
+          <div class="view" data-view="json">
+<pre class="json">[ { <span class="k">"kind"</span>: <span class="s">"truncate_tool_result"</span>, <span class="k">"target"</span>: <span class="s">"messages[*]"</span>, <span class="k">"value"</span>: 8000 } ]</pre>
+          </div>
+          <div class="view combined" data-view="combined">
+            <div class="half"><h4>form</h4><div class="budget-row"><span class="lab">truncate over</span><input type="text" value="8000"></div></div>
+            <div class="half"><h4>override json</h4><pre class="json">[{ <span class="k">"kind"</span>: <span class="s">"truncate_tool_result"</span>, <span class="k">"value"</span>: 8000 }]</pre></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="curated">
+      <div class="chead">
+        <h3>Curated IR</h3>
+        <span style="flex:1"></span>
+        <span class="tokpill before">Before 15,590</span>
+        <span class="tokpill after">After 12,849</span>
+      </div>
+      <div class="active-field" id="af">
+        <span class="af-name" id="af-name">system[0] · identity</span>
+        <span class="af-tok" id="af-tok">1,310 → <span class="after-n">1,009 tok</span></span>
+      </div>
+      <div class="cir" id="cir">
+        <div class="sect"><span class="n">system</span><span class="t">3 parts · 2,894 tok</span></div>
+        <div class="leaf" data-leaf="identity"><span>[0] identity (edited)</span><span class="t saved">−301</span></div>
+        <div class="leaf"><span>[1] harness · [2] session</span><span class="t">1,132</span></div>
+        <div class="leaf" data-leaf="envreminder"><span class="gone">[3] env reminder</span><span class="t saved">−153</span></div>
+        <div class="sect"><span class="n">tools</span><span class="t">17 defs · 9,712 tok</span></div>
+        <div class="leaf" data-leaf="bash"><span>Bash (edited)</span><span class="t saved">−747</span></div>
+        <div class="leaf"><span>WebFetch (edited)</span><span class="t saved">−433</span></div>
+        <div class="leaf"><span class="gone">NotebookEdit</span><span class="t saved">−1,025</span></div>
+        <div class="leaf"><span>15 unchanged</span><span class="t">7,905</span></div>
+        <div class="sect"><span class="n">messages</span><span class="t">42 blocks · 2,385 tok</span></div>
+        <div class="leaf" data-leaf="truncate"><span>truncate rule (standing)</span><span class="t">0 this preview</span></div>
+        <div class="sect"><span class="n">sampling / extras</span><span class="t">behavior</span></div>
+        <div class="leaf" data-leaf="budget"><span>max_tokens 16000 · thinking 4096</span><span class="t"></span></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="anno">
+    <b>Design notes.</b> Merged from the GPT round: the curated IR preview is now persistent, a sticky third
+    column with Before and After token totals always visible, an active-field readout that tracks whichever
+    field you touch, and highlighted leaves that mirror your edits; and the section tree earns its width by
+    focusing, clicking a section filters the field list to it. Kept from this set: per-field
+    <code>md | json | both</code> rendering, token counts on every field, and the one-to-one mapping onto
+    existing override kinds (<code>system_part_toggle</code>, <code>tool_description</code>,
+    <code>sampling_set</code>, …), so this screen writes the same <code>Override[]</code> the pipeline already
+    applies.
+  </div>
+</div>
+
+<script>
+  // Rendering toggle between md / json / combined, per field.
+  document.querySelectorAll(".rmode").forEach(group => {
+    const field = group.closest(".field");
+    group.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        group.querySelectorAll("button").forEach(b => b.classList.remove("on"));
+        btn.classList.add("on");
+        field.querySelectorAll(".view").forEach(v => {
+          v.classList.toggle("on", v.dataset.view === btn.dataset.mode);
+        });
+      });
+    });
+  });
+  // Drop / restore toggles the dashed dropped state.
+  document.querySelectorAll(".fdrop").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const field = btn.closest(".field");
+      const dropped = field.classList.toggle("dropped");
+      btn.classList.toggle("dropped-btn", dropped);
+      const noun = btn.textContent.includes("tool") || field.dataset.field === "bash" ? "tool" : "part";
+      btn.textContent = dropped ? "restore " + noun : "drop " + noun;
+    });
+  });
+  // Section tree focus: filter field list to the clicked section.
+  document.querySelectorAll("#tree .tnode").forEach(node => {
+    node.addEventListener("click", () => {
+      document.querySelectorAll("#tree .tnode").forEach(n => n.classList.remove("on"));
+      node.classList.add("on");
+      const f = node.dataset.filter;
+      document.querySelectorAll("#fields [data-sect]").forEach(el => {
+        el.style.display = (f === "all" || el.dataset.sect === f) ? "" : "none";
+      });
+    });
+  });
+  // Active-field readout in the curated rail tracks the last-touched field.
+  document.querySelectorAll(".field").forEach(field => {
+    field.addEventListener("click", () => {
+      document.querySelectorAll(".field").forEach(f => f.classList.remove("focus"));
+      field.classList.add("focus");
+      document.getElementById("af-name").textContent = field.dataset.afName;
+      document.getElementById("af-tok").textContent = field.dataset.afTok;
+      document.querySelectorAll(".cir .leaf").forEach(l => {
+        l.classList.toggle("hot", l.dataset.leaf === field.dataset.field);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 title: Helioy Electron + Web App Baseline (v0 Spec)
 type: spec
 tags: [helioy-baseline, electron, baseline, template, transport-matters, runtime-matters, littleorgans, effect, effect-schema, effect-rpc, effect-atom, tailwind4, base-ui, design-system, monorepo, ipc, rpc]
-summary: Spec for `@helioy/baseline` — the three-app + three-package shape for every Helioy desktop+web product surface. Three consumers: transport-matters, runtime-matters, littleorgans. 35 numbered patterns sourced from pingdotgg/t3code v0.0.24 plus 12 locked baseline parameters (Effect Schema across all boundaries, atom-first renderer, WebSocket + Effect RPC, single Electron shell with three packaged identities, file-based routing, Geist vendored, Lucide everywhere, Header + StatusBar primitives).
+summary: 'Spec for `@helioy/baseline` — the three-app + three-package shape for every Helioy desktop+web product surface. Three consumers: transport-matters, runtime-matters, littleorgans. 35 numbered patterns sourced from pingdotgg/t3code v0.0.24 plus 12 locked baseline parameters (Effect Schema across all boundaries, atom-first renderer, WebSocket + Effect RPC, single Electron shell with three packaged identities, file-based routing, Geist vendored, Lucide everywhere, Header + StatusBar primitives).'
 status: active
 source: four parallel codebase-analyst agents against /Users/alphab/Dev/LLM/DEV/helioy/t3code @ review/pingdotgg-main d1e85c4e v0.0.24; twelve decisions resolved interactively with Stuart on 2026-05-16
 confidence: high

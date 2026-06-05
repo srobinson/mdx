@@ -1,0 +1,178 @@
+diff --git a/budgets/initial-delivery.json b/budgets/initial-delivery.json
+index f495ed7..f80b888 100644
+--- a/budgets/initial-delivery.json
++++ b/budgets/initial-delivery.json
+@@ -37,7 +37,7 @@
+     "editor-studio": {
+       "roots": ["src/studios/editor/EditorStudio.tsx"],
+       "js": {
+-        "maxGzipBytes": 378425,
++        "maxGzipBytes": 378748,
+         "maxStaticChunks": 9
+       },
+       "css": {
+@@ -48,7 +48,7 @@
+     "shared-renderer": {
+       "roots": ["src/renderer/SharedRendererModule.ts"],
+       "js": {
+-        "maxGzipBytes": 413661,
++        "maxGzipBytes": 413981,
+         "maxStaticChunks": 7
+       },
+       "css": {
+@@ -74,7 +74,7 @@
+         "src/renderer/SharedRendererModule.ts"
+       ],
+       "js": {
+-        "maxGzipBytes": 445339,
++        "maxGzipBytes": 445659,
+         "maxStaticChunks": 10
+       },
+       "css": {
+@@ -118,7 +118,7 @@
+         "src/studios/editor/EditorStudio.tsx",
+         "src/renderer/SharedRendererModule.ts"
+       ],
+-      "maxGzipBytes": 2166
++      "maxGzipBytes": 2167
+     }
+   },
+   "deferredIncrements": {
+@@ -138,7 +138,7 @@
+         "src/studios/editor/EditorStudio.tsx",
+         "src/renderer/SharedRendererModule.ts"
+       ],
+-      "maxGzipBytes": 829
++      "maxGzipBytes": 830
+     }
+   },
+   "preloads": {
+diff --git a/src/domain/index.ts b/src/domain/index.ts
+index 1ad955e..7a827ff 100644
+--- a/src/domain/index.ts
++++ b/src/domain/index.ts
+@@ -185,6 +185,7 @@ export {
+   resolveStencilContent,
+   seededStencilAssets,
+   seededStencils,
++  shellEStencilId,
+ } from "./seededStencils";
+ 
+ // authoredOperations.ts
+diff --git a/src/domain/seededStencils.ts b/src/domain/seededStencils.ts
+index 933429d..7fa63f5 100644
+--- a/src/domain/seededStencils.ts
++++ b/src/domain/seededStencils.ts
+@@ -1,5 +1,6 @@
+ import helioySource from "../../assets/marks/helioy.svg?raw";
+ import manicureSource from "../../assets/marks/manicure.svg?raw";
++import shellESource from "../../assets/marks/shell-e.svg?raw";
+ import type { CubeFaceFigure } from "./cube";
+ import { type StencilAsset, type StencilId, stencilMediaType } from "./stencil";
+ 
+@@ -7,6 +8,8 @@ export const helioyStencilId =
+   "sha256:ace64e4a543d33185915856bfc5daa4e711a269eda0f5f783a83b6daeb783b63";
+ export const manicureStencilId =
+   "sha256:305624f65526ec1d3de6f0778e89d9f2a74fda3eb17ccc52382811635ad85d41";
++export const shellEStencilId =
++  "sha256:edb4dfb2167b0ea026db4117af5f93942e79a42b36bc9b07664e000675e8924d";
+ 
+ export type SeededStencil = {
+   asset: StencilAsset;
+@@ -32,6 +35,14 @@ export const seededStencils: readonly SeededStencil[] = [
+     region: "field",
+     source: manicureSource,
+   }),
++  createSeededStencil({
++    color: "black",
++    fit: "margin",
++    id: shellEStencilId,
++    name: "Shell E",
++    region: "form",
++    source: shellESource,
++  }),
+ ];
+ 
+ export const seededStencilAssets: readonly StencilAsset[] = seededStencils.map(
+diff --git a/tests/faceStencilRender.test.ts b/tests/faceStencilRender.test.ts
+index 317eb17..7333bd3 100644
+--- a/tests/faceStencilRender.test.ts
++++ b/tests/faceStencilRender.test.ts
+@@ -8,7 +8,7 @@ import {
+ } from "three";
+ import { describe, expect, test, vi } from "vitest";
+ import { createSceneGridLayout, defaultScene } from "../src/domain";
+-import { helioyStencilId, manicureStencilId } from "../src/domain/seededStencils";
++import { helioyStencilId, manicureStencilId, shellEStencilId } from "../src/domain/seededStencils";
+ import { setCubeFaceState } from "../src/domain/cube";
+ import type { CubePartColorTweens } from "../src/evaluation";
+ import { createCubeSceneInstances } from "../src/scene/cubeInstances";
+@@ -65,6 +65,7 @@ describe("fixed stencil atlas", () => {
+     expect(atlas.texture.image.data).toHaveLength(2048 * 2048);
+     expect(getStencilAtlasSlot(helioyStencilId)).toBe(0);
+     expect(getStencilAtlasSlot(manicureStencilId)).toBe(1);
++    expect(getStencilAtlasSlot(shellEStencilId)).toBe(2);
+     expect(getStencilAtlasSlot(`sha256:${"0".repeat(64)}`)).toBeNull();
+ 
+     await atlas.ready;
+diff --git a/tests/panels.test.tsx b/tests/panels.test.tsx
+index 73d829c..d73f45a 100644
+--- a/tests/panels.test.tsx
++++ b/tests/panels.test.tsx
+@@ -19,7 +19,7 @@ import {
+   defaultScene,
+   getCubeVisibilityAnalysis,
+ } from "../src/domain";
+-import { helioyStencilId, manicureStencilId } from "../src/domain/seededStencils";
++import { helioyStencilId, manicureStencilId, shellEStencilId } from "../src/domain/seededStencils";
+ import { createFilledGridScene, createPackedGridScene } from "./sceneTestHelpers";
+ import { createEditorViewCommand, resetViewCommand } from "../src/editor/commands";
+ import { formatControlValue, getScrubbedValue } from "../src/components/ui/scrub-field/scrubValue";
+@@ -125,6 +125,7 @@ describe("control binding round trips", () => {
+         { label: "None", value: "none" },
+         { label: "Helioy", value: helioyStencilId },
+         { label: "Manicure", value: manicureStencilId },
++        { label: "Shell E", value: shellEStencilId },
+       ],
+     });
+     expect(binding.read(context)).toBe("none");
+@@ -378,6 +379,7 @@ describe("FaceSection stencil control", () => {
+       "None",
+       "Helioy",
+       "Manicure",
++      "Shell E",
+     ]);
+     await userEvent.click(screen.getByRole("button", { name: "Manicure" }));
+     expect(onCommand).toHaveBeenCalledWith(
+diff --git a/tests/stencilAssets.test.ts b/tests/stencilAssets.test.ts
+index 552d391..d289499 100644
+--- a/tests/stencilAssets.test.ts
++++ b/tests/stencilAssets.test.ts
+@@ -11,6 +11,7 @@ import {
+   resolveStencilContent,
+   seededStencilAssets,
+   seededStencils,
++  shellEStencilId,
+ } from "../src/domain/seededStencils";
+ import { createStencilId } from "../src/domain/stencil";
+ import {
+@@ -36,6 +37,7 @@ describe("content addressed Stencil assets", () => {
+     expect(seededStencilAssets.map(({ id, name }) => ({ id, name }))).toEqual([
+       { id: helioyStencilId, name: "Helioy" },
+       { id: manicureStencilId, name: "Manicure" },
++      { id: shellEStencilId, name: "Shell E" },
+     ]);
+ 
+     for (const asset of seededStencilAssets) {
+@@ -65,6 +67,11 @@ describe("content addressed Stencil assets", () => {
+         name: "Manicure",
+         sourceRegion: "field",
+       },
++      {
++        defaultFigure: { color: "black", fit: "margin", region: "form" },
++        name: "Shell E",
++        sourceRegion: "form",
++      },
+     ]);
+   });
+ 

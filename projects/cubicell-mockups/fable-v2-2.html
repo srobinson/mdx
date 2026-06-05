@@ -1,0 +1,534 @@
+<!--
+  FABLE V2-2 · HELD FRAMES. The camera reads as possession: a filmed state pins a lens badge to its corner and the whole filmed stretch sits on a faint tinted band, while a transition that carries a move simply gains one orange chip in its existing chip row, so nothing new is added to the strip's grammar. Capture is a drag: the CURRENT VIEW tag floating by the transport drops onto any state card (shown mid-drag with a drop ring), the scrubber doubles as the coverage map, and the playhead hoists a CAM flag whenever the camera it walks under is authored rather than free.
+-->
+<title>Fable V2-2 · Held Frames</title>
+<style>
+  :root {
+    --bg: #09090a;
+    --panel: #101013;
+    --panel-2: #16161a;
+    --line: rgba(255, 255, 255, 0.18);
+    --line-soft: rgba(255, 255, 255, 0.09);
+    --ink: #f4f4f2;
+    --ink-dim: rgba(244, 244, 242, 0.55);
+    --ink-faint: rgba(244, 244, 242, 0.32);
+    --accent: #e87d0d;
+    --accent-dim: rgba(232, 125, 13, 0.45);
+    --accent-faint: rgba(232, 125, 13, 0.10);
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 28px;
+  }
+  .micro {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .frame {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 292px;
+    gap: 14px;
+  }
+  .stage { display: flex; flex-direction: column; gap: 14px; }
+
+  /* ---------- transport + coverage scrubber ---------- */
+  .transport {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+  }
+  .tbtn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    font: 700 9px/1 var(--mono);
+    letter-spacing: 0.14em;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-family: var(--mono);
+  }
+  .tbtn:hover { border-color: rgba(255, 255, 255, 0.65); }
+  .tbtn.on { border-color: var(--accent); color: var(--accent); }
+  .scrub { flex: 1; height: 30px; position: relative; display: flex; align-items: center; }
+  .scrub-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover {
+    position: absolute; top: 0; bottom: 0;
+    background: var(--accent-faint);
+    border-top: 2px solid var(--accent-dim);
+  }
+  .cover.orphan { border-top-style: dashed; background: none; }
+  .cut-tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--accent); }
+  .scrub-head {
+    position: absolute;
+    left: 39.4%;
+    top: 50%;
+    width: 2px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    background: var(--ink);
+  }
+  .clock { color: var(--ink-dim); font-size: 10px; letter-spacing: 0.08em; white-space: nowrap; }
+  .clock b { color: var(--ink); font-weight: 700; }
+
+  /* the draggable current-view tag */
+  .current-view {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    padding: 6px 10px;
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    cursor: grab;
+    background: var(--panel);
+  }
+  .current-view .grip { color: var(--accent-dim); letter-spacing: 0; }
+
+  /* ---------- strip ---------- */
+  .strip-panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    position: relative;
+  }
+  .strip-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .strip-head .micro { color: var(--ink-faint); }
+
+  .strip-wrap { position: relative; }
+  .strip { display: flex; gap: 6px; align-items: stretch; position: relative; z-index: 1; }
+
+  /* tinted band behind the filmed stretch */
+  .film-band {
+    position: absolute;
+    top: -5px; bottom: -5px;
+    background: var(--accent-faint);
+    border: 1px solid rgba(232, 125, 13, 0.22);
+    border-radius: 8px;
+    z-index: 0;
+  }
+
+  .card {
+    background: var(--panel-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    padding: 9px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    position: relative;
+  }
+  .card.state { flex: 3; }
+  .card.trans { flex: 2; }
+  .card.build { flex: 2; }
+  .card-kind { color: var(--ink-faint); }
+  .thumb {
+    height: 34px;
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    background: #0c0c0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip {
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    padding: 3px 5px;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    background: none;
+    font-family: var(--mono);
+  }
+  .chip.cam {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .chip.cam:hover { background: var(--accent-faint); }
+  .chip.cam.selected { background: var(--accent); color: #0a0a0b; border-color: var(--accent); }
+  .chip.cam.ghost { border-style: dashed; color: var(--accent-dim); }
+
+  /* corner lens badge on filmed states */
+  .lens {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0a0a0b;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid var(--bg);
+  }
+  .lens:hover { transform: scale(1.15); }
+  .lens.selected { box-shadow: 0 0 0 2px var(--accent-dim); }
+
+  /* drop-target state for the drag capture */
+  .card.drop-target {
+    border: 1px dashed var(--accent);
+    background: var(--accent-faint);
+  }
+  .drop-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    background: rgba(9, 9, 10, 0.55);
+    border-radius: 6px;
+    z-index: 2;
+  }
+  .drag-ghost {
+    position: absolute;
+    top: -34px;
+    left: 58%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    padding: 5px 9px;
+    color: var(--accent);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: var(--panel);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    transform: rotate(-2deg);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* playhead with CAM flag */
+  .playhead {
+    position: absolute;
+    top: -12px;
+    bottom: -8px;
+    left: 41%;
+    width: 1px;
+    background: var(--ink);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .playhead .flag {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    background: var(--accent);
+    color: #0a0a0b;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 2px 5px 2px 4px;
+    border-radius: 0 3px 3px 0;
+    white-space: nowrap;
+  }
+
+  /* glance footer */
+  .glance {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    color: var(--ink-faint);
+  }
+  .glance b { color: var(--ink-dim); }
+
+  /* ---------- inspector ---------- */
+  .inspector {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: start;
+  }
+  .insp-head { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--line-soft); padding-bottom: 10px; }
+  .insp-head .micro { color: var(--accent); }
+  .insp-title { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .field .micro { color: var(--ink-faint); }
+  .seg { display: flex; border: 1px solid var(--line-soft); border-radius: 5px; overflow: hidden; }
+  .seg button {
+    flex: 1;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--line-soft);
+    color: var(--ink-dim);
+    font: 700 8px/1 var(--mono);
+    letter-spacing: 0.1em;
+    padding: 7px 2px;
+    cursor: pointer;
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button:hover { color: var(--ink); }
+  .seg button.on { background: var(--accent); color: #0a0a0b; }
+  .scrubfield {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 7px 9px;
+    font-size: 10px;
+    color: var(--ink-dim);
+    cursor: ew-resize;
+  }
+  .scrubfield b { color: var(--ink); font-weight: 700; }
+  .row { display: flex; gap: 6px; }
+  .row .tbtn { flex: 1; text-align: center; padding: 7px 4px; }
+  .insp-note { color: var(--ink-faint); font-size: 9px; letter-spacing: 0.06em; line-height: 1.6; }
+  .insp-note em { color: var(--ink-dim); font-style: normal; }
+  .hidden { display: none; }
+</style>
+
+<div class="frame">
+  <div class="stage">
+    <div class="transport">
+      <button class="tbtn">Play</button>
+      <button class="tbtn">Stop</button>
+      <button class="tbtn on">Loop</button>
+      <div class="scrub">
+        <div class="scrub-bar">
+          <span class="cover" style="left:9%; width:39%"></span>
+          <span class="cut-tick" style="left:48%"></span>
+          <span class="cover" style="left:48%; width:12%"></span>
+          <span class="cover orphan" style="left:78%; width:12%"></span>
+        </div>
+        <div class="scrub-head"></div>
+      </div>
+      <span class="clock"><b>1.3s</b> / 3.3s · 1.00×</span>
+      <div class="current-view" title="Drag onto a state card to bind this view">
+        <span class="grip">⠿</span> Current view · Ortho
+      </div>
+    </div>
+
+    <div class="strip-panel">
+      <div class="strip-head">
+        <span class="micro">Motion · camera as possession</span>
+        <span class="micro" style="color:var(--accent)">Filmed 0.3s – 1.9s · cut at 1.6s</span>
+      </div>
+
+      <div class="strip-wrap">
+        <div class="film-band" style="left:8.5%; width:51%"></div>
+
+        <div class="strip">
+
+          <div class="card build">
+            <span class="card-kind micro">Build in</span>
+            <span style="font-size:11px;font-weight:700">0.3S</span>
+          </div>
+
+          <div class="card state">
+            <span class="card-kind micro">State 1</span>
+            <div class="thumb">
+              <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M13 2 22 7v8l-9 5-9-5V7z"/><path d="M13 2v10m0 0 9-5m-9 5-9-5"/></g></svg>
+            </div>
+            <button class="lens" data-insp="view" data-title="View 1 · State 1" data-ms="300" data-proj="PERSP" onclick="pick(this)">1</button>
+          </div>
+
+          <div class="card trans">
+            <span class="card-kind micro">Transition</span>
+            <div class="chips">
+              <span class="chip">MORPH</span><span class="chip">INOUT</span><span class="chip">0.6S</span>
+              <button class="chip cam selected" data-insp="move" data-title="Camera move · 1 → 2" onclick="pick(this)">◠ ORBIT</button>
+            </div>
+          </div>
+
+          <div class="card state">
+            <span class="card-kind micro">State 2</span>
+            <div class="thumb">
+              <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M4 4h18v14H4z"/><path d="M4 4l4-3h18l-4 3m4-3v14l-4 3"/></g></svg>
+            </div>
+            <button class="lens" data-insp="view" data-title="View 2 · State 2" data-ms="1300" data-proj="ORTHO" onclick="pick(this)">2</button>
+          </div>
+
+          <div class="card trans">
+            <span class="card-kind micro">Transition</span>
+            <div class="chips">
+              <span class="chip">SLIDE</span><span class="chip">OUT</span><span class="chip">0.4S</span>
+              <button class="chip cam" data-insp="cut" data-title="Hard cut · 2 → 3" onclick="pick(this)">✂ CUT</button>
+            </div>
+          </div>
+
+          <div class="card state">
+            <span class="card-kind micro">State 3</span>
+            <div class="thumb">
+              <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><circle cx="13" cy="11" r="8"/><path d="M5 11h16M13 3v16"/></g></svg>
+            </div>
+            <button class="lens" data-insp="view" data-title="View 3 · State 3" data-ms="1900" data-proj="ORTHO" onclick="pick(this)">3</button>
+          </div>
+
+          <div class="card trans">
+            <span class="card-kind micro">Transition</span>
+            <div class="chips"><span class="chip">MORPH</span><span class="chip">SETTLE</span><span class="chip">0.5S</span></div>
+          </div>
+
+          <div class="card state drop-target">
+            <span class="card-kind micro">State 4</span>
+            <div class="thumb">
+              <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M4 18 13 4l9 14z"/></g></svg>
+            </div>
+            <div class="drop-hint">Drop to bind view</div>
+          </div>
+
+          <div class="card trans">
+            <span class="card-kind micro">Transition</span>
+            <div class="chips">
+              <span class="chip">SLIDE</span><span class="chip">INOUT</span><span class="chip">0.5S</span>
+              <button class="chip cam ghost" data-insp="orphan" data-title="Latent move · 4 → 5" onclick="pick(this)">◠ NO VIEWS</button>
+            </div>
+          </div>
+
+          <div class="card state">
+            <span class="card-kind micro">State 5</span>
+            <div class="thumb">
+              <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><rect x="5" y="5" width="16" height="12" rx="6"/></g></svg>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="drag-ghost">⠿ Current view · Ortho</div>
+
+        <div class="playhead">
+          <span class="flag">CAM · V2</span>
+        </div>
+      </div>
+
+      <div class="glance micro">
+        <span><b>3 views</b> · 1 move · 1 cut · 1 latent</span>
+        <span>Playhead flag drops when the camera runs free</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= inspector ================= -->
+  <aside class="inspector">
+    <div class="insp-head">
+      <span class="micro" id="insp-kind">Camera move</span>
+      <span class="insp-title" id="insp-title">Camera move · 1 → 2</span>
+    </div>
+
+    <div id="insp-move">
+      <div class="field">
+        <span class="micro">Pose path</span>
+        <div class="seg"><button>Cut</button><button>Linear</button><button class="on">Orbit</button></div>
+      </div>
+      <div class="field">
+        <span class="micro">Pose easing</span>
+        <div class="seg"><button>Out</button><button>Inout</button><button>Linear</button><button class="on">Settle</button></div>
+      </div>
+      <div class="field">
+        <span class="micro">Pose cut</span>
+        <div class="scrubfield"><span>◂ scrub ▸</span><b>0.50</b></div>
+      </div>
+      <div class="field">
+        <span class="micro">Projection</span>
+        <div class="seg"><button>Cut</button><button class="on">Blend</button></div>
+      </div>
+      <div class="field">
+        <span class="micro">Projection easing</span>
+        <div class="seg"><button class="on">Out</button><button>Inout</button><button>Linear</button><button>Settle</button></div>
+      </div>
+      <div class="field">
+        <span class="micro">Sweep −380°</span>
+        <div class="row">
+          <button class="tbtn">Reverse</button>
+          <button class="tbtn">+ Turn</button>
+          <button class="tbtn">− Turn</button>
+        </div>
+      </div>
+      <p class="insp-note">Bound to the transition card. Duration follows the card; cuts land on card boundaries.</p>
+    </div>
+
+    <div id="insp-view" class="hidden">
+      <div class="field">
+        <span class="micro">Keyframe ms</span>
+        <div class="scrubfield"><span>◂ scrub ▸</span><b id="insp-ms">1300</b></div>
+      </div>
+      <div class="field">
+        <span class="micro">Projection at view</span>
+        <div class="seg" id="insp-proj"><button>Persp</button><button class="on">Ortho</button></div>
+      </div>
+      <div class="row" style="margin-bottom:12px">
+        <button class="tbtn">Recapture here</button>
+        <button class="tbtn">Remove view</button>
+      </div>
+      <p class="insp-note">One view per state. Drag the transport's Current View tag onto another card to move it.</p>
+    </div>
+
+    <div id="insp-cut" class="hidden">
+      <p class="insp-note" style="margin-bottom:12px">V2 and V3 are both held but the transition between them carries no move, so playback <em>hard-cuts</em> at the boundary. The scrubber marks it with a tick.</p>
+      <button class="tbtn" style="width:100%">Add camera move</button>
+    </div>
+
+    <div id="insp-orphan" class="hidden">
+      <p class="insp-note" style="margin-bottom:12px">A move with no anchor: neither State 4 nor State 5 holds a view. It plays from wherever the camera happens to be, shown as a dashed ghost chip until a view grounds it.</p>
+      <div class="row">
+        <button class="tbtn">Capture at 4</button>
+        <button class="tbtn">Capture at 5</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+  function pick(el) {
+    document.querySelectorAll(".chip.cam, .lens").forEach((c) => c.classList.remove("selected"));
+    el.classList.add("selected");
+    const kind = el.dataset.insp;
+    const kinds = { move: "Camera move", view: "Camera view", cut: "Hard cut", orphan: "Latent move" };
+    document.getElementById("insp-kind").textContent = kinds[kind];
+    document.getElementById("insp-title").textContent = el.dataset.title;
+    ["move", "view", "cut", "orphan"].forEach((k) =>
+      document.getElementById("insp-" + k).classList.toggle("hidden", k !== kind)
+    );
+    if (kind === "view") {
+      document.getElementById("insp-ms").textContent = el.dataset.ms;
+      const [persp, ortho] = document.querySelectorAll("#insp-proj button");
+      persp.classList.toggle("on", el.dataset.proj === "PERSP");
+      ortho.classList.toggle("on", el.dataset.proj === "ORTHO");
+    }
+  }
+</script>

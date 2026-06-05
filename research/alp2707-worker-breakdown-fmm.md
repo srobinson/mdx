@@ -2,7 +2,7 @@
 title: ALP-2707 worker breakdown for fmm outline default density
 type: research
 tags: [fmm, linear, outline, mcp, planning]
-summary: Round 2 converged toward five workers plus PER: schema/types, Rust parser, TypeScript parser, Python parser, renderer/docs/freshness, and review.
+summary: 'Round 2 converged toward five workers plus PER: schema/types, Rust parser, TypeScript parser, Python parser, renderer/docs/freshness, and review.'
 status: active
 source: codebase-analyst
 confidence: high

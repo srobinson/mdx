@@ -1,0 +1,28 @@
+# PR #256 review (Fable) — feat/activity-pr2b-vitals-strip @ d9ee4d4
+
+Scope: `git diff origin/main...HEAD` (12 files, +608/−20). Design anchors: cm `019f484a` (needs-you v1 = any waiting/idle; minimal UI; always-on) and the PR-2b scout map (workspace-id gotcha).
+
+**Verdict: 1 Minor (DRY), everything else clean.** Gates observed by me: `just check` exit 0; full `@tm/shell` suite pass; new e2e spec passes locally in chromium (1 passed, 4.0s). Tree pristine before and after.
+
+## Findings
+
+### F1 — MINOR, CONFIRMED (reuse): `useElapsedTick` duplicated instead of lifted alongside its formatter
+
+`www/packages/canvas/src/workbench/chrome/RunVitalsStrip.tsx::useElapsedTick` is byte-equivalent to `www/packages/inspector/src/components/ExchangeTurnCard.tsx::useElapsedTick` (same 8-line `setInterval(1000)` re-render tick, same `active` guard). The PR correctly lifted `formatElapsedTime` into `core/formatting.ts` because both products need it — but its companion tick hook, needed by exactly the same two call sites, was copied instead. Canvas cannot import inspector (locked boundary), so the duplicate was inevitable once the hook wasn't lifted; core already ships react and is the established home (`useEventSource`, `useMeta`). Cost: the pair will drift (e.g. one side later switches to a visibility-aware interval). Fix: export `useElapsedTick` from core beside `formatElapsedTime`, rewire both call sites, delete both private copies. Small, mechanical, same-PR-worthy.
+
+## Checklist (brief items, all verified clean)
+
+1. **Workspace-id gotcha — handled exactly right.** `SessionCanvasRoute.tsx` passes `resolved?.workspaceId ?? ""` (full slug/hash from `useLaunchSession`), never `launch.workspaceHash`; `enabled: resolved !== undefined` plus the hook's internal `workspaceId.length > 0` gate means no request can fire pre-resolution (and the in-code comment documents why). `onEvents` feeds `useRunVitalsStore.applyFrames` via a stable zustand method selector. Single mount at the route root; teardown inherited from `useEventSource`; route unmount also `clear()`s the vitals store. Tests pin both sides: the mount test asserts the exact encoded URL (`/v1/workspaces/my-slug%2Fws-hash-abc/activity/stream?owner=local`) and a fold into the store; the guard test asserts NO `/activity/stream` source is ever created on a hash-less direct-local launch. Not tautological — the guard test fails if someone passes the hash or drops the enabled gate.
+2. **PaneChrome slot — non-invasive.** `strip?: React.ReactNode` renders `{strip ? <div className="canvas-pane-window__strip">…</div> : null}` between header and body; panes without the prop render byte-identical DOM (test: "omits the strip container"; DOM-order test asserts header → strip → body adjacency). `PaneWindow` threads it only for `pane.contentRef.kind === "captured-run"`. `CapturedRunPane` and all terminal logic untouched by the diff.
+3. **RunVitalsStrip — all states covered, and one subtle thing done right.** Reads `useRunVitalsStore((s) => (runId ? s.byRunId[runId] : undefined))` with `runId` from a **passive** `useCapturedRunStore` selector (`runs[runKey]?.runId`) — deliberately not `useCapturedRunBinding`, which would have double-spawned the run; correct choice. Empty/no-vitals state renders a `data-empty` sliver with no readout (no crash/NaN on undefined; tested for both unbound-run and bound-but-no-frame cases). needs-you lights on `status === "needs-you"` only — which IS the v1 "any waiting/idle" semantics, since the wire status already covers both AskUserQuestion and end-of-turn idle; no client-side distinction attempted. Cross-run isolation tested (`run-other` frame leaves the strip empty).
+4. **Formatting reuse — clean.** Token count prefers server `context_tokens` and falls back to core `contextTokens(total_usage)` (not re-inlined; fallback tested at 150). The `formatElapsedTime` lift is behavior-identical on valid input (same thresholds s/m/h/d); it adds a NaN guard (old code rendered "NaNd" for an invalid timestamp — strict improvement, covered by a test) and an injectable `nowMs`. `ExchangeTurnCard` imports it from `@tm/core`, dead copy deleted; `PausedHeader::formatElapsed` and `CodexTimeline::formatDuration` untouched per the scout correction.
+5. **Styling — canvas-native.** New BEM block in `chrome/pane-window.css`; every custom property used (`--color-amber`, `--highlight-rgb`, `--shadow-rgb`, `--color-edge-subtle`, `--canvas-gap`, `--pane-padding`, `--radius-sm`, `--color-surface`, `--color-txt/-2`) exists in `styles/tokens.css`; zero Tailwind anywhere in the diff; pill mirrors the existing bordered-pill pattern with amber accent on needs-you.
+6. **Tests — adequate and meaningful.** Unit: 7 strip cases (incl. empty ×2, needs-you, exited, fallback formula, wrong-run isolation, store binding), 2 PaneChrome slot cases (absence + DOM order), 2 route cases (mount+fold, guard), 4 formatting boundary cases (invalid, 0s/15s, 1m/1h, 1d). E2e `canvas-vitals-strip.spec.ts` follows the existing route-mocking pattern and asserts the always-on empty strip on a spawned pane — **passes locally in chromium**. Only untested nicety: the 1s elapsed tick re-render (interval hook) — cosmetic, not worth blocking.
+
+## Findings JSON
+
+```json
+[
+  {"file": "www/packages/canvas/src/workbench/chrome/RunVitalsStrip.tsx", "line": 82, "summary": "useElapsedTick is a byte-equivalent duplicate of ExchangeTurnCard's private hook; the PR lifted its companion formatter to core but copied the tick", "failure_scenario": "two identical interval hooks drift independently (e.g. visibility-aware pause added to one); core is the sanctioned shared home next to formatElapsedTime", "verdict": "CONFIRMED"}
+]
+```

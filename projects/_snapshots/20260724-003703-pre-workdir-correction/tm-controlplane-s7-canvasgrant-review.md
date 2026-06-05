@@ -1,0 +1,43 @@
+# Review — S7 Canvas grant propagation (Gap 1)
+
+Branch `controlplane-s7-canvas-grant` at `5643870` (base main `e05373b`). Read-only review; working tree verified pristine at `5643870` before this verdict. Gate not re-run per brief (already green at this sha). Method: 8 independent finder angles (3 correctness, 3 cleanup, altitude, conventions) over the full diff, then a recall-biased verify pass; plus a code-hygiene inspection.
+
+**Verdict: 0 blockers, 5 minors (1 correctness, 1 plausible correctness, 3 quality).** The slice is well built: exhaustively tested at every layer, safe-by-default at every seam, and it consolidates the grant vocabulary into `@tm/contract/runtime` rather than duplicating it.
+
+## Brief priorities
+
+1. **Trust boundary (default off, no silent escalation): PASS.** Every layer defaults absent → `none` (`createCapturedRunRef`, `useCapturedRunBinding`, `ensureRun`, `createCapturedRun`), the POST body always carries an explicit grant, and `runtimeRouter.controlPlaneGrantFromBody` maps absent/null → `none` and 400s any unrecognized value before `createWithDisposition`. No path escalates silently. The only escalation-adjacent behavior is Minor 2 (stale pane-ref respawn), which replays a grant the user once chose explicitly.
+2. **Persistence: PASS.** Storage version bumped 5 → 6 with the rationale comment updated. `migrate` coerces an unknown or absent grant to `none` and preserves `runs`, `oscColorReplies`, `bypassPermissions`. A genuine persist-OLD-snapshot-then-rehydrate test exists (`capturedRunStore.test.ts`, "migrates a v5 snapshot, skips an unknown grant, and preserves every known field") — it plants a literal v5 payload with an unknown grant and asserts nothing is wiped. Legacy pane refs also rehydrate: `isPaneContentRef` accepts an omitted `controlPlaneGrant`.
+3. **Threading correctness: PASS with one gap.** Observer and director are both asserted end to end (`transport.test.ts` `it.each` proves the POST body; layer tests cover row → command → dispatcher → ref → binding → ensureRun). The gap is the session-resume spawn path, which never threads the grant (Minor 1).
+4. **DRY / reuse: PASS with quality minors.** The enum, type, and guard live once in `@tm/contract/runtime`; `ports.ts` re-exports and the router's hand-rolled membership check was replaced with the shared guard — the right consolidation. The threading itself follows the existing per-launch spawn-option pattern (`EnsureRunOptions`/`CreateCapturedRunOptions`), but diverges from how its sibling `bypassPermissions` propagates (Minor 3) and adds a duplicated label ladder (Minor 4).
+
+## Findings (ranked)
+
+### Minor 1 — correctness: session resume drops the selected grant
+`www/packages/canvas/src/model/canvasActions.ts`, `continueSession` (symbol, ~line 229): `spawnCapturedRunPane` is called with `refOptions: { continueFromSessionId }` only, so `createCapturedRunRef` stamps `controlPlaneGrant: "none"` on every continuation. With Settings → Control plane access = Director, pressing Continue in `SessionPickerPane` launches the continued agent with no authority — while `bypassPermissions`, read live from the store inside `ensureRun` (`capturedRunStore.ts`, `ensureRun`), DOES apply to the same launch. The store field's own doc ("Authority selected for future captured launches") is violated for this path. Fail-safe direction (under-grant, never over-grant), so not a blocker, but it is a real behavior bug against the setting's contract. Three finder angles converged on it independently. Fix at either site: thread `controlPlaneGrant: useCapturedRunStore.getState().controlPlaneGrant` into the resume `refOptions`, or give `ensureRun` a store fallback mirroring `bypassPermissions`. CONFIRMED.
+
+### Minor 2 — plausible correctness: stale pane-ref grant on respawn diverges from live Settings
+`www/packages/canvas/src/model/capturedRunStore.ts`, `ensureRun`: the grant comes from the pane-stamped option while `bypassPermissions` is read live. A pane created under Director persists `controlPlaneGrant: "director"` on its ref; if its run later has to be re-spawned (run ended/terminated, entry dropped, pane re-ensures after reload), the new run silently launches as Director even if Settings has since been cycled to Off — the opposite staleness of Minor 1, and the one path where a run gets authority the user no longer has selected. The "stamped at launch" comment suggests this is deliberate, and the user did explicitly choose Director for that pane once, so PLAUSIBLE rather than confirmed-defect. Decide the semantics once (Minor 3) and both staleness directions fall out.
+
+### Minor 3 — altitude: two propagation models for two sibling authority flags
+`www/packages/canvas/src/launcher/commandTypes.ts` (`LauncherCommand` spawn variant) and the chain through `templateRows.ts`/`commandRows.ts`/`CanvasCommandDispatcher`/`spawn.ts`: the grant is threaded as a required field through ~8 layers, while `bypassPermissions` — the same concept, selected in the same Settings scope, consumed at the same POST — is read at the `ensureRun` choke point. The asymmetry is the root cause of Minor 1 (a spawn path that predates the threading was missed) and of most of the test churn in this diff. Reading the store at the dispatcher (which already subscribes to `useCapturedRunStore` for `cycleControlPlaneGrant`) or falling back to it in `ensureRun` removes the command field and the row-builder parameter chain while keeping the pane-ref stamp for respawn semantics if that stickiness is wanted. Counterpoint acknowledged: a required field makes authority explicit at every construction site, which is a defensible choice for a security control — the problem is the inconsistency with `bypassPermissions`, not the explicitness itself.
+
+### Minor 4 — quality: duplicated grant ternary ladders fail open to "Director"
+`www/packages/canvas/src/launcher/commandRows.ts`, `buildSettingsRows`: `grantLabel` and the row subtitle are two parallel none/observer/director ternary ladders whose else branch is the most-privileged label. Unreachable today (types + migration coercion), but extending `CONTROL_PLANE_GRANT_OPTIONS` with a fourth value makes the data-driven cycler reach it while the display mislabels it as "Director — inspect and manage peer runs": a privilege mislabel on a security control, and the two ladders can drift independently (the subtitle already duplicates the label as its prefix). One `Record<ControlPlaneGrantOption, { label; subtitle }>` collapses both and makes exhaustiveness compiler-checked. CONFIRMED (as fragility).
+
+### Minor 5 — quality: no canonical default constant
+The safe default is the bare literal `"none"` coalesced independently at four sites (`spawn.ts` ref stamp, `useCapturedRunBinding.ts`, `capturedRunStore.ts` `ensureRun`, `transport.ts` body build) plus the router's parse default. A `DEFAULT_CONTROL_PLANE_GRANT` exported from `@tm/contract/runtime` gives the default one owner and makes uniformity greppable. It does mirror the existing `bypassPermissions ?? false` convention, so this is polish, not a violation. CONFIRMED (as duplication of a security-relevant literal).
+
+## Refuted / out of scope
+
+- **`?? "none"` after the modulo in `nextControlPlaneGrantOption` is dead code** — refuted: `noUncheckedIndexedAccess: true` in `tsconfig.base.json` makes the fallback compiler-required (same pattern as `themeStore.nextPresetTheme`).
+- **Shared cycler with `themeStore`** — not a DRY violation: the theme cycler compares nullable theme objects by id; a shared helper would need a key extractor and buys little across two 4-line functions.
+- **Server accepts a self-stamped `director` from any client** — true, pre-existing, and explicitly out of this slice: the router's grant parsing predates this diff and the authorization gap is the known self-mint hole owned by the locked S7 human-auth design. Noted only so nobody mistakes enum validation for enforcement.
+
+## Code-hygiene inspection (read-only)
+
+All touched files are well under the 700-line limit (largest: `canvasActions.ts` 546, `transport.ts` 517); no function approaches 150 lines; the diff removes duplication net (enum centralized into the contract). The hygiene remedies coincide with Minors 3–5: collapse the label ladders into one vocabulary map, name the default in the contract, and pick one propagation model for spawn-time authority flags. No structural refactor is needed before merge.
+
+## Conventions, efficiency
+
+No CLAUDE.md violations (conventions angle, checked against global, repo, `packages/`, and `www/packages/canvas/` docs). No efficiency regressions: the grant is a stable primitive through the memo chains; settings-row string work is cold-path.

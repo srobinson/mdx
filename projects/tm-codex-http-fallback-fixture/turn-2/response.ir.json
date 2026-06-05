@@ -1,0 +1,50 @@
+{
+  "id": "resp_04521b8b5c6f1e35016a506f4135d88191a567cb159a8d0e1e",
+  "model": "codex/gpt-5.6-sol",
+  "provider": "codex",
+  "stop_reason": "completed",
+  "usage": {
+    "input_tokens": 21826,
+    "output_tokens": 151,
+    "cache_read_input_tokens": 21248,
+    "cache_creation_input_tokens": 0
+  },
+  "content": [
+    {
+      "type": "thinking",
+      "text": "**Clarifying missing context received**\n\n<!-- -->",
+      "provider_data": {
+        "id": "rs_04521b8b5c6f1e35016a506f42c6988191867107debba74436",
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABqUG9EoufNgyMcRXqSCaWC3_xL2ILE4ENaYnMO8WSu9NgsRVnXdRuwP91vw70rYVa0QIIRmCyhODlvI3yi-hnYFzY8Ns4MVNMmTqX_YeDtkqlfYBtcG4xsc5Hn2YQbFz5LRnkRS4c20kudv2lsO9_o_dfIZ9rVevmQ02ybQq-a_x6DqbTok9L50baQpFOC-GEWIwceGhUHPZ7OJJpKDWMYVjP8iEfdLgRfVDWRo_Vm_wD3NWOMq6AO6vZH7RUCWtOrHEDzO03HSemhUmqbKb-JlhBuJpjB_ZNPJ2jAro6ux0n0Mn4sV5pZKPMFYn589UEZoSWxhc-uw7Zy662-vDoE_ZxSgMjwnCduxzQ7rHRy6ZQhVLX10lmbbKXN83kzRZo4Y8TOZTXzyDiL-Jm_wtlFMtNXLDlfqT0d_kC7AeuQNNIBc0OeC9PP2f0LZGgd3Iy5knMCj2q1zqh2I1KLpnTc7bGMdHSfkR-xeqtZsVX9hvByp2t4Mm_tXspzhu-K-zM3Fh-bFmW94pUXXEbdAa1iVXqSd55Asvfttai5FbHbY_J7klaRCqOGdidLwyLGOyyoAkOTdrT_8EUXpZ04_uDHWhZPIhI-WQcLNB800Z-KAkG_jioiIbyMLPNiCZpPy0FajNNWtxfAGMfEPqYKaT9nIHC59OuHsDq2ZleJVjPiOEywai8-NZK4ojNcD_3LOMiPLtn6GiZEYGxwUCbjQhPMjGOd9o2RC-5XUbnoL-LzXhPN7T8E0OSXTUU009e4Qk1oAWvBKI-jOJI9DqNJQeVp7Pr_dmvATPmZ4SIgbfKdxZR8_O0gkQENyO0AUQMszdL7R2KA05KV9sNInPLXNueM6J47X_ZT-y4qrM1yn4ns_kpt3JFHYw4560oxE-vh2uAMlgZ8VXEK1rxb9W1dWAWy435QWG6B_ooff3_54G-Phf5UnYu-VzMrEyTDAbled1E6Gk7qFBjkrtFB-LQ74Z6w3t9vbQBPRaumYgic0N66MT25u8QgwGmFmAcDl9nCjMKl9n-eOldTasTxjwtWQobfkc1VD-5iKWGwNTrVTtBRGqVfI20k5NVBDj41Glm92-JWPFtuRdv3VuItJ0f0W9dtRXM07FsBH52EX-ssLgAtEF1lyE-8mb4am2_lr4mkgrzT-tPuqmu2voGgMsfYy3hfuIp_40hkCSzQ4DpE1VBpD1YfPfocrwhyCu3z77VLTceaXdgeUztuk-31KRE9E2BjDSvBLZkZ7jbXeMxwvrInA_RsFpdXP22QjyU08ahPM8ti9WrFE2COyvpYBTa9Js6JL9b79nXNmxTdNkV2Sybz6x1qiZ4=",
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "019f4a32-8cfb-7003-83e1-bf1450797578"
+        },
+        "metadata": {
+          "turn_id": "019f4a32-8cfb-7003-83e1-bf1450797578"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "Correct. That block was not present in the context I received.\n\nI have it now:\n\n- Web UI: http://127.0.0.1:8788\n- HTTPS proxy: http://127.0.0.1:8787\n- Codex working directory: `/Users/alphab/Dev/LLM/DEV/helioy/docs`",
+      "provider_data": null
+    }
+  ],
+  "provider_extras": {
+    "output_item_meta": [
+      {
+        "id": "rs_04521b8b5c6f1e35016a506f42c6988191867107debba74436",
+        "type": "reasoning"
+      },
+      {
+        "id": "msg_04521b8b5c6f1e35016a506f43ff7881918e780b7e285c1bb6",
+        "type": "message",
+        "status": "completed",
+        "role": "assistant",
+        "phase": "final_answer"
+      }
+    ]
+  }
+}

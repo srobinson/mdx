@@ -1,0 +1,32 @@
+{
+ "assetId": "panel.undock",
+ "tokenId": "panel.undock",
+ "label": "Panel Undock",
+ "at": 117334.90000000596,
+ "seed": "command-flow:panel-settles",
+ "layers": [
+  {
+   "type": "noise",
+   "duration": 0.020515382549348603,
+   "gain": 0.07261502189035601,
+   "attack": 0.00227066047992,
+   "decay": 0.0142016,
+   "filter": {
+    "type": "bandpass",
+    "frequency": 4311.348319272735,
+    "q": 3.5497761646076826
+   }
+  },
+  {
+   "type": "tone",
+   "waveform": "triangle",
+   "frequency": 216.52854873143403,
+   "endFrequency": 306.6452257778794,
+   "gain": 0.0466910999688014,
+   "duration": 0.1141897998855887,
+   "delay": 0,
+   "attack": 0.0034059907198799996,
+   "decay": 0.081152
+  }
+ ]
+}

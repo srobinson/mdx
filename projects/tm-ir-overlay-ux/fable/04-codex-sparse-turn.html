@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TM · IR Overlays · 4 Codex sparse turn</title>
+<style>
+  :root {
+    --ink: #1c1c1a; --ink-soft: #6b6b66; --ink-faint: #9c9c96;
+    --paper: #fafaf7; --panel: #ffffff; --accent: #e8e4dc;
+    --line: #d9d7d0; --line-soft: #eceae4;
+    --good: #2e6e4e; --good-bg: #e7f2ec;
+    --noop: #8a6d1f; --noop-bg: #f6efdf; --noop-line: #e0d3ae;
+    --note: #4a5f8a; --note-bg: #eef1f8;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+
+  .wf-bar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:1px solid var(--line); background:var(--panel); }
+  .wf-bar .crumb { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .wf-bar nav { margin-left:auto; display:flex; gap:2px; font-size:12px; }
+  .wf-bar nav a { text-decoration:none; padding:4px 10px; border:1px solid transparent; border-radius:4px; color:var(--ink-soft); }
+  .wf-bar nav a.on { background:var(--accent); border-color:var(--line); color:var(--ink); }
+  .wf-bar nav a:hover { border-color:var(--line); }
+
+  .page { max-width: 1020px; margin: 0 auto; padding: 20px 20px 80px; }
+  .page-head { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:4px; }
+  .page-head h1 { font-size:18px; font-weight:600; }
+  .chip { font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; border:1px solid var(--line); background:var(--paper); }
+  .lede { color:var(--ink-soft); font-size:13px; max-width:74ch; margin:4px 0 18px; }
+  .lede code { font-family:var(--mono); font-size:12px; background:var(--line-soft); padding:1px 4px; border-radius:3px; }
+
+  .runstrip { display:flex; gap:18px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 16px; margin-bottom:16px; font-size:12.5px; flex-wrap:wrap; }
+  .runstrip b { font-family:var(--mono); }
+  .runstrip .saved { color:var(--good); }
+
+  .turns { display:flex; flex-direction:column; gap:8px; }
+  .turn { background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .thead { display:grid; grid-template-columns: 96px 1fr auto auto; gap:12px; align-items:center; padding:10px 14px; cursor:default; }
+  .thead .tn { font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .thead .desc { font-size:13px; }
+  .thead .desc .wire { font-family:var(--mono); font-size:11px; color:var(--ink-faint); display:block; margin-top:2px; }
+  .badge { font-family:var(--mono); font-size:11px; padding:2px 9px; border-radius:10px; white-space:nowrap; }
+  .badge.applied { background:var(--good-bg); color:var(--good); border:1px solid #bcd7c8; }
+  .badge.noop { background:var(--noop-bg); color:var(--noop); border:1px dashed var(--noop-line); }
+  .tsave { font-family:var(--mono); font-size:11.5px; color:var(--good); text-align:right; min-width:80px; }
+  .tsave.zero { color:var(--ink-faint); }
+  .turn.expandable .thead { cursor:pointer; }
+  .turn.expandable .thead:hover { background:var(--paper); }
+  .caret { display:inline-block; transition: transform .12s; margin-right:6px; font-size:10px; color:var(--ink-faint); }
+  .turn.open .caret { transform: rotate(90deg); }
+  .xbody { display:none; border-top:1px solid var(--line-soft); }
+  .turn.open .xbody { display:block; }
+
+  /* inline no-op evidence band, directly above the request it explains */
+  .evband { display:flex; gap:0; align-items:stretch; background:var(--noop-bg); border-bottom:1px solid var(--noop-line); font-size:12.5px; }
+  .evband > div { padding:10px 14px; display:flex; flex-direction:column; justify-content:center; gap:2px; }
+  .evband > div + div { border-left:1px dashed var(--noop-line); }
+  .evband .ck { font-family:var(--mono); font-size:11px; color:var(--noop); font-weight:700; white-space:nowrap; }
+  .evband .ovl { font-family:var(--mono); font-size:11.5px; white-space:nowrap; }
+  .evband .outcome { color:var(--noop); font-weight:600; }
+  .evband .outcome small { display:block; font-weight:400; color:var(--ink-soft); }
+  .evband .why { flex:1; color:var(--ink-soft); }
+  .evband .why b { color:var(--ink); }
+  .evband.applied-band { background:var(--good-bg); border-bottom-color:#bcd7c8; }
+  .evband.applied-band .ck, .evband.applied-band .outcome { color:var(--good); }
+  .evband.applied-band > div + div { border-left-color:#bcd7c8; }
+
+  /* the actual sparse request body */
+  .req { padding:12px 14px; }
+  .req h4 { font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:6px; }
+  .req .item { border:1px solid var(--line-soft); border-radius:6px; padding:8px 10px; margin-bottom:6px; font-size:12.5px; }
+  .req .item .role { font-family:var(--mono); font-size:10.5px; color:var(--note); display:block; margin-bottom:2px; }
+  .req .absent { font-size:12px; color:var(--ink-faint); font-style:italic; padding:6px 2px 0; }
+  .req .absent code { font-family:var(--mono); font-size:11px; font-style:normal; }
+
+  /* the audit row that proves the no-op */
+  .xaudit { border-top:1px solid var(--line-soft); padding:10px 14px; }
+  .xaudit h4 { font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:6px; }
+  .arow { display:flex; align-items:center; gap:10px; font-size:12px; flex-wrap:wrap; }
+  .arow .kind { font-family:var(--mono); font-size:10px; color:var(--note); background:var(--note-bg); padding:1px 5px; border-radius:3px; }
+  .arow .tgt { font-family:var(--mono); font-size:11.5px; }
+  .arow .state { font-family:var(--mono); font-size:10px; padding:1px 6px; border-radius:3px; }
+  .arow .state.no { background:var(--noop-bg); color:var(--noop); border:1px dashed var(--noop-line); }
+  .arow .state.yes { background:var(--good-bg); color:var(--good); }
+  .arow .delta { font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); }
+  .arow .fwd { margin-left:auto; font-size:11.5px; color:var(--good); font-family:var(--mono); }
+  .arow .link { font-size:11.5px; color:var(--note); text-decoration:underline; cursor:pointer; }
+
+  .anno { border-left:3px solid var(--note); background:var(--note-bg); color:var(--note); font-size:12px; padding:8px 12px; border-radius:0 6px 6px 0; margin:18px 0; max-width:80ch; }
+  .anno code { font-family:var(--mono); font-size:11px; }
+</style>
+</head>
+<body>
+
+<header class="wf-bar">
+  <span class="crumb">transport-matters / runs / <b>acme-api-codex</b> · turns</span>
+  <nav>
+    <a href="00-reveal-optimize.html">00 Reveal &amp; optimize</a>
+    <a href="01-overlay-library.html">01 Overlays</a>
+    <a href="03-exchange-view.html">03 Evidence</a>
+    <a class="on" href="04-codex-sparse-turn.html">04 Edge cases</a>
+    <a href="02-overlay-editor.html">02 Advanced</a>
+  </nav>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>Run acme-api-codex</h1>
+    <span class="chip">harness: codex</span>
+    <span class="chip">overlay: Trim harness boilerplate</span>
+  </div>
+  <p class="lede">
+    Codex sends <code>incremental</code> wire payloads: instructions and tool definitions cross the wire only on
+    some turns. The overlay is opportunistic there. A turn it cannot touch is a first-class outcome, shown on
+    the exchange itself, never hidden and never an error.
+  </p>
+
+  <div class="runstrip">
+    <span>12 turns</span>
+    <span><b>4</b> applied</span>
+    <span><b>8</b> no-op (sparse wire)</span>
+    <span class="saved">saved <b>7.2k tok</b> this run</span>
+    <span style="margin-left:auto; color:var(--ink-faint)">overlay healthy · no missing targets</span>
+  </div>
+
+  <div class="turns">
+
+    <article class="turn">
+      <div class="thead">
+        <span class="tn">turn 1</span>
+        <span class="desc">Session open · full context
+          <span class="wire">instructions ✓ · tools ✓ · input items ✓</span>
+        </span>
+        <span class="badge applied">overlay applied · 5 edits</span>
+        <span class="tsave">−2.1k tok</span>
+      </div>
+    </article>
+
+    <article class="turn expandable" data-open>
+      <div class="thead" role="button" tabindex="0" aria-expanded="true">
+        <span class="tn"><span class="caret">▶</span>turn 2</span>
+        <span class="desc">Tool result round-trip · sparse wire
+          <span class="wire">instructions — · tools — · input items ✓ (1 tool output)</span>
+        </span>
+        <span class="badge noop">overlay no-op</span>
+        <span class="tsave zero">0</span>
+      </div>
+      <div class="xbody">
+        <div class="evband">
+          <div><span class="ck">✓ OVERLAY CHECKED</span><span class="ovl">Trim harness boilerplate</span></div>
+          <div><span class="outcome">No instructions in this turn<small>no changes applied</small></span></div>
+          <div class="why"><b>Why?</b> Codex sends instructions opportunistically; this turn carried a tool
+            output only. Every edit in this overlay targets instructions and tool prompts, so there was
+            nothing to curate.</div>
+        </div>
+        <div class="req">
+          <h4>Request · sparse turn, as sent</h4>
+          <div class="item"><span class="role">function_call_output · call_9f2a</span>
+            {"exit_code": 0, "stdout": "PASS test_session_writer.py · 41 tests…"}</div>
+          <p class="absent">No <code>instructions</code> and no <code>tools</code> section in this turn's wire. Context established on turn 1 still governs.</p>
+        </div>
+        <div class="xaudit">
+          <h4>Request audit</h4>
+          <div class="arow">
+            <span class="kind">system_part_text</span><span class="tgt">system[0]</span>
+            <span class="state no">NOT APPLIED · target absent</span><span class="delta">0 tok</span>
+            <span class="link">view overlay →</span>
+            <span class="fwd">✓ forwarded byte-identical</span>
+          </div>
+          <div class="arow" style="margin-top:6px">
+            <span class="kind">tool_description</span><span class="tgt">tools/Bash</span>
+            <span class="state no">NOT APPLIED · target absent</span><span class="delta">0 tok</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="turn expandable">
+      <div class="thead" role="button" tabindex="0" aria-expanded="false">
+        <span class="tn"><span class="caret">▶</span>turn 3</span>
+        <span class="desc">Tool result round-trip · sparse wire
+          <span class="wire">instructions — · tools — · input items ✓</span>
+        </span>
+        <span class="badge noop">overlay no-op</span>
+        <span class="tsave zero">0</span>
+      </div>
+      <div class="xbody">
+        <div class="evband">
+          <div><span class="ck">✓ OVERLAY CHECKED</span><span class="ovl">Trim harness boilerplate</span></div>
+          <div><span class="outcome">No instructions in this turn<small>no changes applied</small></span></div>
+          <div class="why">Sparse wire again: expected codex behavior on consecutive tool turns. The overlay
+            stays live for the next turn that resends context.</div>
+        </div>
+        <div class="req">
+          <h4>Request · sparse turn, as sent</h4>
+          <div class="item"><span class="role">function_call_output · call_c118</span>
+            {"exit_code": 1, "stderr": "ruff: 2 findings…"}</div>
+          <p class="absent">No <code>instructions</code>, no <code>tools</code>. Forwarded unchanged.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="turn expandable">
+      <div class="thead" role="button" tabindex="0" aria-expanded="false">
+        <span class="tn"><span class="caret">▶</span>turn 5</span>
+        <span class="desc">Context resend after compaction · full wire
+          <span class="wire">instructions ✓ · tools ✓ · input items ✓</span>
+        </span>
+        <span class="badge applied">overlay applied · 5 edits</span>
+        <span class="tsave">−1.9k tok</span>
+      </div>
+      <div class="xbody">
+        <div class="evband applied-band">
+          <div><span class="ck">✓ OVERLAY APPLIED</span><span class="ovl">Trim harness boilerplate</span></div>
+          <div><span class="outcome">Instructions crossed the wire<small>5 edits · −1.9k tok</small></span></div>
+          <div class="why">Codex resent instructions and tool definitions after compacting, so the overlay's
+            targets were curated before forwarding. Full evidence on this turn's
+            <a href="03-exchange-view.html">exchange view</a>.</div>
+        </div>
+        <div class="req">
+          <h4>Request · full wire, curated</h4>
+          <div class="item"><span class="role">instructions</span>You are Codex… <span style="color:var(--good)">(curated, −1.6k tok)</span></div>
+          <div class="item"><span class="role">tools · 14 defs</span>shell, apply_patch… <span style="color:var(--good)">(curated, −0.3k tok)</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="turn">
+      <div class="thead">
+        <span class="tn">turns 6–11</span>
+        <span class="desc" style="color:var(--ink-soft)">6 sparse turns, collapsed
+          <span class="wire">instructions — · tools — · overlay no-op on each</span>
+        </span>
+        <span class="badge noop">6 × no-op</span>
+        <span class="tsave zero">0</span>
+      </div>
+    </article>
+
+    <article class="turn">
+      <div class="thead">
+        <span class="tn">turn 12</span>
+        <span class="desc">User prompt · full wire
+          <span class="wire">instructions ✓ · tools ✓ · input items ✓</span>
+        </span>
+        <span class="badge applied">overlay applied · 5 edits</span>
+        <span class="tsave">−1.8k tok</span>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="anno">
+    <b>Design notes.</b> Merged from the GPT round: the no-op outcome now lives on the exchange body that
+    proves it. Expanding a sparse turn shows an inline evidence band (overlay checked, name, "no instructions
+    in this turn", why) directly above the actual sparse request, whose wire shape is visible: input items
+    present, <code>instructions</code> and <code>tools</code> absent, followed by the audit rows recording
+    NOT APPLIED · target absent · 0 tokens and "forwarded byte-identical". The same band turns green on an
+    applied turn, so one shape explains both outcomes. Kept from this set: the run timeline with per-turn wire
+    shape columns, collapsed consecutive no-ops, and honest counts in the run strip.
+  </div>
+</div>
+
+<script>
+  // Expandable exchange bodies; the first sparse turn opens by default.
+  document.querySelectorAll(".turn.expandable").forEach(t => {
+    if (t.hasAttribute("data-open")) t.classList.add("open");
+    const head = t.querySelector(".thead");
+    const toggle = () => {
+      const open = t.classList.toggle("open");
+      head.setAttribute("aria-expanded", String(open));
+    };
+    head.addEventListener("click", toggle);
+    head.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+  });
+</script>
+</body>
+</html>

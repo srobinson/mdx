@@ -1,0 +1,354 @@
+<!-- IDEA A: The camera track earns the same card grammar as the state strip. Captured views become VIEW cards with a live pose glyph (orbit ring, azimuth dot, projection badge), and the moves between them become MOVE cards carrying path, easing, and sweep, so the two strips finally speak one visual language. -->
+<meta charset="utf-8">
+<title>Cubicell · Camera Track A · Card Strip</title>
+<style>
+  :root {
+    --bg: #050505;
+    --panel: #0d0d0d;
+    --card: #111;
+    --thumb: #000;
+    --border: rgba(255,255,255,0.16);
+    --border-strong: rgba(255,255,255,0.4);
+    --fg: #f2f2f2;
+    --muted: rgba(255,255,255,0.52);
+    --accent: #e87d0d;
+    --mono: "Geist Mono", "Roboto Mono", "Cascadia Code", Menlo, monospace;
+    --ui: "Avenir Next", "DIN Alternate", "Trebuchet MS", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--ui);
+    padding: 28px 24px 48px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 1560px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+  /* ---------- transport ---------- */
+  .transport { display: flex; align-items: center; gap: 10px; }
+  .tbtn {
+    font: 700 11px/1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    background: #101010;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 14px;
+    cursor: pointer;
+  }
+  .tbtn:hover { border-color: var(--border-strong); }
+  .tbtn.active { border-color: var(--accent); color: var(--accent); }
+  .scrub { flex: 1; height: 2px; background: rgba(255,255,255,0.28); position: relative; margin: 0 14px; }
+  .scrub .head { position: absolute; right: 18%; top: -6px; width: 2px; height: 14px; background: #fff; }
+  .tclock { font: 700 12px/1 var(--mono); color: var(--muted); white-space: nowrap; }
+  .tclock b { color: var(--fg); font-weight: 700; }
+  .tspeed {
+    font: 700 12px/1 var(--mono);
+    background: #101010; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px;
+  }
+
+  /* ---------- strip shared grammar ---------- */
+  .lane-label {
+    font: 800 12px/1 var(--ui);
+    letter-spacing: 0.02em;
+  }
+  .lane-sub { font: 500 11px/1.4 var(--ui); color: var(--muted); margin-top: 3px; }
+  .lane-head { display: flex; align-items: flex-end; justify-content: space-between; }
+  .capture {
+    font: 700 11px/1 var(--mono);
+    letter-spacing: 0.06em;
+    background: #f2f2f2; color: #050505;
+    border: 1px solid #f2f2f2; border-radius: 6px;
+    padding: 9px 14px; cursor: pointer;
+  }
+  .capture:hover { background: #fff; }
+
+  .strip {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px;
+  }
+  .card {
+    flex: 0 0 auto;
+    width: 138px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; flex-direction: column;
+    cursor: pointer;
+    transition: border-color 120ms;
+  }
+  .card:hover { border-color: var(--border-strong); }
+  .card.selected { border-color: var(--accent); }
+  .card-head {
+    font: 800 11px/1 var(--ui);
+    letter-spacing: 0.04em;
+    text-align: center;
+    padding: 10px 8px 9px;
+    border-bottom: 1px solid rgba(255,255,255,0.09);
+  }
+  .card-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 8px; gap: 7px; }
+  .card-foot { padding: 0 8px 10px; display: flex; justify-content: center; }
+  .chip {
+    font: 700 10px/1 var(--mono);
+    color: var(--fg);
+    background: #191919;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 5px;
+    padding: 5px 8px;
+  }
+  .card.selected .chip.time { border-color: rgba(232,125,13,0.5); color: var(--accent); }
+
+  /* view card thumbnail: pose glyph */
+  .pose {
+    width: 96px; height: 78px;
+    background: var(--thumb);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    display: block;
+  }
+  .proj-badge {
+    font: 700 9px/1 var(--mono);
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 4px;
+    padding: 3px 6px;
+  }
+  .card.selected .proj-badge { color: var(--fg); }
+
+  /* move card */
+  .card.move { width: 118px; background: #0c0c0c; }
+  .card.move .card-head { color: var(--muted); }
+  .move-rows { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .move-kind { font: 800 12px/1 var(--ui); letter-spacing: 0.05em; }
+  .move-ease { font: 700 10px/1 var(--mono); letter-spacing: 0.08em; color: var(--muted); }
+  .sweep-glyph { display: block; margin-top: 2px; }
+
+  /* selected editor row under the strip (kept lean; details live on the cards) */
+  .edit-row { display: flex; align-items: center; gap: 10px; }
+  .edit-row .field {
+    display: flex; align-items: center; gap: 8px;
+    background: #0e0e0e; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px;
+  }
+  .edit-row .field label { font: 700 10px/1 var(--mono); letter-spacing: 0.1em; color: var(--muted); }
+  .edit-row .field input {
+    width: 56px; background: none; border: none; color: var(--fg);
+    font: 700 12px/1 var(--mono); text-align: right; outline: none;
+  }
+  .ghost {
+    font: 700 10px/1 var(--mono); letter-spacing: 0.08em;
+    color: var(--fg); background: none;
+    border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; cursor: pointer;
+  }
+  .ghost:hover { border-color: var(--border-strong); }
+  .ghost.danger:hover { border-color: rgba(240,79,61,0.7); color: #f04f3d; }
+  .edit-hint { font: 500 11px/1 var(--ui); color: var(--muted); margin-left: auto; }
+</style>
+
+<div class="frame">
+
+  <div class="transport">
+    <button class="tbtn">PLAY</button>
+    <button class="tbtn">STOP</button>
+    <button class="tbtn active">LOOP</button>
+    <div class="scrub"><div class="head"></div></div>
+    <span class="tclock"><b>3.3s</b> / 3.3s</span>
+    <span class="tspeed">1.00&times;</span>
+  </div>
+
+  <div>
+    <div class="lane-head">
+      <div>
+        <div class="lane-label">Camera track</div>
+        <div class="lane-sub">Orbit, zoom, or switch projection, then capture at the playhead.</div>
+      </div>
+      <button class="capture">CAPTURE VIEW AT 3.3S</button>
+    </div>
+  </div>
+
+  <div class="strip" id="strip">
+
+    <!-- VIEW 1 -->
+    <div class="card view" data-sel>
+      <div class="card-head">VIEW 1</div>
+      <div class="card-body">
+        <svg class="pose" viewBox="0 0 96 78">
+          <ellipse cx="48" cy="46" rx="34" ry="12" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <g stroke="#fff" stroke-width="1.4" fill="none">
+            <path d="M40 38 l8 -5 8 5 v10 l-8 5 -8 -5 z"/>
+            <path d="M40 38 l8 5 8 -5 M48 43 v10"/>
+          </g>
+          <circle cx="14" cy="46" r="3" fill="#fff"/>
+          <line x1="17" y1="45" x2="38" y2="42" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+        <span class="proj-badge">PERSP</span>
+      </div>
+      <div class="card-foot"><span class="chip time">0.0S</span></div>
+    </div>
+
+    <!-- MOVE 1→2 -->
+    <div class="card move" data-sel>
+      <div class="card-head">MOVE</div>
+      <div class="card-body">
+        <div class="move-rows">
+          <span class="move-kind">ORBIT</span>
+          <span class="move-ease">INOUT</span>
+          <svg class="sweep-glyph" width="44" height="24" viewBox="0 0 44 24">
+            <path d="M4 20 A 18 18 0 0 1 40 20" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <path d="M4 20 A 18 18 0 0 1 30 5" fill="none" stroke="#e87d0d" stroke-width="1.5"/>
+            <circle cx="30" cy="5" r="2.4" fill="#e87d0d"/>
+          </svg>
+          <span class="move-ease" style="color:#e87d0d">120&deg;</span>
+        </div>
+      </div>
+      <div class="card-foot"><span class="chip">700 ms</span></div>
+    </div>
+
+    <!-- VIEW 2 -->
+    <div class="card view" data-sel>
+      <div class="card-head">VIEW 2</div>
+      <div class="card-body">
+        <svg class="pose" viewBox="0 0 96 78">
+          <ellipse cx="48" cy="46" rx="34" ry="12" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <g stroke="#fff" stroke-width="1.4" fill="none">
+            <path d="M40 38 l8 -5 8 5 v10 l-8 5 -8 -5 z"/>
+            <path d="M40 38 l8 5 8 -5 M48 43 v10"/>
+          </g>
+          <circle cx="72" cy="35" r="3" fill="#fff"/>
+          <line x1="69" y1="36" x2="58" y2="40" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+        <span class="proj-badge">PERSP</span>
+      </div>
+      <div class="card-foot"><span class="chip time">0.7S</span></div>
+    </div>
+
+    <!-- MOVE 2→3 -->
+    <div class="card move" data-sel>
+      <div class="card-head">MOVE</div>
+      <div class="card-body">
+        <div class="move-rows">
+          <span class="move-kind">LINEAR</span>
+          <span class="move-ease">SETTLE</span>
+          <svg class="sweep-glyph" width="44" height="24" viewBox="0 0 44 24">
+            <line x1="4" y1="18" x2="40" y2="8" stroke="#e87d0d" stroke-width="1.5"/>
+            <circle cx="4" cy="18" r="2.2" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="40" cy="8" r="2.4" fill="#e87d0d"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-foot"><span class="chip">600 ms</span></div>
+    </div>
+
+    <!-- VIEW 3 (selected) -->
+    <div class="card view selected" data-sel>
+      <div class="card-head">VIEW 3</div>
+      <div class="card-body">
+        <svg class="pose" viewBox="0 0 96 78">
+          <ellipse cx="48" cy="46" rx="34" ry="12" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <g stroke="#fff" stroke-width="1.4" fill="none">
+            <path d="M40 38 l8 -5 8 5 v10 l-8 5 -8 -5 z"/>
+            <path d="M40 38 l8 5 8 -5 M48 43 v10"/>
+          </g>
+          <circle cx="48" cy="14" r="3" fill="#e87d0d"/>
+          <line x1="48" y1="17" x2="48" y2="30" stroke="rgba(232,125,13,0.5)" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+        <span class="proj-badge">ORTHO</span>
+      </div>
+      <div class="card-foot"><span class="chip time">1.3S</span></div>
+    </div>
+
+    <!-- MOVE 3→4 : projection blend -->
+    <div class="card move" data-sel>
+      <div class="card-head">MOVE</div>
+      <div class="card-body">
+        <div class="move-rows">
+          <span class="move-kind">CUT</span>
+          <span class="move-ease">POSE 0.50</span>
+          <svg class="sweep-glyph" width="44" height="24" viewBox="0 0 44 24">
+            <line x1="4" y1="18" x2="20" y2="18" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="20" y1="18" x2="20" y2="6" stroke="#e87d0d" stroke-width="1.5"/>
+            <line x1="20" y1="6" x2="40" y2="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+          </svg>
+          <span class="move-ease">BLEND &middot; INOUT</span>
+        </div>
+      </div>
+      <div class="card-foot"><span class="chip">200 ms</span></div>
+    </div>
+
+    <!-- VIEW 4 -->
+    <div class="card view" data-sel>
+      <div class="card-head">VIEW 4</div>
+      <div class="card-body">
+        <svg class="pose" viewBox="0 0 96 78">
+          <ellipse cx="48" cy="46" rx="34" ry="12" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <g stroke="#fff" stroke-width="1.4" fill="none">
+            <path d="M40 38 l8 -5 8 5 v10 l-8 5 -8 -5 z"/>
+            <path d="M40 38 l8 5 8 -5 M48 43 v10"/>
+          </g>
+          <circle cx="76" cy="50" r="3" fill="#fff"/>
+          <line x1="73" y1="49" x2="60" y2="46" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+        <span class="proj-badge">PERSP</span>
+      </div>
+      <div class="card-foot"><span class="chip time">1.5S</span></div>
+    </div>
+
+    <!-- MOVE 4→5 -->
+    <div class="card move" data-sel>
+      <div class="card-head">MOVE</div>
+      <div class="card-body">
+        <div class="move-rows">
+          <span class="move-kind">ORBIT</span>
+          <span class="move-ease">OUT</span>
+          <svg class="sweep-glyph" width="44" height="24" viewBox="0 0 44 24">
+            <path d="M4 20 A 18 18 0 0 1 40 20" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <path d="M40 20 A 18 18 0 0 0 10 8" fill="none" stroke="#e87d0d" stroke-width="1.5"/>
+            <circle cx="10" cy="8" r="2.4" fill="#e87d0d"/>
+          </svg>
+          <span class="move-ease" style="color:#e87d0d">-380&deg;</span>
+        </div>
+      </div>
+      <div class="card-foot"><span class="chip">1300 ms</span></div>
+    </div>
+
+    <!-- VIEW 5 -->
+    <div class="card view" data-sel>
+      <div class="card-head">VIEW 5</div>
+      <div class="card-body">
+        <svg class="pose" viewBox="0 0 96 78">
+          <ellipse cx="48" cy="46" rx="34" ry="12" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+          <g stroke="#fff" stroke-width="1.4" fill="none">
+            <path d="M40 38 l8 -5 8 5 v10 l-8 5 -8 -5 z"/>
+            <path d="M40 38 l8 5 8 -5 M48 43 v10"/>
+          </g>
+          <circle cx="22" cy="38" r="3" fill="#fff"/>
+          <line x1="25" y1="39" x2="38" y2="41" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+        <span class="proj-badge">PERSP</span>
+      </div>
+      <div class="card-foot"><span class="chip time">2.8S</span></div>
+    </div>
+
+  </div>
+
+  <div class="edit-row">
+    <div class="field">
+      <label>KEYFRAME MS</label>
+      <input value="1300">
+    </div>
+    <button class="ghost">REVERSE</button>
+    <button class="ghost">+ FULL TURN</button>
+    <button class="ghost">&minus; FULL TURN</button>
+    <button class="ghost danger">REMOVE VIEW</button>
+    <span class="edit-hint">VIEW 3 selected &middot; outgoing move edits apply to the MOVE card that follows it</span>
+  </div>
+
+</div>
+
+<script>
+  const cards = document.querySelectorAll('[data-sel]');
+  cards.forEach(c => c.addEventListener('click', () => {
+    cards.forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  }));
+</script>

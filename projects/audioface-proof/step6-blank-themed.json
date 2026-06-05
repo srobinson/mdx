@@ -1,0 +1,64 @@
+{
+ "playback": {
+  "mode": "themed",
+  "intent": {
+   "tokenId": "custom.neutral.tick",
+   "source": "token-editor",
+   "at": 185930.30000001192,
+   "label": "Proof Blank Tick",
+   "seed": 5,
+   "velocity": 0.72,
+   "assetId": "user:db0b14ae-84dc-40a4-a2e8-d8d625eca05f"
+  },
+  "theme": "Studio",
+  "tokenId": "custom.neutral.tick",
+  "tokenLabel": "Proof Blank Tick",
+  "duration": 0.049002775436886574,
+  "metrics": {
+   "velocity": 0.72,
+   "weight": 0,
+   "brightness": 0.424,
+   "tension": 0,
+   "density": 0.4,
+   "politeness": 0.72,
+   "contrast": 0.48,
+   "mechanical": 0.34,
+   "warmth": 0.54,
+   "variation": 0.04
+  },
+  "layers": [
+   {
+    "type": "tone",
+    "waveform": "sine",
+    "frequency": 1312.6499015636675,
+    "endFrequency": 1127.6346841158218,
+    "gain": 0.0644529113178317,
+    "duration": 0.049002775436886574,
+    "attack": 0.0034059907198799996,
+    "decay": 0.04970841540317774
+   }
+  ]
+ },
+ "comparison": {
+  "current": "themed",
+  "previous": "raw",
+  "currentIsPlayback": true
+ },
+ "dom": {
+  "summary": [
+   "Assetuser:db0b14ae-84dc-40a4-a2e8-d8d625eca05f",
+   "Modethemed",
+   "ThemeStudio",
+   "Tokencustom.neutral.tick",
+   "Duration49 ms"
+  ],
+  "layers": [
+   {
+    "cls": "sound-anatomy__layer is-changed",
+    "text": "1. TONEsine 1.31 kHz to 1.13 kHz49 ms / gain 0.06"
+   }
+  ],
+  "empty": null
+ },
+ "error": null
+}

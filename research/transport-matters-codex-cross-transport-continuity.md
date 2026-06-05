@@ -1,5 +1,5 @@
 ---
-title: Transport Matters: Codex Cross Transport Continuity
+title: 'Transport Matters: Codex Cross Transport Continuity'
 type: research
 tags: [transport-matters, codex, http-fallback, session-continuity, branch-review, architecture]
 summary: Approval note for Codex HTTP fallback continuity. Basic mixed transport exchange capture works, but HTTP fallback turns do not yet preserve Codex session identity, turn identity, turn ordering, or full derived timeline artifacts, so Transport Matters cannot render one coherent Codex thread across WebSocket and HTTP segments.

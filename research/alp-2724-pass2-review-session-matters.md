@@ -2,7 +2,7 @@
 title: ALP-2724 Pass 2 Issue Review for session-matters
 type: research
 tags: [session-matters, linear, moe-review, cli, verification]
-summary: Pass 2 review found two substantive issue-tree defects: unsafe PER help command examples and uncovered tools.toml file-size pressure.
+summary: 'Pass 2 review found two substantive issue-tree defects: unsafe PER help command examples and uncovered tools.toml file-size pressure.'
 status: active
 source: codebase-analyst
 confidence: high

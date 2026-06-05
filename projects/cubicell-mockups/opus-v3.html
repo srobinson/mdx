@@ -1,0 +1,757 @@
+<!--
+  IDEA: THE STORYBOARD, unaided. A State card's thumbnail is drawn from the view bound to it, lit inside
+  an accent frame when the card owns that view and ghosted inside a dashed one when it only inherits the
+  standing view, so filmed and unfilmed stretches read off the strip with nothing selected.
+  Every remaining mark states itself in words: a transition carrying camera names its destination view,
+  and the playhead is a plain time cursor, so possession never needs a status readout or a legend.
+-->
+<meta charset="utf-8">
+<title>Cubicell · storyboard cards</title>
+<style>
+  :root {
+    --accent: #e5822e;
+    --accent-dim: rgba(229, 130, 46, 0.12);
+    --accent-line: rgba(229, 130, 46, 0.55);
+    --bg: #0a0a0a;
+    --dim: #8a8a8a;
+    --dimmer: #575757;
+    --ink: #f2f2f2;
+    --line: #262626;
+    --line-soft: #1a1a1a;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+    --panel: #101010;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* every glyph in the file is the same wireframe piece */
+  svg rect { fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+  body {
+    background: #050505;
+    color: var(--ink);
+    font-family: var(--mono);
+    margin: 0;
+    padding: 14px;
+  }
+
+  button { font-family: inherit; }
+
+  .app {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    margin: 0 auto;
+    max-width: 1400px;
+  }
+
+  .topbar {
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 18px;
+    padding: 9px 14px;
+  }
+
+  .topbar strong { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .topbar .spacer { flex: 1; }
+
+  .micro { color: var(--dim); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .main { display: grid; grid-template-columns: 1fr 300px; }
+  .left { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; }
+
+  /* ---------- stage ---------- */
+
+  .stage {
+    align-items: center;
+    background: radial-gradient(circle at 50% 45%, #171717 0%, #0b0b0b 60%);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    min-height: 210px;
+    position: relative;
+  }
+
+  .stage .hud { left: 12px; position: absolute; top: 12px; }
+  .stage svg { color: rgba(255, 255, 255, 0.82); height: 128px; width: 128px; }
+
+  /* the one capture control: it always names the state it will land on */
+  #capture {
+    background: var(--ink);
+    border: none;
+    border-radius: 3px;
+    bottom: 12px;
+    color: #0d0d0d;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 7px 11px;
+    position: absolute;
+    right: 12px;
+    text-transform: uppercase;
+  }
+
+  /* ---------- transport ---------- */
+
+  .transport {
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    gap: 10px;
+    padding: 9px 14px;
+  }
+
+  .tbtn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 5px 9px;
+    text-transform: uppercase;
+  }
+
+  .tbtn--accent { border-color: var(--accent); color: var(--accent); }
+
+  .scrub { background: #1b1b1b; border-radius: 2px; flex: 1; height: 3px; position: relative; }
+  .scrub i { background: var(--ink); border-radius: 2px; display: block; height: 100%; }
+  .scrub b {
+    background: var(--accent);
+    border-radius: 50%;
+    height: 7px;
+    margin-left: -3px;
+    position: absolute;
+    top: -2px;
+    width: 7px;
+  }
+
+  .time { font-size: 10px; letter-spacing: 0.06em; }
+
+  /* ---------- strip ---------- */
+
+  .dock { padding: 14px; }
+
+  .strip {
+    align-items: stretch;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    position: relative;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    padding: 8px;
+    position: relative;
+    text-align: left;
+    width: 90px;
+  }
+
+  .card--wide { width: 86px; }
+  .card--buildin { width: 80px; }
+  .card:hover { border-color: #3a3a3a; }
+  .card.is-sel { border-color: var(--accent); }
+  .card.is-playing { background: #151515; }
+
+  .card-title { color: var(--ink); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* the playhead: a plain time cursor riding across the strip */
+  .head { bottom: 4px; pointer-events: none; position: absolute; top: 0; width: 1px; }
+  .head i { background: var(--accent); display: block; height: 100%; opacity: 0.75; width: 1px; }
+
+  .head::before {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--accent);
+    content: "";
+    left: -3.5px;
+    position: absolute;
+    top: 0;
+  }
+
+  /* ---------- the frame: a State card's thumbnail is its captured view ---------- */
+
+  .frame {
+    align-self: center;
+    border: 1px solid var(--line-soft);
+    margin: 8px 0 6px;
+    padding: 2px;
+    position: relative;
+  }
+
+  .frame svg { color: rgba(255, 255, 255, 0.82); display: block; height: 68px; width: 68px; }
+
+  /* owned: the card authored this view */
+  .frame--owned { border-color: var(--accent-line); }
+
+  /* inherited: the same standing view, but nothing is authored here */
+  .frame--ghost { border-color: #2b2b2b; border-style: dashed; }
+  .frame--ghost svg { color: rgba(255, 255, 255, 0.3); }
+
+  /* the view tag: solid when the card owns a view, outlined when it inherits one */
+  .tag {
+    align-items: center;
+    border-radius: 2px;
+    display: inline-flex;
+    font-size: 8px;
+    gap: 3px;
+    letter-spacing: 0.1em;
+    padding: 2px 5px;
+    text-transform: uppercase;
+  }
+
+  .tag--own { background: var(--accent); color: #120a03; font-weight: 600; }
+  .tag--inherit { border: 1px dashed #3d3d3d; color: var(--dimmer); }
+
+  .tagline { align-items: center; display: flex; justify-content: space-between; }
+
+  /* silent affordance: hover a card to attach the live view */
+  .lens-btn {
+    background: transparent;
+    border: 1px dashed #454545;
+    border-radius: 50%;
+    color: var(--dimmer);
+    font-size: 9px;
+    height: 17px;
+    line-height: 1;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 17px;
+  }
+
+  .card:hover .lens-btn { opacity: 1; }
+  .lens-btn:hover { border-color: var(--accent); border-style: solid; color: var(--accent); }
+
+  .rows { display: flex; flex-direction: column; gap: 3px; margin: 8px 0 6px; }
+  .rows span { color: var(--dim); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .value {
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    margin-top: auto;
+    padding: 3px 5px;
+    text-align: center;
+  }
+
+  /* a transition that carries camera says where the camera ends up */
+  .camrow {
+    align-items: center;
+    background: var(--accent-dim);
+    border-left: 2px solid var(--accent);
+    color: var(--accent);
+    display: flex;
+    font-size: 8px;
+    gap: 4px;
+    letter-spacing: 0.08em;
+    margin: 6px 0;
+    padding: 4px 5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* a cut happens at the boundary, so the rule sits on the edge it lands on */
+  .camrow--cut {
+    background: transparent;
+    border-left: none;
+    border-right: 2px solid var(--accent);
+    justify-content: flex-end;
+    margin-right: -8px;
+    padding: 4px 6px 4px 0;
+  }
+
+  .camrow--empty {
+    background: transparent;
+    border-left: 2px dashed #2e2e2e;
+    color: var(--dimmer);
+    opacity: 0;
+  }
+
+  .card:hover .camrow--empty { opacity: 1; }
+
+  .dots { align-self: center; display: grid; gap: 4px; grid-template-columns: repeat(3, 6px); margin: 14px 0 10px; }
+  .dots i { background: rgba(255, 255, 255, 0.5); border-radius: 50%; height: 6px; width: 6px; }
+
+  .card--placeholder {
+    align-items: center;
+    background: transparent;
+    border-style: dashed;
+    color: var(--dimmer);
+    font-size: 22px;
+    justify-content: center;
+  }
+
+  /* ---------- inspector ---------- */
+
+  .rail { display: flex; flex-direction: column; }
+  .rail-head { border-bottom: 1px solid var(--line); padding: 10px 12px; }
+  .rail-kind { color: var(--accent); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .rail-name { font-size: 13px; letter-spacing: 0.04em; margin-top: 4px; }
+  .rail-body { display: flex; flex-direction: column; gap: 13px; padding: 12px; }
+
+  .grp { display: flex; flex-direction: column; gap: 9px; }
+
+  .grp > h4 {
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--dim);
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    margin: 0;
+    padding-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .f { display: flex; flex-direction: column; gap: 5px; }
+  .f > label { color: var(--dim); font-size: 8.5px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .two { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; }
+
+  .seg { display: flex; }
+
+  .seg button {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--dim);
+    flex: 1;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    padding: 5px 0;
+    text-transform: uppercase;
+  }
+
+  .seg button + button { border-left: none; }
+  .seg button:first-child { border-radius: 3px 0 0 3px; }
+  .seg button:last-child { border-radius: 0 3px 3px 0; }
+  .seg button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #0d0d0d; }
+
+  .num {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    display: flex;
+    font-size: 10px;
+    justify-content: space-between;
+    padding: 6px 8px;
+  }
+
+  .num em { color: var(--dimmer); font-size: 8.5px; font-style: normal; letter-spacing: 0.1em; }
+
+  .btns { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 6px 8px;
+    text-transform: uppercase;
+  }
+
+  .btn--solid { background: var(--ink); border-color: var(--ink); color: #0d0d0d; }
+
+  .note {
+    border-left: 2px solid var(--accent);
+    color: var(--dim);
+    font-size: 9px;
+    line-height: 1.55;
+    padding-left: 8px;
+  }
+
+  .strip-preview { align-self: center; color: rgba(255, 255, 255, 0.82); height: 84px; width: 84px; }
+</style>
+
+<div class="app">
+  <div class="topbar">
+    <strong>Cubicell studio</strong>
+    <span class="micro">Animation · Spin out</span>
+    <span class="spacer"></span>
+    <span class="micro">5 states · 3 views · 2 moves</span>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <div class="stage">
+        <span class="micro hud" id="stage-hud">Scene · camera 0° / 62° ortho</span>
+        <svg id="stage-piece" data-piece="s4" data-view="0 1.0" viewBox="0 0 60 60" aria-hidden="true"></svg>
+        <button id="capture">Capture view &rarr; state 5</button>
+      </div>
+
+      <div class="transport">
+        <button class="tbtn">Play</button>
+        <button class="tbtn">Stop</button>
+        <button class="tbtn tbtn--accent">Loop</button>
+        <button class="tbtn" id="prev">&#9664;</button>
+        <button class="tbtn" id="next">&#9654;</button>
+        <div class="scrub"><i id="scrub-fill" style="width: 30%"></i><b id="scrub-head" style="left: 30%"></b></div>
+        <span class="time" id="time-label">3.0s / 3.3s</span>
+        <span class="micro">1.00x</span>
+      </div>
+
+      <div class="dock">
+        <div class="strip">
+          <button class="card card--buildin" data-card="buildin" data-sel="buildin" data-name="Build in">
+            <span class="card-title">Build in</span>
+            <span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <span class="tagline"><span class="tag tag--inherit">&#8627; v1</span></span>
+            <span class="value">0.2 s</span>
+          </button>
+
+          <!-- State 1 owns View 1: the frame is drawn from it -->
+          <div class="card" data-card="s1" data-sel="state1" data-name="State 1">
+            <span class="card-title">State 1</span>
+            <button class="lens-btn" title="Capture the live view here">&#9673;</button>
+            <span class="frame frame--owned" data-sel="view1" data-name="View 1">
+              <svg data-piece="s1" data-view="-14 0.86" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            </span>
+            <span class="tagline">
+              <span class="tag tag--own" data-sel="view1" data-name="View 1">V1</span>
+              <span class="micro">45°/20°</span>
+            </span>
+          </div>
+
+          <button class="card card--wide" data-card="t1" data-sel="transition1" data-name="Transition 1">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Radial</span><span>Out</span></span>
+            <span class="camrow" data-sel="move1" data-name="Camera move 1">&#8635; 90° &rarr; v2</span>
+            <span class="value">420 ms</span>
+          </button>
+
+          <div class="card" data-card="s2" data-sel="state2" data-name="State 2">
+            <span class="card-title">State 2</span>
+            <button class="lens-btn" title="Capture the live view here">&#9673;</button>
+            <span class="frame frame--owned" data-sel="view2" data-name="View 2">
+              <svg data-piece="s2" data-view="22 1.02" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            </span>
+            <span class="tagline">
+              <span class="tag tag--own" data-sel="view2" data-name="View 2">V2</span>
+              <span class="micro">135°/20°</span>
+            </span>
+          </div>
+
+          <!-- no move, both sides own a view, so the camera changes at the boundary -->
+          <button class="card card--wide" data-card="t2" data-sel="transition2" data-name="Transition 2">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Made</span><span>Settle</span></span>
+            <span class="camrow camrow--cut" data-sel="cut2" data-name="Hard cut">Cut &rarr; v3</span>
+            <span class="value">300 ms</span>
+          </button>
+
+          <div class="card" data-card="s3" data-sel="state3" data-name="State 3">
+            <span class="card-title">State 3</span>
+            <button class="lens-btn" title="Capture the live view here">&#9673;</button>
+            <span class="frame frame--owned" data-sel="view3" data-name="View 3">
+              <svg data-piece="s3" data-view="0 1.14" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            </span>
+            <span class="tagline">
+              <span class="tag tag--own" data-sel="view3" data-name="View 3">V3</span>
+              <span class="micro">0°/62°</span>
+            </span>
+          </div>
+
+          <button class="card card--wide" data-card="t3" data-sel="transition3" data-name="Transition 3">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Shell</span><span>InOut</span></span>
+            <span class="camrow camrow--empty">+ Camera</span>
+            <span class="value">520 ms</span>
+          </button>
+
+          <!-- no view of its own: the frame is drawn from the standing view, ghosted -->
+          <div class="card" data-card="s4" data-sel="state4" data-name="State 4">
+            <span class="card-title">State 4</span>
+            <button class="lens-btn" title="Capture the live view here">&#9673;</button>
+            <span class="frame frame--ghost">
+              <svg data-piece="s4" data-view="0 1.14" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            </span>
+            <span class="tagline"><span class="tag tag--inherit">&#8627; v3</span></span>
+          </div>
+
+          <button class="card card--wide" data-card="t4" data-sel="transition4" data-name="Transition 4">
+            <span class="card-title">Transition</span>
+            <span class="rows"><span>Spiral</span><span>Linear</span></span>
+            <span class="camrow" data-sel="move4" data-name="Camera move 4">&#8635; 360° &rarr; v3</span>
+            <span class="value">640 ms</span>
+          </button>
+
+          <div class="card" data-card="s5" data-sel="state5" data-name="State 5">
+            <span class="card-title">State 5</span>
+            <button class="lens-btn" title="Capture the live view here">&#9673;</button>
+            <span class="frame frame--ghost">
+              <svg data-piece="s5" data-view="0 1.14" viewBox="0 0 60 60" aria-hidden="true"></svg>
+            </span>
+            <span class="tagline"><span class="tag tag--inherit">&#8627; v3</span></span>
+          </div>
+
+          <button class="card card--placeholder" data-card="snap" data-sel="snapshot" data-name="Snapshot">+</button>
+
+          <span class="head" id="head"><i></i></span>
+        </div>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <div class="rail-head">
+        <div class="rail-kind" id="rail-kind">Camera move</div>
+        <div class="rail-name" id="rail-name">Camera move 4</div>
+      </div>
+      <div class="rail-body" id="rail-body"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  const PIECES = {
+    s1: [[23, 23], [23, 39]],
+    s2: [[23, 23], [23, 39], [39, 39]],
+    s3: [[23, 7], [23, 23], [23, 39], [7, 39]],
+    s4: [[23, 7], [23, 23], [23, 39], [7, 39], [39, 23]],
+    s5: [[7, 7], [23, 7], [23, 23], [23, 39], [39, 39], [7, 39]],
+  };
+
+  // data-view carries "rotation scale": the same piece seen from another camera.
+  function paint(root) {
+    root.querySelectorAll("[data-piece]").forEach((el) => {
+      const cells = PIECES[el.dataset.piece] || [];
+      const [rot, scale] = (el.dataset.view || "0 1").split(" ").map(Number);
+      el.innerHTML =
+        '<g transform="translate(30,30) rotate(' + rot + ") scale(" + scale + ') translate(-30,-30)">' +
+        cells.map(([x, y]) => '<rect x="' + x + '" y="' + y + '" width="14" height="14" rx="1"/>').join("") +
+        "</g>";
+    });
+  }
+
+  const seg = (label, options, active) =>
+    '<div class="f"><label>' + label + '</label><div class="seg">' +
+    options.map((o) => '<button type="button" aria-pressed="' + (o === active) + '">' + o + "</button>").join("") +
+    "</div></div>";
+
+  const num = (label, value) =>
+    '<div class="f"><label>' + label + '</label><div class="num"><span>' + value + "</span><em>drag</em></div></div>";
+
+  const cameraMove = (bound, path, sweep, relative) =>
+    '<div class="grp"><h4>Bound to</h4><div class="note">' + bound + "</div></div>" +
+    '<div class="grp"><h4>Pose</h4>' +
+    seg("Path", ["Cut", "Linear", "Orbit"], path) +
+    seg("Easing", ["Out", "InOut", "Linear", "Settle"], relative ? "Linear" : "Out") +
+    num("Pose cut", "0.35") + "</div>" +
+    '<div class="grp"><h4>Projection</h4>' +
+    seg("Path", ["Cut", "Blend"], "Blend") +
+    seg("Easing", ["Out", "InOut", "Linear", "Settle"], "InOut") +
+    num("Projection cut", "0.50") + "</div>" +
+    '<div class="grp"><h4>Sweep</h4>' + num("Arc", sweep) +
+    '<div class="btns"><button class="btn">Reverse</button><button class="btn">+ Full turn</button>' +
+    '<button class="btn">&minus; Full turn</button></div></div>' +
+    (relative
+      ? '<div class="note">Neither side owns a view, so this sweep has no endpoints to travel between. ' +
+        "It orbits the standing View 3 and returns to it: the piece keeps turning, the camera ends where it started.</div>"
+      : "") +
+    '<div class="btns"><button class="btn">Remove camera move</button></div>';
+
+  function statePanel(piece, view, owns, cameraLine, jump) {
+    return (
+      '<svg class="strip-preview" data-piece="' + piece + '" data-view="' + view + '" viewBox="0 0 60 60"></svg>' +
+      '<div class="grp"><h4>State</h4>' + num("Hold", "0 ms") +
+      '<div class="btns"><button class="btn">Update from scene</button></div></div>' +
+      '<div class="grp"><h4>Camera</h4><div class="note">' + cameraLine + "</div>" +
+      (owns
+        ? '<div class="btns"><button class="btn" data-jump="' + jump + '">Edit view</button>' +
+          '<button class="btn">Remove view</button></div>'
+        : '<div class="btns"><button class="btn btn--solid">Capture live view here</button></div>') +
+      "</div>"
+    );
+  }
+
+  function viewPanel(piece, view, card, az, el, ortho, holds) {
+    return (
+      '<svg class="strip-preview" data-piece="' + piece + '" data-view="' + view + '" viewBox="0 0 60 60"></svg>' +
+      '<div class="grp"><h4>Bound to</h4><div class="note">' + card + " · the card is the keyframe</div></div>" +
+      '<div class="grp"><h4>Pose</h4><div class="two">' + num("Azimuth", az) + num("Elevation", el) + "</div>" +
+      num("Distance", "4.20") + seg("Projection", ["Persp", "Ortho"], ortho ? "Ortho" : "Persp") + "</div>" +
+      '<div class="grp"><h4>Holds</h4><div class="note">' + holds + "</div></div>" +
+      '<div class="btns"><button class="btn btn--solid">Recapture from scene</button>' +
+      '<button class="btn">Remove view</button></div>'
+    );
+  }
+
+  function transitionPanel(order, curve, easing, duration, cameraLine, jump) {
+    return (
+      '<div class="grp"><h4>Piece motion</h4>' +
+      seg("Order", ["Made", "Radial", "Spiral", "Shell"], order) +
+      seg("Curve", ["Even", "Accel", "Rit", "Swing"], curve) +
+      seg("Easing", ["Out", "InOut", "Linear", "Settle"], easing) +
+      num("Duration", duration) + "</div>" +
+      '<div class="grp"><h4>Camera</h4><div class="note">' + cameraLine + "</div>" +
+      (jump
+        ? '<div class="btns"><button class="btn" data-jump="' + jump + '">Edit camera</button></div>'
+        : '<div class="btns"><button class="btn btn--solid">Add camera move</button></div>') +
+      "</div>"
+    );
+  }
+
+  const PANELS = {
+    buildin: {
+      kind: "Piece motion",
+      body:
+        '<div class="grp"><h4>Arrival</h4>' + num("Start delay", "200 ms") +
+        seg("Order", ["Made", "Radial", "Spiral"], "Radial") +
+        seg("Curve", ["Even", "Accel", "Rit", "Swing"], "Accel") + "</div>" +
+        '<div class="grp"><h4>Camera</h4><div class="note">Opens on View 1, the first view in the strip. ' +
+        "The build in cannot own a view.</div></div>",
+    },
+    state1: { kind: "Piece state", body: statePanel("s1", "-14 0.86", true, "Owns View 1 · 45° / 20° persp", "view1") },
+    state2: { kind: "Piece state", body: statePanel("s2", "22 1.02", true, "Owns View 2 · 135° / 20° persp", "view2") },
+    state3: { kind: "Piece state", body: statePanel("s3", "0 1.14", true, "Owns View 3 · 0° / 62° ortho", "view3") },
+    state4: { kind: "Piece state", body: statePanel("s4", "0 1.14", false, "Inherits View 3 from State 3.", null) },
+    state5: { kind: "Piece state", body: statePanel("s5", "0 1.14", false, "Inherits View 3 from State 3.", null) },
+    view1: {
+      kind: "Camera view",
+      body: viewPanel("s1", "-14 0.86", "State 1", "45°", "20°", false, "Held until the move on Transition 1 starts."),
+    },
+    view2: {
+      kind: "Camera view",
+      body: viewPanel("s2", "22 1.02", "State 2", "135°", "20°", false, "Cuts to View 3 at the end of Transition 2."),
+    },
+    view3: {
+      kind: "Camera view",
+      body: viewPanel("s3", "0 1.14", "State 3", "0°", "62°", true, "Held to the end: States 4 and 5 own no view."),
+    },
+    transition1: {
+      kind: "Piece motion",
+      body: transitionPanel("Radial", "Accel", "Out", "420 ms", "Carries camera move 1 · orbit 90° · V1 → V2", "move1"),
+    },
+    transition2: {
+      kind: "Piece motion",
+      body: transitionPanel("Made", "Even", "Settle", "300 ms", "No move · V2 cuts to V3 at the boundary", "cut2"),
+    },
+    transition3: {
+      kind: "Piece motion",
+      body: transitionPanel("Shell", "Rit", "InOut", "520 ms", "No move · V3 holds through", null),
+    },
+    transition4: {
+      kind: "Piece motion",
+      body: transitionPanel("Spiral", "Swing", "Linear", "640 ms", "Carries camera move 4 · sweep 360° · returns to V3", "move4"),
+    },
+    move1: {
+      kind: "Camera move",
+      body: cameraMove("Transition 1 · State 1 → State 2 · 420 ms<br>View 1 → View 2", "Orbit", "90°", false),
+    },
+    move4: {
+      kind: "Camera move",
+      body: cameraMove("Transition 4 · State 4 → State 5 · 640 ms<br>View 3 → View 3 (held)", "Orbit", "360°", true),
+    },
+    cut2: {
+      kind: "Hard cut",
+      body:
+        '<div class="grp"><h4>Bound to</h4><div class="note">Transition 2 · State 2 → State 3 · 300 ms</div></div>' +
+        '<div class="note">Both sides own a view and no move joins them, so the camera holds View 2 through the ' +
+        "whole transition and snaps to View 3 on the first frame of State 3. Cuts land on card boundaries only.</div>" +
+        '<div class="grp"><h4>Resolve</h4><div class="btns">' +
+        '<button class="btn btn--solid">Add camera move</button>' +
+        '<button class="btn">Cut on entry instead</button></div></div>',
+    },
+    snapshot: {
+      kind: "Snapshot",
+      body: '<div class="note">Commits the live scene as State 6 and, if a view is armed, the live view with it.</div>',
+    },
+  };
+
+  const railKind = document.getElementById("rail-kind");
+  const railName = document.getElementById("rail-name");
+  const railBody = document.getElementById("rail-body");
+
+  function select(key, el) {
+    const panel = PANELS[key];
+    if (!panel) return;
+    railKind.textContent = panel.kind;
+    railName.textContent = (el && el.dataset.name) || key;
+    railBody.innerHTML = panel.body;
+    paint(railBody);
+    document.querySelectorAll(".is-sel").forEach((n) => n.classList.remove("is-sel"));
+    const card = el && el.closest(".card");
+    if (card) card.classList.add("is-sel");
+  }
+
+  document.addEventListener("click", (event) => {
+    const jump = event.target.closest("[data-jump]");
+    if (jump) {
+      const target = document.querySelector('[data-sel="' + jump.dataset.jump + '"]');
+      select(jump.dataset.jump, target);
+      return;
+    }
+    const pick = event.target.closest("[data-sel]");
+    if (pick) {
+      select(pick.dataset.sel, pick);
+      return;
+    }
+    const option = event.target.closest(".seg button");
+    if (option) {
+      option.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      option.setAttribute("aria-pressed", "true");
+    }
+  });
+
+  // The playhead is only a position. What the camera is doing there is already on the card it sits on:
+  // a solid tag holds its own view, a dashed tag holds the standing one, a camera row is travelling.
+  // Capture always lands on a State, so from inside a transition it names the State being entered.
+  const STOPS = [
+    { card: "buildin", pct: 0.55, ms: 200, piece: "s1", view: "-14 0.86", hud: "45° / 20° persp", capture: "state 1" },
+    { card: "s1", pct: 0.5, ms: 400, piece: "s1", view: "-14 0.86", hud: "45° / 20° persp", capture: "state 1" },
+    { card: "t1", pct: 0.44, ms: 1000, piece: "s2", view: "4 0.94", hud: "84° / 20° persp", capture: "state 2" },
+    { card: "s2", pct: 0.5, ms: 1500, piece: "s2", view: "22 1.02", hud: "135° / 20° persp", capture: "state 2" },
+    { card: "t2", pct: 0.92, ms: 1800, piece: "s3", view: "22 1.02", hud: "135° / 20° persp", capture: "state 3" },
+    { card: "s3", pct: 0.5, ms: 2100, piece: "s3", view: "0 1.14", hud: "0° / 62° ortho", capture: "state 3" },
+    { card: "t3", pct: 0.5, ms: 2400, piece: "s4", view: "0 1.14", hud: "0° / 62° ortho", capture: "state 4" },
+    { card: "s4", pct: 0.5, ms: 2600, piece: "s4", view: "0 1.14", hud: "0° / 62° ortho", capture: "state 4" },
+    { card: "t4", pct: 0.58, ms: 3000, piece: "s5", view: "212 1.14", hud: "212° / 62° ortho", capture: "state 5" },
+    { card: "s5", pct: 0.5, ms: 3300, piece: "s5", view: "0 1.14", hud: "0° / 62° ortho", capture: "state 5" },
+  ];
+
+  const head = document.getElementById("head");
+  const stagePiece = document.getElementById("stage-piece");
+  let index = 8;
+
+  function play() {
+    const stop = STOPS[index];
+    const card = document.querySelector('[data-card="' + stop.card + '"]');
+    document.querySelectorAll(".is-playing").forEach((n) => n.classList.remove("is-playing"));
+    card.classList.add("is-playing");
+    head.style.left = card.offsetLeft + card.offsetWidth * stop.pct + "px";
+
+    stagePiece.dataset.piece = stop.piece;
+    stagePiece.dataset.view = stop.view;
+    paint(document.querySelector(".stage"));
+    document.getElementById("stage-hud").textContent = "Scene · camera " + stop.hud;
+    document.getElementById("capture").textContent = "Capture view → " + stop.capture;
+
+    document.getElementById("time-label").textContent = (stop.ms / 1000).toFixed(1) + "s / 3.3s";
+    const fraction = (stop.ms / 3300) * 100;
+    document.getElementById("scrub-fill").style.width = fraction + "%";
+    document.getElementById("scrub-head").style.left = fraction + "%";
+  }
+
+  document.getElementById("prev").addEventListener("click", () => {
+    index = Math.max(0, index - 1);
+    play();
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    index = Math.min(STOPS.length - 1, index + 1);
+    play();
+  });
+
+  paint(document);
+  play();
+  select("move4", document.querySelector('[data-sel="move4"]'));
+</script>

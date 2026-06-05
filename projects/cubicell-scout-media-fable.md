@@ -1,0 +1,49 @@
+# Scout — Area B: media on cube faces, architecture lens
+
+Read-only recon, 2026-08-09, repo cubicell @ main (3725921). Citations are `file:symbol`.
+
+## Reuse Map: the pipeline as it stands
+
+**Renderer.** One @react-three/fiber `Canvas` in `src/scene/CubeScene.tsx:CubeScene`, `frameloop="demand"`, WebGL with logarithmic depth. Demand invalidation is owned by `src/scene/renderScheduler.ts:createRenderScheduler`: named producers request/release, a microtask flush calls fiber's `invalidate`. Producer names live in `src/scene/renderProducers.ts:renderProducers` (camera, playback, recording, scrub, trackball, viewport); continuous work follows the `src/transport/TransportFrameDriver.tsx:TransportFrameDriver` pattern (hold a producer, advance in `useFrame`, release on unmount). Liveness-driven pulsing exists in `src/scene/renderProducerLiveness.ts:bindRenderProducerLiveness`.
+
+**Face materials: who writes what.**
+- Material creation and ownership: `src/scene/instancedPartMeshCore.ts:createInstancedPartMeshWithGeometry` makes one `MeshBasicMaterial` per instanced bucket; the mesh owns it, `disposeInstancedPartMesh` frees it. React lifecycle owner is `src/scene/InstancedPartMesh.tsx:InstancedPartMesh` (useMemo create, useEffect dispose, useLayoutEffect sync/patch).
+- Bucket topology: `src/scene/renderCubeScenePartLayers.tsx:renderCubeScenePartLayers` mounts nine layers; exactly three receive the stencil atlas (opaque-faces, translucent-faces, ghost-faces, all plane geometry, `partKind: "face"`). Every face in the scene shares those three materials/draw calls. That is the invariant richer media must respect or deliberately exit.
+- Domain state: `src/domain/cube.ts:decodeCubeFaceFigure` yields `CubeFaceFigure { stencilId, region, color, fit }` on a cell face. Writer into instances: the bucket builder in `src/scene/cubeInstances.ts` copies `cell.faces[id].figure` onto `InstancedPart.figure`. GPU writer: `src/scene/instancedPartMeshCore.ts:syncInstancedPartMesh` / `patchInstancedPartMesh` → private `writeStencil` → `src/scene/faceStencilShader.ts:writeFaceStencilAttribute`. Single writer chain end to end; only the sync/patch pair touches the attribute.
+- Shader seam: `src/scene/faceStencilShader.ts:applyFaceStencilShader` patches the shared `MeshBasicMaterial` via `onBeforeCompile` plus `customProgramCacheKey` (`faceStencilProgramKey`), packing per-instance state into a vec4 attribute `instanceFaceStencil` (rgb color + integer code: bits 0-3 atlas slot, 16 region flag, 32 fit flag; headroom above 64). One program serves all three face buckets. `src/scene/edgeCoverageCore.ts` uses the same onBeforeCompile technique, so the material-patch seam is an established house pattern, not a one-off.
+- Atlas: `src/scene/stencilAtlas.ts:createStencilAtlas` is a 2048² single-channel (RedFormat) DataTexture, 16 slots of 512², filled by rasterizing `src/domain/seededStencils.ts:seededStencils` SVGs to alpha coverage. Slot lookup `src/scene/stencilAtlas.ts:getStencilAtlasSlot` reads a module-level map fixed at load; there is no dynamic slot allocator (search: grep `slotByStencilId`, only the seeded map). Lifecycle owner: `src/scene/CubeScene.tsx:useOwnedStencilAtlas` (per-canvas creation, generation-guarded dispose); readiness wakes the demand loop via `src/scene/CubeScene.tsx:StencilAtlasReadyDriver`.
+
+**Second renderer consumer.** `src/thumbnail/thumbnailRenderer.ts:createOrthographicThumbnailRenderer` holds its own stencil atlas and backend. Any face medium needs a thumbnail answer (a poster frame is enough), or thumbnails silently diverge from the live scene.
+
+**Persistence.** `src/domain/stencil.ts:StencilAsset` is hard-typed to `mediaType: "image/svg+xml"`, persisted as JSON records via `src/persistence/recordCodecs/stencilRecordCodec.ts:encodeStencilRecord` over `simpleAssetRecordCodec`. The store is JSON-in-localStorage; large binary media (images, video) through this path is a known silent-loss hazard (quota errors are swallowed by the debounced storage layer). Binary media needs a separate blob store decision before any build.
+
+**Delivery budget.** `budgets/initial-delivery.json` fences three/fiber/drei, `src/renderer/`, and `src/scene/CubeScene.tsx` behind the `src/renderer/SharedRendererModule.ts` owner root, enforced by `scripts/check-delivery-budget.mjs:checkRendererOwnership` and gated in `tests/deliveryBudgetRendererOwnership.test.ts`. shared-renderer JS is ratcheted at 414,046 gzip bytes. The sanctioned growth path is a `capabilityIncrements` entry (recording, thumbnails, motion, panel-drag are precedents): lazy root, own byte cap, declared owner rules.
+
+**Existing media machinery: none found.** Searches run: grep `VideoTexture|CanvasTexture|CSS3D|ShaderMaterial|captureStream` across `src/` — only hit is `captureStream` in `src/export/streamRecorder.ts` (recording); grep `onBeforeCompile|customProgramCacheKey` — only `edgeCoverageCore`, `instancedPartMeshCore`, `faceStencilShader`.
+
+## Per-medium feasibility
+
+**Image texture — fits, cheapest.** Binds to the atlas seam. The current atlas is coverage-only (R8); images need a sibling RGBA atlas texture plus one flag bit in the existing `instanceFaceStencil` code word and one extra sampler in `applyFaceStencilShader`. Instancing, draw calls, and the material count are untouched. The missing piece is a dynamic slot allocator in `stencilAtlas.ts` (upload → slot → partial texture update → `StencilAtlasReadyDriver`-style invalidate). Persistence is the real cost: a new asset kind with binary storage, which the JSON record path cannot carry.
+
+**Canvas texture — fits, same seam as image.** A canvas rasterizes into an RGBA atlas slot; redraws set `needsUpdate` and pulse the scheduler with a named producer. No new rendering concept beyond the image path.
+
+**Video texture — fits with one structural choice.** A `VideoTexture` is a whole texture, so it cannot live in an atlas slot without a per-frame `copyTextureToTexture` into the slot region (viable: one GPU copy per playing video per frame, keeps instancing intact). The alternative is pulling video-bearing faces out of the instanced buckets into dedicated meshes with their own material — the standard three.js path, but it breaks the one-material-per-bucket invariant, so it must be an explicit recorded decision. Either way playback must hold a render producer (exact precedent: `TransportFrameDriver`); the demand frameloop otherwise freezes the video. Recording captures it for free since it draws into the recorded canvas.
+
+**Custom shader per face — fits only in bounded form.** Arbitrary per-face GLSL cannot share the instanced material: each distinct shader is a separate program and mesh, exploding draw calls and the program cache. The shape that fits: a curated effect set compiled into the one face übershader via the existing `applyFaceStencilShader` seam, selected by an effect id in the per-instance code word. Program count stays 1. Time-animated effects need a producer (a `time` uniform plus scheduler pulses). Truly user-authored shaders should ride the same dedicated-mesh exit as video, compiled off the drag path (first compile after `onBeforeCompile` changes stalls the frame; precompile at mount/atlas-ready, never mid-gesture).
+
+**HTML/CSS3D overlay — does not fit; recommend rejecting for face media.** CSS3DRenderer is a second renderer in a separate DOM tree: no depth compositing with WebGL (cubes in front will not occlude it), invisible to `src/export/streamRecorder.ts` canvas capture, outside the renderScheduler demand contract, outside the raycast path in `src/scene/useCubeSceneInteractions.ts`, and a new renderer surface the budget ownership gate would have to declare. Every other medium lands inside the existing canvas; this one forks the render contract.
+
+## Feel-critical conflicts
+
+- **Demand loop:** any animated medium must be a named render producer via `renderProducers` / `renderScheduler`; a private rAF loop breaks the wake contract and the camera feel work built on it.
+- **Camera/drag:** shader recompiles (new program variants) mid-gesture cause hitches; compile at mount or atlas-ready. Camera authority lives behind `src/renderer/SharedRendererModule.ts:createCameraAuthority`; media must not add per-frame work when idle.
+- **Recording:** canvas-composited media records for free at `RECORDING_FRAME_RATE`; DOM overlays do not record at all; per-frame video copies add cost inside the recorded frame budget.
+- **Thumbnails:** `thumbnailRenderer` needs a static representation (poster frame) per medium.
+- **Budget ratchet:** three-touching media code must sit under the renderer owner root or a declared capability increment; upload UI, codecs, and allocators belong in a new lazy `capabilityIncrements` entry, not in shared-renderer growth.
+
+## Recommended seam
+
+1. **Generalize the atlas (images, canvas):** add an RGBA media atlas beside the R8 stencil atlas inside `src/scene/stencilAtlas.ts` ownership, with a dynamic slot allocator keyed by asset id; extend the `instanceFaceStencil` code word and `applyFaceStencilShader` with one sampler and one flag. Zero draw-call growth, lifecycle already owned by `useOwnedStencilAtlas`.
+2. **Media face layer (video, arbitrary shaders):** a new sibling layer in `renderCubeScenePartLayers` that extracts media-bearing faces from the instanced buckets into individual meshes, pulsed by a new `renderProducers` entry. This is the one deliberate break from the instancing invariant; record it as a decision.
+3. **Domain:** widen the face figure (or a parallel `media` field) on cell faces in `src/domain/cube.ts`; the single writer chain (`cubeInstances` builder → `syncInstancedPartMesh`/`patchInstancedPartMesh`) stays intact.
+4. **Blocking prerequisite:** a binary asset store decision; the JSON localStorage record path cannot carry image/video bytes safely.

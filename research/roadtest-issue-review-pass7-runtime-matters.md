@@ -2,7 +2,7 @@
 title: rtm Docker Road Test Issue Review Pass 7
 type: research
 tags: [runtime-matters, linear, docker, road-test, issue-review]
-summary: Pass 7 found one remaining issue quality gap: the manual Docker road test starts rtmd but does not bind teardown evidence.
+summary: 'Pass 7 found one remaining issue quality gap: the manual Docker road test starts rtmd but does not bind teardown evidence.'
 status: active
 source: codebase-analyst
 confidence: high

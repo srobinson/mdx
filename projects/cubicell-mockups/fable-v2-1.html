@@ -1,0 +1,561 @@
+<!--
+  FABLE V2-1 · THE CAMERA LEDGE. Every card in the single strip carries a thin ledge along its base: filmed states dock a view chip there, filmed transitions dock a move chip, and bare cards leave the ledge empty, so one glance down the ledge line reads the whole camera story without adding a second timeline. A continuous film rail under the strip bridges consecutive filmed cards, the capture button always names the card under the playhead, and selecting any ledge chip hands its properties to the inspector.
+-->
+<title>Fable V2-1 · Camera Ledge</title>
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --panel: #101013;
+    --panel-2: #16161a;
+    --line: rgba(255, 255, 255, 0.18);
+    --line-soft: rgba(255, 255, 255, 0.09);
+    --ink: #f4f4f2;
+    --ink-dim: rgba(244, 244, 242, 0.55);
+    --ink-faint: rgba(244, 244, 242, 0.32);
+    --accent: #e87d0d;
+    --accent-dim: rgba(232, 125, 13, 0.45);
+    --accent-faint: rgba(232, 125, 13, 0.14);
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 28px;
+  }
+  .micro {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .frame {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 292px;
+    gap: 14px;
+  }
+  .stage { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .lchip span { overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---------- transport ---------- */
+  .transport {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .tbtn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    font: 700 9px/1 var(--mono);
+    letter-spacing: 0.14em;
+    padding: 7px 12px;
+    cursor: pointer;
+  }
+  .tbtn:hover { border-color: rgba(255, 255, 255, 0.65); }
+  .tbtn.on { border-color: var(--accent); color: var(--accent); }
+  .tbtn.capture {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    margin-left: auto;
+  }
+  .tbtn.capture:hover { border-color: var(--accent); background: var(--accent-faint); }
+  .scrub {
+    flex: 1;
+    height: 26px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .scrub-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scrub-fill { position: absolute; inset: 0 60.6% 0 0; background: rgba(255, 255, 255, 0.5); }
+  .cover { position: absolute; top: 0; bottom: 0; background: var(--accent-dim); }
+  .scrub-head {
+    position: absolute;
+    left: 39.4%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: var(--ink);
+    border: 1px solid var(--bg);
+  }
+  .clock { color: var(--ink-dim); font-size: 10px; letter-spacing: 0.08em; white-space: nowrap; }
+  .clock b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- strip ---------- */
+  .strip-panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 14px 10px;
+    position: relative;
+  }
+  .strip-head { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .strip-head .micro { color: var(--ink-faint); }
+  .legend { display: flex; gap: 14px; color: var(--ink-faint); }
+  .legend span::before {
+    content: "";
+    display: inline-block;
+    width: 7px; height: 7px;
+    margin-right: 5px;
+    vertical-align: 0;
+  }
+  .legend .l-view::before { background: var(--accent); transform: rotate(45deg); }
+  .legend .l-move::before { border-bottom: 2px solid var(--accent); height: 4px; border-radius: 0 0 6px 6px; }
+
+  .strip-scroll { position: relative; padding-bottom: 14px; }
+  .strip { display: flex; gap: 6px; align-items: stretch; }
+
+  .card {
+    background: var(--panel-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .card.state { flex: 3; }
+  .card.trans { flex: 2; }
+  .card.build { flex: 2; }
+  .card-body { padding: 9px 10px 8px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .card-kind { color: var(--ink-faint); }
+  .card-name { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+  .thumb {
+    height: 34px;
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    background: #0c0c0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip {
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    padding: 3px 5px;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--ink-dim);
+    white-space: nowrap;
+  }
+
+  /* ---------- the ledge ---------- */
+  .ledge {
+    border-top: 1px solid var(--line-soft);
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+  }
+  .ledge.empty { justify-content: center; }
+  .ledge.empty::after {
+    content: "· · ·";
+    color: rgba(244, 244, 242, 0.16);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+  }
+  .lchip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: none;
+    font-family: var(--mono);
+    cursor: pointer;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .lchip:hover { background: var(--accent-faint); }
+  .lchip.selected { background: var(--accent); color: #0a0a0b; border-color: var(--accent); }
+  .lchip.warn {
+    border-color: rgba(244, 244, 242, 0.25);
+    color: var(--ink-dim);
+    border-style: dashed;
+  }
+  .lchip.cut {
+    border-color: var(--line);
+    color: var(--ink-dim);
+  }
+  .lchip svg { flex: none; }
+
+  /* film rail under the strip */
+  .rail {
+    position: absolute;
+    left: 0; right: 0; bottom: 2px;
+    height: 3px;
+    display: flex;
+    gap: 6px;
+  }
+  .rail i { display: block; border-radius: 2px; }
+  .rail .filmed { background: var(--accent-dim); }
+  .rail .bare { background: rgba(255, 255, 255, 0.06); }
+  .rail .orphan {
+    background: repeating-linear-gradient(90deg, var(--accent-dim) 0 3px, transparent 3px 7px);
+  }
+
+  /* playhead over the strip */
+  .playhead {
+    position: absolute;
+    top: -6px;
+    bottom: 8px;
+    left: 41%;
+    width: 1px;
+    background: var(--ink);
+    pointer-events: none;
+  }
+  .playhead::before {
+    content: "";
+    position: absolute;
+    top: -4px; left: 50%;
+    width: 8px; height: 8px;
+    transform: translateX(-50%) rotate(45deg);
+    background: var(--accent);
+  }
+  .playhead .held {
+    position: absolute;
+    top: -5px;
+    left: 9px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* capture target hint */
+  .card.under-playhead { border-color: rgba(255, 255, 255, 0.4); }
+  .card.under-playhead .card-kind { color: var(--ink-dim); }
+
+  /* ---------- inspector ---------- */
+  .inspector {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-self: start;
+  }
+  .insp-head { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--line-soft); padding-bottom: 10px; }
+  .insp-head .micro { color: var(--accent); }
+  .insp-title { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field .micro { color: var(--ink-faint); }
+  .seg { display: flex; border: 1px solid var(--line-soft); border-radius: 5px; overflow: hidden; }
+  .seg button {
+    flex: 1;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--line-soft);
+    color: var(--ink-dim);
+    font: 700 8px/1 var(--mono);
+    letter-spacing: 0.1em;
+    padding: 7px 2px;
+    cursor: pointer;
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button:hover { color: var(--ink); }
+  .seg button.on { background: var(--accent); color: #0a0a0b; }
+  .scrubfield {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 7px 9px;
+    font-size: 10px;
+    color: var(--ink-dim);
+    cursor: ew-resize;
+  }
+  .scrubfield b { color: var(--ink); font-weight: 700; }
+  .row { display: flex; gap: 6px; }
+  .row .tbtn { flex: 1; text-align: center; padding: 7px 4px; }
+  .insp-note { color: var(--ink-faint); font-size: 9px; letter-spacing: 0.06em; line-height: 1.6; }
+  .insp-note em { color: var(--ink-dim); font-style: normal; }
+  .hidden { display: none; }
+</style>
+
+<div class="frame">
+  <div class="stage">
+    <div class="transport">
+      <button class="tbtn">Play</button>
+      <button class="tbtn">Stop</button>
+      <button class="tbtn on">Loop</button>
+      <div class="scrub">
+        <div class="scrub-bar">
+          <span class="cover" style="left:0%;   width:48%"></span>
+          <span class="cover" style="left:78%;  width:12%; opacity:.4"></span>
+          <div class="scrub-fill"></div>
+        </div>
+        <div class="scrub-head"></div>
+      </div>
+      <span class="clock"><b>1.3s</b> / 3.3s · 1.00×</span>
+      <button class="tbtn capture">Capture view → State 2</button>
+    </div>
+
+    <div class="strip-panel">
+      <div class="strip-head">
+        <span class="micro">Motion · one strip, camera on the ledge</span>
+        <div class="legend micro">
+          <span class="l-view">View held</span>
+          <span class="l-move">Camera move</span>
+        </div>
+      </div>
+
+      <div class="strip-scroll">
+        <div class="strip">
+
+          <div class="card build">
+            <div class="card-body">
+              <span class="card-kind micro">Build in</span>
+              <span class="card-name">0.3S</span>
+            </div>
+            <div class="ledge empty"></div>
+          </div>
+
+          <div class="card state">
+            <div class="card-body">
+              <span class="card-kind micro">State 1</span>
+              <div class="thumb">
+                <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M13 2 22 7v8l-9 5-9-5V7z"/><path d="M13 2v10m0 0 9-5m-9 5-9-5"/></g></svg>
+              </div>
+            </div>
+            <div class="ledge">
+              <button class="lchip" data-insp="view" data-title="View 1 · State 1" data-ms="0" data-proj="PERSP" onclick="pick(this)">
+                <svg width="7" height="7" viewBox="0 0 8 8"><rect x="1.5" y="1.5" width="5" height="5" transform="rotate(45 4 4)" fill="currentColor"/></svg>
+                V1 · Persp
+              </button>
+            </div>
+          </div>
+
+          <div class="card trans">
+            <div class="card-body">
+              <span class="card-kind micro">Transition</span>
+              <div class="chips"><span class="chip">MORPH</span><span class="chip">INOUT</span><span class="chip">0.6S</span></div>
+            </div>
+            <div class="ledge">
+              <button class="lchip selected" data-insp="move" data-title="Camera move · 1 → 2" onclick="pick(this)">
+                <svg width="10" height="8" viewBox="0 0 12 9"><path d="M1 7.5A6 4.5 0 0 1 11 6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 3.4 11.4 6.6 8.4 6" fill="currentColor"/></svg>
+                Orbit · Settle
+              </button>
+            </div>
+          </div>
+
+          <div class="card state under-playhead">
+            <div class="card-body">
+              <span class="card-kind micro">State 2 · playhead</span>
+              <div class="thumb">
+                <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M4 4h18v14H4z"/><path d="M4 4l4-3h18l-4 3m4-3v14l-4 3"/></g></svg>
+              </div>
+            </div>
+            <div class="ledge">
+              <button class="lchip" data-insp="view" data-title="View 2 · State 2" data-ms="1300" data-proj="ORTHO" onclick="pick(this)">
+                <svg width="7" height="7" viewBox="0 0 8 8"><rect x="1.5" y="1.5" width="5" height="5" transform="rotate(45 4 4)" fill="currentColor"/></svg>
+                V2 · Ortho
+              </button>
+            </div>
+          </div>
+
+          <div class="card trans">
+            <div class="card-body">
+              <span class="card-kind micro">Transition</span>
+              <div class="chips"><span class="chip">SLIDE</span><span class="chip">OUT</span><span class="chip">0.4S</span></div>
+            </div>
+            <div class="ledge">
+              <button class="lchip cut" data-insp="cut" data-title="Hard cut · 2 → 3" onclick="pick(this)">
+                <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1 1l6 6M1 7l6-6" stroke="currentColor" stroke-width="1.3"/></svg>
+                Cut
+              </button>
+            </div>
+          </div>
+
+          <div class="card state">
+            <div class="card-body">
+              <span class="card-kind micro">State 3</span>
+              <div class="thumb">
+                <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><circle cx="13" cy="11" r="8"/><path d="M5 11h16M13 3v16"/></g></svg>
+              </div>
+            </div>
+            <div class="ledge">
+              <button class="lchip" data-insp="view" data-title="View 3 · State 3" data-ms="1900" data-proj="ORTHO" onclick="pick(this)">
+                <svg width="7" height="7" viewBox="0 0 8 8"><rect x="1.5" y="1.5" width="5" height="5" transform="rotate(45 4 4)" fill="currentColor"/></svg>
+                V3 · Ortho
+              </button>
+            </div>
+          </div>
+
+          <div class="card trans">
+            <div class="card-body">
+              <span class="card-kind micro">Transition</span>
+              <div class="chips"><span class="chip">MORPH</span><span class="chip">SETTLE</span><span class="chip">0.5S</span></div>
+            </div>
+            <div class="ledge empty"></div>
+          </div>
+
+          <div class="card state">
+            <div class="card-body">
+              <span class="card-kind micro">State 4</span>
+              <div class="thumb">
+                <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><path d="M4 18 13 4l9 14z"/></g></svg>
+              </div>
+            </div>
+            <div class="ledge empty"></div>
+          </div>
+
+          <div class="card trans">
+            <div class="card-body">
+              <span class="card-kind micro">Transition</span>
+              <div class="chips"><span class="chip">SLIDE</span><span class="chip">INOUT</span><span class="chip">0.5S</span></div>
+            </div>
+            <div class="ledge">
+              <button class="lchip warn" data-insp="orphan" data-title="Move without views · 4 → 5" onclick="pick(this)">
+                <svg width="10" height="8" viewBox="0 0 12 9"><path d="M1 7.5A6 4.5 0 0 1 11 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 2"/></svg>
+                Orbit · No views
+              </button>
+            </div>
+          </div>
+
+          <div class="card state">
+            <div class="card-body">
+              <span class="card-kind micro">State 5</span>
+              <div class="thumb">
+                <svg width="26" height="22" viewBox="0 0 26 22"><g fill="none" stroke="rgba(244,244,242,.6)" stroke-width="1"><rect x="5" y="5" width="16" height="12" rx="6"/></g></svg>
+              </div>
+            </div>
+            <div class="ledge empty"></div>
+          </div>
+
+        </div>
+
+        <div class="rail">
+          <i class="bare"   style="flex:2"></i>
+          <i class="filmed" style="flex:3"></i>
+          <i class="filmed" style="flex:2"></i>
+          <i class="filmed" style="flex:3"></i>
+          <i class="filmed" style="flex:2"></i>
+          <i class="filmed" style="flex:3"></i>
+          <i class="bare"   style="flex:2"></i>
+          <i class="bare"   style="flex:3"></i>
+          <i class="orphan" style="flex:2"></i>
+          <i class="bare"   style="flex:3"></i>
+        </div>
+
+        <div class="playhead">
+          <span class="held">V2 held</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= inspector ================= -->
+  <aside class="inspector">
+    <div class="insp-head">
+      <span class="micro" id="insp-kind">Camera move</span>
+      <span class="insp-title" id="insp-title">Camera move · 1 → 2</span>
+    </div>
+
+    <div id="insp-move">
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Pose path</span>
+        <div class="seg"><button>Cut</button><button>Linear</button><button class="on">Orbit</button></div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Pose easing</span>
+        <div class="seg"><button>Out</button><button>Inout</button><button>Linear</button><button class="on">Settle</button></div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Pose cut</span>
+        <div class="scrubfield"><span>◂ scrub ▸</span><b>0.50</b></div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Projection</span>
+        <div class="seg"><button class="on">Cut</button><button>Blend</button></div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Sweep −380°</span>
+        <div class="row">
+          <button class="tbtn">Reverse</button>
+          <button class="tbtn">+ Turn</button>
+          <button class="tbtn">− Turn</button>
+        </div>
+      </div>
+      <p class="insp-note">Move spans the whole transition. Cuts quantize to card boundaries.</p>
+    </div>
+
+    <div id="insp-view" class="hidden">
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Keyframe ms</span>
+        <div class="scrubfield"><span>◂ scrub ▸</span><b id="insp-ms">1300</b></div>
+      </div>
+      <div class="field" style="margin-bottom:12px">
+        <span class="micro">Projection at view</span>
+        <div class="seg" id="insp-proj"><button>Persp</button><button class="on">Ortho</button></div>
+      </div>
+      <div class="row" style="margin-bottom:12px">
+        <button class="tbtn">Recapture here</button>
+        <button class="tbtn">Remove view</button>
+      </div>
+      <p class="insp-note">This state holds a captured view. The camera arrives here by the incoming move, or cuts if there is none.</p>
+    </div>
+
+    <div id="insp-cut" class="hidden">
+      <p class="insp-note" style="margin-bottom:12px">Both neighboring states hold views but this transition carries no camera move. Playback <em>hard-cuts</em> from V2 to V3 at the card boundary.</p>
+      <button class="tbtn" style="width:100%">Add camera move</button>
+    </div>
+
+    <div id="insp-orphan" class="hidden">
+      <p class="insp-note" style="margin-bottom:12px">This transition carries an orbit move but neither neighboring state holds a view. The move is <em>latent</em>: it plays from wherever the camera already is, and the rail shows it dashed.</p>
+      <div class="row">
+        <button class="tbtn">Capture view at 4</button>
+        <button class="tbtn">Capture view at 5</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+  function pick(el) {
+    document.querySelectorAll(".lchip").forEach((c) => c.classList.remove("selected"));
+    el.classList.add("selected");
+    const kind = el.dataset.insp;
+    const kinds = { move: "Camera move", view: "Camera view", cut: "Hard cut", orphan: "Latent move" };
+    document.getElementById("insp-kind").textContent = kinds[kind];
+    document.getElementById("insp-title").textContent = el.dataset.title;
+    ["move", "view", "cut", "orphan"].forEach((k) =>
+      document.getElementById("insp-" + k).classList.toggle("hidden", k !== kind)
+    );
+    if (kind === "view") {
+      document.getElementById("insp-ms").textContent = el.dataset.ms;
+      const [persp, ortho] = document.querySelectorAll("#insp-proj button");
+      persp.classList.toggle("on", el.dataset.proj === "PERSP");
+      ortho.classList.toggle("on", el.dataset.proj === "ORTHO");
+    }
+  }
+</script>

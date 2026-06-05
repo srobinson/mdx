@@ -1,0 +1,194 @@
+---
+title: Raw wire schema drift, design for issue 382
+status: draft
+date: 2026-08-19
+supersedes: tm-drift-spec.md
+---
+
+# Raw wire schema drift
+
+Owner's correction (issue #382): the schema is minted from the **raw wire body**. The IR is
+internal and is not diffed. Mapping raw request to IR is #392 and is out of scope.
+
+## Two checks, only two
+
+| Check | Question | Gates? | Outcome |
+| --- | --- | --- | --- |
+| Structure | Did the shape of the request change? | yes | `EXACT` / `DEGRADED` / `BREAKING` |
+| Content | Was a system prompt or tool definition updated? | never | a report |
+
+## What already exists and is correct
+
+`baseline_capture.py` already captures A/B/A through the real launch path into a fresh bare
+`source_home` per probe. `ProbeEvidence` already carries `raw_request_base64`, `raw_nodes`
+(`request_inventory::observe_request_json`) and `inventory` (`build_request_inventory`).
+Every one of those is raw wire. None of it changes.
+
+## What is wrong today
+
+1. `AbaAnalysis.observed_schema` is a flat pointer list carrying **concrete array indices**.
+   A 13th tool changes the pointer set, so adding a tool reads as structural drift. It is content.
+2. `compare_baseline_bundles` returns `BREAKING` when `static_fingerprint` changes. That
+   fingerprint is over **values**. An edited system prompt is therefore breaking today. It must
+   never gate.
+3. `DriftOutcome` carries `COMPATIBLE` and `INSUFFICIENT`.
+4. Structure and content are decided in one function over one entangled pointer set.
+
+## Target
+
+### `request_schema.py`, new, top-level leaf beside `request_inventory.py`
+
+Pure over raw JSON. Knows nothing about baselines, probes or the IR.
+
+`mint_request_schema(bodies: Sequence[object]) -> RequestSchema`
+
+A recursive observed JSON Schema. The union of every observation at one position.
+
+- object: `properties` is the union of keys, `required` is the keys present in **every**
+  observation of that node, `additionalProperties` is false.
+- array: `items` is the union over **every element of every observation**. Array indices
+  collapse. This is the load-bearing decision: it makes "a 13th tool of a known shape" `EXACT`
+  and leaves "a tool gained a field" as the only structural signal.
+- scalar: `type` is the sorted set of observed JSON type names.
+
+`compare_request_schema(reference, candidate) -> StructureVerdict`
+
+Walk both trees together.
+
+| Observation | Verdict |
+| --- | --- |
+| identical | `EXACT` |
+| candidate has a property the reference lacks | `DEGRADED` |
+| candidate type set is a strict superset | `DEGRADED` |
+| a reference-required property is absent from candidate `properties` | `BREAKING` |
+| type sets are disjoint (retyped) | `BREAKING` |
+| body does not parse | `BREAKING` |
+
+Precedence `BREAKING` > `DEGRADED` > `EXACT`. The verdict carries the pointer and reason for
+every finding, so nothing is decided by an unexplained enum.
+
+**Open decision.** A reference-required property that is present but merely optional in the
+candidate is a weakened guarantee, neither "removed" nor "new". Proposed: `BREAKING`, because
+a consumer that assumed presence can now fail. Alternative: `DEGRADED`.
+
+### `baseline_evidence.py`
+
+`DriftOutcome` becomes exactly `EXACT` / `DEGRADED` / `BREAKING`. `COMPATIBLE` and
+`INSUFFICIENT` are deleted.
+
+Bootstrap stops being a sentinel outcome. `reference_outcome: DriftOutcome | None`, with
+`reference_bundle_id is None` if and only if `reference_outcome is None`. Illegal states
+become unrepresentable instead of being spelled `INSUFFICIENT`.
+
+`repeat_a_outcome: DriftOutcome` becomes `runtime_generated_pointers: tuple[JsonPointer, ...]`.
+The A1 versus A2 leg never answered "is this drift". Its real job is naming the one or two
+runtime-generated values, which is the data the content check needs. An enum that lied becomes
+the data every caller wanted.
+
+`compare_content(reference, candidate) -> ContentReport` over stable pointers only, excluding
+`runtime_generated_pointers`. Reports changed, added and removed value pointers with digests,
+and the value itself for string leaves. Returns no outcome and contributes to no outcome.
+
+### `baseline_store.py`
+
+`promotes_baseline` becomes `reference_outcome is None or reference_outcome is EXACT`.
+`artifact_schema_version` 2 becomes 3. No migration; the store already hard-rejects a foreign
+version with "regenerate the baseline".
+
+## Known limitation
+
+Content pointers keep concrete array indices, so reordering tools reports as changes. Content
+never gates, so this is report noise rather than a correctness defect. Semantic identity for
+tools (keying by name) is provider-specific and is not worth the coupling yet.
+
+## Reuse Map
+
+Audited before any implementation. A new helper for a capability named here is a defect.
+
+| Need | Existing symbol | Disposition |
+| --- | --- | --- |
+| Name a JSON value's type | `json_tags::json_kind` | **Reuse.** `request_inventory` already casts its result to `JsonKind`. Minting must not re-derive type names. |
+| Strict JSON decode of a raw body | `request_inventory::_decode_json` | **Promote to public and reuse.** It rejects duplicate keys and NaN/Infinity. `baseline_evidence::classify_aba`, `codex/request_parser`, and `adapters/anthropic` each call bare `json.loads` on raw bodies today. That is existing duplication and it gets collapsed onto this one door. |
+| Stable digest of a structure | `canonicalization::canonical_digest` / `canonical_json` | **Reuse.** |
+| Enumerate every raw node with pointer, kind, digest | `request_inventory::observe_request_json` -> `RequestJsonNode` | **Reuse for content.** Not used for structure: it carries concrete array indices, which is the defect being fixed. |
+| String leaf values with provenance | `request_inventory::build_request_inventory` -> `RequestStringLeaf` | **Reuse for content.** |
+| Pointer ancestor / subtree relation | `baseline_evidence::_covers` | **Reuse.** Escaping-aware; `/tools/1` is correctly not an ancestor of `/tools/10`. |
+| RFC 6901 pointer build and parse | `request_inventory::_pointer`, `_escape_pointer_token`, `_pointer_tokens` | **Reuse.** Promote only if the schema walker needs them. |
+| JSON Schema over a request body | none | **Genuinely new.** Confirmed absent from all of `api/src`. The only Pydantic JSON Schema hooks are in `space/models.py` for a custom scalar. |
+
+Adjacent but distinct, deliberately not merged: `drift_capture::detect_unknown_shapes` with
+`adapters/anthropic::KNOWN_REQUEST_EXTRA_KEYS` and `codex/request_parser::KNOWN_INPUT_ITEM_KEYS`
+is a **hand-maintained allowlist** of fields TM knows about. The observed schema is **minted from
+capture**. They answer different questions and neither replaces the other.
+
+## Also decided by the audit
+
+`ProbeEvidence.normalized_request` is produced by `session/wire_normalization::normalize_request`,
+which is IR-derived. It is evidence rather than gate input, but under the owner's ruling it has no
+business in a raw-wire bundle. Proposed: delete the field. It is the last IR residue in the artifact.
+
+## Decisions closed 2026-08-19
+
+1. **BREAKING is wire-only and TM-blind.** The wire lost a field it always sent, or retyped one.
+   Decided from the two schemas alone. TM-dependency cannot be an input, because the raw-to-IR
+   mapping is #392 and is out of scope.
+2. **A field that was always present becoming sometimes-absent is BREAKING.** A guarantee observed
+   three for three is gone. Does not promote.
+3. **The outcome decides baseline promotion only.** It does not touch harness certification.
+   Owner's ruling: certification *should* gate on this eventually, but certification asks whether
+   TM can still handle a harness version, which is a raw-to-IR mapping question. The certification
+   gate therefore hangs off #392 and consumes #382's schema. This issue produces the schema and the
+   outcome; it wires them into nothing else.
+4. **Array `items` branches per discriminator tag, it does not collapse into one union.**
+   Established by probing real captures, not by argument. `codex_response_create.json` shows
+   `input[]` is a discriminated union on `type`: `message`, `reasoning`, `function_call`,
+   `function_call_output`, `custom_tool_call_output`, plus an untagged plain message whose only
+   keys are `content` and `role`.
+
+   A flat union over those five gives `required` = the empty intersection and `properties` = a soup
+   of every variant's keys. Two consequences, both fatal: a `function_call` that stops sending
+   `name` is not BREAKING because `name` was never required in the soup, and a brand new variant
+   (`type: "web_search_call"`) built from already-seen keys is EXACT. A new variant is the single
+   highest-value drift signal TM exists to catch.
+
+   Minted shape: group an array's object elements by their tag token, preferring `type`, falling
+   back to `role`, falling back to one untagged bucket. Each group mints its own subschema and the
+   array becomes `items: {oneOf: [...]}`. Then a 13th tool of a known type merges into its existing
+   branch and stays `EXACT`, a new variant adds a branch and reads `DEGRADED`, and a variant losing
+   a required key reads `BREAKING`. Reuse `json_tags::literal_tag` and `json_tags::json_kind` for
+   the tag token; the repo already models this domain in
+   `codex/request_parser::KNOWN_INPUT_ITEM_KEYS`, which is literally tag to key set.
+
+## Proof, run before any production code
+
+Prototype minted a tag-branched schema from the real capture
+`api/tests/fixtures/codex_response_create.json`. Branches discovered, recursively and without any
+hand-written vocabulary:
+
+```
+/input/*             type=function_call          required=[arguments, call_id, id, name, type]
+/input/*             type=function_call_output   required=[call_id, id, output, type]
+/input/*             type=message                required=[content, id, role, status, type]
+/input/*             type=reasoning              required=[encrypted_content, id, summary, type]
+/input/*             role=user                   required=[content, role]
+/input/*/content/*   type=input_text             required=[text, type]
+/input/*/content/*   type=input_image            required=[detail, image_url, type]
+/input/*/content/*   type=output_text            required=[annotations, text, type]
+/input/*/summary/*   type=summary_text           required=[text, type]
+/tools/*             type=function               required=[description, name, parameters, strict, type]
+/tools/*             type=file_search            required=[type, vector_store_ids]
+```
+
+Three drift probes against that reference, all correct:
+
+| Mutation | Verdict |
+| --- | --- |
+| add a 13th tool of a known type | `EXACT` |
+| harness adds `input` item `type: web_search_call` | `DEGRADED`, new variant at `/input/*` |
+| `function_call` stops sending `name` | `BREAKING`, `/input/* type=function_call` lost required `name` |
+
+The untagged bucket is real and is exercised: the first `input` element carries only `content` and
+`role`, so it lands on `role=user` rather than on any `type` branch.
+
+Guard: if tag branching yields more than twelve branches at one array, the tag is not behaving as a
+discriminator and the array falls back to a single unioned `items`.
