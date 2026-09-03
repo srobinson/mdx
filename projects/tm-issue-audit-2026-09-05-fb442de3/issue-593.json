@@ -1,0 +1,138 @@
+{
+  "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593",
+  "repository_url": "https://api.github.com/repos/littleorgans/transport-matters",
+  "labels_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593/labels{/name}",
+  "comments_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593/comments",
+  "events_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593/events",
+  "html_url": "https://github.com/littleorgans/transport-matters/issues/593",
+  "id": 5326157720,
+  "node_id": "I_kwDOSUHW9M8AAAABPXa3mA",
+  "number": 593,
+  "title": "Program: Per-runtime control-plane grants and MCP tool catalogs",
+  "user": {
+    "login": "srobinson",
+    "id": 261612,
+    "node_id": "MDQ6VXNlcjI2MTYxMg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/261612?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/srobinson",
+    "html_url": "https://github.com/srobinson",
+    "followers_url": "https://api.github.com/users/srobinson/followers",
+    "following_url": "https://api.github.com/users/srobinson/following{/other_user}",
+    "gists_url": "https://api.github.com/users/srobinson/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/srobinson/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/srobinson/subscriptions",
+    "organizations_url": "https://api.github.com/users/srobinson/orgs",
+    "repos_url": "https://api.github.com/users/srobinson/repos",
+    "events_url": "https://api.github.com/users/srobinson/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/srobinson/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "labels": [
+    {
+      "id": 10861852058,
+      "node_id": "LA_kwDOSUHW9M8AAAACh2q1mg",
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/labels/enhancement",
+      "name": "enhancement",
+      "color": "a2eeef",
+      "default": true,
+      "description": "New feature or request"
+    },
+    {
+      "id": 12033497798,
+      "node_id": "LA_kwDOSUHW9M8AAAACzUCaxg",
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/labels/P2",
+      "name": "P2",
+      "color": "d93f0b",
+      "default": false,
+      "description": "High: next up"
+    }
+  ],
+  "state": "open",
+  "locked": false,
+  "assignees": [],
+  "milestone": null,
+  "comments": 0,
+  "created_at": "2026-09-02T15:54:15Z",
+  "updated_at": "2026-09-02T15:54:15Z",
+  "closed_at": null,
+  "assignee": null,
+  "author_association": "MEMBER",
+  "issue_field_values": [],
+  "type": null,
+  "active_lock_reason": null,
+  "sub_issues_summary": {
+    "total": 8,
+    "completed": 2,
+    "percent_completed": 25
+  },
+  "issue_dependencies_summary": {
+    "blocked_by": 0,
+    "total_blocked_by": 0,
+    "blocking": 0,
+    "total_blocking": 0
+  },
+  "body": "# Problem\n\nTransport Matters currently combines two mismatched launch policies:\n\n- The persisted Canvas control-plane setting applies one grant to every direct CMDK agent launch.\n- MCP `launch()` defaults child authority to `none` unless the caller supplies `grant`.\n- A granted run discovers the full 34-tool Transport Matters MCP catalog, even when its runtime needs only a subset.\n\nAgent runtimes need to declare their requested control-plane grant and MCP capabilities. Transport Matters must apply the Canvas setting as the global user consent gate, calculate effective authority, and expose only the permitted tool catalog.\n\n# Decisions\n\n- The persisted Canvas setting remains the global user consent gate.\n- Each runtime under `~/.agent-runtimes` declares its requested grant and MCP capabilities.\n- Effective authority cannot exceed the Canvas gate or the launching principal.\n- Transport Matters keeps one MCP endpoint and one control-plane service.\n- `tools/list` is filtered from the run-scoped bearer policy.\n- Every tool keeps call-time authorization and audit checks.\n- Tool catalogs remain fixed for the lifetime of a run.\n- Directory and worktree restrictions belong to a future security design.\n- Filtering ships on MCP SDK 1.28.1 before the isolated MCP 2.x migration.\n\n# Work\n\n1. Publish runtime grant and MCP capabilities from `.agent-runtimes`.\n2. Consume the runtime capability contract in Transport Matters.\n3. Resolve and persist effective control authority.\n4. Define the canonical 34-tool MCP catalog.\n5. Filter MCP discovery by run policy.\n6. Update Canvas consent and launch UX.\n7. Migrate mechanically to MCP 2.x.\n8. Migrate MCP transport and prove real clients.\n\n# Acceptance criteria\n\n- Each subissue maps to one independently reviewable PR.\n- Runtime declarations drive CMDK and MCP launch behavior.\n- The Canvas gate can prevent a runtime from receiving its requested authority.\n- Observer and director runs receive deterministic, bounded tool catalogs.\n- Direct calls to hidden tools still fail through authoritative call-time checks.\n- Claude, Codex, and Grok pass real launch and MCP smoke tests.\n- `.agent-runtimes` generation and audit pass.\n- Transport Matters `just check` and `just test` pass.\n\n# Upstream references\n\n- MCP tools specification: https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/server/tools.mdx\n- Python SDK migration guide: https://github.com/modelcontextprotocol/python-sdk/blob/main/docs/migration.md\n- Scope-filtered discovery proposal: https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1881",
+  "closed_by": null,
+  "reactions": {
+    "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/593/timeline",
+  "performed_via_github_app": null,
+  "state_reason": null,
+  "pinned_comment": null,
+  "full_comments": [],
+  "sub_issues": [
+    {
+      "number": 2,
+      "state": "closed",
+      "title": "Publish per-runtime control-plane grants and MCP capabilities"
+    },
+    {
+      "number": 594,
+      "state": "closed",
+      "title": "Consume runtime authority and MCP capability schema v4"
+    },
+    {
+      "number": 595,
+      "state": "open",
+      "title": "Resolve and persist effective control-plane authority"
+    },
+    {
+      "number": 596,
+      "state": "open",
+      "title": "Define the canonical Transport Matters MCP tool catalog"
+    },
+    {
+      "number": 597,
+      "state": "open",
+      "title": "Filter MCP tool discovery by run policy"
+    },
+    {
+      "number": 598,
+      "state": "open",
+      "title": "Update Canvas consent and runtime authority UX"
+    },
+    {
+      "number": 599,
+      "state": "open",
+      "title": "Port Transport Matters mechanically to MCP 2.1.1"
+    },
+    {
+      "number": 600,
+      "state": "open",
+      "title": "Relocate MCP transport policy and prove dual-protocol clients"
+    }
+  ]
+}

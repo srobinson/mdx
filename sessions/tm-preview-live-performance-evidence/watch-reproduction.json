@@ -1,0 +1,18 @@
+{
+  "status": 200,
+  "read_and_parse_ms": 37.07249998115003,
+  "snapshot_bytes": 1110132,
+  "snapshot_sha256": "bf142a2731522e826c277facfd7181ce03b7f0a0d0e03b52f3907b40c4cdde0d",
+  "items": 410,
+  "default_limit": 1048576,
+  "parsers": {
+    "production_default": {
+      "frames": 0,
+      "snapshot_equal": false
+    },
+    "diagnostic_snapshot_size": {
+      "frames": 1,
+      "snapshot_equal": true
+    }
+  }
+}

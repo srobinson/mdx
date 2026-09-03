@@ -1,0 +1,15 @@
+# Watch framing and feed lifecycle
+
+Caller: ControlPlaneService.watch awaits the shared feed's current readiness. Invalid Activity framing or schema returns control_plane_unavailable with a safe cause. A transient transport interruption retries within registration's existing deadline and retains its latest cause on expiry. Concurrent waiters share the feed, never each other's cancellation.
+
+Ownership: sse.py retains one decoder, default provider policy bounded and tolerant. Activity explicitly selects uncapped, strict object framing because its existing snapshot contract scales with workspace membership. controlplane_gateway_reads.py translates parser/schema failures into GatewayResponseError with the existing control_plane_unavailable code and read interruptions into GatewayUnavailableError. No public schema change.
+
+Feed: watch_readiness.py owns connecting (ready sources plus latest transient error), ready, and failed states, transition notifications, deadline wait, and synchronous readiness assertion. WorkspaceFeed separately retains an initialization fence for completion baselines. Activity disconnect removes current readiness without erasing initialization, membership, or completion cursors. Task exit and shutdown wake pending callers. Terminal protocol failures remain visible to existing feed registrations; removing the last watcher releases the failed feed, allowing a fresh attempt after external repair.
+
+Reuse: IncrementalSseFrames and _sse_data_object; GatewayResponseError, GatewayUnavailableError, gateway_response_error; WorkspaceFeed registry and existing pending-registration cleanup; existing test gateway/audit/read fakes. wait_for_first is not selected for feed notification because it cancels pending awaitables and does not retrieve task exceptions; state transitions with a replaceable asyncio.Event avoid sharing cancelable futures.
+
+Alternatives: raising a larger global cap simply moves the workspace-size failure and changes unrelated provider behavior. Batched snapshot protocol would change producer, Python consumer, browser consumer, and contract for a currently affordable snapshot. An explicit Activity parser policy fixes this contract mismatch without that migration. A lone failure future only fixes startup; connection state also covers registrations during reconnects.
+
+Deletion: replace readiness Events as current-health authorities; keep one initialization Event solely for first baseline and wire-consumer startup. No adapter or parallel decoder. Existing test manipulations of readiness migrate with the production state.
+
+Verification: failing tests first for >1MiB Activity snapshot, strict errors, public registration cause, failure after initial readiness, transient recovery and timeout cause, concurrent cancellation, shutdown, and preserved completion positions. Then adjacent watch/proxy/provider parser suites, just check and just test. Final isolated live consumer connects to the existing preview gateway, using fixed Python code and in-memory audit/delivery fakes, to prove oversized real snapshot registration and prompted-turn observation without restarting the active desktop.

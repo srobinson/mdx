@@ -1,0 +1,391 @@
+{
+  "retrieved_at": "2026-09-05T03:27:18.108483+00:00",
+  "repo": "littleorgans/transport-matters",
+  "head": "535118346ca5d0584a7a4a3da28a55be532dc3bd",
+  "issues": [
+    {
+      "number": 368,
+      "title": "Intercept: auto-passthrough aux turns (title generation) when a breakpoint is armed",
+      "comment_count": 0,
+      "updated_at": "2026-08-08T06:53:49Z",
+      "sub_issues": []
+    },
+    {
+      "number": 381,
+      "title": "TM Autopilot: first-turn education, controlled harness baselines, and owned overlays",
+      "comment_count": 1,
+      "updated_at": "2026-08-12T13:26:24Z",
+      "sub_issues": [
+        {
+          "number": 370,
+          "state": "closed",
+          "title": "Request inventory: exact JSON leaves, digests, and semantic labels"
+        },
+        {
+          "number": 382,
+          "state": "closed",
+          "title": "Autopilot baselines: controlled captures and observed request schemas"
+        },
+        {
+          "number": 383,
+          "state": "open",
+          "title": "Welcome report: explain the first full provider request in HTML"
+        },
+        {
+          "number": 384,
+          "state": "open",
+          "title": "TM Autopilot: release compatibility lifecycle and owned overlay application"
+        },
+        {
+          "number": 392,
+          "state": "closed",
+          "title": "RESPONSES coverage table: declare the second hop for codex and grok"
+        }
+      ]
+    },
+    {
+      "number": 383,
+      "title": "Welcome report: explain the first full provider request in HTML",
+      "comment_count": 1,
+      "updated_at": "2026-08-19T01:54:06Z",
+      "sub_issues": []
+    },
+    {
+      "number": 384,
+      "title": "TM Autopilot: release compatibility lifecycle and owned overlay application",
+      "comment_count": 3,
+      "updated_at": "2026-08-20T18:31:56Z",
+      "sub_issues": []
+    },
+    {
+      "number": 413,
+      "title": "Revisit the overlay name sets and clean them up",
+      "comment_count": 1,
+      "updated_at": "2026-08-20T18:31:13Z",
+      "sub_issues": []
+    },
+    {
+      "number": 446,
+      "title": "baseline_harvest and baseline_publish overlap: decide the boundary or fold one into the other",
+      "comment_count": 0,
+      "updated_at": "2026-08-24T02:28:56Z",
+      "sub_issues": []
+    },
+    {
+      "number": 448,
+      "title": "Delivery channel: fetch signed compatibility updates, and nudge on a new TM release",
+      "comment_count": 0,
+      "updated_at": "2026-08-24T03:49:49Z",
+      "sub_issues": []
+    },
+    {
+      "number": 455,
+      "title": "Canvas Overlay: control the system prompt and builtin tool surface per harness",
+      "comment_count": 3,
+      "updated_at": "2026-08-25T11:57:12Z",
+      "sub_issues": []
+    },
+    {
+      "number": 456,
+      "title": "Canvas: raw request viewer per harness wire class",
+      "comment_count": 0,
+      "updated_at": "2026-08-25T11:42:07Z",
+      "sub_issues": []
+    },
+    {
+      "number": 457,
+      "title": "Canvas Overlay: builtin tool enablement via capability library and agent-runtimes [tools]",
+      "comment_count": 1,
+      "updated_at": "2026-08-25T11:57:14Z",
+      "sub_issues": []
+    },
+    {
+      "number": 458,
+      "title": "Canvas Overlay: regenerate runtime prompts from the tool decision",
+      "comment_count": 0,
+      "updated_at": "2026-08-25T11:42:51Z",
+      "sub_issues": []
+    },
+    {
+      "number": 459,
+      "title": "Research: portable exec kernel as a standard builtin surface (just-bash / Vercel Sandbox)",
+      "comment_count": 1,
+      "updated_at": "2026-08-25T11:57:15Z",
+      "sub_issues": []
+    },
+    {
+      "number": 460,
+      "title": "Experiment: just-agent \u2014 one bash tool, our system prompt, A/B against an untouched agent",
+      "comment_count": 1,
+      "updated_at": "2026-08-25T12:56:24Z",
+      "sub_issues": []
+    },
+    {
+      "number": 470,
+      "title": "Home wipe: entitlement exclusions are lost, so refused models are offered again",
+      "comment_count": 1,
+      "updated_at": "2026-09-05T03:11:02Z",
+      "sub_issues": []
+    },
+    {
+      "number": 471,
+      "title": "Logging: make log destination env-configurable and let foreground persist",
+      "comment_count": 0,
+      "updated_at": "2026-08-26T14:08:12Z",
+      "sub_issues": []
+    },
+    {
+      "number": 472,
+      "title": "Canvas: launch toggles silently reset to off after a home wipe",
+      "comment_count": 0,
+      "updated_at": "2026-08-26T14:08:14Z",
+      "sub_issues": []
+    },
+    {
+      "number": 477,
+      "title": "Launch: never block on target resolution; surface the verdict in the run status bar",
+      "comment_count": 0,
+      "updated_at": "2026-08-26T16:08:37Z",
+      "sub_issues": []
+    },
+    {
+      "number": 482,
+      "title": "First run: in-app harness login driver (NOW.md 1.3)",
+      "comment_count": 1,
+      "updated_at": "2026-08-26T21:17:34Z",
+      "sub_issues": []
+    },
+    {
+      "number": 496,
+      "title": "conversation read: revisit summary selection and add a tool-parts projection",
+      "comment_count": 0,
+      "updated_at": "2026-08-27T21:28:59Z",
+      "sub_issues": []
+    },
+    {
+      "number": 498,
+      "title": "Transcript recall is unusable: indexed FTS exists but is unexposed, and channel scoping makes 'not found' indistinguishable from 'not reachable'",
+      "comment_count": 1,
+      "updated_at": "2026-08-27T22:03:02Z",
+      "sub_issues": []
+    },
+    {
+      "number": 504,
+      "title": "Gateway-owned back stack for browser panes (multi-presenter history)",
+      "comment_count": 0,
+      "updated_at": "2026-08-28T06:23:46Z",
+      "sub_issues": []
+    },
+    {
+      "number": 515,
+      "title": "Add a read-only watch status verb to the control-plane MCP",
+      "comment_count": 0,
+      "updated_at": "2026-08-29T02:26:08Z",
+      "sub_issues": []
+    },
+    {
+      "number": 523,
+      "title": "Harness request audit: publish the captured shapes, build the control matrix, export the corpus",
+      "comment_count": 1,
+      "updated_at": "2026-09-03T20:24:00Z",
+      "sub_issues": []
+    },
+    {
+      "number": 555,
+      "title": "Roster: grok observed_model reports grok-4.6-build, the harness name leaking into a model field",
+      "comment_count": 0,
+      "updated_at": "2026-09-03T20:18:14Z",
+      "sub_issues": []
+    },
+    {
+      "number": 565,
+      "title": "Authenticate Canvas presenter registration and bind it to the genuine Electron instance",
+      "comment_count": 0,
+      "updated_at": "2026-08-31T21:24:56Z",
+      "sub_issues": []
+    },
+    {
+      "number": 573,
+      "title": "a second queued nudge strands the first delivery; deliveries only reconcile inside wait_for_reply",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T01:09:06Z",
+      "sub_issues": []
+    },
+    {
+      "number": 574,
+      "title": "pane capture verb: an agent cannot see a blocked run's screen, and the snapshot route already returns it",
+      "comment_count": 1,
+      "updated_at": "2026-09-04T14:32:02Z",
+      "sub_issues": []
+    },
+    {
+      "number": 592,
+      "title": "Positional system and message overrides misapply on Codex continuation requests carrying previous_response_id",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T10:30:15Z",
+      "sub_issues": []
+    },
+    {
+      "number": 593,
+      "title": "Program: Per-runtime control-plane grants and MCP tool catalogs",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T15:54:15Z",
+      "sub_issues": [
+        {
+          "number": 2,
+          "state": "closed",
+          "title": "Publish per-runtime control-plane grants and MCP capabilities"
+        },
+        {
+          "number": 594,
+          "state": "closed",
+          "title": "Consume runtime authority and MCP capability schema v4"
+        },
+        {
+          "number": 595,
+          "state": "open",
+          "title": "Resolve and persist effective control-plane authority"
+        },
+        {
+          "number": 596,
+          "state": "open",
+          "title": "Define the canonical Transport Matters MCP tool catalog"
+        },
+        {
+          "number": 597,
+          "state": "open",
+          "title": "Filter MCP tool discovery by run policy"
+        },
+        {
+          "number": 598,
+          "state": "open",
+          "title": "Update Canvas consent and runtime authority UX"
+        },
+        {
+          "number": 599,
+          "state": "open",
+          "title": "Port Transport Matters mechanically to MCP 2.1.1"
+        },
+        {
+          "number": 600,
+          "state": "open",
+          "title": "Relocate MCP transport policy and prove dual-protocol clients"
+        }
+      ]
+    },
+    {
+      "number": 595,
+      "title": "Resolve and persist effective control-plane authority",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:10:31Z",
+      "sub_issues": []
+    },
+    {
+      "number": 596,
+      "title": "Define the canonical Transport Matters MCP tool catalog",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:10:33Z",
+      "sub_issues": []
+    },
+    {
+      "number": 597,
+      "title": "Filter MCP tool discovery by run policy",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:36:24Z",
+      "sub_issues": []
+    },
+    {
+      "number": 598,
+      "title": "Update Canvas consent and runtime authority UX",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:36:26Z",
+      "sub_issues": []
+    },
+    {
+      "number": 599,
+      "title": "Port Transport Matters mechanically to MCP 2.1.1",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:36:27Z",
+      "sub_issues": []
+    },
+    {
+      "number": 600,
+      "title": "Relocate MCP transport policy and prove dual-protocol clients",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T19:36:29Z",
+      "sub_issues": []
+    },
+    {
+      "number": 602,
+      "title": "Port the two-agent ping pong review loop from tmux to Canvas",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T16:49:29Z",
+      "sub_issues": []
+    },
+    {
+      "number": 603,
+      "title": "CDP attach capability expires 30s after minting, and a refused attach gives a bare 401",
+      "comment_count": 0,
+      "updated_at": "2026-09-02T17:38:02Z",
+      "sub_issues": []
+    },
+    {
+      "number": 611,
+      "title": "Capture derived request purpose fixtures with a check mode",
+      "comment_count": 0,
+      "updated_at": "2026-09-03T20:23:22Z",
+      "sub_issues": []
+    },
+    {
+      "number": 624,
+      "title": "control plane: run failures the vocabulary cannot name lose their code and message, so an idempotency conflict reads as an invalid request",
+      "comment_count": 0,
+      "updated_at": "2026-09-04T17:23:58Z",
+      "sub_issues": []
+    },
+    {
+      "number": 630,
+      "title": "harness discovery: enumeration acts as permission, so a model released today is undiscoverable and unverdicted",
+      "comment_count": 0,
+      "updated_at": "2026-09-05T02:52:12Z",
+      "sub_issues": [
+        {
+          "number": 631,
+          "state": "open",
+          "title": "codex enumeration: probe the refreshed catalog, admit every visibility, and stop collapsing probe failures to None"
+        },
+        {
+          "number": 632,
+          "state": "open",
+          "title": "resolution: retained targets must survive a harness version change and never gate launchability"
+        },
+        {
+          "number": 633,
+          "state": "open",
+          "title": "verification: a model the release does not reference must come out of first launch blessed or degraded"
+        }
+      ]
+    },
+    {
+      "number": 631,
+      "title": "codex enumeration: probe the refreshed catalog, admit every visibility, and stop collapsing probe failures to None",
+      "comment_count": 0,
+      "updated_at": "2026-09-05T02:52:14Z",
+      "sub_issues": []
+    },
+    {
+      "number": 632,
+      "title": "resolution: retained targets must survive a harness version change and never gate launchability",
+      "comment_count": 1,
+      "updated_at": "2026-09-05T03:11:03Z",
+      "sub_issues": []
+    },
+    {
+      "number": 633,
+      "title": "verification: a model the release does not reference must come out of first launch blessed or degraded",
+      "comment_count": 0,
+      "updated_at": "2026-09-05T02:52:19Z",
+      "sub_issues": []
+    }
+  ]
+}

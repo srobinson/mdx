@@ -1,0 +1,891 @@
+DEVELOPER
+<skills_instructions>
+## Skills
+A skill is a set of local instructions to follow that is stored in a `SKILL.md` file. Below is the list of skills that can be used. Each entry includes a name, description, and a short path that can be expanded into an absolute path using the skill roots table.
+### Skill roots
+- `r0` = `/Users/alphab/.agents/skills`
+- `r1` = `/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/skills/.system`
+### Available skills
+- imagegen: Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas. (file: r1/imagegen/SKILL.md)
+- openai-docs: Use for Codex models/pricing, scheduled tasks, skills, settings, setup, troubleshooting, customization, automations, and self-knowledge—including 'you,' 'your,' 'this app,' or 'this coding agent' when they refer to Codex—and for OpenAI APIs/products and ChatGPT Work. Also use for model choice/migration, prompting, SDKs, Responses, Realtime, agents, evals, and Chat/Work/Codex comparisons. Do not use for generic app/software tasks that merely mention Codex. (file: r1/openai-docs/SKILL.md)
+- plugin-creator: Create and scaffold plugin directories for Codex with a required `.codex-plugin/plugin.json`, optional plugin folders/files, valid manifest defaults, and personal-marketplace entries by default. Use when Codex needs to create a new personal plugin, add optional plugin structure, generate or update marketplace entries for plugin ordering and availability metadata, or update an existing local plugin during development with the CLI-driven cachebuster and reinstall flow. (file: r1/plugin-creator/SKILL.md)
+- skill-creator: Create or update a Codex skill with appropriately scoped instructions and any needed supporting resources. (file: r1/skill-creator/SKILL.md)
+- skill-installer: Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos). (file: r1/skill-installer/SKILL.md)
+- adapt: Adapt designs to work across different screen sizes, devices, contexts, or platforms. Ensures consistent experience across varied environments. (file: r0/adapt/SKILL.md)
+- agent-browser: Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs to navigate websites, interact with web pages, fill forms, take screenshots, test web applications, or extract information from web pages. (file: r0/agent-browser/SKILL.md)
+- animate: Review a feature and enhance it with purposeful animations, micro-interactions, and motion effects that improve usability and delight. (file: r0/animate/SKILL.md)
+- audit: Perform comprehensive audit of interface quality across accessibility, performance, theming, and responsive design. Generates detailed report of issues with severity ratings and recommendations. (file: r0/audit/SKILL.md)
+- blog-architect: Turn a topic into a published blog post. Runs a structured interview for net-new posts, accepts delegated drafting when the session already carries context (github reviews, cm decisions, research artifacts), resumes in-flight drafts, and promotes already-published posts. Hands prose drafting to my-voice, persists markdown to ~/.mdx/blog/ before review, and orchestrates the Substack paste flow. Use when the user wants to write a post, draft an essay, resume a draft, promote a published post, or convert just-completed research into a teardown or deep-dive. Owns blog state in cm (blog-draft-open, blog-published) and triggers the social-loop cascade on publish. (file: r0/blog-architect/SKILL.md)
+- bolder: Amplify safe or boring designs to make them more visually interesting and stimulating. Increases impact while maintaining usability. (file: r0/bolder/SKILL.md)
+- clarify: Improve unclear UX copy, error messages, microcopy, labels, and instructions. Makes interfaces easier to understand and use. (file: r0/clarify/SKILL.md)
+- code-review: Review a pull request for bugs and project-convention violations using a small parallel fan-out, then return every deduplicated candidate finding with cited code links for a human or orchestrator to triage. Use when reviewing a PR, auditing a diff before merge, or when asked to code review a change. Stay read only and do not post to GitHub unless explicitly authorized. (file: r0/code-review/SKILL.md)
+- colorize: Add strategic color to features that are too monochromatic or lack visual interest. Makes interfaces more engaging and expressive. (file: r0/colorize/SKILL.md)
+- copywriting: When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages. Also use when the user says "write copy for," "improve this copy," "rewrite this page," "marketing copy," "headline help," or "CTA copy." For email copy, see email-sequence. For popup copy, see popup-cro. (file: r0/copywriting/SKILL.md)
+- critique: Evaluate design effectiveness from a UX perspective. Assesses visual hierarchy, information architecture, emotional resonance, and overall design quality with actionable feedback. (file: r0/critique/SKILL.md)
+- delight: Add moments of joy, personality, and unexpected touches that make interfaces memorable and enjoyable to use. Elevates functional to delightful. (file: r0/delight/SKILL.md)
+- distill: Strip designs to their essence by removing unnecessary complexity. Great design is simple, powerful, and clean. (file: r0/distill/SKILL.md)
+- excalidraw-diagram: Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts. (file: r0/excalidraw-diagram/SKILL.md)
+- extract: Extract and consolidate reusable components, design tokens, and patterns into your design system. Identifies opportunities for systematic reuse and enriches your component library. (file: r0/extract/SKILL.md)
+- find-skills: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill. (file: r0/find-skills/SKILL.md)
+- frontend-design: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics. (file: r0/frontend-design/SKILL.md)
+- harden: Improve interface resilience through better error handling, i18n support, text overflow handling, and edge case management. Makes interfaces robust and production-ready. (file: r0/harden/SKILL.md)
+- helioy-bus:mail: Use for any helioy-bus mail operation: checking your inbox, sending messages to other agents, broadcasting to all agents, or responding to a "you have mail!" nudge. Also use when the user says things like "reply to that agent", "tell the reviewer I'm done", "who's on the bus?", "who else is online?", "check for messages", "check for directives", or "send a message to X". Any inter-agent communication goes through this skill. (file: r0/mail/SKILL.md)
+- helioy-bus:warroom: Orchestrate a helioy-bus warroom: tmux agents doing parallel work under one orchestrator. Use for warroom, mixture of experts, MoE review, peer consensus, sign-off, brainstorm, spec-writing, scout, reuse audit, code-review, engineering, slice-build-loop, or any request that dispatches work to parallel agents. (file: r0/warroom/SKILL.md)
+- helioy-tools:content: Route social publishing and engagement work. Reads current cm state, summarizes pending posts and DMs, suggests one to three next actions, and dispatches the selected action to social-loop. Use for /content, "what should I post next", "what is open", or "help me decide what to write today". (file: r0/content/SKILL.md)
+- helioy-tools:my-voice: Write content in Stuart's voice for social media, GitHub, essays, or any public-facing writing. Use when asked to draft posts, write tweets, compose replies, create threads, write copy, or generate any content that should sound like Stuart — not like an AI. Also use when the user says "my voice", "draft a post", "write a tweet", "compose a reply", or "help me write". (file: r0/my-voice/SKILL.md)
+- helioy-tools:pull-request: Create pull requests with conventional commit titles for squash merge. Use when creating PRs, preparing branches for merge, or when the user says "create a PR", "open a PR", "prepare for merge", or "push this". (file: r0/pull-request/SKILL.md)
+- helioy-tools:sketch-lab: Generate Sketch Lab architecture diagrams and open them with a share URL. Use when the user asks for a Sketch Lab diagram, sketchlab.app board, 3D floor stack, architecture sketch in Sketch Lab, or GeneratedGraph JSON. Use only for Sketch Lab. Route Mermaid, Excalidraw, and Mission Control diagrams to their own tools. (file: r0/sketch-lab/SKILL.md)
+- helioy-tools:snapshot: Preserve the prior version of a doc to its sibling .archive/ directory before editing. Use when the user is about to make material edits to a doc worth versioning, or asks to snapshot, version, archive, preserve, shelve, or save the current state before changes. (file: r0/snapshot/SKILL.md)
+- helioy-tools:social-loop: Dispatch social engagement across 11 post types on X and LinkedIn for Stuart's @KnowMoreContext (engine) and @HelioyMatters (brand) handles. Covers original posts (blog-promo, build-log, product-release), reactive posts (proactive-reply, comment-reply, quote-tweet, retweet), threads, and DMs (cold, followup, reply). Hands prose drafting to my-voice; this skill owns taxonomy, context gathering, state writes, and the paste-flow publish for v1. Use when the user invokes /content and picks a social action, when content routes a blog-promo, or when the user says "tweet this", "reply to that", "DM them", "thread about X", or names any of the 11 type slugs directly. (file: r0/social-loop/SKILL.md)
+- impeccable: Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, product UI, app shells, components, forms, settings, onboarding, and empty states. Handles UX review, visual hierarchy, information architecture, cognitive load, accessibility, performance, responsive behavior, theming, anti-patterns, typography, fonts, spacing, layout, alignment, color, motion, micro-interactions, UX copy, error states, edge cases, i18n, and reusable design systems or tokens. Also use for bland designs that need to become bolder or more delightful, loud designs that should become quieter, live browser iteration on UI elements, or ambitious visual effects that should feel technically extraordinary. Not for backend-only or non-UI tasks. (file: r0/impeccable/SKILL.md)
+- map: Generate (or refresh) a MAP.md that orients an LLM agent to a codebase fast — key components, seams and boundaries, coding patterns, public surface — stamped with the git SHA it reflects. Use when asked to map a repo, produce a MAP.md / repo map / onboarding map, or keep an existing MAP.md current after commits. Built on fmm structural primitives. (file: r0/codebase-map/SKILL.md)
+- normalize: Normalize design to match your design system and ensure consistency (file: r0/normalize/SKILL.md)
+- onboard: Design or improve onboarding flows, empty states, and first-time user experiences. Helps users get started successfully and understand value quickly. (file: r0/onboard/SKILL.md)
+- optimize: Improve interface performance across loading speed, rendering, animations, images, and bundle size. Makes experiences faster and smoother. (file: r0/optimize/SKILL.md)
+- polish: Final quality pass before shipping. Fixes alignment, spacing, consistency, and detail issues that separate good from great. (file: r0/polish/SKILL.md)
+- quieter: Tone down overly bold or visually aggressive designs. Reduces intensity while maintaining design quality and impact. (file: r0/quieter/SKILL.md)
+- skill-creator: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations. (file: r0/skill-creator/SKILL.md)
+- teach-impeccable: One-time setup that gathers design context for your project and saves it to your AI config file. Run once to establish persistent design guidelines. (file: r0/teach-impeccable/SKILL.md)
+- tm-orchestrate: Operate the Transport Matters MCP toolset to launch, observe, prompt, and steer captured runs across a workspace. Covers the launch → watch → prompt → wait/interrupt → close lifecycle, watch push semantics, delivery/reply correlation, grant levels, and roster/conversation reads. Use whenever driving mcp__transport-matters__* tools. (file: r0/tm-orchestrate/SKILL.md)
+- transcript-search: Search and read historical agent transcripts via the Transport Matters session API. Use when asked to find past Claude/Codex sessions, recall what was discussed or done in a prior session, locate a session by workspace/provider/date, or summarize tool usage across history. (file: r0/transcript-search/SKILL.md)
+- web-design-guidelines: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices". (file: r0/web-design-guidelines/SKILL.md)
+</skills_instructions>
+<permissions instructions>
+Filesystem sandboxing defines which files can be read or written. `sandbox_mode` is `danger-full-access`: No filesystem sandboxing - all commands are permitted. Network access is enabled.
+Approval policy is currently never. Do not provide the `sandbox_permissions` for any reason, commands will be rejected.
+</permissions instructions>
+<collaboration_mode># Collaboration Mode: Default
+
+You are now in Default mode. Any previous instructions for other modes (e.g. Plan mode) are no longer active.
+
+Your active mode changes only when new developer instructions with a different `<collaboration_mode>...</collaboration_mode>` change it; user requests or tool descriptions do not change mode by themselves. Known mode names are Default and Plan.
+
+## request_user_input availability
+
+Use the `request_user_input` tool only when it is listed in the available tools for this turn.
+
+In Default mode, strongly prefer making reasonable assumptions and executing the user's request rather than stopping to ask questions.
+
+Use the `request_user_input` tool only for optional questions where the answer would materially improve the quality of the work.
+
+If `request_user_input` returns no answers, continue with best judgment instead of asking again or treating the turn as blocked.
+
+Never use the `request_user_input` tool for permission requests or permission-related escalations.
+
+If explicit user input is required for another reason before progress can safely continue, do not use the `request_user_input` tool. Ask the user directly with one concise plain-text question instead. Never write a multiple choice question as a textual assistant message.</collaboration_mode>
+
+USER
+# AGENTS.md instructions for /Users/alphab/Dev/LLM/DEV/helioy/transport-matters
+
+<INSTRUCTIONS>
+# Introduction
+
+Stuart owns what and why. You own how.
+
+## Think before you touch
+
+Before any change (a text tweak, a one-line edit, or new code), apply the judgment a senior engineer applies before touching code. A request to make a change is not permission to skip it. The only exception is an explicit "do exactly this, do not think".
+
+- Consistency: does it match the surrounding conventions (casing, naming, structure, patterns)?
+- DRY: does an equivalent already exist? Search first, then reuse or refactor so callers share one path.
+- Placement: where is the best home for new code, for cohesion and navigability?
+- Blast radius: what ripples from this? Even a one-line change can reach callers, generated surfaces, and contracts.
+- Cleaner shape: is this a chance to leave the code better than you found it?
+
+## Writing
+
+You are a high-level technical professional. Professional tone throughout.
+
+- Never use em dashes
+- Rarely use hyphens. Prefer correct punctuation.
+- Never use "It is this X, not that Y" or "It is not X, it is Y" constructions
+- Less is more. Every token counts.
+
+## One rule to rule them all
+
+When you assume, you make an ass out of you and me. Validate your assumptions before acting.
+
+## Verification before done
+
+Never mark a task complete without proving it works. Run tests, check logs, demonstrate correctness. Would a staff engineer approve this?
+
+Use the strongest affordable proof:
+
+1. Build or typecheck. This proves the artifact can be produced.
+2. Run the actual feature path.
+3. Trace the full input to output chain and inspect the real resulting value.
+4. Exercise integrations end to end when the change crosses a process or system boundary.
+
+Prefer direct observations over cached or derived state. Script repeated checks so another engineer can rerun them. State any unverified boundary explicitly.
+
+## Self-improvement loop
+
+After any correction from the user, update `LESSONS.md` with a rule that prevents the same mistake. Review at session start.
+
+## Elegance
+
+For non-trivial changes, pause and ask "is there a more elegant way?" If a fix feels hacky, implement the elegant solution. Skip for simple, obvious fixes; do not over-engineer.
+
+For novel, expensive, or cross-cutting design decisions, work caller first. Sketch the caller, data shape and owner, public signatures, module map, migration and deletion path, and verification method before implementation. Compare two or three structurally distinct shapes when no current precedent settles the choice. Record why the selected shape won.
+
+## Autonomous bug fixing
+
+Given a bug report, just fix it. Point at logs, errors, failing tests, then resolve them. If a test does not exist, create one, then fix the bug. Zero context switching required.
+
+Reproduce first. Choose the narrowest executable check, demonstrate the intended failure, make the smallest production fix, demonstrate the check passing, then run adjacent validation proportional to risk. When a conventional test is impractical, use a deterministic script or direct observation and explain the boundary. Instrument uncertain runtime behavior. Search for sibling instances of the same failure pattern.
+
+## DRY: no compromise
+
+Duplication is the single easiest way to wreck a codebase. Zero tolerance.
+
+- Before writing a new function, helper, type, or constant, search for an existing one. If it exists, use it. If it is close but not exact, refactor the existing one so both callers share it.
+- Never copy a block of code "just for this one case". Never re-declare a type that already lives somewhere else. Never inline a constant that is already named.
+- If two pieces of code do the same thing with minor variation, the variation belongs in a parameter, not in a second copy.
+- When migrating or refactoring, delete the old path completely. Do not leave parallel implementations "until later" unless the user has explicitly approved a staged migration.
+- Inventory every caller before replacing an API. Migrate callers and delete the legacy path in the same change. A temporary adapter requires an explicit reason, owner, and removal condition.
+- Subtract before adding. Remove dead paths, obsolete guards, redundant instructions, and empty references before building on the simpler base.
+- A PR that introduces duplication is not complete. Fix it before moving on.
+
+## Refactoring threshold: absolutely no exceptions
+
+- New files: never more than ±700 lines.
+- Files already over 700 lines must be refactored *before* new code is added to them. No "I'll just add this one more thing". No "it fits the pattern so it's fine". Refactor first, then add.
+- If a function grows past ~150 lines, break it up. Long functions hide duplication and kill readability.
+- These thresholds are hard limits, not aspirations. If you find yourself about to violate one, stop and refactor.
+
+## Principles
+
+- **Model the domain.** Prefer types, tables, registries, reducers, state machines, and correct collections that remove scattered branches and invalid states.
+- **Boundary discipline.** Parse and validate external data at system boundaries. Keep trusted internal logic focused on the domain.
+- **Idempotent operations.** Commands, lifecycle steps, installers, and retry loops must converge when repeated after partial failure.
+- **Separate shared state first.** Give concurrent actors distinct files, branches, keys, or worktrees before adding locks or serialization.
+- **Minimize reader load.** Flatten needless call chains, remove one-caller wrappers, centralize decisions, and keep mutable state local.
+- **Sequence verifiable units.** Make the smallest useful change that ends in a check. Verify it before advancing. Order the sequence so the evidence accumulates for the reviewer.
+- **Build the lever when it earns its keep.** For repeated mechanical work, create a deterministic script, codemod, generator, or check that performs or proves the change. The lever must cost less to maintain than the repetition it removes.
+- **Encode repeated lessons in structure.** Prefer tests, types, lints, metadata, runtime checks, and scripts over recurring prose instructions when the rule is mechanically enforceable.
+- **Guard context.** Keep bulk evidence in files or delegated artifacts. Keep the main thread for direction, decisions, and bounded conclusions.
+
+<!-- transport-matters:self-identity:start -->
+# Transport Matters self identity
+
+These launch facts are authoritative for this run. Use them when asked who you are or how this run is connected. Agent identity and control access are separate facts.
+
+- Run ID: "6853a1d4-06ec-4059-8574-c6538f39eeb5"
+- Run name: null
+- Agent name: "Generalist"
+- Agent ID: "tm/generalist"
+- Runtime: "Codex"
+- Harness: "codex"
+- Runtime home: "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex"
+- Working directory: "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters"
+- Workspace ID: "dev-helioy-transport-matters/ecd9b0df"
+- Control access: "director"
+- Space ID: "f5da2225-0745-41bf-b612-208aab17adc1"
+- Worktree ID: "679fa355-6883-4553-9e71-57d14c21028f"
+- Canvas ID: "82c15d05-b3d5-49af-8553-cd04e7dde0ca"
+- Canvas name: "transport-matters"
+- Proxy URL: "http://127.0.0.1:52697"
+- Inspector UI: "http://127.0.0.1:8798/?run=6853a1d4-06ec-4059-8574-c6538f39eeb5"
+<!-- transport-matters:self-identity:end -->
+
+--- project-doc ---
+
+# TLDR
+
+## Channels are separate databases
+
+One Postgres server, one database per channel. The channel rewrites the database path.
+
+| channel | home | database | ports |
+| --- | --- | --- | --- |
+| stable | `~/.transport-matters` | `transport_matters` | 8787/8788 |
+| preview | `~/.transport-matters-preview` | `transport_matters_preview` | 8797/8798 |
+| dev | `~/.transport-matters-dev` | `transport_matters_dev` | 8807/8808 |
+
+Canvas runs preview. CLI defaults to stable. They do not share rows.
+
+## Inventory is keyed by executor id
+
+Each home mints its own `executor-id` on first use. `local_executor_id()` reads the resolved
+channel's home. Query a database with the wrong channel's id and you get an empty inventory,
+not an error.
+
+Old ids left in a table are orphans from a wiped home. Harmless.
+
+## Harness state has three refresh triggers
+
+No harness has a refresh policy of its own. One implementation answers three triggers, all
+scoped to the answering channel, all swallowing failures into the log.
+
+    backend start    run_startup_refresh, once per start, staleness bound
+    manual refresh   POST /v1/harnesses/refresh, harnesses(refresh=true), harnesses refresh
+    version change   the launch gate saw a version the stored observation lacks
+
+The staleness check enumerates nothing when the stored rows already match the installed
+version, adapter revision and release attribution. A manual refresh bypasses it whole: asking
+to look again is the statement that the stored rows are wrong. The launch trigger persists the
+new observation in the gate's own transaction and queues one forced enumeration for that
+harness in a background thread, so `ResolvedTarget.installed_harness_version` and the run's
+compatibility facts name the same version. The worker owns its event loop and database pool
+and runs the same single harness refresh, including authentication. Grok's combined probe
+therefore runs on all three triggers and refreshes authentication even when targets are current.
+
+The launch trigger fires when the observed version changed **or** the stored target rows do
+not describe the installed version. Eligibility derives from the work product, never from a
+marker: the observation is persisted whether or not the worker lands, so a pass that was never
+started, died with its process, or raised stays owed and is retried on the next launch. Only a
+complete enumeration converges; a partial fallback retains rows at the previous version by
+contract and deliberately stays eligible, and that retention is never rewritten to silence a
+retry. One pass runs at a time per database, executor and harness, so repeated launches queue
+one writer rather than a pile. Force a pass in code:
+
+    refresh_harness_state(ExecutorEvidenceStore(url, pool), force=True)
+
+## A catalog answer carries what it proves about absence
+
+    complete   the primary catalog: the vendor's offering, so an omission retires a model
+    partial    the fallback catalog: it adds and updates, and can never retire
+
+Codex reads `codex debug models` first, a credential free catalog GET that costs no tokens and
+is the only place a model released after the binary shipped appears, and falls back to
+`--bundled`, the catalog frozen into the binary. `visibility` is the vendor's picker policy and
+is never read: explicit selection resolves a hidden slug, so importing it would recreate a
+hidden model class inside Transport Matters.
+
+A failed catalog run is typed, not `None`. `ModelEnumerationFailed` names `timeout`,
+`nonzero_exit`, `invalid_output` or `execution_failed` per attempt and nothing else, and when
+every catalog fails no target row moves. Enumeration owns a 30s budget separate from the 5s
+authentication timeout, because the claude catalog measured 4.7s against that 5s and silently
+preserved stale rows when it tripped.
+
+## No release means not launchable; no targets does not
+
+`_refresh_harness` returns early when the harness has no embedded release, before the probe that
+enumerates models. Result: an observation row with the fallback revision, zero target
+observations, and a launch view reporting `compatibility_release_unavailable`. The missing
+release is what withdraws the harness. Refresh once the release lands.
+
+Zero targets on their own never do. An installed, enabled, launch capable harness whose
+enumeration is absent, stale or failed is offered with `models: []`, because a launch that
+leaves model selection to the harness still works. Nor does a harness version change drop a
+target: rows are retained by the store, `installed_harness_version` and
+`target_observation.harness_version` are two authorities on `ResolvedTarget`, and only a
+complete snapshot retires a row (#632).
+
+## Bundles read the live run, not the store
+
+`harness_version` comes from `read_compatibility_facts(turn.storage_dir)`. A stale store changes
+what the launch view offers. It never reaches the evidence.
+
+## Blessing is a range, verification extends it
+
+`docs/HARNESS-COMPATIBILITY.md` owns this contract in full. What follows is the journey.
+
+A Transport Matters release blesses a version range per harness and ships the reference
+request schema captured at its **baseline version**, the one version a certification run
+actually proved. The blessed ceiling can sit above the baseline: `blessed_ceiling` returns
+`maximum_version or baseline_version`, and a declared maximum records versions the comparator
+cleared rather than versions a run observed. The top of a range is the extent of the blessing,
+never the source of the evidence. Closing that gap is what comparison is for.
+
+An installed harness sits in one of three states.
+
+| installed version | behaviour |
+| --- | --- |
+| below the floor | prompt to upgrade. Running anyway is allowed and known degraded. Capture is best effort and overlays may be degraded. |
+| inside the blessed range | supported. Nothing to decide. |
+| unknown | compare it against the shipped reference and decide. |
+
+Nothing is ever blocked. An unknown version is not a reason to refuse a launch, and it is not
+a reason to refuse a comparison. It is the reason to run one.
+
+The comparison is lazy. It fires when a model is actually launched, never eagerly across every
+model of a harness. Launching `claude opus` at an unknown version captures opus at that version
+and compares it to the reference.
+
+## Request shape is a cell dimension
+
+    first-turn   the delivery's own request: message items only
+    tool-turn    the request carrying one tool call and its result back
+
+`RequestShape` in `baseline_plan.py` is a coordinate of every cell, current pointer, attempt
+record, publish plan cell, release reference and support verdict. Two shapes of one model are
+two cells and never peers in a cohort. A publication binds both shapes of every captured
+model; a release published before the dimension existed carries first-turn references only,
+and the launch gate compares what that release carries without refusing the shape it lacks.
+The resolver folds one model's verdicts across shapes: degraded anywhere is degraded.
+
+The tool-turn prompt asks the harness to use bash to print the current datetime, so the
+harness's own shell tool is the deterministic thing that gets called and no stub tool is
+declared. The delivery id names the first request; the tool-turn request is the one request
+in the delivery's run that carries a tool result, accepted once the provider answered it
+without asking for another tool. More than one tool call, result, or result request fails the
+probe. `provider_requests_per_probe` is how the publish plan prices the extra request.
+
+## The envelope is a second schema of the cell
+
+    body schema      the request body, minted under the provider's profile
+    envelope schema  the transport, minted under `http-envelope`
+
+`transport_envelope.project_request_envelope` reduces one probe's `transport.json` to names:
+protocol, method, host, path, query parameter names, header names and content encoding tokens,
+each spelled as a key with `true` beneath it so the comparator sees a value change as a
+property change. Values never enter the projection. A name `transport_redaction` would redact
+is dropped, not redacted, so an auth header arriving or departing is invisible by design.
+
+The projection is stored per probe (`ProbeEvidence.request_envelope`, artifact version 11),
+and `GateProjection.envelope_schema` is minted from the three projections through the one
+minter every body schema goes through. A release reference carries `envelope_schema` beside
+`request_schema`; `assess_support_state` compares both when both sides carry one and folds
+them, degraded anywhere is degraded, with `compared_profiles` naming what answered. A
+reference published before the envelope existed carries none and the gate compares the body
+alone, the rule #604 set for a missing request shape. A bundle at version 10 loads with no
+envelope and mints no envelope schema.
+
+Coverage for the envelope lives in `ir_coverage_tables` under `HTTP_ENVELOPE`: `/headers` is
+read by name. The named consumers cover `anthropic-beta`, `anthropic-version`, `session-id`,
+`thread-id`, `x-codex-turn-metadata` and `x-grok-turn-idx`; every other header is unmodeled.
+`/method`, `/host` and `/path` are `value_set` positions, so a routing coordinate departing
+degrades. Query, protocol and encoding are recorded and never degrade.
+
+## Support state and its cause are separate keys
+
+    state:    unknown | blessed | degraded
+    findings: missingProperties[...] | additionalProperties[...]
+
+A missing property means degraded. Additional properties stay blessed and record the finding.
+Neither means blessed with no findings.
+
+`unknown` is a real state, never null: neither a complete local assessment nor exact
+publisher coverage exists for the model at this version. It carries a reason, and only
+`verification_pending` carries a phase (`queued` | `running`); absence of any capture
+evidence is `provenance_unavailable`. A model the release does not reference is judged
+against every sibling reference of its route, body profile and shape, exact reference
+first and exclusively when one exists; all siblings compared and none blessed is
+`degraded` with reason `no_compatible_reference` and no invented finding. Verdicts
+persist under candidate identity, reference identity is provenance, and a runtime
+blessed newcomer never becomes a reference for another model. An already referenced
+model inside the blessed range inherits the publisher's blessing and spends nothing; an
+unreferenced model is captured on first launch whatever the range says, and
+reconciliation of local evidence runs under the cell lock and precedes the quota gate.
+
+The capture binds its own route. Each probe's exact client environment answers the
+harness's own status command for the authentication method (never inferred from key
+presence), the stored envelope answers the transport, and the bundle folds the three
+probes only on full agreement (artifact v12, `capture_attribution`). One shared resolver turns that into a
+`route_id` against the pinned release, on provider, transport family and authentication
+family together (the descriptor declares both provider spellings, codex captures parse
+under `codex` while its route says `openai`), and the writer, the reader, runtime reuse
+and publication binding all use it. Anything short of one unique match binds nothing:
+publication refuses the evidence, and a capture that lands unattributable records that
+gap on its attempt, so it reports `provenance_unavailable` and is never paid for twice.
+
+A rename needs no detection of its own. It is a known property going missing, which is already
+degraded whether or not something new arrives beside it.
+
+A relocation is reported as the move it is. When a departing property or branch reappears
+identical under the same key elsewhere, the departure becomes one `relocated` finding naming
+`moved_to`, and it still grades and degrades as the removal it contains. Finding pointers carry
+one bracketed token per array descent (`/messages/[role:literal:user]/content/...`) so two
+positions can be told apart. Coverage is declared without them, except where one branch has a
+different consumer: an exact selector with tokens wins over the generic position.
+
+A discriminator change is reported at the discriminator. When every item of an array loses or
+gains the property its branch tag is built from and nothing else differs, the comparator says so
+at each branch's `/type` (or `/role`). It does the same for one branch changing its tag while the
+other branches still match. Coverage then answers for the position that actually changed.
+
+`degraded` means overlay fidelity is compromised. It carries that one meaning everywhere,
+including an unsupported old version. `blessed` is its converse. Additional properties are not
+degraded because the overlay is not wrong, only incomplete.
+
+`DriftOutcome` (`EXACT` / `DEGRADED` / `BREAKING`) is a property of one comparison. The support
+state is a property of a version. They share a word and are not the same axis. The comparison
+feeds the state; the state is what an operator sees.
+
+## The second hop is declared
+
+    request schema  ->  IR  ->  overlay
+
+The real question is whether an overlay degrades. `ir_coverage` declares the second hop per
+profile: every pointer is `modeled`, `normalized` or `unmodeled`, and a verdict degrades only
+on a loss at a position some consumer reads. Consumers live on both sides of the wire: an IR
+field (`ir_target`, checked against `ir.py`) or a browser reader of `provider_extras`
+(`ui_target`, checked against the TypeScript source; the inspector reads `extras.thinking`
+and `extras.output_config`). An unclassified position still degrades: the presumption is
+narrowed, never removed.
+
+`normalized` absorbs exactly the declared kind pair the adapter provably collapses (the
+string shorthand on `system` and `messages[].content`) and nothing else. Structure departing
+with a kind change is reported missing in its own right, so an absorbed kind change can never
+hide a modeled descendant. IR to overlay is the hop that still remains.
+
+The `additionalProperties` findings are the queue for that work: wire fields TM does not model.
+
+The comparison itself is built, whatever the chain above still lacks. Releases ship reference
+schemas: `claude-2.1.241-r2` carries ten, one per target, which is what a launch at an unknown
+version is compared against.
+
+The comparison is directional. `assess_support_state` fixes the reference on the left and reads
+the verdict off that one direction, so a candidate that merely adds a field never answers for the
+reference's lack of it. The worst-of-both fold survives where it belongs, in the cohort gate:
+`baseline_comparison.compare_model_pair` runs both directions and takes the worse, which is right
+for two models of one harness because peers have equal standing.
+
+## Verification queues work before it spends
+
+`baselines/verification-queue` belongs to one channel. Admission pins the release,
+version, route, required shapes, binary and quota owner; repeated launches join one
+request and distinct models queue separately. Startup discovers pending work without
+another launch. Admission never increments the provider attempt count.
+
+Two kernel-held slots bound physical capture across backends. A deadline starts only
+when a slot is acquired. Cancellation leaves the slot with the physical worker until
+it exits. Reconciliation runs under the cell lock before quota, and a deferred cell
+returns to the back of the queue. The resolver reports queued or running work as
+`unknown` with `verification_pending` and its phase.
+
+`GET /v1/harnesses/{harness_id}/support-verdicts` reads retained evidence independently
+of catalog membership, with `model`, `route`, `version` and `release` filters. Retirement
+removes a picker target while preserving its verdict, and a diagnostic read restores
+nothing to the picker.
+
+## A run that captured nothing says so
+
+    captured_nothing = turns >= 1 and exchanges == 0
+
+`roster()` carries `capture: {turns, exchanges, captured_nothing}` on every item.
+`project_roster` derives it from two reads `_roster_snapshot` already gathers: primary turn
+count per run from `event`, and exchange count per run from `wire_exchange` under
+`_WIRE_EXCHANGE_OWNER_PREDICATE`, so a subagent track is counted the way the inspector lists
+it. Nothing is stamped at exit. Exchange persistence is asynchronous to harness exit, so a
+fact written at release could record a false zero and never correct it; a fact derived at
+read time heals on the next roster read and covers every run already in the database.
+
+The predicate is turns, not time. A run that took no turn legitimately captured nothing and
+reports false. The fact is advisory and never fatal: it points at a harness release moving
+its endpoint, a redirect override that could not be placed, a matcher that stopped admitting
+a flow, or an operator config that repoints the client. It makes the escape visible; it does
+not close it.
+
+## An override batch is a transaction
+
+    miss      a required operation whose target the request does not have
+    shadowed  a rewrite whose target the same batch disables
+
+`apply_overrides` applies the batch in priority order and returns the original IR on any
+miss. Every audit entry then reads `applied: false` and a warning names the misses. A
+rewrite shadowed by a disable of its own target (`tool_toggle` over `tool_description`,
+`system_part_toggle` over `system_part_text`, `message_block_toggle` over `message_text`)
+is audited as not applied and is never a miss, so disabling a tool that still carries an
+edited description keeps working. Message sanitization runs only when the batch carries a
+message operation, so an empty override set is byte identical.
+
+Serialization is the last step that can fail between the pipeline and the wire.
+`prepare_outbound_request` wraps `outbound_request_if_changed` and on any exception returns
+the original IR, no audit and no bytes, so the flow state records what actually went out.
+The HTTP handler, the Codex WebSocket handler and breakpoint release all go through it. An
+edited Forward payload skips it because the route already serialized it and answered 422 on
+failure. Pass Through defers serialization to breakpoint release so an unchanged request keeps
+its original bytes and a failure forwards those bytes.
+
+## Absence is not death, a lock is
+
+    runtime_id   one gateway process, minted at boot, stamped on every managed run-started row
+    lease        pg_advisory_lock(run_runtime_lock_key(runtime_id)) held for the gateway's life
+
+A gateway inventory answers only for the runs its `RunManager` holds. The startup sweep
+and the operator `close` reap a row absent from the answering gateway only when the row
+is stamped with that gateway's `runtime_id`, or when `pg_try_advisory_xact_lock` on the
+foreign runtime's key acquires, which proves that gateway's session ended. A held key is
+`held`, an unstamped row is `unowned`, and neither is ever reaped from absence. Two
+backends on one channel database therefore cannot reap each other's live runs (#610).
+
+A synthetic exit (`exit_reason: reaped`) is the only retractable exit. When the owning
+gateway later lists the run, convergence sets `retracted_at` in place; Activity reads only
+standing exits and rebuilds an exited actor, so roster, watch, prompt preflight and Canvas
+follow. The next real exit replaces the retracted row through the one upsert. The primary
+key is unchanged so an older backend still running keeps inserting.
+
+Losing the lease keeps every PTY alive. The gateway reacquires the same `runtime_id` with
+backoff and answers `runtime_unleased` (503) to new managed creates until it holds the key.
+
+## A canvas run's proxy is a binding
+
+    per-run      the CLI's embedded launch: one mitmdump child, liveness is the process
+    shared       a run prepared over the capture RPC: one reverse listener on the channel
+                 backend's SharedProxyManager, liveness is the binding
+
+Both walk `prepare_captured_run`. The shared path differs in two parameters only:
+`supervisor_factory` yields a `SharedProxyRegistration` and `proxy_starter` registers the
+attempt's listener instead of spawning mitmdump (`shared_proxy/registration.py`). Port
+stepping, readiness retry, identity, prompt delivery arming and grant persistence are the
+one path. The binding is built from the launch environment the harness is spawned with,
+the same carrier the per-run addon reads through `Settings`; parity is a test.
+
+`alive` is "the manager still holds the binding". The manager's mirror survives a
+subprocess restart and is replayed into the new process, and the monitor loop retries
+forever with backoff, so a restart in flight is never run death. The gateway's
+`CaptureHealthMonitor` tears a run down the first time it sees `alive: false`, which is
+why the process is not the liveness signal. A binding leaves the mirror only through
+release or manager shutdown.
+
+When the shared proxy failed to start, `create_capture_registry` falls back to the
+per-run path and logs it once. Overrides reach canvas runs because `manager.by_run_id`
+now lists them.
+
+## Breakpoints live where the flow pauses
+
+    downstream   arm, disarm, status, paused, release, drop, re-audit: control requests
+                 the subprocess answers against its own `breakpoint` state
+    upstream     the addon's inspector broadcasts, relayed on `tm_events` as
+                 `inspector_event` and re-emitted by the owning backend's bridge
+
+The inspector's routes dispatch local first, then through the shared proxy, so the
+CLI's embedded launch and a canvas run answer the same routes. Arm is scoped by run:
+`bp.arm(run_id)` pauses that run's next request and no other run's on the same
+proxy, and the pause serializer is one lock per run, so a flow held on codex never
+blocks a pause on claude. An override edit at a shared-proxy breakpoint previews
+through the proxy's own re-audit after the store is synced, and a preview lost to a
+control error never fails the mutation.
+
+Upstream, an event that fits the NOTIFY cap rides whole. `paused` rides as a doorbell
+because it carries a request body, and the bridge pulls the flow's live detail. Any
+other event over the cap (an `exchange` behind an edit carries the audit of every
+applied override) is parked in the subprocess and rides as a reference the bridge
+pulls once over the control channel; the inspector's Forward waits for that exact
+exchange event, so it is never dropped. Every backend on the channel database hears
+every relay, and the bridge re-emits only for runs its manager holds.
+
+</INSTRUCTIONS>
+<environment_context>
+  <cwd>/Users/alphab/Dev/LLM/DEV/helioy/transport-matters</cwd>
+  <shell>zsh</shell>
+  <current_date>2026-09-08</current_date>
+  <timezone>Asia/Bangkok</timezone>
+  <filesystem><workspace_roots><root>/Users/alphab/Dev/LLM/DEV/helioy/transport-matters</root></workspace_roots><permission_profile type="disabled"><file_system type="unrestricted" /></permission_profile></filesystem>
+</environment_context>
+
+USER
+Performance investigation, diagnosis only, no code edits. We share this checkout with other live runs, so treat it read only: no writes, no edits, no mutating git commands. Measuring, profiling and reading are all fine.
+
+Symptom, reported by the operator on this machine right now:
+1. General input latency. Typing into the interface is not responsive, independent of any model answering.
+2. Assistant output renders on screen very slowly. A gpt-6-astra reply in particular crawls as it paints, far slower than the tokens are arriving.
+
+Those may be one problem or two. Find out which.
+
+Context you should verify rather than trust:
+- This is the preview channel: home ~/.transport-matters-preview, database transport_matters_preview, ports 8797 (backend) and 8798 (inspector UI).
+- Live right now: this run, one other gpt-6-astra codex run doing a heavy multi-file code analysis (run 59c5f67b-6de1-4377-9f10-fb28ca0ef823), and the Claude session orchestrating both. Several runs were launched and closed over the last hour. Factor that real load in; do not mistake a busy neighbour for a defect, and do not excuse a defect as load.
+- Architecture worth knowing: every captured run is a PTY child under a gateway backend; each run's traffic goes through a proxy, either a per-run mitmdump child or the channel backend's shared reverse listener; inspector events ride Postgres NOTIFY on tm_events with a payload cap, oversized ones parked and pulled over a control channel; wire exchanges persist asynchronously; the browser UI lives in www and the desktop shell in desktop.
+
+What to do:
+- Measure first. Per process CPU and memory for the whole tree (backend, PTY children, harness processes, mitmdump, node, the desktop shell, Postgres), sampled over time rather than one snapshot. Use what macOS gives you: top, ps, sample, spindump if useful, powermetrics only if it does not need a password. Identify the actual CPU burners and whether any process is pinned.
+- Separate the layers. Establish where the latency lives: harness process, gateway, database, event relay, browser rendering, or the terminal emulator. A slow paint with fast token arrival points at rendering or event fan-out, not the model. Prove which with evidence, not inference.
+- Look hard at the streaming and render path for assistant output: how output chunks travel from the PTY to the screen, how often the UI re-renders, whether every chunk triggers a full re-render, reflow, or re-highlight, whether markdown or syntax highlighting runs per chunk, and whether anything is O(n) over the whole transcript per chunk, which would degrade as a reply grows. That last shape matches the symptom exactly, so confirm or rule it out.
+- Check Postgres: query volume, slow statements, NOTIFY throughput, connection pool pressure, any table growing without bound (event, wire_exchange), and whether writes are on a hot path that blocks a render.
+- Check for polling loops and busy waits. There is at least one queue scanned every 100 ms. Find every timer, poll interval and retry loop, and judge whether the cadence is defensible.
+- Check the log files under the channel home for repeated errors, retries or reconnect storms.
+
+Deliver:
+1. The measurements, with numbers. What is actually consuming CPU and what the wall clock cost of a render is.
+2. Root cause per symptom, ranked by confidence, each with file:line evidence or a measurement that proves it. Say plainly what you could not prove.
+3. The fixes, ordered by impact over effort, each with the specific change and the metric that would confirm it worked. Distinguish a real fix from a mitigation.
+4. Anything alarming you found on the way.
+
+Read the code before asserting anything. Cite file:line. Report back in your reply, do not write files.
+
+ASSISTANT
+I’ll sample the live process tree and preview services first, then trace output from the PTY to the screen. I’ll keep the checkout read only and separate measured bottlenecks from code risks I cannot reproduce.
+
+
+ASSISTANT
+The first snapshot shows the shared proxy using about one core and the Python backend about half a core. The Electron renderer is much lower. Several unrelated processes are also busy; the timed sample will show whether these levels persist. I’m using the agent-browser skill’s inspection guidance to check the live renderer without changing the UI.
+
+
+ASSISTANT
+The 33 second sample confirms the proxy is continuously saturated at 102.5% CPU. The backend averages 56.2%, versus 12.4% for Electron’s renderer and 2.0% for the Node gateway. Postgres currently has 15 idle connections, no lock waiters, and an empty notification queue. I also verified that terminal output goes straight into xterm; that path does not run React markdown rendering for each chunk.
+
+
+ASSISTANT
+I found the growing-work pattern in the proxy: each Codex server frame awaits a rewrite that rereads the request artifacts, rebuilds all transport messages accumulated for that request, and persists them again. Separately, the 100 ms queue scan reparses 2.34 MB of retained verification requests, including finished ones. I’m measuring both costs and the Python forwarding delay. Live Python stack inspection requires privileges unavailable here, and the desktop’s DevTools endpoint exposes browser panes rather than the shell renderer.
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+DEVELOPER
+<skills_instructions>
+## Skills
+A skill is a set of local instructions to follow that is stored in a `SKILL.md` file. Below is the list of skills that can be used. Each entry includes a name, description, and a short path that can be expanded into an absolute path using the skill roots table.
+### Skill roots
+- `r0` = `/Users/alphab/.agents/skills`
+- `r1` = `/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/skills/.system`
+- `r2` = `/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/plugins/cache/openai-curated-remote`
+- `r3` = `/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/plugins/cache/openai-curated-remote/product-design/0.1.53/skills`
+### Available skills
+- imagegen: Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas. (file: r1/imagegen/SKILL.md)
+- openai-docs: Use for Codex models/pricing, scheduled tasks, skills, settings, setup, troubleshooting, customization, automations, and self-knowledge—including 'you,' 'your,' 'this app,' or 'this coding agent' when they refer to Codex—and for OpenAI APIs/products and ChatGPT Work. Also use for model choice/migration, prompting, SDKs, Responses, Realtime, agents, evals, and Chat/Work/Codex comparisons. Do not use for generic app/software tasks that merely mention Codex. (file: r1/openai-docs/SKILL.md)
+- plugin-creator: Create and scaffold plugin directories for Codex with a required `.codex-plugin/plugin.json`, optional plugin folders/files, valid manifest defaults, and personal-marketplace entries by default. Use when Codex needs to create a new personal plugin, add optional plugin structure, generate or update marketplace entries for plugin ordering and availability metadata, or update an existing local plugin during development with the CLI-driven cachebuster and reinstall flow. (file: r1/plugin-creator/SKILL.md)
+- skill-creator: Create or update a Codex skill with appropriately scoped instructions and any needed supporting resources. (file: r1/skill-creator/SKILL.md)
+- skill-installer: Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos). (file: r1/skill-installer/SKILL.md)
+- adapt: Adapt designs to work across different screen sizes, devices, contexts, or platforms. Ensures consistent experience across varied environments. (file: r0/adapt/SKILL.md)
+- agent-browser: Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs to navigate websites, interact with web pages, fill forms, take screenshots, test web applications, or extract information from web pages. (file: r0/agent-browser/SKILL.md)
+- animate: Review a feature and enhance it with purposeful animations, micro-interactions, and motion effects that improve usability and delight. (file: r0/animate/SKILL.md)
+- audit: Perform comprehensive audit of interface quality across accessibility, performance, theming, and responsive design. Generates detailed report of issues with severity ratings and recommendations. (file: r0/audit/SKILL.md)
+- blog-architect: Turn a topic into a published blog post. Runs a structured interview for net-new posts, accepts delegated drafting when the session already carries context (github reviews, cm decisions, research artifacts), resumes in-flight drafts, and promotes already-published posts. Hands prose drafting to my-voice, persists markdown to ~/.mdx/blog/ before review, and orchestrates the Substack paste flow. Use when the user wants to write a post, draft an essay, resume a draft, promote a published post, or convert just-completed research into a teardown or deep-dive. Owns blog state in cm (blog-draft-open, blog-published) and triggers the social-loop cascade on publish. (file: r0/blog-architect/SKILL.md)
+- bolder: Amplify safe or boring designs to make them more visually interesting and stimulating. Increases impact while maintaining usability. (file: r0/bolder/SKILL.md)
+- clarify: Improve unclear UX copy, error messages, microcopy, labels, and instructions. Makes interfaces easier to understand and use. (file: r0/clarify/SKILL.md)
+- code-review: Review a pull request for bugs and project-convention violations using a small parallel fan-out, then return every deduplicated candidate finding with cited code links for a human or orchestrator to triage. Use when reviewing a PR, auditing a diff before merge, or when asked to code review a change. Stay read only and do not post to GitHub unless explicitly authorized. (file: r0/code-review/SKILL.md)
+- colorize: Add strategic color to features that are too monochromatic or lack visual interest. Makes interfaces more engaging and expressive. (file: r0/colorize/SKILL.md)
+- copywriting: When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages. Also use when the user says "write copy for," "improve this copy," "rewrite this page," "marketing copy," "headline help," or "CTA copy." For email copy, see email-sequence. For popup copy, see popup-cro. (file: r0/copywriting/SKILL.md)
+- critique: Evaluate design effectiveness from a UX perspective. Assesses visual hierarchy, information architecture, emotional resonance, and overall design quality with actionable feedback. (file: r0/critique/SKILL.md)
+- deep-research-work:deep-research: Conduct thorough research using authoritative sources and produce evidence-backed findings with citations. Use this skill only when the user asks specifically for Deep research, uses $deep-research, or selects Deep research in Work mode. Do not use it for ordinary research requests. (file: r2/deep-research-work/0.1.14/skills/deep-research/SKILL.md)
+- delight: Add moments of joy, personality, and unexpected touches that make interfaces memorable and enjoyable to use. Elevates functional to delightful. (file: r0/delight/SKILL.md)
+- distill: Strip designs to their essence by removing unnecessary complexity. Great design is simple, powerful, and clean. (file: r0/distill/SKILL.md)
+- excalidraw-diagram: Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts. (file: r0/excalidraw-diagram/SKILL.md)
+- extract: Extract and consolidate reusable components, design tokens, and patterns into your design system. Identifies opportunities for systematic reuse and enriches your component library. (file: r0/extract/SKILL.md)
+- find-skills: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill. (file: r0/find-skills/SKILL.md)
+- frontend-design: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics. (file: r0/frontend-design/SKILL.md)
+- harden: Improve interface resilience through better error handling, i18n support, text overflow handling, and edge case management. Makes interfaces robust and production-ready. (file: r0/harden/SKILL.md)
+- helioy-bus:mail: Use for any helioy-bus mail operation: checking your inbox, sending messages to other agents, broadcasting to all agents, or responding to a "you have mail!" nudge. Also use when the user says things like "reply to that agent", "tell the reviewer I'm done", "who's on the bus?", "who else is online?", "check for messages", "check for directives", or "send a message to X". Any inter-agent communication goes through this skill. (file: r0/mail/SKILL.md)
+- helioy-bus:warroom: Orchestrate a helioy-bus warroom: tmux agents doing parallel work under one orchestrator. Use for warroom, mixture of experts, MoE review, peer consensus, sign-off, brainstorm, spec-writing, scout, reuse audit, code-review, engineering, slice-build-loop, or any request that dispatches work to parallel agents. (file: r0/warroom/SKILL.md)
+- helioy-tools:content: Route social publishing and engagement work. Reads current cm state, summarizes pending posts and DMs, suggests one to three next actions, and dispatches the selected action to social-loop. Use for /content, "what should I post next", "what is open", or "help me decide what to write today". (file: r0/content/SKILL.md)
+- helioy-tools:my-voice: Write content in Stuart's voice for social media, GitHub, essays, or any public-facing writing. Use when asked to draft posts, write tweets, compose replies, create threads, write copy, or generate any content that should sound like Stuart — not like an AI. Also use when the user says "my voice", "draft a post", "write a tweet", "compose a reply", or "help me write". (file: r0/my-voice/SKILL.md)
+- helioy-tools:pull-request: Create pull requests with conventional commit titles for squash merge. Use when creating PRs, preparing branches for merge, or when the user says "create a PR", "open a PR", "prepare for merge", or "push this". (file: r0/pull-request/SKILL.md)
+- helioy-tools:sketch-lab: Generate Sketch Lab architecture diagrams and open them with a share URL. Use when the user asks for a Sketch Lab diagram, sketchlab.app board, 3D floor stack, architecture sketch in Sketch Lab, or GeneratedGraph JSON. Use only for Sketch Lab. Route Mermaid, Excalidraw, and Mission Control diagrams to their own tools. (file: r0/sketch-lab/SKILL.md)
+- helioy-tools:snapshot: Preserve the prior version of a doc to its sibling .archive/ directory before editing. Use when the user is about to make material edits to a doc worth versioning, or asks to snapshot, version, archive, preserve, shelve, or save the current state before changes. (file: r0/snapshot/SKILL.md)
+- helioy-tools:social-loop: Dispatch social engagement across 11 post types on X and LinkedIn for Stuart's @KnowMoreContext (engine) and @HelioyMatters (brand) handles. Covers original posts (blog-promo, build-log, product-release), reactive posts (proactive-reply, comment-reply, quote-tweet, retweet), threads, and DMs (cold, followup, reply). Hands prose drafting to my-voice; this skill owns taxonomy, context gathering, state writes, and the paste-flow publish for v1. Use when the user invokes /content and picks a social action, when content routes a blog-promo, or when the user says "tweet this", "reply to that", "DM them", "thread about X", or names any of the 11 type slugs directly. (file: r0/social-loop/SKILL.md)
+- impeccable: Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, product UI, app shells, components, forms, settings, onboarding, and empty states. Handles UX review, visual hierarchy, information architecture, cognitive load, accessibility, performance, responsive behavior, theming, anti-patterns, typography, fonts, spacing, layout, alignment, color, motion, micro-interactions, UX copy, error states, edge cases, i18n, and reusable design systems or tokens. Also use for bland designs that need to become bolder or more delightful, loud designs that should become quieter, live browser iteration on UI elements, or ambitious visual effects that should feel technically extraordinary. Not for backend-only or non-UI tasks. (file: r0/impeccable/SKILL.md)
+- map: Generate (or refresh) a MAP.md that orients an LLM agent to a codebase fast — key components, seams and boundaries, coding patterns, public surface — stamped with the git SHA it reflects. Use when asked to map a repo, produce a MAP.md / repo map / onboarding map, or keep an existing MAP.md current after commits. Built on fmm structural primitives. (file: r0/codebase-map/SKILL.md)
+- normalize: Normalize design to match your design system and ensure consistency (file: r0/normalize/SKILL.md)
+- onboard: Design or improve onboarding flows, empty states, and first-time user experiences. Helps users get started successfully and understand value quickly. (file: r0/onboard/SKILL.md)
+- optimize: Improve interface performance across loading speed, rendering, animations, images, and bundle size. Makes experiences faster and smoother. (file: r0/optimize/SKILL.md)
+- plugin-management:plugin-management: Discover and suggest relevant plugins, inspect app permissions and dependencies, and manage plugin connections or removal. Use when the user asks about plugins or when a task would materially benefit from an external app, account, service, or data source that available tools cannot access. (file: r2/plugin-management/0.1.0/skills/plugin-management/SKILL.md)
+- polish: Final quality pass before shipping. Fixes alignment, spacing, consistency, and detail issues that separate good from great. (file: r0/polish/SKILL.md)
+- product-design:audit: Audit or critique a product flow, journey, workflow, funnel, onboarding path, checkout path, settings path, screen, or multi-step product experience by capturing screenshots first, then reporting UX, design, and accessibility findings inline from that evidence. Use Figma only when the user explicitly asks for a board. Use when the user asks to audit, review, critique, inspect, assess, analyze, evaluate, or give feedback on a product experience. (file: r3/audit/SKILL.md)
+- product-design:ideate: Generate image-based alternatives, remixes, or new design directions from a Product Design brief. Use when the user asks for design variants, visual exploration, remixes, or image-generated approaches from provided context. (file: r3/ideate/SKILL.md)
+- product-design:image-to-code: Implement a selected image, screenshot, mockup, or Image Gen reference as a faithful, responsive frontend. (file: r3/image-to-code/SKILL.md)
+- product-design:index: Use when Product Design is explicitly invoked, or when the user's main goal is to explore a design, research UX, audit or critique a flow, faithfully clone a visual source, check a built design, or share a prototype. Do not use Product Design for ordinary implementation unless the user explicitly asks for it. (file: r3/index/SKILL.md)
+- product-design:url-to-code: Clone a live URL as a runnable frontend-only local app. (file: r3/url-to-code/SKILL.md)
+- quieter: Tone down overly bold or visually aggressive designs. Reduces intensity while maintaining design quality and impact. (file: r0/quieter/SKILL.md)
+- skill-creator: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations. (file: r0/skill-creator/SKILL.md)
+- teach-impeccable: One-time setup that gathers design context for your project and saves it to your AI config file. Run once to establish persistent design guidelines. (file: r0/teach-impeccable/SKILL.md)
+- tm-orchestrate: Operate the Transport Matters MCP toolset to launch, observe, prompt, and steer captured runs across a workspace. Covers the launch → watch → prompt → wait/interrupt → close lifecycle, watch push semantics, delivery/reply correlation, grant levels, and roster/conversation reads. Use whenever driving mcp__transport-matters__* tools. (file: r0/tm-orchestrate/SKILL.md)
+- transcript-search: Search and read historical agent transcripts via the Transport Matters session API. Use when asked to find past Claude/Codex sessions, recall what was discussed or done in a prior session, locate a session by workspace/provider/date, or summarize tool usage across history. (file: r0/transcript-search/SKILL.md)
+- web-design-guidelines: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices". (file: r0/web-design-guidelines/SKILL.md)
+</skills_instructions>
+
+USER
+what permission do you not have?
+I can run sudo for you
+
+ASSISTANT
+macOS denied permission to read the Python processes’ live stacks: `Cannot get task port ... requires root or com.apple.system-task-ports entitlement`. My `sudo -n` attempt returned `a password is required`.
+
+You can run this read-only sampler and paste the output. It samples both processes for about five seconds and writes no files:
+
+```bash
+sudo /Users/alphab/.local/share/uv/tools/transport-matters/bin/python -B - <<'PY'
+from _remote_debugging import RemoteUnwinder
+from collections import Counter
+import time
+
+samplers = {pid: RemoteUnwinder(pid) for pid in (59710, 59716)}
+counts = {pid: Counter() for pid in samplers}
+for _ in range(100):
+    for pid, sampler in samplers.items():
+        for thread, frames in sampler.get_stack_trace():
+            counts[pid][repr(frames[:10])] += 1
+    time.sleep(0.05)
+
+for pid, stacks in counts.items():
+    print(f"\nPID {pid}: most frequent stacks")
+    for count, stack in stacks.most_common(10):
+        print(count, stack)
+PY
+```
+
+The renderer limitation is separate: the running desktop exposes DevTools for embedded browser panes, but not its main UI. Sudo does not directly solve that. I’m continuing the measurements available without it.
+
+
+ASSISTANT
+The queue measurement is decisive: all 13 requests are finished, yet each scan takes a median 120.4 ms of synchronous work, followed by a 100 ms sleep. That predicts 54.1% CPU, closely matching the backend’s measured 56.2%.
+
+Across 90 probes, Python’s health endpoint took 114 ms median and 190 ms p95; the Node gateway directly took 0.77 ms median and 0.96 ms p95. I’m checking the terminal forwarding code to establish how those stalls affect keystrokes.
+
+
+USER
+<user_shell_command>
+<command>
+sudo /Users/alphab/.local/share/uv/tools/transport-matters/bin/python -B - <<'PY'
+  from _remote_debugging import RemoteUnwinder
+  from collections import Counter
+  import time
+
+  samplers = {pid: RemoteUnwinder(pid) for pid in (59710, 59716)}
+      for pid, sampler in samplers.items():
+          for thread, frames in sampler.get_stack_trace():
+              counts[pid][repr(frames[:10])] += 1
+      time.sleep(0.05)
+
+  for pid, stacks in counts.items():
+      print(f"\nPID {pid}: most frequent stacks")
+      for count, stack in stacks.most_common(10):
+          print(count, stack)
+  PY
+</command>
+<result>
+Exit code: 1
+Duration: 0.0790 seconds
+Output:
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+
+</result>
+</user_shell_command>
+
+ASSISTANT
+That command ran through a shell without an interactive terminal, so sudo could not ask for your password. The pasted script also lost two lines.
+
+Run this single line in macOS Terminal or iTerm. Enter your password there, then paste the output here:
+
+```bash
+sudo /Users/alphab/.local/share/uv/tools/transport-matters/bin/python -B -c 'from _remote_debugging import RemoteUnwinder; from collections import Counter; import time; samplers={p:RemoteUnwinder(p) for p in (59710,59716)}; counts={p:Counter() for p in samplers}; [( [counts[p].update([repr(f[:10]) for _,f in u.get_stack_trace()]) for p,u in samplers.items()], time.sleep(.05)) for _ in range(100)]; [print(p,*c.most_common(10),sep="\n") for p,c in counts.items()]'
+```
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+sudo /Users/alphab/.local/share/uv/tools/transport-matters/bin/python -B - <<'PY'
+  from _remote_debugging import RemoteUnwinder
+  from collections import Counter
+  import time
+
+  samplers = {pid: RemoteUnwinder(pid) for pid in (59710, 59716)}
+      for pid, sampler in samplers.items():
+          for thread, frames in sampler.get_stack_trace():
+              counts[pid][repr(frames[:10])] += 1
+      time.sleep(0.05)
+
+  for pid, stacks in counts.items():
+      print(f"\nPID {pid}: most frequent stacks")
+      for count, stack in stacks.most_common(10):
+          print(count, stack)
+PY
+  File "<stdin>", line 1
+    from _remote_debugging import RemoteUnwinder
+IndentationError: unexpected indent
+sudo /Users/alphab/.local/share/uv/tools/transport-matters/bin/python -B -c 'from _remote_debugging import
+  RemoteUnwinder; from collections import Counter; import time; samplers={p:RemoteUnwinder(p) for p in (59710,59716)};
+  counts={p:Counter() for p in samplers}; [( [counts[p].update([repr(f[:10]) for _,f in u.get_stack_trace()]) for p,u in
+  samplers.items()], time.sleep(.05)) for _ in range(100)]; [print(p,*c.most_common(10),sep="\n") for p,c in
+  counts.items()]'
+  File "<string>", line 1
+    from _remote_debugging import
+                                 ^
+SyntaxError: Expected one or more names after 'import'
+
+ASSISTANT
+The copy introduced indentation and line breaks inside Python statements. This version uses short lines and strips extra indentation from the pasted script:
+
+```bash
+TM_PY=~/.local/share/uv/tools/transport-matters/bin/python
+sudo "$TM_PY" -B -c \
+'import sys,textwrap; exec(textwrap.dedent(sys.stdin.read()))' <<'PY'
+import _remote_debugging as r
+from collections import Counter
+import time
+
+for pid in (59710, 59716):
+    sampler = r.RemoteUnwinder(pid)
+    counts = Counter()
+    for _ in range(100):
+        for thread, frames in sampler.get_stack_trace():
+            counts[repr(frames[:10])] += 1
+        time.sleep(0.05)
+    print("PID", pid)
+    for count, stack in counts.most_common(8):
+        print(count, stack)
+PY
+```
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+write the script to a file
+
+ASSISTANT
+I’ll write a standalone sampler in `/tmp`, leaving the shared checkout untouched, and check its syntax.
+
+
+ASSISTANT
+Created [sample_stacks.py](/tmp/tm-performance.XtOeB0/sample_stacks.py). Syntax and CLI checks passed. Checkout untouched.
+
+Run in Terminal, then paste the output:
+
+```bash
+TM_PY=~/.local/share/uv/tools/transport-matters/bin/python
+sudo "$TM_PY" -B /tmp/tm-performance.XtOeB0/sample_stacks.py
+```
+
+USER
+can you create a continuation file next to the script I am going to start a new session outside of TM since TM performance is hindering you from evaluating the issue since you are impacted by it ..
+
+ASSISTANT
+I’ll write a continuation file beside the sampler with the measurements, source evidence, remaining checks, and read-only constraints so the next session can resume outside TM.
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+can you create a continuation file next to the script I am going to start a new session outside of TM since TM performance is hindering you from evaluating the issue since you are impacted by it ..
+
+ASSISTANT
+I’ll put the handoff at `/tmp/tm-performance.XtOeB0/CONTINUATION.md`, with proven findings separated from hypotheses and the unfinished checks listed.
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+what is your run is
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+what is your tm runid
+
+ASSISTANT
+My TM run ID is `6853a1d4-06ec-4059-8574-c6538f39eeb5`. I’m finishing the continuation file beside the sampler.
+
+
+USER
+<turn_aborted>
+The user interrupted the previous turn on purpose. Any running unified exec processes may still be running in the background. If any tools/commands were aborted, they may have partially executed.
+</turn_aborted>
+
+USER
+you are not able to save or it us just taking a stupid anount of tine .. try creating a cx entry
+
+ASSISTANT
+The continuation file has not been saved. I’ll put the handoff in CX now.

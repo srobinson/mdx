@@ -1,0 +1,63 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api
+configfile: pyproject.toml
+plugins: cov-7.1.0, xdist-3.8.0, timeout-2.4.0, asyncio-1.3.0, anyio-4.13.0
+timeout: 120.0s
+timeout method: thread
+timeout func_only: False
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 319 items
+
+src/transport_matters/codex/test_additional_tools.py ..............      [  4%]
+src/transport_matters/codex/test_continuity.py ........                  [  6%]
+src/transport_matters/codex/test_derivation_contract.py ...........      [ 10%]
+src/transport_matters/codex/test_derivation_incremental.py ........      [ 12%]
+src/transport_matters/codex/test_derivation_replay.py .....              [ 14%]
+src/transport_matters/codex/test_diagnostics.py .....                    [ 15%]
+src/transport_matters/codex/test_events.py ........                      [ 18%]
+src/transport_matters/codex/test_exchange_finalize_sink.py ...           [ 19%]
+src/transport_matters/codex/test_exchange_unparsed.py ...                [ 20%]
+src/transport_matters/codex/test_http_derivation.py ..........           [ 23%]
+src/transport_matters/codex/test_preserved_raw.py .......                [ 25%]
+src/transport_matters/codex/test_repair_diagnostics.py ..                [ 26%]
+src/transport_matters/codex/test_repair_migration.py .                   [ 26%]
+src/transport_matters/codex/test_repair_rebuild.py ....                  [ 27%]
+src/transport_matters/codex/test_repair_safety.py ...                    [ 28%]
+src/transport_matters/codex/test_request_parser_metadata.py ....         [ 30%]
+src/transport_matters/codex/test_request_serializer.py ................. [ 35%]
+                                                                         [ 35%]
+src/transport_matters/codex/test_response_parser_content.py .            [ 35%]
+src/transport_matters/codex/test_session_metadata.py ................... [ 41%]
+.....                                                                    [ 43%]
+src/transport_matters/codex/test_stream_persistence.py .....             [ 44%]
+src/transport_matters/codex/test_timeline_contract.py ........           [ 47%]
+src/transport_matters/codex/test_transport.py .........                  [ 50%]
+src/transport_matters/codex/test_transport_addon.py .........            [ 52%]
+src/transport_matters/codex/test_transport_lifecycle.py ................ [ 57%]
+                                                                         [ 57%]
+src/transport_matters/codex/test_transport_timestamps.py .               [ 58%]
+src/transport_matters/codex/test_transport_turn_close.py ..              [ 58%]
+src/transport_matters/codex/test_transport_turn_completion.py ...        [ 59%]
+src/transport_matters/codex/test_transport_turn_derivation.py ....       [ 61%]
+src/transport_matters/codex/test_transport_turn_pause.py ..              [ 61%]
+src/transport_matters/codex/test_turn_boundary.py .....                  [ 63%]
+src/transport_matters/test_launch_verification_queue.py ........         [ 65%]
+src/transport_matters/storage/test_disk_atomic_write.py ......           [ 67%]
+src/transport_matters/storage/test_disk_cache_backfill.py .......        [ 69%]
+src/transport_matters/storage/test_disk_codex_artifacts.py ......        [ 71%]
+src/transport_matters/storage/test_disk_delete.py ....                   [ 73%]
+src/transport_matters/storage/test_disk_delete_recovery.py ...           [ 73%]
+src/transport_matters/storage/test_disk_exchange.py ......               [ 75%]
+src/transport_matters/storage/test_disk_index.py ........                [ 78%]
+src/transport_matters/storage/test_disk_index_entry.py ....              [ 79%]
+src/transport_matters/storage/test_disk_layout.py ......                 [ 81%]
+src/transport_matters/storage/test_disk_legacy_anchor.py ....            [ 82%]
+src/transport_matters/storage/test_disk_persist.py .........             [ 85%]
+src/transport_matters/storage/test_exchange_sink.py ............         [ 89%]
+src/transport_matters/storage/test_session_facts.py ......               [ 91%]
+src/transport_matters/storage/test_transcript_snapshot.py .......        [ 93%]
+src/transport_matters/storage/test_transport_refusal.py ....             [ 94%]
+src/transport_matters/test_addon_http_provisional.py .................   [100%]
+
+============================= 319 passed in 3.27s ==============================

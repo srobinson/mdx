@@ -1,0 +1,247 @@
+{
+  "observation_time_utc": "2026-09-05T04:46:47Z",
+  "run_id": "ddac0df9-ab44-4277-8ea4-bed514a51dda",
+  "run_name": "audit-runtime",
+  "scope": "single_run_followup",
+  "prior_artifact": "latency-investigation.md",
+  "verdict": {
+    "classification": "retry_loop",
+    "not": [
+      "live_slow_request",
+      "locally_stuck_after_closed_request"
+    ],
+    "summary": "Turn 67 attempted three times on a byte-identical 821,410-byte payload, each attempt closing after ~29 minutes with zero frames, zero tokens and no stop reason.",
+    "waiting_still_justified": false,
+    "reason_waiting_no_longer_justified": "Peers released with real completions and 30 codex exchanges completed since 04:33Z; this run's failure is deterministic and self-repeating, not a queue wait.",
+    "revision_note": "Prior 'nothing local is slow' is revised. Local CPU saturation is real and is a plausible co-factor on the response streaming and persistence path. Upstream stall and local starvation cannot be cleanly separated. The run-specific discriminator is unchanged: peers completed turns on the same saturated host while only ddac0df9 loops on a byte-identical 821KB replay."
+  },
+  "active_request": {
+    "turn_index": 67,
+    "issued_utc": "2026-09-05T04:46:18Z",
+    "age_seconds_at_observation": 29,
+    "request_raw_bytes": 821410,
+    "frames_received": 0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "stop_reason": null,
+    "response_complete": false
+  },
+  "attempt_history": [
+    {
+      "turn_index": 66,
+      "issued_utc": "2026-09-05T03:49:28Z",
+      "closed_utc": "2026-09-05T04:17:02Z",
+      "wall_seconds": 1653.8,
+      "stop_reason": "ws_close_1011",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "request_raw_bytes": 11895
+    },
+    {
+      "turn_index": 67,
+      "attempt": 1,
+      "issued_utc": "2026-09-05T04:17:03Z",
+      "closed_utc": "2026-09-05T04:46:17Z",
+      "wall_seconds": 1754.2,
+      "stop_reason": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "request_raw_bytes": 821410,
+      "note": "closed with response_complete true but no stop_reason and no tokens"
+    },
+    {
+      "turn_index": 67,
+      "attempt": 2,
+      "issued_utc": "2026-09-05T04:46:18Z",
+      "closed_utc": null,
+      "wall_seconds": null,
+      "stop_reason": null,
+      "request_raw_bytes": 821410,
+      "note": "in flight at observation; byte-identical replay"
+    }
+  ],
+  "last_successful_output": {
+    "turn_index": 65,
+    "utc": "2026-09-05T03:49:20Z",
+    "input_tokens": 168519,
+    "output_tokens": 154,
+    "stop_reason": "completed"
+  },
+  "minutes_without_model_output": 57,
+  "payload_size_analysis": {
+    "failing_request_bytes": 821410,
+    "largest_successful_request_bytes": 43734,
+    "last_successful_request_bytes": 20035,
+    "ratio_to_largest_successful": 18.8,
+    "ratio_to_last_successful": 41.0,
+    "interpretation": "Full ~240k-token conversation replayed after the ws_close_1011; likely too large for the endpoint to serve, failing at the same ~29 minute mark each attempt."
+  },
+  "effort": {
+    "footer_reported": "xhigh",
+    "wire_effective": "xhigh",
+    "launch_receipt_requested": "high",
+    "footer_matches_wire": true,
+    "divergence_is_between": "launch_receipt_and_wire",
+    "wire_census": [
+      {
+        "effort": "xhigh",
+        "count": 70,
+        "first_utc": "2026-09-05T03:28:54Z",
+        "last_utc": "2026-09-05T04:46:18Z"
+      },
+      {
+        "effort": "low",
+        "count": 1,
+        "first_utc": "2026-09-05T03:28:59Z",
+        "last_utc": "2026-09-05T03:28:59Z",
+        "note": "prewarm"
+      }
+    ],
+    "causal_role": "contributing_not_proximate",
+    "rationale": "xhigh was already in effect during the run's healthy 8-12s turns at 03:47-03:49. It inflated tokens per turn, consistent with this run reaching the fleet's highest context (247078) and turn count (279), but it did not cause the retry loop.",
+    "metadata_source": "wire_exchange.request_extras->'reasoning'->>'effort'"
+  },
+  "report_artifacts": {
+    "runtime_md_exists": false,
+    "runtime_json_exists": false,
+    "complete": false,
+    "research_location": "transcript_only",
+    "at_risk": true,
+    "note": "Largest output burst was 3635 tokens at 03:48:04Z, likely the report drafted in-message rather than written to disk. Recoverable while the pane lives.",
+    "files_written_in_project_since_0415Z": [
+      "authority.md",
+      "consolidation.json",
+      "latency-investigation.md",
+      "latency-investigation.json"
+    ]
+  },
+  "fleet_context": {
+    "codex_exchanges_completed_since_0433Z": 30,
+    "consolidation_json_written_utc": "2026-09-05T04:41:10Z",
+    "interpretation": "Queue drained; this run did not benefit."
+  },
+  "recommended_action": {
+    "primary": "interrupt_then_reprompt",
+    "do_not": [
+      "close the pane",
+      "launch a replacement",
+      "keep waiting"
+    ],
+    "preserves_completed_research": true,
+    "steps": [
+      {
+        "order": 0,
+        "action": "reclaim_non_audit_cpu",
+        "target": "pid 64139 (Virtualization VM, 549.8%, 9d) and pid 48471 (pyenv python, 84.5%, 2d)",
+        "touches_agents": false,
+        "rationale": "Least disruptive of all; frees ~5.3 cores held by processes unrelated to the audit. May let the in-flight retry complete untouched and improves the odds the step 2 write succeeds. Attribution only; no process signalled.",
+        "fallback": "If declined or ineffective within one ~29-minute retry cycle, proceed to interrupt."
+      },
+      {
+        "order": 1,
+        "action": "interrupt",
+        "target": "ddac0df9-ab44-4277-8ea4-bed514a51dda",
+        "rationale": "Cuts the in-flight 821KB request. Transcript stays in the pane; no research lost."
+      },
+      {
+        "order": 2,
+        "action": "nudge",
+        "target": "ddac0df9-ab44-4277-8ea4-bed514a51dda",
+        "prompt": "Stop all further research. Write what you already have to /Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3/runtime.md and runtime.json now, in one pass, covering issues 603, 565, 504, 482, 472, 471, 459, 460. Mark any issue you did not finish as status: incomplete rather than omitting it. Keep the write short. Do not read further files before writing.",
+        "rationale": "Converts transcript-only research into a durable artifact and shrinks the next request well below the failing size."
+      },
+      {
+        "order": 3,
+        "action": "harvest_transcript_if_step2_fails",
+        "target": "ddac0df9-ab44-4277-8ea4-bed514a51dda",
+        "method": "conversation(run_id, shape=\"summary\")",
+        "rationale": "Provider path unrecoverable; read findings directly. Do not close the pane until harvested."
+      }
+    ]
+  },
+  "evidence_paths": [
+    "postgres transport_matters_preview wire_exchange where run_id='ddac0df9-ab44-4277-8ea4-bed514a51dda' (ts, created_at, stop_reason, response_complete, input_tokens, output_tokens, request_raw_bytes, request_extras->'reasoning'->>'effort')",
+    "/Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3/runs.json",
+    "/Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3/ (directory listing)",
+    "/Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3/latency-investigation.md",
+    "uptime, ps -Ao pid,ppid,pcpu,etime,comm -r, ps -AM | wc -l at 2026-09-05T04:48:09Z"
+  ],
+  "unverified_boundaries": [
+    "Payload size as failure trigger is inferred from correlation between the 821410-byte replay and three consecutive empty ~29-minute closes; no upstream error body was returned.",
+    "Turn 67 attempt 1 closed with response_complete true but no stop_reason, so its close reason is not recorded and is not classified as ws_close_1011.",
+    "Where the high-to-xhigh substitution occurs (control plane or harness) was not traced.",
+    "Upstream stall and local CPU starvation cannot be cleanly separated as causes of the empty ~29-minute closes.",
+    "ps %CPU is a lifetime average, not an instantaneous sample."
+  ],
+  "local_cpu_saturation": {
+    "measured_utc": "2026-09-05T04:48:09Z",
+    "host_cores": 12,
+    "load_average": {
+      "1m": 51.44,
+      "5m": 147.11,
+      "15m": 330.48
+    },
+    "load_15m_multiple_of_cores": 27.5,
+    "interpretation": "Peak sat inside the stall window and is draining (330 -> 147 -> 51).",
+    "processes": 2600,
+    "threads": 22185,
+    "stuart_activity_monitor": {
+      "idle_pct": 0.0,
+      "user_pct": 82.59,
+      "system_pct": 17.41,
+      "processes": 2594,
+      "threads": 23026
+    },
+    "top_consumers": [
+      {
+        "pid": 64139,
+        "pcpu": 549.8,
+        "elapsed": "9d02h",
+        "process": "Apple Virtualization.VirtualMachine.xpc (Docker VM)",
+        "audit_related": false,
+        "note": "predates audit by 9 days; ~4.6 cores"
+      },
+      {
+        "pid": 48471,
+        "pcpu": 84.5,
+        "elapsed": "2d10h",
+        "process": "~/.pyenv/versions/3.14.5/bin/python3",
+        "audit_related": false,
+        "note": "predates audit by 2 days"
+      },
+      {
+        "pids": [
+          82261,
+          83341,
+          82426,
+          82614,
+          7217,
+          83809,
+          21060,
+          58054,
+          37889
+        ],
+        "pcpu_total": 398.3,
+        "elapsed": "~1h19m",
+        "process": "transport-matters capture layer (ppid 94154)",
+        "audit_related": true
+      },
+      {
+        "pid": 409,
+        "pcpu": 18.8,
+        "elapsed": "19d",
+        "process": "WindowServer",
+        "audit_related": false
+      }
+    ],
+    "non_audit_cores_held": 5.3,
+    "cores_left_for_nine_runs": 6.7,
+    "leaked_test_workers": {
+      "pytest": 0,
+      "vitest": 0,
+      "jest": 0,
+      "found": false,
+      "conclusion": "No leaked test subprocesses or parallel workers. The audit was read-only issue review and never invoked a test suite. codex harness binaries are cheap (0.4-0.7%) with no orphans; high process/thread totals are the VM, Electron helpers under node_modules and normal desktop load."
+    }
+  }
+}

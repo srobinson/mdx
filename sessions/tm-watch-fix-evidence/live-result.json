@@ -1,0 +1,17 @@
+{
+  "registered": true,
+  "elapsed_ms": 26.814624899998307,
+  "workspace_items": 412,
+  "database": "transport_matters_preview",
+  "listener_pid": 1266674,
+  "target": "36f957a3-3557-490e-abd4-d5eb6dae38b8",
+  "notifications": [
+    "[tm watch] watch-notification-proof (36f9) finished turn 2 [completed; cursor=WzIsMCwiYUxpejktTWRIY0pBNXNmZXQ1TVhUZyIsMTAsMjdd]"
+  ],
+  "delivery_attempts": [
+    "[tm watch] watch-notification-proof (36f9) finished turn 2 [completed; cursor=WzIsMCwiYUxpejktTWRIY0pBNXNmZXQ1TVhUZyIsMTAsMjdd]"
+  ],
+  "audit_statuses": [
+    "subscribed"
+  ]
+}

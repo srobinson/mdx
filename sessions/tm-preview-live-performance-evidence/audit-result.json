@@ -1,0 +1,476 @@
+{
+  "observed_at": "2026-09-08T01:05:04.178926+00:00",
+  "source_head": "0c6a57559a1c6cc2487946b9c614517ebbc18fbb",
+  "source_worktree_status_before": "",
+  "script_sha256": "7b56ac6d48620338ebca14d3eeb42944ed25a3e6e32bd1fcfd3cdc70e434b97c",
+  "scope": [
+    "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+    "dd117da2-e994-4ec5-8515-8bc0e68ba303"
+  ],
+  "results": [
+    {
+      "run_id": "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+      "path": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/642f2051-70cb-4e77-8bb4-7c10d09cfdef/20260908T005755Z-524dbc4b",
+      "exchange_id": "524dbc4b-f21d-48cc-b3db-0ae4af9bdad4",
+      "status": "completed",
+      "terminal_cause": "response_completed",
+      "completed_evidence": true,
+      "snapshot_status": "completed",
+      "journal_commits": 0,
+      "journal_torn_tail_bytes": 0,
+      "transport_messages": 7,
+      "server_event_counts": {
+        "codex.rate_limits": 1,
+        "codex.response.metadata": 1,
+        "response.created": 1,
+        "response.in_progress": 1,
+        "responsesapi.websocket_timing": 1,
+        "response.completed": 1
+      },
+      "last_server_ts": "2026-09-08T00:57:56.629215+00:00",
+      "provider_terminals": [
+        {
+          "type": "response.completed",
+          "ts": "2026-09-08T00:57:56.629215+00:00",
+          "status": "completed"
+        }
+      ],
+      "transport_close_present": false,
+      "semantic_events": 3,
+      "text_chars": 0,
+      "tool_calls": 0,
+      "response_present": true,
+      "checks": {
+        "events": {
+          "equal": true,
+          "stored_sha256": "a25ecb91eba9dd84cae98d2ff3335b62c5b4683cc290b16346e17d2529c7db87",
+          "replayed_sha256": "a25ecb91eba9dd84cae98d2ff3335b62c5b4683cc290b16346e17d2529c7db87"
+        },
+        "turn": {
+          "equal": true,
+          "stored_sha256": "0a44cc239bd631eeb806554f5f299344c796ead9ac6e2ae737d01604fc643ece",
+          "replayed_sha256": "0a44cc239bd631eeb806554f5f299344c796ead9ac6e2ae737d01604fc643ece"
+        },
+        "response": {
+          "equal": true,
+          "stored_sha256": "b9100cbe2ae71910eeb835ad84b900de23d1edbdd693d79b6df2fb0bb073bdfa",
+          "replayed_sha256": "b9100cbe2ae71910eeb835ad84b900de23d1edbdd693d79b6df2fb0bb073bdfa"
+        }
+      },
+      "diagnostics": [],
+      "source_files_stable": true,
+      "source_files": {
+        "entry.json": {
+          "bytes": 1239,
+          "sha256": "58cce3012a5e384de7b36aef886d9b890652e826b43efdce403c815a0ebe6e13"
+        },
+        "events.jsonl": {
+          "bytes": 1229,
+          "sha256": "196a8d25b1922a385c94b641c44ba6eded122256f21d2629fb09d9c92e1dd59b"
+        },
+        "request.audit.json": {
+          "bytes": 251,
+          "sha256": "034c0a45d4c7b26ab452393c716c2603d11bb1f40bf32f4aa92ab17f3959af38"
+        },
+        "request.ir.json": {
+          "bytes": 250786,
+          "sha256": "f7c216729b6ce7a386d3e5127d2896fa344bbf5b0e6318ccb4725c3c4ffba01c"
+        },
+        "request.raw": {
+          "bytes": 100552,
+          "sha256": "e04fd5b544da6a2b7ba0760d2eb1ed28074db75b2995cf33f9b10e9e176d8784"
+        },
+        "response.ir.json": {
+          "bytes": 336,
+          "sha256": "b63730ca21c33ad2281c5bfb91fea1cd99b209287fcfee5b0418d7d4df9617ea"
+        },
+        "transport.json": {
+          "bytes": 844305,
+          "sha256": "62944060a84889489bdd73c4d75fa67e2a230bf92ddd33a3b6d3af984d3d2cb9"
+        },
+        "turn.json": {
+          "bytes": 606,
+          "sha256": "7e9369d6fb0a8f9fb272d684e8db75f1c39e1b4952dff367224fae468541c218"
+        }
+      },
+      "pass": true
+    },
+    {
+      "run_id": "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+      "path": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/642f2051-70cb-4e77-8bb4-7c10d09cfdef/20260908T005757Z-7e45e75b",
+      "exchange_id": "7e45e75b-c611-4c71-8866-dacac785bfbe",
+      "status": "completed",
+      "terminal_cause": "response_completed",
+      "completed_evidence": true,
+      "snapshot_status": "completed",
+      "journal_commits": 0,
+      "journal_torn_tail_bytes": 0,
+      "transport_messages": 2359,
+      "server_event_counts": {
+        "codex.rate_limits": 1,
+        "codex.response.metadata": 1,
+        "response.created": 1,
+        "response.in_progress": 1,
+        "response.output_item.added": 1,
+        "response.content_part.added": 1,
+        "response.output_text.delta": 2347,
+        "response.output_text.done": 1,
+        "response.content_part.done": 1,
+        "response.output_item.done": 1,
+        "responsesapi.websocket_timing": 1,
+        "response.completed": 1
+      },
+      "last_server_ts": "2026-09-08T01:00:09.627740+00:00",
+      "provider_terminals": [
+        {
+          "type": "response.completed",
+          "ts": "2026-09-08T01:00:09.627740+00:00",
+          "status": "completed"
+        }
+      ],
+      "transport_close_present": false,
+      "semantic_events": 4,
+      "text_chars": 15561,
+      "tool_calls": 1,
+      "response_present": true,
+      "checks": {
+        "events": {
+          "equal": true,
+          "stored_sha256": "da94b4d9f627c2d84aa70002b912bcd785aa3da3c50175e9ccb86f61dacaede0",
+          "replayed_sha256": "da94b4d9f627c2d84aa70002b912bcd785aa3da3c50175e9ccb86f61dacaede0"
+        },
+        "turn": {
+          "equal": true,
+          "stored_sha256": "2812d28c31977f8442952bf7a215e2fa2582b05d5b2203241cd624a4440ee6c8",
+          "replayed_sha256": "2812d28c31977f8442952bf7a215e2fa2582b05d5b2203241cd624a4440ee6c8"
+        },
+        "response": {
+          "equal": true,
+          "stored_sha256": "71d3cc9c6d6726b446e2a0629011b09c5ba28ce3f2d6a7fa899fd64236cec4af",
+          "replayed_sha256": "71d3cc9c6d6726b446e2a0629011b09c5ba28ce3f2d6a7fa899fd64236cec4af"
+        }
+      },
+      "diagnostics": [],
+      "source_files_stable": true,
+      "source_files": {
+        "entry.json": {
+          "bytes": 1260,
+          "sha256": "89bfcc60c0cf3cf74281dc12994176835e0ff956f2ec57e161703fb74a56188f"
+        },
+        "events.jsonl": {
+          "bytes": 1732,
+          "sha256": "581702f4acb1b1a493b0146bff34579625d5674a893d1352dc6a297ad6a04150"
+        },
+        "request.audit.json": {
+          "bytes": 261,
+          "sha256": "fafe8a473d05777d3708a5da82bc0cd5b5cbacdd53637cc308f39ea9af07e016"
+        },
+        "request.ir.json": {
+          "bytes": 481596,
+          "sha256": "e71746e4bc3368f2012e96564c38c7b0a75f432abd77bd098ac55a66d78da16f"
+        },
+        "request.raw": {
+          "bytes": 202066,
+          "sha256": "a4ab3a5de2109ab47a30655d3f4a90e3989c4dca103667788282c05189e02cc4"
+        },
+        "response.ir.json": {
+          "bytes": 16348,
+          "sha256": "00c1615d13abafffc1777f4e3b6cfd2a5ed2cdaadf17c791b2dcbb240e778e37"
+        },
+        "transport.json": {
+          "bytes": 3480575,
+          "sha256": "9d33e766538cf02e4f7829a7b993f26e60651d72a63c545b22f1ee718e091f70"
+        },
+        "turn.json": {
+          "bytes": 616,
+          "sha256": "794d2e33700e16591b27d81f05e32898e2d25a0c976822cd62cbe50416964ed4"
+        }
+      },
+      "pass": true
+    },
+    {
+      "run_id": "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+      "path": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/642f2051-70cb-4e77-8bb4-7c10d09cfdef/20260908T005758Z-ad779521",
+      "exchange_id": "ad779521-eef8-4443-90c2-4ca9754e52e0",
+      "status": "completed",
+      "terminal_cause": "response_completed",
+      "completed_evidence": true,
+      "snapshot_status": "completed",
+      "journal_commits": 0,
+      "journal_torn_tail_bytes": 0,
+      "transport_messages": 7,
+      "server_event_counts": {
+        "codex.rate_limits": 1,
+        "codex.response.metadata": 1,
+        "response.created": 1,
+        "response.in_progress": 1,
+        "responsesapi.websocket_timing": 1,
+        "response.completed": 1
+      },
+      "last_server_ts": "2026-09-08T00:57:58.857651+00:00",
+      "provider_terminals": [
+        {
+          "type": "response.completed",
+          "ts": "2026-09-08T00:57:58.857651+00:00",
+          "status": "completed"
+        }
+      ],
+      "transport_close_present": false,
+      "semantic_events": 3,
+      "text_chars": 0,
+      "tool_calls": 0,
+      "response_present": true,
+      "checks": {
+        "events": {
+          "equal": true,
+          "stored_sha256": "7f4b43282c5ea3df26befa2d7ce0523b7899b63a3382d78e051ca54212aa44ab",
+          "replayed_sha256": "7f4b43282c5ea3df26befa2d7ce0523b7899b63a3382d78e051ca54212aa44ab"
+        },
+        "turn": {
+          "equal": true,
+          "stored_sha256": "7832ceeac2c71ddbc98c4ab0a35838cbf139546250eaa151e270132bc29a9a74",
+          "replayed_sha256": "7832ceeac2c71ddbc98c4ab0a35838cbf139546250eaa151e270132bc29a9a74"
+        },
+        "response": {
+          "equal": true,
+          "stored_sha256": "53e4b5c05cdc0bff272531b509edcf46d3d5242eadcb1ecddb843225776e7f5c",
+          "replayed_sha256": "53e4b5c05cdc0bff272531b509edcf46d3d5242eadcb1ecddb843225776e7f5c"
+        }
+      },
+      "diagnostics": [],
+      "source_files_stable": true,
+      "source_files": {
+        "entry.json": {
+          "bytes": 1237,
+          "sha256": "80040a450b861f660a7abfdc999729beb3e0e47379422a500db2e79e3185e0e7"
+        },
+        "events.jsonl": {
+          "bytes": 1229,
+          "sha256": "ef2f394736ae3a822caa83ffee23d67ba2d9e07e8a06034451d886374675d075"
+        },
+        "request.audit.json": {
+          "bytes": 249,
+          "sha256": "1f105353d76e6670f4b3f5e72104f45f25ff5f39bdce6967127ccbc73fc11862"
+        },
+        "request.ir.json": {
+          "bytes": 51430,
+          "sha256": "7f941e18690f19532e9aa7c458450e86d7975407e9468bd5ed168decda2d799a"
+        },
+        "request.raw": {
+          "bytes": 24963,
+          "sha256": "806471c09cc0cccaf8676a1221f18926f1864ddf405ca3801f7dd4f383a83be6"
+        },
+        "response.ir.json": {
+          "bytes": 336,
+          "sha256": "c83fc68d1a620382afcbe57184ef80221e4a85b4b827047878e1422efdb7fc01"
+        },
+        "transport.json": {
+          "bytes": 112474,
+          "sha256": "d614909f395ce7e071f83ca89b7eefed8afc6e4aa02498c1c0b307665a0d0900"
+        },
+        "turn.json": {
+          "bytes": 607,
+          "sha256": "006eac64ea59ad1710aee8cc4fa4f1af7ae6cc2c2f78d5ca9192d9747249c93a"
+        }
+      },
+      "pass": true
+    },
+    {
+      "run_id": "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+      "path": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/642f2051-70cb-4e77-8bb4-7c10d09cfdef/20260908T005759Z-b0f1dea6",
+      "exchange_id": "b0f1dea6-4c08-4aaa-8a01-9cf5053fdd5f",
+      "status": "completed",
+      "terminal_cause": "response_completed",
+      "completed_evidence": true,
+      "snapshot_status": "completed",
+      "journal_commits": 0,
+      "journal_torn_tail_bytes": 0,
+      "transport_messages": 21,
+      "server_event_counts": {
+        "codex.rate_limits": 1,
+        "codex.response.metadata": 1,
+        "response.created": 1,
+        "response.in_progress": 1,
+        "response.output_item.added": 1,
+        "response.content_part.added": 1,
+        "response.output_text.delta": 9,
+        "response.output_text.done": 1,
+        "response.content_part.done": 1,
+        "response.output_item.done": 1,
+        "responsesapi.websocket_timing": 1,
+        "response.completed": 1
+      },
+      "last_server_ts": "2026-09-08T00:58:00.730556+00:00",
+      "provider_terminals": [
+        {
+          "type": "response.completed",
+          "ts": "2026-09-08T00:58:00.730556+00:00",
+          "status": "completed"
+        }
+      ],
+      "transport_close_present": false,
+      "semantic_events": 4,
+      "text_chars": 47,
+      "tool_calls": 1,
+      "response_present": true,
+      "checks": {
+        "events": {
+          "equal": true,
+          "stored_sha256": "1b198a41c8c47cd1c510cb391bfb69a7dcd15a329c3a09f465adf442689b1c39",
+          "replayed_sha256": "1b198a41c8c47cd1c510cb391bfb69a7dcd15a329c3a09f465adf442689b1c39"
+        },
+        "turn": {
+          "equal": true,
+          "stored_sha256": "fcc5e22fd8b5f4b2a462de0bfcd3721d552c47af6014ab180dc956415c8650dc",
+          "replayed_sha256": "fcc5e22fd8b5f4b2a462de0bfcd3721d552c47af6014ab180dc956415c8650dc"
+        },
+        "response": {
+          "equal": true,
+          "stored_sha256": "b2f1c9d1bae4e604e1f2454eb772ca1fc2a72d0cd77639a47c94e2634da0e7d3",
+          "replayed_sha256": "b2f1c9d1bae4e604e1f2454eb772ca1fc2a72d0cd77639a47c94e2634da0e7d3"
+        }
+      },
+      "diagnostics": [],
+      "source_files_stable": true,
+      "source_files": {
+        "entry.json": {
+          "bytes": 1247,
+          "sha256": "b6af9ec32b78ca4534caf86bcb2ac605cfa39c107e819098305146cf0cbca62a"
+        },
+        "events.jsonl": {
+          "bytes": 1722,
+          "sha256": "f4ad8ede52ffa196d4f548b1cfbfceacaebe4f61c563cd1b97ec0c8bba5ac365"
+        },
+        "request.audit.json": {
+          "bytes": 255,
+          "sha256": "baa7f4be069878188b4dc0280e0075d650a8b2b11df5510dff52b48f8bcbf753"
+        },
+        "request.ir.json": {
+          "bytes": 65253,
+          "sha256": "9206243ffc03c4c1421185dba653ede053b5f67f64dbbd9cea24946d376d964e"
+        },
+        "request.raw": {
+          "bytes": 31648,
+          "sha256": "898e97e741f4b0d75b74c2259cf313c3d88f6671f761b1fc47417e271fd768d6"
+        },
+        "response.ir.json": {
+          "bytes": 716,
+          "sha256": "989bc7804e296d77b6a6182974850770d1ddfd9b771ab8221245202f0f8f3a4c"
+        },
+        "transport.json": {
+          "bytes": 148030,
+          "sha256": "36ec869c29b324faf809105d345d7e6461c254a458029c9f2eb4ec4d1d16dabc"
+        },
+        "turn.json": {
+          "bytes": 610,
+          "sha256": "e03f1f28834b02f562b0516385ac9fd606cc3582057c29f5228bc1204da0f295"
+        }
+      },
+      "pass": true
+    },
+    {
+      "run_id": "642f2051-70cb-4e77-8bb4-7c10d09cfdef",
+      "path": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/642f2051-70cb-4e77-8bb4-7c10d09cfdef/20260908T010152Z-fc4aeac1",
+      "exchange_id": "fc4aeac1-3a7f-4894-b23b-a8b49947abe0",
+      "status": "completed",
+      "terminal_cause": "response_completed",
+      "completed_evidence": true,
+      "snapshot_status": "completed",
+      "journal_commits": 0,
+      "journal_torn_tail_bytes": 0,
+      "transport_messages": 2989,
+      "server_event_counts": {
+        "codex.rate_limits": 1,
+        "codex.response.metadata": 1,
+        "response.created": 1,
+        "response.in_progress": 1,
+        "response.output_item.added": 1,
+        "response.content_part.added": 1,
+        "response.output_text.delta": 2977,
+        "response.output_text.done": 1,
+        "response.content_part.done": 1,
+        "response.output_item.done": 1,
+        "responsesapi.websocket_timing": 1,
+        "response.completed": 1
+      },
+      "last_server_ts": "2026-09-08T01:04:41.425294+00:00",
+      "provider_terminals": [
+        {
+          "type": "response.completed",
+          "ts": "2026-09-08T01:04:41.425294+00:00",
+          "status": "completed"
+        }
+      ],
+      "transport_close_present": false,
+      "semantic_events": 4,
+      "text_chars": 19639,
+      "tool_calls": 1,
+      "response_present": true,
+      "checks": {
+        "events": {
+          "equal": true,
+          "stored_sha256": "3007e37f5c6d7763bf7d9469eaf9e153dbf8d030e14e0dda2af920f978ac7f8a",
+          "replayed_sha256": "3007e37f5c6d7763bf7d9469eaf9e153dbf8d030e14e0dda2af920f978ac7f8a"
+        },
+        "turn": {
+          "equal": true,
+          "stored_sha256": "e8ace3330526581e87682fdc243006076e7455e97f4719cbd035af6df47cd088",
+          "replayed_sha256": "e8ace3330526581e87682fdc243006076e7455e97f4719cbd035af6df47cd088"
+        },
+        "response": {
+          "equal": true,
+          "stored_sha256": "74291577f0b35f4835bd34fc1d7cabd7500c9fe315e8a98f56135f8f409454d9",
+          "replayed_sha256": "74291577f0b35f4835bd34fc1d7cabd7500c9fe315e8a98f56135f8f409454d9"
+        }
+      },
+      "diagnostics": [],
+      "source_files_stable": true,
+      "source_files": {
+        "entry.json": {
+          "bytes": 1260,
+          "sha256": "14458b67e66b0283c8ac5e34177c40341011a184de0dc304f8153367501689b9"
+        },
+        "events.jsonl": {
+          "bytes": 1732,
+          "sha256": "60bd0b9728de2e177a5035687703d897e320891b9735aace5485828609fdef4a"
+        },
+        "request.audit.json": {
+          "bytes": 261,
+          "sha256": "003ba69d24d9a72a23b3b0f5d988f7abc3a3b5a5b862526f75b872837ab99569"
+        },
+        "request.ir.json": {
+          "bytes": 607529,
+          "sha256": "9913ece53a70e4871e2aa27b4af6d05e9b282c78d488eff6aaf2a097db1067fe"
+        },
+        "request.raw": {
+          "bytes": 255651,
+          "sha256": "6513b51adf0d16a33c101d584e107f9a8cb6ae5993376ca727881e10518a52b2"
+        },
+        "response.ir.json": {
+          "bytes": 20456,
+          "sha256": "86116d7de2bc19dcd044b0023a3691bb3063ff7ff15cb87da3717363a7622a73"
+        },
+        "transport.json": {
+          "bytes": 4271089,
+          "sha256": "52c5b5d460c71c644e34cf393eda49f6a82721f8dc7d3383cf93372f55d1caec"
+        },
+        "turn.json": {
+          "bytes": 616,
+          "sha256": "16c47e8503f8ce349d2fa942c3675fbec539ea3a2dddd64881e3753c6dbba17d"
+        }
+      },
+      "pass": true
+    }
+  ],
+  "completed_pass_count": 5,
+  "boundaries": [
+    "Selection bounded to latest 16 primary exchanges and, when incomplete, first 8 completed fallback exchanges.",
+    "No latency sampling or performance improvement claim.",
+    "Replay uses captured transport, not an independent vendor transcript.",
+    "Operator facts and turn identity reuse stored metadata through the existing rebuild API.",
+    "No capture, database, process, or repository writes. Python audit hook denies network and writes outside audit-prefixed output files.",
+    "Open exchanges are point-in-time observations, not final parity proof.",
+    "File hash stability is checked across each read and replay; later producer changes remain possible.",
+    "Exact source HEAD verified; running preview process build identity is not verified."
+  ]
+}

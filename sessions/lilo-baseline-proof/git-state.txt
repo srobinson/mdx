@@ -1,0 +1,3 @@
+branch: fix/baseline-readiness
+commit: 687c3b3006af71cd4c3aa94cb88ffea9d84feb64
+working tree: clean

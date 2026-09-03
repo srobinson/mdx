@@ -1,0 +1,22 @@
+{
+  "sessions": [
+    {
+      "run_id": "6853a1d4-06ec-4059-8574-c6538f39eeb5",
+      "harness": "codex",
+      "native_session_id": "4b1245f0-bba9-4dfd-969b-242dcc08dc83",
+      "minted": false,
+      "source_descriptor": "{\"kind\":\"file_tail\",\"path\":\"/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/sessions/2026/09/08/rollout-2026-09-08T06-08-12-4b1245f0-bba9-4dfd-969b-242dcc08dc83.jsonl\",\"format\":\"codex_rollout\",\"encoding\":\"utf-8\",\"home_dir\":\"/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex\"}",
+      "home_dir": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex",
+      "template_provenance": {
+        "template_id": "generalist",
+        "template_home": "/Users/alphab/.agent-runtimes/runtimes/generalist",
+        "registry_source": "agent-runtimes",
+        "registry_root": "/Users/alphab/.agent-runtimes/runtimes",
+        "generated_from": "ac66fde2656f809befa292eddeb0668ec48894bed6585c19d46908f6198f21e5",
+        "launch_requirements_digest": "sha256:004be47bba0b972b0fb8e44ddc625197d2d75dab7a4c35461dc63776a9c6918a",
+        "requested_grant": "none",
+        "requested_capabilities": []
+      }
+    }
+  ]
+}

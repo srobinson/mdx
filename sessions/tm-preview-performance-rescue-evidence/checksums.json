@@ -1,0 +1,44 @@
+[
+  {
+    "source": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/transcripts/16df9bcd-cd43-5a2c-8d8d-f3bde9563a04.jsonl",
+    "file": "transcript.jsonl",
+    "bytes": 735233,
+    "sha256": "a9858d4b25ebed928fff1ce34a710352fe91e60eb60d6475537575d593431520"
+  },
+  {
+    "source": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex/sessions/2026/09/08/rollout-2026-09-08T06-08-12-4b1245f0-bba9-4dfd-969b-242dcc08dc83.jsonl",
+    "file": "native-transcript.jsonl",
+    "bytes": 735233,
+    "sha256": "a9858d4b25ebed928fff1ce34a710352fe91e60eb60d6475537575d593431520"
+  },
+  {
+    "source": "/tmp/tm-performance.results",
+    "file": "sample-stacks.results",
+    "bytes": 43062,
+    "sha256": "be310400d126e47c036203e68bf29d130d11fb087f1e3452dc1b64af97269cf1"
+  },
+  {
+    "source": "/tmp/tm-performance.XtOeB0/sample_stacks.py",
+    "file": "sample_stacks.py",
+    "bytes": 1660,
+    "sha256": "30ea5ae2bc8d10543a0b57c8809b8fceb4bc63be2fdeff850ab68eaf9d32720e"
+  },
+  {
+    "source": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/sessions.json",
+    "file": "sessions.json",
+    "bytes": 1439,
+    "sha256": "b7cb008239c14c29245a603c122660fcc6840823388721a10edc9150fccde07c"
+  },
+  {
+    "source": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/manifest.json",
+    "file": "run-manifest.json",
+    "bytes": 666,
+    "sha256": "c285e87acd414ec19d2a34c1437ca8fc1589bad094b93d1c4c46217b0706c847"
+  },
+  {
+    "source": "/Users/alphab/.transport-matters-preview/runtime/desktop.json",
+    "file": "desktop.json",
+    "bytes": 421,
+    "sha256": "a919ebdedf807ee2e995da6edade81c3fa9a8652833bbcad9bbc1fcdcee69b00"
+  }
+]

@@ -1,0 +1,3 @@
+{"queue_requests": 13, "queue_median_ms": 0.4698124248534441}
+{"frames": 128, "cpu_ms": 34.37000000000001, "wall_ms": 36.65141621604562, "median_ms": 0.26497896760702133, "p95_ms": 0.3404160961508751, "first_quarter_ms": 0.3325221987324767, "last_quarter_ms": 0.2612460375530645, "exchange_reads": 1, "exchange_rewrites": 0, "frames_decoded": 128}
+{"frames": 512, "cpu_ms": 139.324, "wall_ms": 148.97142490372062, "median_ms": 0.2779585774987936, "p95_ms": 0.3428750205785036, "first_quarter_ms": 0.3019935084012104, "last_quarter_ms": 0.2750872590695508, "exchange_reads": 1, "exchange_rewrites": 0, "frames_decoded": 512}

@@ -1,0 +1,165 @@
+▮▮▮▮ theme:build (cached, 4976a42e)
+▮▮▮▮ auth-workos:build (cached, 36f1d518)
+▮▮▮▮ collections:build (cached, 057a85e3)
+▮▮▮▮ auth:build (cached, 2e833725)
+▮▮▮▮ vite-config:build (a4ddd7e1)
+▮▮▮▮ vite-config:test-coverage (de9f96f0)
+▮▮▮▮ ui:build (cached, faf343d7)
+▮▮▮▮ db:build (cached, 66fd4ff4)
+▮▮▮▮ auth-session:build (cached, b09ed2a1)
+▮▮▮▮ views:build (cached, ae0a4136)
+▮▮▮▮ auth-tanstack:build (c14b4e23)
+▮▮▮▮ auth-tanstack:test-coverage (5b7fe5a6)
+▮▮▮▮ vite-config:build (295ms, a4ddd7e1)
+▮▮▮▮ auth-tanstack:build (259ms, c14b4e23)
+▮▮▮▮ web:build (8f0fbb67)
+▮▮▮▮ web:test (0c643696)
+auth-tanstack:test-coverage | 
+  vite-config:test-coverage | 
+auth-tanstack:test-coverage |  RUN  v4.1.11 /Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/auth-tanstack
+  vite-config:test-coverage |  RUN  v4.1.11 /Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/vite-config
+  vite-config:test-coverage |       Coverage enabled with v8
+auth-tanstack:test-coverage |       Coverage enabled with v8
+  vite-config:test-coverage | 
+auth-tanstack:test-coverage | 
+                   web:test | 
+                   web:test |  RUN  v4.1.11 /Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/apps/web
+                   web:test | 
+  vite-config:test-coverage | 
+  vite-config:test-coverage |  Test Files  2 passed (2)
+  vite-config:test-coverage |       Tests  6 passed (6)
+  vite-config:test-coverage |    Start at  05:23:25
+  vite-config:test-coverage |    Duration  453ms (transform 49ms, setup 0ms, import 316ms, tests 149ms, environment 0ms)
+  vite-config:test-coverage | 
+  vite-config:test-coverage |  % Coverage report from v8
+  vite-config:test-coverage | ----------|---------|----------|---------|---------|-------------------
+  vite-config:test-coverage | File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+  vite-config:test-coverage | ----------|---------|----------|---------|---------|-------------------
+  vite-config:test-coverage | All files |      95 |    95.45 |     100 |     100 |                   
+  vite-config:test-coverage |  index.ts |      95 |    95.45 |     100 |     100 | 49                
+  vite-config:test-coverage | ----------|---------|----------|---------|---------|-------------------
+  vite-config:test-coverage | 
+  vite-config:test-coverage | =============================== Coverage summary ===============================
+  vite-config:test-coverage | Statements   : 95% ( 19/20 )
+  vite-config:test-coverage | Branches     : 95.45% ( 21/22 )
+  vite-config:test-coverage | Functions    : 100% ( 5/5 )
+  vite-config:test-coverage | Lines        : 100% ( 17/17 )
+  vite-config:test-coverage | ================================================================================
+▮▮▮▮ vite-config:test-coverage (869ms, de9f96f0)
+auth-tanstack:test-coverage | 
+auth-tanstack:test-coverage |  Test Files  4 passed (4)
+auth-tanstack:test-coverage |       Tests  21 passed (21)
+auth-tanstack:test-coverage |    Start at  05:23:25
+auth-tanstack:test-coverage |    Duration  623ms (transform 303ms, setup 0ms, import 616ms, tests 44ms, environment 0ms)
+auth-tanstack:test-coverage | 
+auth-tanstack:test-coverage |  % Coverage report from v8
+auth-tanstack:test-coverage | ------------|---------|----------|---------|---------|-------------------
+auth-tanstack:test-coverage | File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+auth-tanstack:test-coverage | ------------|---------|----------|---------|---------|-------------------
+auth-tanstack:test-coverage | All files   |   97.22 |      100 |      95 |   97.14 |                   
+auth-tanstack:test-coverage |  runtime.ts |   96.55 |      100 |   92.85 |   96.42 | 152               
+auth-tanstack:test-coverage | ------------|---------|----------|---------|---------|-------------------
+auth-tanstack:test-coverage | 
+auth-tanstack:test-coverage | =============================== Coverage summary ===============================
+auth-tanstack:test-coverage | Statements   : 97.22% ( 35/36 )
+auth-tanstack:test-coverage | Branches     : 100% ( 18/18 )
+auth-tanstack:test-coverage | Functions    : 95% ( 19/20 )
+auth-tanstack:test-coverage | Lines        : 97.14% ( 34/35 )
+auth-tanstack:test-coverage | ================================================================================
+▮▮▮▮ auth-tanstack:test-coverage (1s 16ms, 5b7fe5a6)
+                  web:build | vite v8.2.1 building client environment for production...
+                  web:build | [2Ktransforming...✓ 289 modules transformed.
+                   web:test | 
+                   web:test |  Test Files  6 passed (6)
+                   web:test |       Tests  44 passed (44)
+                   web:test |    Start at  05:23:26
+                   web:test |    Duration  1.07s (transform 872ms, setup 0ms, import 3.26s, tests 827ms, environment 0ms)
+                   web:test | 
+▮▮▮▮ web:test (1s 391ms, 0c643696)
+                  web:build | rendering chunks...
+                  web:build | computing gzip size...
+                  web:build | .output/public/assets/styles-C7aD5JZl.css         27.02 kB │ gzip:  5.37 kB
+                  web:build | .output/public/assets/input-C7aabzhN.js            0.85 kB │ gzip:  0.47 kB
+                  web:build | .output/public/assets/session-error-Coj-6YNo.js    1.03 kB │ gzip:  0.58 kB
+                  web:build | .output/public/assets/verify-email-DeFvxMvH.js     1.23 kB │ gzip:  0.67 kB
+                  web:build | .output/public/assets/routes-Dv1WHwIa.js           1.28 kB │ gzip:  0.64 kB
+                  web:build | .output/public/assets/card-D38i5hN-.js             2.17 kB │ gzip:  0.86 kB
+                  web:build | .output/public/assets/app-n9te6m36.js              2.41 kB │ gzip:  1.04 kB
+                  web:build | .output/public/assets/react-dom-BFJ-0waR.js        3.54 kB │ gzip:  1.34 kB
+                  web:build | .output/public/assets/theme-JhwVW1OK.js            9.61 kB │ gzip:  2.88 kB
+                  web:build | .output/public/assets/text-DvwASs0D.js            34.33 kB │ gzip: 11.30 kB
+                  web:build | .output/public/assets/route-BL7-TKMt.js           35.08 kB │ gzip: 12.46 kB
+                  web:build | .output/public/assets/index-C1oN3sNP.js          281.64 kB │ gzip: 90.44 kB
+                  web:build | 
+                  web:build | ✓ built in 229ms
+                  web:build | vite v8.2.1 building ssr environment for production...
+                  web:build | [2Ktransforming...✓ 358 modules transformed.
+                  web:build | rendering chunks...
+                  web:build | computing gzip size...
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/styles-C7aD5JZl.css                      27.02 kB │ gzip:  5.37 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/search-OaQcrdS9.js                        0.22 kB │ gzip:  0.17 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/start-DH-S0jw8.js                         0.29 kB │ gzip:  0.22 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-DeC_TAl1.js         0.31 kB │ gzip:  0.21 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/createServerRpc-BSAxVR5R.js               0.47 kB │ gzip:  0.31 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/__root-DiPWRrzP.js                        0.74 kB │ gzip:  0.40 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/input-BoMIuKf1.js                         0.97 kB │ gzip:  0.53 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/session-error-CPzzXaGM.js                 1.67 kB │ gzip:  0.82 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Br-LptW3.js    1.96 kB │ gzip:  0.57 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/verify-email-C-mL3nHv.js                  2.21 kB │ gzip:  1.08 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/routes-DcgQPu4K.js                        2.64 kB │ gzip:  1.26 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/card-BYd5xF6w.js                          2.71 kB │ gzip:  0.98 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/app-CwDmW0PL.js                           5.20 kB │ gzip:  2.07 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/router-D6RWTXa3.js                        8.05 kB │ gzip:  2.73 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/app-BCLam5qj.js                           8.17 kB │ gzip:  3.41 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/theme-CMHscfTP.js                         9.57 kB │ gzip:  3.38 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/theme-C05OC-uU.js                         9.69 kB │ gzip:  2.94 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/text-WMnpYheg.js                        103.01 kB │ gzip: 20.06 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/webapi-BgpV54gi-DA2lvWcg.js             110.58 kB │ gzip: 23.21 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/index.js                                       239.37 kB │ gzip: 54.70 kB
+                  web:build | node_modules/.nitro/vite/services/ssr/assets/auth-CIHkq1LA.js                        370.74 kB │ gzip: 75.71 kB
+                  web:build | 
+                  web:build | ✓ built in 169ms
+                  web:build | 
+                  web:build | [nitro] ◐ Building [Nitro] (preset: node-server, compatibility: 2026-09-08)
+                  web:build | [nitro] ✔ Generated public .output/public
+                  web:build | vite v8.2.1 building nitro environment for production...
+                  web:build | [2Ktransforming...✓ 333 modules transformed.
+                  web:build | rendering chunks...
+                  web:build | computing gzip size...
+                  web:build | .output/server/_ssr/start-DH-S0jw8.mjs                    0.14 kB │ gzip:   0.13 kB
+                  web:build | .output/server/_ssr/empty-plugin-adapters-DeC_TAl1.mjs    0.23 kB │ gzip:   0.16 kB
+                  web:build | .output/server/_ssr/createServerRpc-BSAxVR5R.mjs          0.38 kB │ gzip:   0.26 kB
+                  web:build | .output/server/__root-DiPWRrzP.mjs                        0.78 kB │ gzip:   0.42 kB
+                  web:build | .output/server/_ssr/input-BoMIuKf1.mjs                    1.08 kB │ gzip:   0.56 kB
+                  web:build | .output/server/_chunks/ssr-renderer.mjs                   1.25 kB │ gzip:   0.60 kB
+                  web:build | .output/server/_ssr/session-error-CPzzXaGM.mjs            1.92 kB │ gzip:   0.88 kB
+                  web:build | .output/server/_runtime.mjs                               1.92 kB │ gzip:   0.87 kB
+                  web:build | .output/server/_tanstack-start-manifest_v-Br-LptW3.mjs    2.02 kB │ gzip:   0.60 kB
+                  web:build | .output/server/_libs/ufo.mjs                              2.21 kB │ gzip:   0.72 kB
+                  web:build | .output/server/_ssr/verify-email-C-mL3nHv.mjs             2.56 kB │ gzip:   1.13 kB
+                  web:build | .output/server/_ssr/card-BYd5xF6w.mjs                     2.88 kB │ gzip:   0.99 kB
+                  web:build | .output/server/_ssr/routes-DcgQPu4K.mjs                   3.03 kB │ gzip:   1.31 kB
+                  web:build | .output/server/_ssr/app-CwDmW0PL.mjs                      5.87 kB │ gzip:   2.08 kB
+                  web:build | .output/server/_ssr/router-D6RWTXa3.mjs                   7.56 kB │ gzip:   2.66 kB
+                  web:build | .output/server/_ssr/app-BCLam5qj.mjs                      7.93 kB │ gzip:   3.38 kB
+                  web:build | .output/server/_ssr/theme-C05OC-uU.mjs                    9.59 kB │ gzip:   2.93 kB
+                  web:build | .output/server/_ssr/theme-CMHscfTP.mjs                   10.49 kB │ gzip:   3.29 kB
+                  web:build | .output/server/_libs/tanstack__history.mjs               10.68 kB │ gzip:   3.12 kB
+                  web:build | .output/server/index.mjs                                 13.28 kB │ gzip:   4.14 kB
+                  web:build | .output/server/_libs/h3+rou3+srvx.mjs                    46.34 kB │ gzip:  12.42 kB
+                  web:build | .output/server/_ssr/text-WMnpYheg.mjs                   102.64 kB │ gzip:  19.96 kB
+                  web:build | .output/server/_ssr/webapi-BgpV54gi-DA2lvWcg.mjs        110.55 kB │ gzip:  23.20 kB
+                  web:build | .output/server/_ssr/ssr.mjs                             231.88 kB │ gzip:  53.79 kB
+                  web:build | .output/server/_libs/drizzle-orm.mjs                    286.10 kB │ gzip:  61.64 kB
+                  web:build | .output/server/_ssr/auth-CIHkq1LA.mjs                   367.18 kB │ gzip:  75.21 kB
+                  web:build | .output/server/_libs/@tanstack/react-router+[...].mjs   680.97 kB │ gzip: 142.42 kB
+                  web:build | 
+                  web:build | ✓ built in 97ms
+                  web:build | ℹ Generated .output/nitro.json
+                  web:build | 
+                  web:build | [nitro] ✔ You can preview this build using npx vite preview
+▮▮▮▮ web:build (1s 740ms, 8f0fbb67)
+
+Tasks: 14 completed (8 cached)
+ Time: 2s 157ms
+

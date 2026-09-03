@@ -1,0 +1,25 @@
+# consolidation: recovered TM conversation
+
+Run: `d5dd7bb7-35e6-4743-9808-f268999d3d5d`
+
+Retrieved from the beginning through the last available page. 5 visible user/assistant messages. This is the conversation projection; it excludes raw tool calls, tool results, and internal reasoning. Agent assertions are preserved as recorded and are not new verification.
+
+## Message 1: user
+
+Stuart's latest steering: "consolidation and closing redundant issues is very high value." You own an independent consolidation and closure pass over the full 43-issue backlog. Read /Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3/AUDIT-BRIEF.md, all-issues.md (all descriptions/comments), manifest.json, parent-links.json, and the completed portfolio.md/json. Source is the current repository, snapshot SHA in manifest. Earlier detailed audits are ongoing; do not wait or poll for them. Find defensible redundancy and completed/stale scope, and prepare concrete grooming recommendations. Distinguish exact duplicate, subset, overlapping scope, tracking parent, completed acceptance, abandoned experiment and unique still-open outcome. Shared code is not enough to call duplicates. Be aggressive about reducing issue-management overhead, rigorous about retaining unique requirements. For every recommended close/merge: survivor issue number (or merged PR if actually done), exact acceptance criteria transferred or already satisfied, why no remaining standalone work is lost, prerequisite edits before closing, confidence, and evidence citations. A parent with pending children is not completed. Reconcile #381/#384/#630 and #455/#456-458 and #593 children carefully; #477/#632-633; #368/#611; #459/#460; #496/#498; #573 partially shipped; #523/#611/#446. Inspect code/merged PRs selectively. Read open PR #463/#464 as in-flight, not shipped, if relevant. Produce consolidation.md and consolidation.json in /Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3 with {actions:[{issue,action,survivor,unique_requirements:[strings],prerequisite_edits:[strings],evidence:[strings],confidence,rationale}], retained:[{issue,reason}], projected_counts:{current,close_candidates,remaining_after_recommended_actions}, uncertainties:[strings]}. Include exact proposed closing-comment text and survivor-body amendment text for high-confidence candidates in the markdown, as local drafts only. Account for all 43 issues between actions and retained without duplicating issue rows. No source edits, GitHub mutations, messages to other agents or launches. Final reply <=1000 words: how many defensible closures, strongest consolidation groups, retained standalone distinctions, report paths. Finish: done: consolidation.md consolidation.json; reviewed 43 issues. Work autonomously; TM watch delivers completion.
+
+## Message 2: assistant
+
+I’ll independently reconcile the 43 issues against the audit brief, snapshot artifacts, and selective repository/PR evidence, then write only the two requested local reports. I’ll keep every issue represented exactly once across actions or retained, and I’ll treat in-flight PRs as unshipped.
+
+## Message 3: assistant
+
+The supplied portfolio is a useful prior reconciliation, but I’m treating it as input rather than authority. I’ve confirmed the manifest contains exactly 43 issues and identified the key parent groups. Next I’m reading the complete issue corpus and checking the proposed closure candidates against the snapshot code and git history.
+
+## Message 4: assistant
+
+The closure set is deliberately narrow. I found one high confidence exact consolidation, #459 into #460. The other tempting pairs are subsets, parents, or adjacent work with distinct outcomes, so I’m preserving them and recording the required split or body amendments instead of inflating the closure count. I’m now verifying the one merge candidate and the shipped versus in flight boundaries.
+
+## Message 5: assistant
+
+The snapshot confirms the boundary: HEAD is commit `53511834` for merged #629, while PR #463 and #464 are both open with no merge commit. That keeps #456 in flight and prevents a false completed closure. I’m writing the reports now with one action row for #459 and a single retained row for every other issue.

@@ -1,0 +1,86 @@
+{
+  "actions": [
+    {
+      "issue": 459,
+      "action": "merge_into",
+      "survivor": 460,
+      "unique_requirements": [
+        "Preserve the codex runtime checklist: execution environment and result protocol, sandbox and approval policy, known cwd and PATH, process lifecycle, output shaping, safety enforcement, and verification guidance.",
+        "Preserve the just-bash benchmark table, its reproduction method, and the explicit decision not to document rg in the kernel contract.",
+        "Preserve the open questions: end-to-end tokens and retries, the eval taxonomy, provider acceptance of an undeclared tool_use, and Vercel Sandbox for VM or process gaps."
+      ],
+      "prerequisite_edits": [
+        "Amend #460 with a Kernel research inputs section containing the transferred checklist, benchmark, gaps, and open questions.",
+        "Keep #460 as the actionable experiment under #455 and mark #459 as historical research absorbed by that experiment.",
+        "Close #459 only after the #460 body amendment is visible; do not claim that the just-bash server or A/B experiment has shipped."
+      ],
+      "evidence": [
+        "issue-459.md, header: #459 is explicitly Back pocket and not scheduled; its comment points readers to #460.",
+        "issue-459.md, Open work before this is more than a note: the end-to-end comparison, eval suite, and undeclared-tool question are the measurement work specified by #460.",
+        "issue-459.md, Benchmark and Candidate sections: the benchmark and transplant checklist are reference material, not an independent deliverable.",
+        "issue-460.md, Experiment and Acceptance sections: #460 owns the runnable just-agent A/B and produces the evidence that answers the research question.",
+        "PR #463 and PR #464 are OPEN with mergeCommit null, so no in-flight Canvas work changes this conclusion."
+      ],
+      "confidence": "high",
+      "rationale": "This is a subset merge with no remaining standalone user outcome. #459 deliberately records research so it is not re-derived, while #460 is the single experiment that can produce the requested evidence."
+    }
+  ],
+  "retained": [
+    {"issue": 368, "reason": "Retain and rewrite. The distinct outcome is automatic passthrough of harness auxiliary turns while a breakpoint is armed. Consume the existing request-purpose classification and keep the aux classification visible; #611 supplies fixtures and #592 addresses positional override corruption."},
+    {"issue": 381, "reason": "Retain as a tracking parent. #383 and #384 remain open children, so the parent is not complete. Update its child links and move future power-user versioning out of the acceptance body when the children are reconciled."},
+    {"issue": 383, "reason": "Retain. First-run educational HTML is a distinct user outcome from the operator wire viewer in #456. Reuse one request projection and persist the same evidence; defer on value, not because it is redundant."},
+    {"issue": 384, "reason": "Retain and rewrite. The lifecycle comments and current compatibility code settle part of the doctrine, while older-harness support and upgrade behavior remain. Transfer the more precise overlay work to #455 and #457/#458 without closing the unique policy work."},
+    {"issue": 413, "reason": "Retain as explicitly deferred. The owner deferred it with evidence that specialist Codex skills can write through a template overlay. The question remains distinct from general Autopilot and should reopen only with a clean rule for template versus native-home state."},
+    {"issue": 446, "reason": "Retain. Both CLIs share the capture function, but the single-cell debug and degraded-acceptance path differs from cohort publication. Decide and document the boundary before certify --all; shared code alone does not justify closure."},
+    {"issue": 448, "reason": "Retain and defer. Signed retrieval, key rotation, staged channel rollout, kill switch, cache, and release nudges are a real supply-chain outcome. The verifier is still RejectAllSignatureVerifier and the update path is unbuilt."},
+    {"issue": 455, "reason": "Retain as the overlay design parent. It has pending work in #456 through #460, despite prose-only parent links in the snapshot. Add real links and preserve its measurements and mechanism decisions as the parent record."},
+    {"issue": 456, "reason": "Retain. The read-only wire-class viewer is independently useful and is the acceptance surface for later overlay work. PR #463 and PR #464 are open slices, so the issue remains in flight rather than completed."},
+    {"issue": 457, "reason": "Retain. Harness builtin subtraction and capability declaration are a unique token and control outcome. Coordinate with #597 because filtering TM MCP tools changes the same Claude request mass, while ownership and failure modes differ."},
+    {"issue": 458, "reason": "Retain. Regenerating runtime prompts after tool decisions is a separate correctness requirement from tool enablement. Without it, subtraction can leave an agent with stale instructions."},
+    {"issue": 460, "reason": "Retain as the survivor for #459. It is the actionable experiment, with zero-provider-spend request capture already measured but the just-bash MCP server and end-to-end evaluation still open."},
+    {"issue": 470, "reason": "Retain and rewrite the key. Runtime provider refusal evidence must survive a home wipe and remain available to launch resolution. Choose provider account identity, not only provider plus model, before implementation and retain certification and publishing exclusions separately."},
+    {"issue": 471, "reason": "Retain. Configurable durable log placement is a small diagnostic and recovery outcome. The current detached desktop log still resolves under the disposable channel home."},
+    {"issue": 472, "reason": "Retain. Canvas grant and bypass settings silently reset after a home wipe. Fix this persistence boundary before #598 claims durable consent semantics."},
+    {"issue": 477, "reason": "Retain after a split edit. The advisory portion overlaps #632 and should be removed or cross-linked there, while the per-run range and blessed/degraded status bar remains a unique UI outcome dependent on #633."},
+    {"issue": 482, "reason": "Retain. The in-app login driver has a distinct first-run outcome, an approved six-slice plan, and signed-off review. Reconcile its credential-home placement with the disposable-home risks in #471 and #472."},
+    {"issue": 496, "reason": "Retain and split internally. Summary selection has a small independent fix; selectable tool parts require decisions about truncation, pagination, and projection reuse. Neither outcome duplicates #498's search and capture-coverage work."},
+    {"issue": 498, "reason": "Retain and split internally. Channel scope, complete FTS coverage, filters, session-keyed conversation reads, and capture-coverage investigation have different owners. The comment shows that exposing the incomplete index would reproduce confident wrongness."},
+    {"issue": 504, "reason": "Retain as trigger-gated design. A second presenter is not established, and the current single-presenter behavior is exact. Resolve pushState stack semantics when the second presenter trigger becomes real."},
+    {"issue": 515, "reason": "Retain. watch_status is an additive orchestration read that exposes existing watch ownership and shadowing. It is independent of the broader MCP catalog parent, but land it before a literal catalog count is frozen."},
+    {"issue": 523, "reason": "Retain as the certification and corpus parent. Tool-turn and envelope machinery exists, but the shipped release still carries 26 first-turn references and none of the newer shapes. #611 is a deliberate split, and #446 remains a prerequisite decision."},
+    {"issue": 555, "reason": "Retain. Grok's observed model suffix is a distinct normalization and regression outcome. The 148 observed samples cover only grok-4.6, so generalization to grok-4.5 remains open."},
+    {"issue": 565, "reason": "Retain. Presenter registration and genuine Electron binding are the browser integrity boundary. It gates the security-sensitive portion of #603 and is not replaced by the existing capability bearer."},
+    {"issue": 573, "reason": "Retain and rewrite. HEAD #629 shipped only the lazy resident reconciliation portion. The one-binding overwrite and Codex merged-queue outcome remain standalone work and became more important after the old waiter mitigation moved out of the path."},
+    {"issue": 574, "reason": "Retain. A terminal snapshot reader exists, but agents still lack the pane capture verb and gateway ownership remains a live design question. The same capture also enables the dirty-prompt consumer identified in the issue."},
+    {"issue": 592, "reason": "Retain. Content-anchored system and message overrides address a live cross-request data-corruption class. The current resolver still uses positional selection, so the acceptance is unfulfilled."},
+    {"issue": 593, "reason": "Retain as a tracking parent. Six children #595 through #600 remain open under a coherent authority program. The parent is not completed by #2 and #594 being closed."},
+    {"issue": 595, "reason": "Retain. Effective grant resolution is the policy foundation for per-runtime authority and has a distinct persisted-state outcome. It is ready after the already-closed schema prerequisite."},
+    {"issue": 596, "reason": "Retain. A canonical ordered MCP catalog is a no-behavior-change registry refactor and prerequisite for policy filtering. Decorator spread and exact tool order remain current code."},
+    {"issue": 597, "reason": "Retain. Call-time MCP discovery filtering is the unique bounded-catalog outcome. It depends on #595 and #596 and must state how its capability vocabulary differs from #457's harness tool vocabulary."},
+    {"issue": 598, "reason": "Retain. Canvas consent UX makes effective authority legible and freezes policy for existing runs. Its persistence acceptance depends on #472, so the issues should be sequenced rather than merged."},
+    {"issue": 599, "reason": "Retain. MCP 2.1.1 SDK porting is a mechanical protocol compatibility outcome after #597. Its referenced target shape does not exist yet, which makes it blocked, not stale."},
+    {"issue": 600, "reason": "Retain. Transport relocation and dual-protocol real-client proof are distinct from the SDK port and are the final authority-program integration gate."},
+    {"issue": 602, "reason": "Retain as a deferred design note. The Canvas ping-pong workflow has a unique outcome, but its relay-versus-peer shape and token economics are undecided. Closing would discard an open product decision without a survivor."},
+    {"issue": 603, "reason": "Retain and split internally. Error diagnosability and a separate mint verb can proceed, while changing the 30-second window depends on the trust boundary in #565. Do not close either half as shipped."},
+    {"issue": 611, "reason": "Retain. Purpose fixtures are a small regression guard deliberately split from #523. They protect the aux-turn behavior in #368 and validate facts that structural schema comparison cannot establish."},
+    {"issue": 624, "reason": "Retain. Error vocabulary preserves code and message for idempotency conflicts and other run failures. It changes a public control-plane union and should land before #596 freezes the catalog schema."},
+    {"issue": 630, "reason": "Retain as the discovery and verification parent. #631, #632, and #633 are all open children, so this parent cannot close. Reconcile its lifecycle boundary with #384 rather than duplicating implementation work."},
+    {"issue": 631, "reason": "Retain. Refreshed Codex enumeration is the unique discovery fix that makes newly released models visible. Its typed fallback and partial-retention behavior also interact with the runtime entitlement rule in #470 and #632."},
+    {"issue": 632, "reason": "Retain and rewrite. Target retention and fail-open launchability remain open. The 2026-09-05 comment reverses the entitlement-removal bullet, so move that storage work to #470 and keep the sanctioned runtime refusal in resolution."},
+    {"issue": 633, "reason": "Retain and split internally. New-model reference selection, first-launch state, durable queueing, retention, and diagnostics are distinct outcomes. Resolve the conflict between provisional degraded and #384's unknown-before-comparison rule before implementation."}
+  ],
+  "projected_counts": {
+    "current": 43,
+    "close_candidates": 1,
+    "remaining_after_recommended_actions": 42
+  },
+  "uncertainties": [
+    "The account-awareness premise in #632 is unresolved: the comment measured the bundled Codex catalog, while the earlier approval referred to the refreshed catalog. Record a refreshed codex debug models result on #470 before changing entitlement resolution.",
+    "#633's provisional degraded posture conflicts with the ratified #384 and CLAUDE.md support semantics. An owner decision is required; the consolidation recommendation does not silently choose one.",
+    "The certify --all publication run is unassigned. The snapshot release has 26 first-turn references, zero tool-turn references, and zero envelope schemas, which blocks the complete acceptance claimed by #523 and #633.",
+    "PR #463 and PR #464 were read as in-flight and unmerged. Their code and checks support #456 but cannot be counted as completed acceptance.",
+    "The state of #385 and #386 named in #381's historical implementation order is outside this 43-issue manifest and was not used to close the parent.",
+    "Grok model normalization evidence covers grok-4.6 only; #555's grok-4.5 boundary remains unverified.",
+    "No runtime or provider-spending probes were run in this consolidation pass. Code, git history, supplied issue corpus, manifest, parent links, and open PR metadata were inspected read only."
+  ]
+}

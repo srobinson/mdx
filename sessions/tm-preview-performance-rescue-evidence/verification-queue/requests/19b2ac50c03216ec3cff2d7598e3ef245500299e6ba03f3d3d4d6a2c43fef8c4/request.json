@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "cell": {
+    "harness": "grok",
+    "model": "grok-4.5",
+    "effort": "medium"
+  },
+  "provider": "grok",
+  "executor_id": "4c7c3be8-94e3-4dd4-b309-80efb159f814",
+  "owner": "local",
+  "route_id": "grok.grok_com.account",
+  "installed_version": "1.0.13",
+  "binary": "/Users/alphab/.local/bin/grok",
+  "release": {
+    "release": {
+      "manifest_schema_version": 2,
+      "release_id": "grok-1.0.5-r2",
+      "release_digest": "11c935976543c0af61b16be8961108337a4e1004fe35ee50248d3afe7136b53a",
+      "harness_id": "grok",
+      "baseline_version": "1.0.5",
+      "minimum_version": "1.0.5",
+      "maximum_version": "1.0.5",
+      "harness_launch_revision": "grok-launch-r1",
+      "route_catalog_revision": "grok-routes-r1",
+      "target_catalog_revision": "grok-targets-r1",
+      "launch_adapter_revision": "grok-launch-adapter-r1",
+      "setup_adapter_revision": "grok-setup-r1",
+      "observation_adapter_revision": "grok-observation-r1",
+      "interaction_adapter_revision": "grok-interaction-r1",
+      "wire_request_revision": "grok-wire-request-r1",
+      "wire_response_revision": "grok-wire-response-r1",
+      "session_bootstrap_revision": "grok-session-bootstrap-r1",
+      "transcript_locator_revision": "grok-transcript-locator-r1",
+      "transcript_reader_revision": "grok-transcript-reader-r1",
+      "project_layout_revision": "grok-project-layout-r1",
+      "runtime_home_revision": "grok-runtime-home-r1",
+      "facet_observability": {
+        "harness_launch": "certification_gated",
+        "route_catalog": "certification_gated",
+        "target_catalog": "certification_gated",
+        "launch_adapter": "certification_gated",
+        "setup_adapter": "certification_gated",
+        "observation_adapter": "certification_gated",
+        "interaction_adapter": "certification_gated",
+        "wire_request": "runtime_observable",
+        "wire_response": "runtime_observable",
+        "session_bootstrap": "runtime_observable",
+        "transcript_locator": "runtime_observable",
+        "transcript_reader": "runtime_observable",
+        "project_layout": "certification_gated",
+        "runtime_home": "certification_gated"
+      },
+      "schema_digests": {
+        "wire_request": "54a2e13a2f366c5ef8290919ed695b8b7e0e6ae5bd998f64aa3973eb367b5356",
+        "wire_response": "70585c6efc6a8e222e9e88ae964d81b23152663ebfb2fc87646272e61df3ae2c",
+        "transcript": "51a4c1366e0103b0e44c920dd772eaac5ecb628e10effb8e5d2144ac3bd653f8"
+      },
+      "fixture_set_digest": "75a4b184b6811d595e0c0d8a37a2330b2d8608af737d56c9948977ce39f0e19a",
+      "evidence_digest": "800d7ac17cd5dd005a91258769aaff8070f273719dd159043ce0ee36840c8b7d",
+      "compatible_transport_matters_versions": {
+        "minimum_version": "0.0.0"
+      },
+      "published_at": "2026-08-26T18:55:52Z",
+      "signer": "transport-matters-publisher",
+      "signature": "stub:embedded:grok-1.0.5-r2"
+    },
+    "routes": [
+      {
+        "route_id": "grok.grok_com.account",
+        "authentication_family": "oauth",
+        "provider_id": "grok",
+        "transport_family": "https",
+        "interaction_mode": "cli",
+        "authentication_probe_revision": "grok-models-probe-r1",
+        "access_probe_revision": "grok-access-probe-r1",
+        "access_evidence_ttl_seconds": 86400,
+        "evidence_digest": "cea4768eaca60a33363d48783f03b465351daa6d043db2bec1ebf66d5fb264ee"
+      }
+    ],
+    "targets": [
+      {
+        "compatibility_release_id": "grok-1.0.5-r2",
+        "route_id": "grok.grok_com.account",
+        "model_id": "grok-4.5",
+        "native_model_id": "grok-4.5",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "grok-launch-adapter-r1",
+        "evidence_digest": "dc5d834a5be38e560e0f2886f93f5bf8b9502fd31f98c3d600c463e7cc444e9e"
+      },
+      {
+        "compatibility_release_id": "grok-1.0.5-r2",
+        "route_id": "grok.grok_com.account",
+        "model_id": "grok-4.6",
+        "native_model_id": "grok-4.6",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "grok-launch-adapter-r1",
+        "evidence_digest": "84ab1537839642bfb2732579e13781918d8db9dea940ce414ae526f52e3a3de8"
+      }
+    ],
+    "references": [
+      {
+        "route_id": "grok.grok_com.account",
+        "launch_model_id": "grok-4.5",
+        "request_shape": "first-turn",
+        "canonical_model_id": "grok-4.5",
+        "effort": "low",
+        "observed_harness_version": "1.0.5",
+        "request_schema": {
+          "profile": "responses",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "include": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "string"
+                  ],
+                  "properties": null,
+                  "present_in": {},
+                  "items": null,
+                  "observation_count": 6,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "input": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:message": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 9,
+                      "role": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "reasoning": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "summary": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3,
+                  "summary": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "store": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:function": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "description": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": true
+                      },
+                      "name": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": false
+                      },
+                      "parameters": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "description": 75,
+                      "name": 75,
+                      "parameters": 75,
+                      "type": 75
+                    },
+                    "items": null,
+                    "observation_count": 75,
+                    "opaque": false
+                  },
+                  "type:literal:web_search": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "type": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "type:literal:x_search": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "type": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "include": 3,
+              "input": 3,
+              "model": 3,
+              "reasoning": 3,
+              "store": 3,
+              "stream": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "8c24dcd563f6df0c416960041711c0c309045753f42d295148d46bcce92c5f22"
+      },
+      {
+        "route_id": "grok.grok_com.account",
+        "launch_model_id": "grok-4.6",
+        "request_shape": "first-turn",
+        "canonical_model_id": "grok-4.6",
+        "effort": "low",
+        "observed_harness_version": "1.0.5",
+        "request_schema": {
+          "profile": "responses",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "include": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "string"
+                  ],
+                  "properties": null,
+                  "present_in": {},
+                  "items": null,
+                  "observation_count": 6,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "input": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:message": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 9,
+                      "role": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "reasoning": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "summary": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3,
+                  "summary": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "store": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:function": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "description": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": true
+                      },
+                      "name": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": false
+                      },
+                      "parameters": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 75,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "description": 75,
+                      "name": 75,
+                      "parameters": 75,
+                      "type": 75
+                    },
+                    "items": null,
+                    "observation_count": 75,
+                    "opaque": false
+                  },
+                  "type:literal:web_search": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "type": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "type:literal:x_search": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "type": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "include": 3,
+              "input": 3,
+              "model": 3,
+              "reasoning": 3,
+              "store": 3,
+              "stream": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "8c24dcd563f6df0c416960041711c0c309045753f42d295148d46bcce92c5f22"
+      }
+    ]
+  },
+  "request_shapes": [
+    "first-turn"
+  ],
+  "queued_at": "2026-09-07T18:54:08.763917Z",
+  "state": "finished",
+  "failure_reason": null
+}

@@ -1,0 +1,97 @@
+{
+  "observation_time_utc": "2026-09-05T04:40:00Z",
+  "observation_window_utc": { "start": "2026-09-05T03:25:00Z", "end": "2026-09-05T04:40:00Z" },
+  "investigator_run_id": "b5195f34-9174-4bf0-8db0-fe16f9c4d7e6",
+  "mode": "read_only_diagnosis",
+  "verdict": {
+    "bottleneck_stage": "proxy_provider_response",
+    "summary": "Upstream provider latency on the Codex gpt-5.6-luna path. Five ws_close_1011 upstream failures at 03:41-03:49Z, then four reissued turns each held 2251-2377 seconds and released in near-FIFO order at 04:29-04:33Z. All affected runs carried 231k-247k input tokens.",
+    "confidence": "confirmed_for_stage_high_for_cause",
+    "local_infrastructure": "healthy"
+  },
+  "affected_runs": [
+    { "name": "audit-catalog", "run_id": "31a5591b-3172-4969-95f1-d64d19a46e61", "model": "gpt-5.6-luna", "state_at_observation": "reasoning", "stalled_request_issued": "2026-09-05T03:50:16Z", "released": "2026-09-05T04:29:41Z", "stall_seconds": 2363.6, "ws_close_1011_at": "2026-09-05T03:41:09Z", "ws_close_1011_seconds": 546.3, "max_input_tokens": 231829, "exchanges": 40, "open_exchanges": 2, "last_exchange": "2026-09-05T04:31:37Z", "progressing": true },
+    { "name": "audit-autopilot", "run_id": "6e0672ae-a2b9-42db-a3c7-37a9e12e6d7a", "model": "gpt-5.6-luna", "state_at_observation": "generating", "stalled_request_issued": "2026-09-05T03:53:40Z", "released": "2026-09-05T04:31:13Z", "stall_seconds": 2251.2, "ws_close_1011_at": "2026-09-05T03:44:56Z", "ws_close_1011_seconds": 523.0, "max_input_tokens": 239793, "exchanges": 51, "open_exchanges": 1, "last_exchange": "2026-09-05T04:31:13Z", "progressing": true },
+    { "name": "audit-authority", "run_id": "347552a4-b8b2-4bdf-ac18-ef9f05496910", "model": "gpt-5.6-luna", "state_at_observation": "running-tools", "stalled_request_issued": "2026-09-05T03:52:28Z", "released": "2026-09-05T04:32:06Z", "stall_seconds": 2376.5, "ws_close_1011_at": "2026-09-05T03:40:59Z", "ws_close_1011_seconds": 688.0, "max_input_tokens": 237650, "exchanges": 45, "open_exchanges": 1, "last_exchange": "2026-09-05T04:32:06Z", "progressing": true, "note": "wrote authority.md at 04:32:00Z, six seconds before its exchange persisted; proves tool and persistence path is not the bottleneck" },
+    { "name": "audit-orchestration", "run_id": "b380834f-f408-4d06-b31a-84ed31ef9be2", "model": "gpt-5.6-luna", "state_at_observation": "generating", "stalled_request_issued": "2026-09-05T03:54:32Z", "released": "2026-09-05T04:33:17Z", "stall_seconds": 2325.7, "ws_close_1011_at": "2026-09-05T03:45:33Z", "ws_close_1011_seconds": 538.3, "max_input_tokens": 241908, "exchanges": 50, "open_exchanges": 1, "last_exchange": "2026-09-05T04:33:17Z", "progressing": true },
+    { "name": "audit-runtime", "run_id": "ddac0df9-ab44-4277-8ea4-bed514a51dda", "model": "gpt-5.6-luna", "state_at_observation": "stalled", "stalled_request_issued": null, "released": null, "stall_seconds": null, "ws_close_1011_at": "2026-09-05T03:49:28Z", "ws_close_1011_seconds": 1653.8, "max_input_tokens": 247078, "exchanges": 70, "open_exchanges": 1, "last_exchange": "2026-09-05T04:17:03Z", "progressing": false, "note": "longest ws_close_1011 in the fleet; no turn since 04:17:03Z; only intervention candidate" },
+    { "name": "audit-reconciliation-check", "run_id": "0c40ac42-7f29-4057-820b-7a911da63d48", "model": "gpt-5.6-luna", "state_at_observation": "stalled", "stalled_request_issued": "2026-09-05T04:13:05Z", "released": null, "stall_seconds": ">1594 (in flight at 04:39:40Z)", "ws_close_1011_at": null, "max_input_tokens": 241409, "exchanges": 51, "open_exchanges": 1, "last_exchange": "2026-09-05T04:13:05Z", "progressing": false, "note": "cleanest latency-versus-context trace; one compaction request at 03:56:40Z costing 133.2s" },
+    { "name": "audit-consolidation", "run_id": "d5dd7bb7-35e6-4743-9808-f268999d3d5d", "model": "gpt-5.6-luna", "state_at_observation": "generating", "stalled_request_issued": null, "released": null, "stall_seconds": null, "max_input_tokens": 127174, "exchanges": 17, "open_exchanges": 1, "last_exchange": "2026-09-05T04:27:15Z", "progressing": true, "note": "launched 04:03Z, lower context, two turns of 223.8s and 242.2s" }
+  ],
+  "controls": [
+    { "name": "audit-portfolio", "run_id": "287fcdb2-426e-4d8d-9775-f5843a167704", "harness": "claude", "model": "opus[1m]", "state": "idle", "outcome": "completed", "exchanges": 41, "avg_response_seconds": 22.0, "max_response_seconds": 509.4, "span_minutes": 17.9, "first_exchange": "2026-09-05T03:29:39Z", "last_exchange": "2026-09-05T03:47:35Z", "max_context_tokens": 250213, "interpretation": "Finished before the 03:50Z stall window opened. Different harness and provider path. Escaped by finishing first, not by being faster per turn." },
+    { "name": "investigate-stalled", "run_id": "b81621b8-fa33-4a9b-9f07-6baa7c5e896e", "harness": "codex", "model": "gpt-5.6-sol", "launched": "2026-09-05T04:29:33Z", "per_turn_seconds_range": [6.6, 137.6], "context_range_tokens": [6905, 75937], "interpretation": "Decisive control. Same host, proxy and gateway during the stall, healthy throughout. Difference is context size and provider path, not local infrastructure." }
+  ],
+  "stage_analysis": [
+    { "stage": "prompt_submission", "verdict": "clean", "evidence": "runs.json receipts all RUNNING with delivery ids at 03:28-03:29Z" },
+    { "stage": "harness_request", "verdict": "clean", "evidence": "requests issued 0.0-1.2s after prior response across 25 sampled ddac0df9 turns" },
+    { "stage": "proxy_provider_first_byte_and_completion", "verdict": "BOTTLENECK", "evidence": "four turns at 2251-2377s; five ws_close_1011 (523-1654s); one ws_close_1006 (83.8s); codex completed-turn average 33.6s over 362 exchanges" },
+    { "stage": "tool_dispatch_execution_result", "verdict": "clean", "evidence": "inter-exchange gaps 0.0-1.2s; no tool held measurable time" },
+    { "stage": "transcript_persistence", "verdict": "clean", "evidence": "authority.md mtime 04:32:00Z against exchange completion 04:32:06Z" },
+    { "stage": "activity_roster_watch", "verdict": "clean", "evidence": "roster last_turn_at matches wire_exchange.ts within seconds for all eleven panes; no projection lag" },
+    { "stage": "gateway_responsiveness", "verdict": "clean", "evidence": "desktop.log serving per-run /v1/capture/*/health and /health at ~1s cadence, all HTTP 200, continuously through the stall" },
+    { "stage": "proxy_process", "verdict": "clean", "evidence": "shared-proxy.sock and pid live since 03:25Z; shared-mitmdump.log unwritten since 2026-09-02" }
+  ],
+  "measured_delays": {
+    "worst_single_request_seconds": 2376.5,
+    "worst_single_request_run": "347552a4-b8b2-4bdf-ac18-ef9f05496910",
+    "stall_window_utc": { "start": "2026-09-05T03:50:16Z", "end": "2026-09-05T04:33:17Z" },
+    "ws_close_1011_window_utc": { "start": "2026-09-05T03:40:59Z", "end": "2026-09-05T03:49:28Z" },
+    "ws_close_1011_count": 5,
+    "ws_close_1006_count": 1,
+    "codex_completed_exchange_avg_seconds": 33.6,
+    "codex_completed_exchange_count": 362,
+    "latency_versus_context_0c40ac42": [
+      { "input_tokens": 19080, "seconds": 26.8 },
+      { "input_tokens": 44602, "seconds": 42.1 },
+      { "input_tokens": 105560, "seconds": 11.1 },
+      { "input_tokens": 198315, "seconds": 56.8 },
+      { "input_tokens": 240144, "seconds": 43.6 },
+      { "input_tokens": 241409, "seconds": 133.2, "kind": "compaction" },
+      { "input_tokens": 90811, "seconds": 84.2, "note": "post-compaction, degraded versus equal context earlier" },
+      { "input_tokens": 98781, "seconds": 88.4 }
+    ]
+  },
+  "likely_cause": {
+    "primary": "Provider-side capacity or queueing on the Codex gpt-5.6-luna endpoint",
+    "aggravator": "Seven concurrent Luna runs on one account, each re-submitting 230k-250k input tokens per turn, roughly 1.6M tokens of aggregate prefill demand per fleet round",
+    "supporting_signals": [
+      "ws_close_1011 cluster confined to the five highest-context Luna runs inside a nine-minute window",
+      "uniform ~39-minute release in submission order, the signature of a draining queue rather than per-request timeouts",
+      "investigator's own Claude request returned rate_limit_error at 04:37:17Z, showing live account-level rate pressure",
+      "post-compaction turns cost more at equal context than pre-incident turns did"
+    ]
+  },
+  "alternatives_rejected": [
+    { "hypothesis": "local gateway or backend overload", "rejected_because": "health endpoints answered HTTP 200 at 1s cadence throughout; Sol control run took normal turns during the stall" },
+    { "hypothesis": "tool orchestration or unfulfilled parallel tools", "rejected_because": "inter-exchange gaps are 0.0-1.2s; no time held between response and next request" },
+    { "hypothesis": "shared workdir contention", "rejected_because": "would manifest as gaps between exchanges; time is inside single provider requests" },
+    { "hypothesis": "projection or watch lag hiding completed work", "rejected_because": "roster last_turn_at tracks wire_exchange.ts within seconds; authority.md landed within 6s of its exchange completing" },
+    { "hypothesis": "runs genuinely hung or dead", "rejected_because": "four released at 04:29-04:33Z and immediately opened new requests" },
+    { "hypothesis": "context compaction cost", "rejected_because": "one 133.2s compaction observed; explains tens of seconds, not 39 minutes" },
+    { "hypothesis": "the derived stalled roster label is the cause", "rejected_because": "the label is computed from last_turn_at age and is a symptom of the provider wait" }
+  ],
+  "recommended_immediate_action": {
+    "primary": "wait",
+    "detail": "Do not restart, interrupt, close, or re-prompt any audit run. Restarting discards up to 60 minutes of context and forces a fresh 240k-token prefill against the congested endpoint, which would worsen the incident.",
+    "steps": [
+      { "order": 1, "action": "Hold 15 minutes, then re-read roster", "targets": ["31a5591b-3172-4969-95f1-d64d19a46e61", "347552a4-b8b2-4bdf-ac18-ef9f05496910", "6e0672ae-a2b9-42db-a3c7-37a9e12e6d7a", "b380834f-f408-4d06-b31a-84ed31ef9be2"], "rationale": "All four are live and progressing; audit-authority already wrote authority.md at 04:32Z" },
+      { "order": 2, "action": "Launch no further gpt-5.6-luna runs until the fleet drains", "targets": [], "rationale": "Added concurrency feeds the queue holding the time" },
+      { "order": 3, "action": "Watch for release", "targets": ["0c40ac42-7f29-4057-820b-7a911da63d48", "ddac0df9-ab44-4277-8ea4-bed514a51dda"], "rationale": "0c40ac42 has an exchange open since 04:13:05Z and should release next; ddac0df9 has taken no turn since 04:17:03Z" },
+      { "order": 4, "action": "Only if still frozen after the hold, send a nudge asking the run to write partial findings to disk. Do not interrupt or restart.", "targets": ["ddac0df9-ab44-4277-8ea4-bed514a51dda"], "rationale": "Least disruptive intervention; preserves accumulated context" },
+      { "order": 5, "action": "Structural, for the next audit only", "targets": [], "rationale": "Partition work so no run approaches the context ceiling, and cap concurrent same-model runs; latency rises steeply past ~200k tokens even outside the incident" }
+    ]
+  },
+  "unverified_boundaries": [
+    "Provider-side queue state is inferred from client-observed timing and WebSocket close codes; no provider telemetry available",
+    "ws_close_1011 read as upstream internal error per the WebSocket specification; the specific upstream fault is not visible from captured metadata",
+    "The account rate-limit link is corroborating, not proof of a shared limiter between the Anthropic and Codex paths"
+  ],
+  "evidence_sources": [
+    "postgres transport_matters_preview wire_exchange (ts, created_at, input_tokens, cache_read_input_tokens, output_tokens, stop_reason, response_complete, response_error, request_kind)",
+    "mcp roster and workspace_summary at 04:37Z",
+    "~/.transport-matters-preview/runtime/desktop.log",
+    "~/.transport-matters-preview/runtime/shared-proxy/",
+    "artifact file mtimes in /Users/alphab/.mdx/projects/tm-issue-audit-2026-09-05-fb442de3"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "streaming_samples": 960,
+  "all_samples": 972,
+  "journal_first_bytes": 4128,
+  "journal_last_bytes": 12744108,
+  "transport_snapshot_distinct_mtimes": 1,
+  "active_requests": {
+    "backend": {
+      "median_ms": 1.3067915569990873,
+      "p95_ms": 2.6702089235186577,
+      "max_ms": 24.933167034760118,
+      "first_quarter_mean_ms": 1.1834451579488814,
+      "last_quarter_mean_ms": 1.8531812636259322
+    },
+    "terminal": {
+      "median_ms": 1.6803124453872442,
+      "p95_ms": 3.4412499517202377,
+      "max_ms": 6.780874915421009,
+      "first_quarter_mean_ms": 1.3808106208064903,
+      "last_quarter_mean_ms": 2.5017810810822994
+    }
+  }
+}

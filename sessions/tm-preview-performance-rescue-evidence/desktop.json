@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "channel": "preview",
+  "pid": 59710,
+  "proxy_port": 8797,
+  "web_port": 8798,
+  "log_path": "/Users/alphab/.transport-matters-preview/runtime/desktop.log",
+  "cwd": "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters",
+  "storage_dir": "/Users/alphab/.transport-matters-preview",
+  "version": "0.3.0.post1.dev573+ge0ce33a66",
+  "instance": "channel",
+  "started_at": "2026-09-07T21:48:58Z"
+}

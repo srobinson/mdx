@@ -1,0 +1,5153 @@
+{
+  "schema_version": 1,
+  "cell": {
+    "harness": "claude",
+    "model": "fable",
+    "effort": "medium"
+  },
+  "provider": "anthropic",
+  "executor_id": "4c7c3be8-94e3-4dd4-b309-80efb159f814",
+  "owner": "local",
+  "route_id": "claude.anthropic.oauth",
+  "installed_version": "2.1.263",
+  "binary": "/Users/alphab/.local/share/mise/installs/node/25/bin/claude",
+  "release": {
+    "release": {
+      "manifest_schema_version": 2,
+      "release_id": "claude-2.1.250-r2",
+      "release_digest": "9e404d82adc44e07aa976bd7170b6e443678487b161a70da836e73a291c9b7c8",
+      "harness_id": "claude",
+      "baseline_version": "2.1.250",
+      "minimum_version": "2.1.250",
+      "maximum_version": "2.1.250",
+      "harness_launch_revision": "claude-launch-r1",
+      "route_catalog_revision": "claude-routes-r1",
+      "target_catalog_revision": "claude-targets-r1",
+      "launch_adapter_revision": "claude-launch-adapter-r1",
+      "setup_adapter_revision": "claude-setup-r1",
+      "observation_adapter_revision": "claude-observation-r1",
+      "interaction_adapter_revision": "claude-interaction-r1",
+      "wire_request_revision": "claude-wire-request-r1",
+      "wire_response_revision": "claude-wire-response-r1",
+      "session_bootstrap_revision": "claude-session-bootstrap-r1",
+      "transcript_locator_revision": "claude-transcript-locator-r1",
+      "transcript_reader_revision": "claude-transcript-reader-r1",
+      "project_layout_revision": "claude-project-layout-r1",
+      "runtime_home_revision": "claude-runtime-home-r1",
+      "facet_observability": {
+        "wire_request": "runtime_observable",
+        "wire_response": "runtime_observable",
+        "transcript_locator": "runtime_observable",
+        "transcript_reader": "runtime_observable",
+        "session_bootstrap": "runtime_observable",
+        "harness_launch": "certification_gated",
+        "project_layout": "certification_gated",
+        "runtime_home": "certification_gated",
+        "route_catalog": "certification_gated",
+        "target_catalog": "certification_gated",
+        "launch_adapter": "certification_gated",
+        "setup_adapter": "certification_gated",
+        "observation_adapter": "certification_gated",
+        "interaction_adapter": "certification_gated"
+      },
+      "schema_digests": {
+        "wire_request": "05e68562f5e4dda9f5c872d7b2877e041767f1ed83a9c9ed5380e813b8653090",
+        "wire_response": "ac4d90c7c7369ee4ef4692ef1df4885cd47462f9bd7809f4c29ca0661d26b5c5",
+        "transcript": "df44dd11e7cdb8fcb0abdd8081c69602582ad7e137c254d0ed90a3bd0a6b7398"
+      },
+      "fixture_set_digest": "9dd29263431966f3e08f172509a7f2e54c018960512c7bb8a1402fef40b372a4",
+      "evidence_digest": "a40e3a790dba00e8097fe7d201c4b10a58a8b13ad3d745a444312993e0dadae1",
+      "compatible_transport_matters_versions": {
+        "minimum_version": "0.0.0"
+      },
+      "published_at": "2026-08-28T17:45:04Z",
+      "signer": "transport-matters-publisher",
+      "signature": "stub:embedded:claude-2.1.250-r2"
+    },
+    "routes": [
+      {
+        "route_id": "claude.anthropic.oauth",
+        "authentication_family": "oauth",
+        "provider_id": "anthropic",
+        "transport_family": "https",
+        "interaction_mode": "cli",
+        "authentication_probe_revision": "claude-auth-probe-r1",
+        "access_probe_revision": "claude-access-probe-r1",
+        "access_evidence_ttl_seconds": 86400,
+        "evidence_digest": "d62515bbcf4c2b4b90ae9c81f8eb6610dc809fa5022e9520fdebc8698e8f6424"
+      }
+    ],
+    "targets": [
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-opus-5",
+        "native_model_id": "best",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "a0fd8f6d66bce3fa86e94cadeb43fc7e9ef0b95203187239a9bf63c28f58dc28"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-sonnet-5",
+        "native_model_id": "default",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "27dbbc191ef5c6b16b4752854def5e832fc686ea1b7b392f8c0bbe5adc5981d2"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-fable-5",
+        "native_model_id": "fable",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "bd98925974d48d50191a5face40339ba7da9b6c4e0b7bbdc1fd7a489f9c044a1"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-fable-5",
+        "native_model_id": "fable[1m]",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "7a72921728c0b94b86ab3aa9f66010cc8f481e1c8512ecde98e7e236b46adc3c"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-haiku-4-5-20251001",
+        "native_model_id": "haiku",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "6e8176a2932188e8e30965701632e2ea251764131b6d2c742d13b2ddce401953"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-opus-5",
+        "native_model_id": "opus",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "76f246056083d3bf95fc4b798ad6ac979c0ef8c6761cf2d41e70002df648374f"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-opus-5",
+        "native_model_id": "opus[1m]",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "e3c584f0fc1102d14ded2371cc3274b8a47fabfc7c0dd69d14126a5e99744ec2"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-sonnet-5",
+        "native_model_id": "opusplan",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "c4bdc91eb4f469ead68397916cdea92283b58d63cd4a19e6aed65b1e8d0f7852"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-sonnet-5",
+        "native_model_id": "sonnet",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "3988a4577d61672cc732617e2d89cc142c0c448720f53caf42db909b435fa4f2"
+      },
+      {
+        "compatibility_release_id": "claude-2.1.250-r2",
+        "route_id": "claude.anthropic.oauth",
+        "model_id": "claude-sonnet-5",
+        "native_model_id": "sonnet[1m]",
+        "support_tier": "observed",
+        "lifecycle": "active",
+        "accepted_efforts": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default_effort": null,
+        "launch_adapter_revision": "claude-launch-adapter-r1",
+        "evidence_digest": "46b13fc10b1f0b1f0d4dcdfac75cb45704723b8342171607f6d7efc8a24cb2e0"
+      }
+    ],
+    "references": [
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "best",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-opus-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "default",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-sonnet-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "fable",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-fable-5",
+        "effort": "medium",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "fable[1m]",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-fable-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "haiku",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-haiku-4-5-20251001",
+        "effort": null,
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 15,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 15,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 15,
+                              "type": 15
+                            },
+                            "items": null,
+                            "observation_count": 15,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "budget_tokens": {
+                    "kinds": [
+                      "number"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "budget_tokens": 3,
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 105,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 105,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 105,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 105,
+                    "input_schema": 105,
+                    "name": 105
+                  },
+                  "items": null,
+                  "observation_count": 105,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "2994a4ba1dc05e8940f3e552881ef87b07c1cc0e635c57643f7f5350e55bf53f"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "opus",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-opus-5",
+        "effort": "high",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "opus[1m]",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-opus-5",
+        "effort": "high",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "opusplan",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-sonnet-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "sonnet",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-sonnet-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      },
+      {
+        "route_id": "claude.anthropic.oauth",
+        "launch_model_id": "sonnet[1m]",
+        "request_shape": "first-turn",
+        "canonical_model_id": "claude-sonnet-5",
+        "effort": "low",
+        "observed_harness_version": "2.1.250",
+        "request_schema": {
+          "profile": "anthropic-messages",
+          "root": {
+            "kinds": [
+              "object"
+            ],
+            "properties": {
+              "context_management": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "edits": {
+                    "kinds": [
+                      "array"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": {
+                      "type:literal:clear_thinking_20251015": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "keep": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "keep": 3,
+                          "type": 3
+                        },
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "edits": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "max_tokens": {
+                "kinds": [
+                  "number"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "messages": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "role:literal:system": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "cache_control": {
+                                "kinds": [
+                                  "object"
+                                ],
+                                "properties": {
+                                  "ttl": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  },
+                                  "type": {
+                                    "kinds": [
+                                      "string"
+                                    ],
+                                    "properties": null,
+                                    "present_in": {},
+                                    "items": null,
+                                    "observation_count": 3,
+                                    "opaque": false
+                                  }
+                                },
+                                "present_in": {
+                                  "ttl": 3,
+                                  "type": 3
+                                },
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              },
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 3,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "cache_control": 3,
+                              "text": 3,
+                              "type": 3
+                            },
+                            "items": null,
+                            "observation_count": 3,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  },
+                  "role:literal:user": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "content": {
+                        "kinds": [
+                          "array"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": {
+                          "type:literal:text": {
+                            "kinds": [
+                              "object"
+                            ],
+                            "properties": {
+                              "text": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": true
+                              },
+                              "type": {
+                                "kinds": [
+                                  "string"
+                                ],
+                                "properties": null,
+                                "present_in": {},
+                                "items": null,
+                                "observation_count": 6,
+                                "opaque": false
+                              }
+                            },
+                            "present_in": {
+                              "text": 6,
+                              "type": 6
+                            },
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "observation_count": 3,
+                        "opaque": false
+                      },
+                      "role": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 3,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "content": 3,
+                      "role": 3
+                    },
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "metadata": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": true
+              },
+              "model": {
+                "kinds": [
+                  "string"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "output_config": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "effort": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "effort": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "stream": {
+                "kinds": [
+                  "boolean"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "system": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "type:literal:text": {
+                    "kinds": [
+                      "object"
+                    ],
+                    "properties": {
+                      "cache_control": {
+                        "kinds": [
+                          "object"
+                        ],
+                        "properties": {
+                          "ttl": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          },
+                          "type": {
+                            "kinds": [
+                              "string"
+                            ],
+                            "properties": null,
+                            "present_in": {},
+                            "items": null,
+                            "observation_count": 6,
+                            "opaque": false
+                          }
+                        },
+                        "present_in": {
+                          "ttl": 6,
+                          "type": 6
+                        },
+                        "items": null,
+                        "observation_count": 6,
+                        "opaque": false
+                      },
+                      "text": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": true
+                      },
+                      "type": {
+                        "kinds": [
+                          "string"
+                        ],
+                        "properties": null,
+                        "present_in": {},
+                        "items": null,
+                        "observation_count": 9,
+                        "opaque": false
+                      }
+                    },
+                    "present_in": {
+                      "cache_control": 6,
+                      "text": 9,
+                      "type": 9
+                    },
+                    "items": null,
+                    "observation_count": 9,
+                    "opaque": false
+                  }
+                },
+                "observation_count": 3,
+                "opaque": false
+              },
+              "thinking": {
+                "kinds": [
+                  "object"
+                ],
+                "properties": {
+                  "type": {
+                    "kinds": [
+                      "string"
+                    ],
+                    "properties": null,
+                    "present_in": {},
+                    "items": null,
+                    "observation_count": 3,
+                    "opaque": false
+                  }
+                },
+                "present_in": {
+                  "type": 3
+                },
+                "items": null,
+                "observation_count": 3,
+                "opaque": false
+              },
+              "tools": {
+                "kinds": [
+                  "array"
+                ],
+                "properties": null,
+                "present_in": {},
+                "items": {
+                  "kinds": [
+                    "object"
+                  ],
+                  "properties": {
+                    "description": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "input_schema": {
+                      "kinds": [
+                        "object"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": true
+                    },
+                    "name": {
+                      "kinds": [
+                        "string"
+                      ],
+                      "properties": null,
+                      "present_in": {},
+                      "items": null,
+                      "observation_count": 93,
+                      "opaque": false
+                    }
+                  },
+                  "present_in": {
+                    "description": 93,
+                    "input_schema": 93,
+                    "name": 93
+                  },
+                  "items": null,
+                  "observation_count": 93,
+                  "opaque": false
+                },
+                "observation_count": 3,
+                "opaque": false
+              }
+            },
+            "present_in": {
+              "context_management": 3,
+              "max_tokens": 3,
+              "messages": 3,
+              "metadata": 3,
+              "model": 3,
+              "output_config": 3,
+              "stream": 3,
+              "system": 3,
+              "thinking": 3,
+              "tools": 3
+            },
+            "items": null,
+            "observation_count": 3,
+            "opaque": false
+          },
+          "parse_error": null
+        },
+        "request_schema_digest": "b14245e1f5e479c1b11970f2666db1b92aba5fcfa5315fd8e795007a134db94d"
+      }
+    ]
+  },
+  "request_shapes": [
+    "first-turn"
+  ],
+  "queued_at": "2026-09-07T17:39:27.577827Z",
+  "state": "finished",
+  "failure_reason": "capture_failed"
+}

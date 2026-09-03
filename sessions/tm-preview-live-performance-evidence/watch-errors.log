@@ -1,0 +1,81 @@
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid
+Control plane Activity watch stream dropped; reconnecting
+Traceback (most recent call last):
+  File "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api/src/transport_matters/controlplane/watch.py", line 359, in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+    ...<9 lines>...
+        await self._apply_activity_delta(key, feed, frame)
+  File "/Users/alphab/.mdx/sessions/tm-preview-live-performance-evidence/probe-watch-errors.py", line 20, in stream_workspace_activity
+    raise GatewayResponseError(200,'gateway activity stream frame was invalid')
+transport_matters.controlplane.activity.GatewayResponseError: gateway activity stream frame was invalid

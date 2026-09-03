@@ -1,0 +1,25 @@
+{
+  "before_first_snapshot": {
+    "returned": "error",
+    "code": "busy_gateway",
+    "message": "the run gateway is unavailable",
+    "cause": "watch event sources did not become ready",
+    "root_cause_type": "TimeoutError",
+    "elapsed_ms": 80.64837497659028,
+    "stream_attempts": 8,
+    "registered": false,
+    "feed_count": 0
+  },
+  "after_initial_readiness": {
+    "returned": "success",
+    "changed": true,
+    "elapsed_ms": 0.13595796190202236,
+    "stream_attempts": 1,
+    "registered": true,
+    "feed_count": 1,
+    "activity_ready": true,
+    "wire_ready": true,
+    "consumer_done": false
+  },
+  "stream_error_log_count": 9
+}

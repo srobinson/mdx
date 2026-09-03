@@ -1,0 +1,133 @@
+[
+  {
+    "name": "catalog",
+    "ids": [
+      630,
+      631,
+      632,
+      633,
+      470,
+      477,
+      448,
+      446
+    ],
+    "result": {
+      "run_id": "31a5591b-3172-4969-95f1-d64d19a46e61",
+      "dispatch_id": "feaa18ca-36bd-4681-87f6-6761371de642",
+      "status": "RUNNING",
+      "model": "gpt-5.6-luna",
+      "effort": "high",
+      "name": "audit-catalog",
+      "agent_id": "tm/generalist",
+      "delivery_id": "5580b273-198d-45ba-b777-292baa27f1ff"
+    }
+  },
+  {
+    "name": "autopilot",
+    "ids": [
+      381,
+      383,
+      384,
+      368,
+      523,
+      611,
+      455,
+      456,
+      457,
+      458,
+      413,
+      592
+    ],
+    "result": {
+      "run_id": "6e0672ae-a2b9-42db-a3c7-37a9e12e6d7a",
+      "dispatch_id": "0dbac91f-c095-4350-8036-71be0175ce53",
+      "status": "RUNNING",
+      "model": "gpt-5.6-luna",
+      "effort": "high",
+      "name": "audit-autopilot",
+      "agent_id": "tm/generalist",
+      "delivery_id": "1501f93e-12bf-49c5-8c75-52bf21d46a3c"
+    }
+  },
+  {
+    "name": "authority",
+    "ids": [
+      593,
+      595,
+      596,
+      597,
+      598,
+      599,
+      600
+    ],
+    "result": {
+      "run_id": "347552a4-b8b2-4bdf-ac18-ef9f05496910",
+      "dispatch_id": "36341069-66dd-4098-a19f-c3db3fd5697f",
+      "status": "RUNNING",
+      "model": "gpt-5.6-luna",
+      "effort": "high",
+      "name": "audit-authority",
+      "agent_id": "tm/generalist",
+      "delivery_id": "dfb9fb45-8fdd-493a-9a1b-ff1e3f62f01e"
+    }
+  },
+  {
+    "name": "orchestration",
+    "ids": [
+      624,
+      602,
+      574,
+      573,
+      555,
+      515,
+      498,
+      496
+    ],
+    "result": {
+      "run_id": "b380834f-f408-4d06-b31a-84ed31ef9be2",
+      "dispatch_id": "b749f8c2-b592-49d8-a72b-17c71e20c7b3",
+      "status": "RUNNING",
+      "model": "gpt-5.6-luna",
+      "effort": "high",
+      "name": "audit-orchestration",
+      "agent_id": "tm/generalist",
+      "delivery_id": "a76fd582-ddf9-4017-9acc-5d007b019b04"
+    }
+  },
+  {
+    "name": "runtime",
+    "ids": [
+      603,
+      565,
+      504,
+      482,
+      472,
+      471,
+      459,
+      460
+    ],
+    "result": {
+      "run_id": "ddac0df9-ab44-4277-8ea4-bed514a51dda",
+      "dispatch_id": "d1a71a84-07f6-412b-ac12-ae1147cb0ac5",
+      "status": "RUNNING",
+      "model": "gpt-5.6-luna",
+      "effort": "high",
+      "name": "audit-runtime",
+      "agent_id": "tm/generalist",
+      "delivery_id": "f7d371d9-8343-45e0-91d5-54be37b5f4ad"
+    }
+  },
+  {
+    "name": "portfolio",
+    "result": {
+      "run_id": "287fcdb2-426e-4d8d-9775-f5843a167704",
+      "dispatch_id": "81f55f8f-e593-410b-87b9-56530ab41927",
+      "status": "RUNNING",
+      "model": "opus[1m]",
+      "effort": "high",
+      "name": "audit-portfolio",
+      "agent_id": "tm/generalist",
+      "delivery_id": "abbacea2-9fea-496e-ab11-bba16ad7313a"
+    }
+  }
+]

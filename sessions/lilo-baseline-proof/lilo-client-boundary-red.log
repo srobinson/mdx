@@ -1,0 +1,53 @@
+▮▮▮▮ theme:build (cached, 4976a42e)
+▮▮▮▮ collections:build (cached, 057a85e3)
+▮▮▮▮ auth-workos:build (cached, 36f1d518)
+▮▮▮▮ auth:build (cached, 2e833725)
+▮▮▮▮ vite-config:build (8e82aa09)
+▮▮▮▮ ui:build (cached, faf343d7)
+▮▮▮▮ db:build (cached, 66fd4ff4)
+▮▮▮▮ auth-session:build (cached, b09ed2a1)
+▮▮▮▮ views:build (cached, ae0a4136)
+▮▮▮▮ auth-tanstack:build (cached, f42cb291)
+▮▮▮▮ vite-config:build (192ms, 8e82aa09)
+▮▮▮▮ web:build (6eebfdbf)
+web:build | vite v8.2.1 building client environment for production...
+web:build | [plugin rolldown:vite-resolve] Module "node:crypto" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/auth-session/dist/config.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:crypto" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/auth-session/dist/session.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:async_hooks" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+start-server-core@1.169.30_crossws@0.4.12_srvx@0.11.22_/node_modules/@tanstack/start-server-core/dist/esm/request-response.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:stream" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+react-router@1.170.31_react-dom@19.2.8_react@19.2.8__react@19.2.8/node_modules/@tanstack/react-router/dist/esm/ssr/renderRouterToStream.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:stream" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+router-core@1.171.26/node_modules/@tanstack/router-core/dist/esm/ssr/transformStreamWithRouter.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:stream/web" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+router-core@1.171.26/node_modules/@tanstack/router-core/dist/esm/ssr/transformStreamWithRouter.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | [plugin rolldown:vite-resolve] Module "node:async_hooks" has been externalized for browser compatibility, imported by "/Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+start-storage-context@1.167.28/node_modules/@tanstack/start-storage-context/dist/esm/async-local-storage.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+web:build | ✗ Build failed in 244ms
+web:build | error during build:
+web:build | Build failed with 1 error:
+web:build | 
+web:build | [plugin baseline-client-boundary]
+web:build | RolldownError: Server dependency reached the browser: __vite-browser-external
+web:build |     at error (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/logs-DmYCAKcW.mjs:159:24)
+web:build |     at PluginContextImpl.error (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/bindingify-input-options-C-Zsy1EG.mjs:111:10)
+web:build |     at PluginContextImpl.generateBundle (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/vite-config/src/index.ts:51:24)
+web:build |     at PluginContextImpl.handler (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/vite@8.2.1_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/vite/dist/node/chunks/node.js:33988:13)
+web:build |     at plugin (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/bindingify-input-options-C-Zsy1EG.mjs:1708:17)
+web:build |     at file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/bindingify-input-options-C-Zsy1EG.mjs:1928:21
+web:build |     at plugin.<computed> (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/bindingify-input-options-C-Zsy1EG.mjs:2125:18)
+web:build |     at aggregateBindingErrorsIntoJsError (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/error-CVc7IgvG.mjs:48:18)
+web:build |     at unwrapBindingResult (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/error-CVc7IgvG.mjs:18:128)
+web:build |     at #build (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/rolldown@1.2.4/node_modules/rolldown/dist/shared/rolldown-DiYVDns9.mjs:132:34)
+web:build |     at async buildEnvironment (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/vite@8.2.1_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/vite/dist/node/chunks/node.js:33730:66)
+web:build |     at async Object.build (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/vite@8.2.1_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/vite/dist/node/chunks/node.js:34150:19)
+web:build |     at async buildStartViteEnvironments (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+start-plugin-core@1.171.38_@tanstack+react-router@1.170.31_react-dom@19.2.8_r_2408c57384ee5d6501e82d7ea0bd3b43/node_modules/@tanstack/start-plugin-core/dist/esm/vite/planning.js:95:23)
+web:build |     at async Object.buildApp (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/@tanstack+start-plugin-core@1.171.38_@tanstack+react-router@1.170.31_react-dom@19.2.8_r_2408c57384ee5d6501e82d7ea0bd3b43/node_modules/@tanstack/start-plugin-core/dist/esm/vite/plugin.js:113:8)
+web:build |     at async Object.buildApp (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/vite@8.2.1_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/vite/dist/node/chunks/node.js:34142:6)
+web:build |     at async CAC.<anonymous> (file:///Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/node_modules/.pnpm/vite@8.2.1_@types+node@24.13.3_esbuild@0.28.2_jiti@2.7.0_tsx@4.23.12_yaml@2.9.0/node_modules/vite/dist/node/cli.js:776:3) {
+web:build |   errors: [Getter/Setter]
+web:build | }
+web:build | [2Ktransforming...✓ 422 modules transformed.
+web:build | rendering chunks...
+▮▮▮▮ web:build (724ms, 6eebfdbf)
+
+task_runner::run_failed
+
+  × Task web:build failed to run.
+  ╰─▶ Process vite failed: exit code 1
+

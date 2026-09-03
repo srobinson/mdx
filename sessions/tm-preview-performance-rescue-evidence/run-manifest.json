@@ -1,0 +1,13 @@
+{
+  "cwd": "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters",
+  "pid": 59710,
+  "proxy_port": 52697,
+  "web_port": null,
+  "storage_dir": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5",
+  "run_id": "6853a1d4-06ec-4059-8574-c6538f39eeb5",
+  "started_at": "2026-09-07T23:08:12.891531+00:00",
+  "transport_matters_version": "0.3.0.post1.dev573+ge0ce33a66",
+  "slug": "dev-helioy-transport-matters",
+  "hash": "ecd9b0df",
+  "home_dir": "/Users/alphab/.transport-matters-preview/workspaces/dev-helioy-transport-matters/ecd9b0df/6853a1d4-06ec-4059-8574-c6538f39eeb5/runtime-home/codex"
+}

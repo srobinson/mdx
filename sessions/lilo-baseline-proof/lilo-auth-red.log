@@ -1,0 +1,93 @@
+▮▮▮▮ There's a new version of moon available, 2.5.4 (currently on 2.5.1)!
+▮▮▮▮ OpenTelemetry, shared worktree cache, async experiments, toolchain improvements, and more!
+▮▮▮▮ Learn more: https://moonrepo.dev/blog/moon-v2.5
+▮▮▮▮ Install with: https://moonrepo.dev/docs/install
+▮▮▮▮ auth:test (9098b479)
+▮▮▮▮ auth:build (cached, 5ms, b8d9bff2)
+▮▮▮▮ auth-workos:build (cached, 6ms, 23d7cac0)
+▮▮▮▮ auth-session:test (50d33073)
+auth-session:test | 
+        auth:test | 
+        auth:test |  RUN  v4.1.11 /Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/auth
+auth-session:test |  RUN  v4.1.11 /Users/alphab/Dev/LLM/DEV/b_templates/lilo-moon-template/packages/auth-session
+        auth:test | 
+auth-session:test | 
+        auth:test | 
+        auth:test | ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+        auth:test | 
+        auth:test |  FAIL  tests/verify.test.ts > rejects a signed access token without an expiration
+        auth:test | AssertionError: promise resolved "{ …(5) }" instead of rejecting
+        auth:test | 
+        auth:test | - Expected
+        auth:test | + Received
+        auth:test | 
+        auth:test | - Error {
+        auth:test | -   "message": "rejected promise",
+        auth:test | + {
+        auth:test | +   "entitlements": [],
+        auth:test | +   "orgId": null,
+        auth:test | +   "permissions": [],
+        auth:test | +   "roles": [],
+        auth:test | +   "userId": "user_01HBEQKA6K4QJAS93VPE39W1JT",
+        auth:test |   }
+        auth:test | 
+        auth:test |  ❯ tests/verify.test.ts:116:61
+        auth:test |     114|
+        auth:test |     115| it("rejects a signed access token without an expiration", async () => {
+        auth:test |     116|   await expect(verifier()(await token({ expiresIn: null }))).rejects.t…
+        auth:test |        |                                                             ^
+        auth:test |     117| });
+        auth:test |     118|
+        auth:test | 
+        auth:test | ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+        auth:test | 
+        auth:test |  ❯ tests/verify.test.ts (12 tests | 1 failed) 20ms
+        auth:test |    × rejects a signed access token without an expiration 5ms
+        auth:test | 
+        auth:test |  Test Files  1 failed | 1 passed (2)
+        auth:test |       Tests  1 failed | 23 passed (24)
+        auth:test |    Start at  04:33:41
+        auth:test |    Duration  201ms (transform 47ms, setup 0ms, import 91ms, tests 23ms, environment 0ms)
+        auth:test | 
+auth-session:test |  ❯ tests/access.test.ts (12 tests | 2 failed) 9ms
+auth-session:test |      × preserves the session on rate-limited 3ms
+auth-session:test |      × preserves the session on unavailable 0ms
+auth-session:test | 
+auth-session:test | ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+auth-session:test | 
+auth-session:test |  FAIL  tests/access.test.ts > temporary provider failures > preserves the session on rate-limited
+auth-session:test |  FAIL  tests/access.test.ts > temporary provider failures > preserves the session on unavailable
+auth-session:test | AssertionError: expected { status: 'ended' } to deeply equal { status: 'unavailable' }
+auth-session:test | 
+auth-session:test | - Expected
+auth-session:test | + Received
+auth-session:test | 
+auth-session:test |   {
+auth-session:test | -   "status": "unavailable",
+auth-session:test | +   "status": "ended",
+auth-session:test |   }
+auth-session:test | 
+auth-session:test |  ❯ tests/access.test.ts:228:41
+auth-session:test |     226|     const { auth } = authDouble(() => Promise.reject(new WorkOSAuthErr…
+auth-session:test |     227|     const { deps, logged } = depsWith(rejects("expired"), auth);
+auth-session:test |     228|     expect(await readAccess(jar, deps)).toEqual({ status: "unavailable…
+auth-session:test |        |                                         ^
+auth-session:test |     229|     expect(cleared).toEqual([]);
+auth-session:test |     230|     expect(logged[0]?.reason).toBe(reason);
+▮▮▮▮ auth:test (1s 120ms, 9098b479)
+auth-session:test | 
+auth-session:test |  Test Files  1 failed | 7 passed (8)
+auth-session:test |       Tests  2 failed | 120 passed (122)
+auth-session:test |    Start at  04:33:41
+auth-session:test |    Duration  227ms (transform 387ms, setup 0ms, import 614ms, tests 99ms, environment 0ms)
+auth-session:test | 
+auth-session:test | 
+auth-session:test | ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+auth-session:test | 
+
+task_runner::run_failed
+
+  × Task auth:test failed to run.
+  ╰─▶ Process vitest failed: exit code 1
+
+▮▮▮▮ auth-session:test (1s 105ms, 50d33073)

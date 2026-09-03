@@ -1,0 +1,113 @@
+{
+  "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630",
+  "repository_url": "https://api.github.com/repos/littleorgans/transport-matters",
+  "labels_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630/labels{/name}",
+  "comments_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630/comments",
+  "events_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630/events",
+  "html_url": "https://github.com/littleorgans/transport-matters/issues/630",
+  "id": 5355102849,
+  "node_id": "I_kwDOSUHW9M8AAAABPzBigQ",
+  "number": 630,
+  "title": "harness discovery: enumeration acts as permission, so a model released today is undiscoverable and unverdicted",
+  "user": {
+    "login": "srobinson",
+    "id": 261612,
+    "node_id": "MDQ6VXNlcjI2MTYxMg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/261612?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/srobinson",
+    "html_url": "https://github.com/srobinson",
+    "followers_url": "https://api.github.com/users/srobinson/followers",
+    "following_url": "https://api.github.com/users/srobinson/following{/other_user}",
+    "gists_url": "https://api.github.com/users/srobinson/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/srobinson/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/srobinson/subscriptions",
+    "organizations_url": "https://api.github.com/users/srobinson/orgs",
+    "repos_url": "https://api.github.com/users/srobinson/repos",
+    "events_url": "https://api.github.com/users/srobinson/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/srobinson/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "labels": [
+    {
+      "id": 10861852028,
+      "node_id": "LA_kwDOSUHW9M8AAAACh2q1fA",
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/labels/bug",
+      "name": "bug",
+      "color": "d73a4a",
+      "default": true,
+      "description": "Something isn't working"
+    },
+    {
+      "id": 12033497743,
+      "node_id": "LA_kwDOSUHW9M8AAAACzUCajw",
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/labels/P1",
+      "name": "P1",
+      "color": "b60205",
+      "default": false,
+      "description": "Critical: fix now"
+    }
+  ],
+  "state": "open",
+  "locked": false,
+  "assignees": [],
+  "milestone": null,
+  "comments": 0,
+  "created_at": "2026-09-05T02:52:12Z",
+  "updated_at": "2026-09-05T02:52:12Z",
+  "closed_at": null,
+  "assignee": null,
+  "author_association": "MEMBER",
+  "issue_field_values": [],
+  "type": null,
+  "active_lock_reason": null,
+  "sub_issues_summary": {
+    "total": 3,
+    "completed": 0,
+    "percent_completed": 0
+  },
+  "issue_dependencies_summary": {
+    "blocked_by": 0,
+    "total_blocked_by": 0,
+    "blocking": 0,
+    "total_blocking": 0
+  },
+  "body": "Transport Matters supports every new harness release and every new model automatically. A version inside the blessed range is supported. A version outside it is evaluated on first launch and comes out blessed or degraded. Nothing is ever blocked, and nothing is ever hidden.\n\nThree independent defects break that premise today. `gpt-6-astra` released on 2026-09-04 and no Transport Matters user can discover it.\n\n## Observed\n\n`gpt-6-astra` is enumerated by the installed `codex-cli 0.153.2`, runs correctly, and is captured correctly. It does not appear in the launch view, and it has no support verdict.\n\n```\nlaunch view codex models   gpt-5.2, gpt-5.5, gpt-5.6-luna, gpt-5.6-sol, gpt-5.6-terra\ncodex exec --model gpt-6-astra   model: gpt-6-astra   ASTRA_OK   exit 0\nwire_exchange.model              codex/gpt-6-astra    (11 exchanges)\nroster.observed_model            gpt-6-astra\nharness_target_observation       no row\nsupport verdict                  none\n```\n\nThe runtime never objected. Capture never objected. Discovery and verification are the layers that failed.\n\nSeparately, `claude` disappeared from the launch view entirely for part of the same session, while claude runs continued to launch and complete normally.\n\n## The three causes\n\n**1. The enumeration probe reads the build time catalog.** `harnesses/probes/codex.py:147` runs `(\"debug\", \"models\", \"--bundled\")`, which is embedded in the binary and by construction cannot contain a model released after that binary shipped.\n\n```\ncodex debug models --bundled    11 models, gpt-6-astra visibility=hide\ncodex debug models               9 models, gpt-6-astra visibility=list priority=1\n```\n\nThe refreshed catalog also carries `gpt-5.3-codex-spark`, a second model no user can currently select, and omits `gpt-5.2`, `gpt-5.4` and both daybreak variants. The omission matters: `gpt-5.2` is the model this account's subscription cannot use, so the vendor's live catalog is already account aware.\n\nA second, smaller filter sits behind it. `harnesses/probes/codex.py:113` discards every model whose `visibility` is not exactly `list`. Upstream `visibility` is presentation only: `list` means `show_in_picker=true`, `hide` and `none` mean `show_in_picker=false` with metadata still available for explicit selection, and `none` is what upstream mints for an unknown slug without rejecting it. Explicit model resolution never consults it. Proven by `codex exec --model gpt-6-astra` returning `ASTRA_OK` at exit 0.\n\n**2. Resolution treats target observations as version locked permission records.** `harnesses/resolver.py:370` requires `target.harness_version == installed.normalized_version`. A harness patch release therefore erases every retained target.\n\n```\ntarget 2.1.260 / installed 2.1.260   10 launch options\ntarget 2.1.260 / installed 2.1.261    0 launch options\n```\n\nZero options makes `api/v1/harness_launch_view.py:155` emit `launchable: false` with the fallback reason `target_unavailable` at `:286`. The rows go stale because enumeration failed silently: `claude -p /model` under the shared five second probe limit returned TIMEOUT at 5.048s, while the identical command completed in 7.411s and parsed to all ten models. Failures collapse to `None` at `harnesses/probes/runner.py:229`.\n\nActuation is unaffected throughout. `harnesses/launch_target.py:185` converts `target_unavailable` into advisory launch arguments, which is why runs kept working while the picker offered nothing.\n\n**3. A model the shipped release does not reference gets no verdict at all.** `support_verdict_store.py:224` requires an exact launch model match and `:78` returns silently when none exists, so the model is neither blessed nor degraded. `launch_verification.py:220` compounds this by skipping capture whenever the installed harness version sits inside the blessed range, so a new model on an in range harness is never captured and never compared.\n\n## Outcome\n\nA model or harness version released today is discoverable, launchable, captured, and classified blessed or degraded on its first launch. Enumeration is discovery. It is never permission.\n\n## Sub issues\n\n- [ ] Probe and catalog recovery\n- [ ] Resolution and launch semantics\n- [ ] First launch verdict for an unreferenced model\n",
+  "closed_by": null,
+  "reactions": {
+    "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/630/timeline",
+  "performed_via_github_app": null,
+  "state_reason": null,
+  "pinned_comment": null,
+  "full_comments": [],
+  "sub_issues": [
+    {
+      "number": 631,
+      "state": "open",
+      "title": "codex enumeration: probe the refreshed catalog, admit every visibility, and stop collapsing probe failures to None"
+    },
+    {
+      "number": 632,
+      "state": "open",
+      "title": "resolution: retained targets must survive a harness version change and never gate launchability"
+    },
+    {
+      "number": 633,
+      "state": "open",
+      "title": "verification: a model the release does not reference must come out of first launch blessed or degraded"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+pnpm install --frozen-lockfile --ignore-scripts
+Scope: all 15 workspace projects
+✓ Lockfile passes supply-chain policies (verified 22h ago)
+Lockfile is up to date, resolution step is skipped
+Done in 46ms using pnpm v12.3.4
+cd "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/desktop" && just check
+pnpm typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.scripts.json --noEmit
+pnpm test
+$ vitest run
+
+ RUN  v4.1.10 /Users/alphab/Dev/LLM/DEV/helioy/transport-matters/desktop
+
+
+ Test Files  29 passed (29)
+      Tests  204 passed (204)
+   Start at  07:27:10
+   Duration  2.37s (transform 1.41s, setup 0ms, import 1.93s, tests 4.40s, environment 3ms)
+
+cd "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/www/packages/shell" && just check
+pnpm format
+$ biome format --write . ../host ../core ../inspector ../canvas ../space-client ../../vite.shared.ts ../../../tests
+Formatted 641 files in 70ms. No fixes applied.
+pnpm lint:fix
+$ biome check --write . ../host ../core ../inspector ../canvas ../space-client ../../vite.shared.ts ../../../tests
+Checked 644 files in 372ms. No fixes applied.
+pnpm typecheck
+$ tsc -b --noEmit
+pnpm lint:product-plane
+$ pnpm --filter @tm/shell exec biome check --files-ignore-unknown=true ../../../packages
+Checked 235 files in 73ms. No fixes applied.
+pnpm --filter @tm/common typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/contract typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit
+pnpm --filter @tm/activity typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/browsing typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/runtime typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/space typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/gateway typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/core typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/space-client typecheck
+$ tsc -p tsconfig.json --noEmit
+pnpm --filter @tm/inspector typecheck
+$ tsc -b --noEmit
+pnpm --filter @tm/canvas typecheck
+$ tsc -b --noEmit
+cd "/Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api" && just check
+uv run ruff format src/
+1 file reformatted, 967 files left unchanged
+uv run ruff check src/ --fix
+All checks passed!
+uv run mypy src/
+Success: no issues found in 968 source files

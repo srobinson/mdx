@@ -1,0 +1,1268 @@
+{
+  "report": "portfolio",
+  "role": "independent whole-backlog reconciliation",
+  "source_sha": "53511834",
+  "assigned_issue_count": 43,
+  "comments_read": 18,
+  "issues": [
+    {
+      "number": 630,
+      "disposition": "umbrella",
+      "canonical_work": "discovery-epic",
+      "rationale": "Tracking parent for #631/#632/#633. Carries the product contract (enumeration is discovery, never permission) and the three root causes. No implementation weight of its own; every line of scope is delegated to a child. It should become the live parent for the harness/model lifecycle, displacing #384's lifecycle half, which is now settled doctrine.",
+      "evidence": [
+        "manifest.json: sub_issues 631, 632, 633, all open",
+        "Body scope is entirely the union of the three children",
+        "Conversation msg 62: created explicitly as one parent plus three sub-issues, one per PR"
+      ],
+      "dependencies": [631, 632, 633],
+      "conflicts": [
+        "Two parents now own the same lifecycle: #630 (discovery + first-launch verdict) and #384 (release compatibility lifecycle). #630 is not linked under #381/#384 in GitHub."
+      ],
+      "priority": "P1",
+      "original_priority": "P1",
+      "effort": "none",
+      "confidence": "high"
+    },
+    {
+      "number": 631,
+      "disposition": "keep",
+      "canonical_work": "discovery-probe",
+      "rationale": "Verified live and unstarted. This is the single change that makes a model released today discoverable. It is also the cheapest of the three and unblocks the value of the other two, because without it new models never arrive.",
+      "evidence": [
+        "probes/codex.py:113 `if raw_model.get(\"visibility\") != \"list\": continue` present at 53511834",
+        "probes/codex.py commands=((\"debug\",\"models\",\"--bundled\"),) is still the only command",
+        "MODEL_ENUMERATION_PROBE carries no fallback_commands and no typed failure result",
+        "Conversation msg 50: refreshed catalog marks gpt-6-astra visibility=list priority=1 and carries gpt-5.3-codex-spark, absent from the bundle"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Its merge rules ('a successful refreshed result wins for every model it returns and bundled is not consulted') conflict with the entitlement finding on #470/#632: if the refreshed catalog omits gpt-5.2 for this account, the additive-retention rule keeps the previous row and the model stays offered anyway. Retention and account-awareness cannot both be load-bearing."
+      ],
+      "priority": "P1",
+      "original_priority": "P1",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 632,
+      "disposition": "rewrite",
+      "canonical_work": "discovery-resolution",
+      "rationale": "Body and comment disagree on entitlement, and the body encodes an owner approval whose stated premise was later measured false. Rewrite the entitlement bullet to the comment's position, keep every other scope bullet, and add the #470 dependency the comment names. Also absorb #477's advisory half so two issues do not both rewrite the rejection path.",
+      "evidence": [
+        "resolver.py:365-372 version equality filter present at 53511834",
+        "resolver.py is 692 lines, under the 700 limit only by net deletion",
+        "allow_unverified_target / target_unverified_opt_in_required / requires_unverified_opt_in all live (resolver_contracts.py:18, launch_target.py:94,100,108,186)",
+        "resolver.py:422,434,621 read snapshots.account_excluded_models; resolver_snapshots.py:137 sources them from on-disk baseline attempts",
+        "docs/HARNESS-COMPATIBILITY.md:168-189 still documents the freshness and opt-in rules this overturns"
+      ],
+      "dependencies": [470, 631],
+      "conflicts": [
+        "Body: 'Remove account_entitlement_unavailable from launch resolution ... the vendor's refreshed catalog is account aware.' Comment 2026-09-05: 'Entitlement filtering does not arrive from the source ... keep it in launch resolution.' Direct reversal inside one issue.",
+        "The body's version was APPROVED by the owner in the prior conversation (msg 60) on that exact premise. The reversal is therefore a re-decision, not a clarification.",
+        "The comment calls the retained exclusion 'an enumerated block in the #384 sense'. #384's blocked_versions are publisher-declared release data; an account entitlement is per-operator runtime evidence. Borrowing that name imports authority from a mechanism it does not use."
+      ],
+      "priority": "P1",
+      "original_priority": "P1",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 633,
+      "disposition": "split",
+      "canonical_work": "discovery-verdict",
+      "rationale": "Program-sized: reference-selection policy, a durable verification queue, capture-eligibility, retention and a new diagnostics route are four independently landable changes behind one number. Split at least the queue (a reproduced defect with its own acceptance) from the reference policy (a design decision). Its provisional-degraded rule needs an owner ruling before either lands.",
+      "evidence": [
+        "support_verdict_store.py:224 _matching_reference requires an exact launch_model_id match; :78 returns None silently when absent",
+        "launch_verification.py:218-227 returns early when range_position not in {above_ceiling, unknown}, so a new model on an in-range harness is never captured",
+        "launch_verification_support.py:112-114 BoundedSemaphore(_MAX_CANDIDATES).acquire(blocking=False) closes the coroutine and returns False, dropping the excess submission",
+        "compatibility_releases_v1.json: 26 references, all first-turn, zero envelope_schema",
+        "Installed codex 0.153.2 against active codex-0.149.1-r2 (max 0.150.1) is above_ceiling today, so the path is hot"
+      ],
+      "dependencies": [631, 632, 523],
+      "conflicts": [
+        "#633: 'An uncovered model begins at degraded with reason verification_pending.' #384 comment 2026-08-20: 'Comparator cannot run ... the status does not change, and there is no new status for it ... absence of evidence is a trigger to retry, not a verdict.' CLAUDE.md: SupportState is 'unknown before comparison' and 'degraded means overlay fidelity is compromised. It carries that one meaning everywhere.' Writing degraded before any comparison asserts a fidelity fact no evidence supports.",
+        "#633 needs both request shapes graded but the shipped manifest carries zero tool-turn and zero envelope references. Its acceptance cannot be met against the current release without the unticketed certify --all run."
+      ],
+      "priority": "P1",
+      "original_priority": "P2",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 470,
+      "disposition": "keep",
+      "canonical_work": "entitlement-store",
+      "rationale": "Promoted onto the critical path by #632's comment: it now owns the storage move that #632 depends on. Verified unchanged on main. The acceptance criteria are sound but the proposed key is wrong and must be corrected before implementation.",
+      "evidence": [
+        "resolver_snapshots.py:137 calls account_entitlement_excluded_models over read_baseline_attempts under the channel home",
+        "baseline_publish.py:177 and baseline_publish_plan.py:122 use the same function, so 'keep it in certification and publishing' matches existing code",
+        "No commit at 53511834 references this issue"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Scope says the natural key is 'the provider account, not the executor id', then specifies 'keyed by provider and model'. Provider is not an account. Two ChatGPT accounts on one machine, or a switch from subscription auth to an API key, would inherit a refusal that does not apply. The issue records the right principle and the wrong key, and has no acceptance criterion covering an account change."
+      ],
+      "priority": "P1",
+      "original_priority": "unlabelled (bug)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 477,
+      "disposition": "split",
+      "canonical_work": "launch-status-bar",
+      "rationale": "Two outcomes with different owners and different readiness. Outcome 1 (every resolver rejection becomes an advisory) is now #632's territory and overlaps it directly. Outcome 2 (per-run compatibility status in RunVitalsStrip) is unique, has no owner, and is the surface Stuart's blessed/degraded contract is meant to reach a user through. Merge 1 into #632; keep 2 as the standalone issue, dependent on #633.",
+      "evidence": [
+        "launch_target.py:185-195 _passes_to_harness still admits only invalid_effort, target_unverified_opt_in_required, a narrow target_ambiguous case, and target_unavailable/not_observed",
+        "#632 scope deletes target_unverified_opt_in_required outright, so the two issues disagree about a code one of them is built on",
+        "launch_advisories stored on the run; nothing under www reads them (unchanged)"
+      ],
+      "dependencies": [632, 633],
+      "conflicts": [
+        "#477 lists account_entitlement_unavailable among rejections to convert into advisories. #632's comment and #470 both rule it the one sanctioned refusal. #477's body is stale on that code."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 448,
+      "disposition": "defer",
+      "canonical_work": "compat-delivery",
+      "rationale": "Correct problem, real supply-chain scope, and genuinely not urgent while the certify run and the first-launch verdict are the live gaps. Out-of-band blessing updates matter once #633 makes a local verdict routine; before that, delivery would ship blessings for a comparison the runtime cannot yet complete. Also carries a hard prerequisite nobody owns: a real signature verifier and key distribution.",
+      "evidence": [
+        "compatibility_store.py:85 SignatureVerifier ABC; :93 RejectAllSignatureVerifier is still the only implementation",
+        "compatibility_releases_v1.json signatures are literal stubs (stub:embedded:stable:claude)",
+        "channel_states carry empty blocked_versions on every entry, so the kill switch has never been exercised"
+      ],
+      "dependencies": [633],
+      "conflicts": [
+        "#384's ratified rule is that only a new TM release widens the blessed range. A signed out-of-band compatibility update widens it without a release. The two are compatible only if 'release' means the signed manifest rather than the wheel, and neither issue says so."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled",
+      "effort": "L",
+      "confidence": "medium"
+    },
+    {
+      "number": 446,
+      "disposition": "keep",
+      "canonical_work": "baseline-cli-boundary",
+      "rationale": "Small, decided-shaped, and it should be settled before the certify --all run that #523 and #633 depend on, because that run is exactly where an operator would reach for the wrong entry point. Option 1 (fold into publish) is the DRY answer and the repo's standing rule.",
+      "evidence": [
+        "cli/baseline_cmd.py:55-58 imports baseline_harvest.harvest_baseline; :115-120 imports baseline_publish.publish_baselines. Both entry points live at 53511834",
+        "baseline_publish.py imports the harvest capture path rather than reimplementing it, so the shared function survives either option"
+      ],
+      "dependencies": [],
+      "conflicts": [],
+      "priority": "P3",
+      "original_priority": "unlabelled",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 381,
+      "disposition": "umbrella",
+      "canonical_work": "autopilot-epic",
+      "rationale": "Program parent, three of five children closed (#370, #382, #392). Its remaining content is the product framing plus two open children. Zero implementation weight. Goal 3 (power-user overlay versioning) is unstarted future work and should be a linked issue rather than a bullet inside a parent.",
+      "evidence": [
+        "manifest.json sub_issues: 370 closed, 382 closed, 392 closed, 383 open, 384 open",
+        "Comment 2026-08-12 records the delivery order; #370 and #382 shipped"
+      ],
+      "dependencies": [383, 384],
+      "conflicts": [
+        "#381's implementation order names #385 and #386 as steps 1-2, neither of which is in this backlog; their state is unverified here."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "none",
+      "confidence": "high"
+    },
+    {
+      "number": 384,
+      "disposition": "split",
+      "canonical_work": "autopilot-lifecycle-doctrine",
+      "rationale": "Two things in one number, and both have moved. Half A, the harness version lifecycle, is settled doctrine across three self-superseding comments and is now largely implemented; it belongs in docs/HARNESS-COMPATIBILITY.md and CLAUDE.md, not in an open issue. Half B, owned overlay application, is now specified far more precisely by #455/#457/#458 and should be retired into them. What remains open and unowned is the older-harness support policy and the upgrade button.",
+      "evidence": [
+        "compatibility.py:565-578 blessed_ceiling returns maximum_version or baseline_version, exactly the proposed resolution",
+        "compatibility.py:686-691 harness_version_blocked is now raised only by an enumerated blocked_versions entry of scope 'version', not by exceeding a maximum. The comment's stated blocker is resolved",
+        "compatibility.py:581-595 range_position is the comparator trigger the comment asked for",
+        "compatibility_service.py:101 COMPATIBILITY_ROLLOUT = 'advisory'; resolver.py:274 gates rejection on compatibility_enforcing(). Below-MIN still does not block, as the third comment ratified",
+        "The live release table in the comment (claude-2.1.211-r2, no maximum) is stale: the shipped manifest now carries claude-2.1.250-r2 max 2.1.250, codex-0.149.1-r2 max 0.150.1, grok-1.0.5-r2 max 1.0.5"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Comment 1 says below-MIN blocking is already shipped; comment 3 corrects it to not shipped and rules no change. A reader stopping at comment 1 gets the opposite answer.",
+        "Comment 1's 'absence of evidence is a trigger to retry, not a verdict' is the rule #633's provisional degraded overturns. This is the sharpest cross-issue contradiction in the backlog.",
+        "The overlay-application acceptance criteria here and #457's acceptance criteria describe the same provider-bound proof with different mechanisms (OverrideStore/apply_overrides here, byte splicing there). #455 explicitly rejected the IR write path this issue names."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 383,
+      "disposition": "defer",
+      "canonical_work": "welcome-report",
+      "rationale": "Distinct user outcome (first-run education) and its two dependencies are closed, so it is genuinely startable. It is deferred on value rather than readiness: it is a demo surface, and #456 delivers a strictly better-instrumented version of the same measurement for the operator, with acceptance value for the token work. Reconsider once #456 exists, since the two share the region-breakdown projection.",
+      "evidence": [
+        "manifest: depends on #370 and #382, both closed",
+        "Comment 2026-08-19 names unmerged prior art on branch slice/native-capture-home, three commits, stale base, explicitly 'a source to read and cherry-pick from, not a branch to merge'"
+      ],
+      "dependencies": [456],
+      "conflicts": [
+        "#383 and #456 both project a request into regions with byte and token counts. Not a duplicate outcome (onboarding HTML versus operator Canvas pane) but a shared projection that must not be written twice."
+      ],
+      "priority": "P4",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "medium"
+    },
+    {
+      "number": 368,
+      "disposition": "rewrite",
+      "canonical_work": "aux-passthrough",
+      "rationale": "The user outcome survives intact and is worth keeping: an armed breakpoint should pause the user's message, not harness machinery. The mechanism is stale. Its 'detection ships as data, not code' ruling predates the request-purpose classifier, and its second stated harm (a positional edit authored on an aux shape clobbering the main turn) is #592's defect class and is fixed there independently. Rewrite as a consumer of the existing purpose classification at the breakpoint pause branch, cite the clobber to #592, and drop the fingerprint-artifact requirement.",
+      "evidence": [
+        "addon_handlers.py contains no aux or title-generation handling at 53511834; the pause branch is unconditional",
+        "#611 exists and is scoped to the same classification, sourced from #557 and PR #559",
+        "#592's settled design (content anchors, index as hint) removes the cross-shape clobber for every shape, not only aux"
+      ],
+      "dependencies": [611, 592],
+      "conflicts": [
+        "#368 proposes aux-shape fingerprints in the managed overlay artifact as the detection source. #611 makes capture-derived fixtures the invalidation path for the existing classifier. Two detectors for one question would be a DRY violation; #368's is the one to retire."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 611,
+      "disposition": "keep",
+      "canonical_work": "purpose-fixtures",
+      "rationale": "Correctly split from #523: small, self-contained, changes no publish path, and reads captures that already exist. It is the regression guard that makes #368 safe to ship and protects the certify run. Best independent slice in the autopilot cluster.",
+      "evidence": [
+        "Synthetic make_request_ir fixtures are the current classifier proof across the api suite",
+        "#523 body records the split and sequences #611 ahead of the rest",
+        "The launch comparison grades structure only; purpose depends on tool presence, token budget and beta headers, which a schema-identical release can change"
+      ],
+      "dependencies": [],
+      "conflicts": [],
+      "priority": "P2",
+      "original_priority": "unlabelled",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 523,
+      "disposition": "umbrella",
+      "canonical_work": "audit-corpus",
+      "rationale": "Explicitly program-sized in its own body, with two slices already removed (#611 split out, the raw overlay executor cancelled) and a hard unticketed dependency ahead of it. Convert to a parent whose children are items 4, then 2 and 3, then 6, and open none of them until the certify run has published tool-turn and envelope references. Its 'already delivered' section is accurate.",
+      "evidence": [
+        "compatibility_releases_v1.json at 53511834: 26 references, all first-turn, zero envelope_schema. The body's count is exact",
+        "baseline_plan.py carries FIRST_TURN and TOOL_TURN as a RequestShape coordinate; transport_envelope.py:84 and baseline_projection.py:112 mint the envelope. The machinery exists and is unpublished",
+        "Body: 'Do not start items 2 through 4 against a manifest that still carries 26 first-turn references and nothing else'"
+      ],
+      "dependencies": [611, 446],
+      "conflicts": [
+        "The certify --all publication run it depends on has no issue number anywhere in this backlog. It is also the dependency #633's two-shape acceptance rests on. Two P1-adjacent issues wait on unticketed work."
+      ],
+      "priority": "P4",
+      "original_priority": "unlabelled",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 455,
+      "disposition": "umbrella",
+      "canonical_work": "overlay-epic",
+      "rationale": "Parent by prose only. Holds the design record, the measurements, and five children (#456-460), and its own comment supersedes six points of its body. It should carry no implementation and should get real GitHub sub-issue links so it stops reading as work. Its measurement section is the most valuable artifact in the backlog and must survive any consolidation.",
+      "evidence": [
+        "manifest.json shows sub_issues: [] for #455 while #456, #457, #458, #459, #460 each declare 'Parent: #455' in prose only",
+        "Comment 2026-08-24 lists six blockers that changed the design materially and states the body should not be read as current",
+        "Comment 2026-08-25 measures a claude floor of 5,717 bytes against 114,619 default with pure configuration and zero provider spend"
+      ],
+      "dependencies": [456, 457, 458],
+      "conflicts": [
+        "Body: 'TypeScript by default ... application is byte splicing'. #523's retained decisions: 'Do not introduce a byte splicer.' Two open issues hold opposite rulings on the same mechanism.",
+        "Body treats an overlay as global per (harness, class); NOW.md places overlays in the launch specification. The body records this as explicitly open and it decides the storage and API shape, so it blocks #457's persistence design."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "none",
+      "confidence": "high"
+    },
+    {
+      "number": 456,
+      "disposition": "keep",
+      "canonical_work": "wire-class-viewer",
+      "rationale": "The strongest independent slice in the backlog. Read-only, runs on data already shipped, no proxy changes, no artifact store, and it is the stated acceptance surface for every later overlay slice. It also de-risks the open overlay-scope question by making the problem visible before anything mutates it.",
+      "evidence": [
+        "Class schemas come from compatibility_releases_v1.json references[], which ship in the wheel and are present at 53511834",
+        "Certified reference figures are already measured in #455 (claude 145,491 tool bytes / 77.2%, codex 30,359 / 53.6%, grok 35,569 / 80.3%)",
+        "Scope names the enforced Canvas pane path and forbids importing @tm/inspector, so the plane rule is already resolved"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Acceptance says 'all five current wire classes render'. The class count is derived from the current release references; a certify --all run that adds tool-turn references may change the partition. The acceptance should name the manifest it was measured against."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 457,
+      "disposition": "keep",
+      "canonical_work": "tool-enablement",
+      "rationale": "The largest measured lever in the product: tool schemas are 77% of a claude request and, per #460's correction, 91% of the addressable mass against an Opus baseline. Scope discipline is already right (subtractive half only, replacement behind evals). Keep as written, with one addition: it must be coordinated with #597, because on claude the two levers interact and can cancel out.",
+      "evidence": [
+        "#460 comment measures Opus 5 at 126,767 tool bytes against 11,819 prompt bytes, tools 10.7x the prompt",
+        "#455 comment measures --tools \"\" alone making the request larger (123,737 vs 114,619) because ToolSearch and DeferredToolPlaceholder are themselves builtins, so disabling builtins inlines all 86 MCP tool schemas",
+        "Requires a new [tools] concept in agent-runtimes, which does not exist there today"
+      ],
+      "dependencies": [456, 455],
+      "conflicts": [
+        "Cross-cluster and recorded nowhere: #457 subtracts harness builtins while #597 filters TM's own MCP catalog. On claude these compose multiplicatively and, uncoordinated, #457 alone makes the request bigger. Neither issue references the other.",
+        "#457 keys [tools] on capability names; #593/#596 define a separate 'capability identifier' vocabulary for MCP tools. Two things called capabilities in one runtime.toml.",
+        "The prefer-configuration rule in its own Note argues for claude's native --tools flag over splicing, which removes most of this issue's value on claude and leaves codex and grok as the real target."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 458,
+      "disposition": "keep",
+      "canonical_work": "prompt-regeneration",
+      "rationale": "Not optional and correctly coupled to #457: subtraction without regeneration degrades the agent while claiming to optimize it. Its guard (render records the assumed tool set, proxy fails open on mismatch) is the right shape. Keep, strictly after #457.",
+      "evidence": [
+        "#455 measures claude's role:system agent catalog at 10,720 chars, derived from what agents and tools exist",
+        "claude's runtime content sits inside one 29,764-char string, so anchored section edits are required, while codex's runtime blocks are separate content parts",
+        "Generation inputs include platform, so one overlay renders different text on macOS and Linux"
+      ],
+      "dependencies": [457, 456],
+      "conflicts": [
+        "#457 recommends default:drop (allowlist) but says it is 'only safe once generation exists', i.e. after #458. So the recommended posture cannot ship in the issue that introduces it."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 459,
+      "disposition": "merge_into",
+      "canonical_work": "exec-kernel-research",
+      "rationale": "Merge into #460. It is self-declared back pocket and not scheduled, and its entire 'open work before this is more than a note' section is #460's scope: the end-to-end token comparison, the eval suite, and the undeclared-tool question. Its benchmark table and the codex transplant checklist are genuinely valuable and must be preserved verbatim as #460's reference section. Keeping two numbers invites someone to schedule research that only #460 can produce evidence for.",
+      "evidence": [
+        "Body: 'Back pocket - not scheduled. Recorded so the option is not re-derived. Gated on evals and on #457/#458 shipping first'",
+        "Its three open-work items are #460's measurement design, task selection and open question, restated",
+        "The just-bash benchmark table is duplicated verbatim in #455 and #459"
+      ],
+      "dependencies": [460],
+      "conflicts": [
+        "The same benchmark table and the same codex transplant checklist appear in #455, #459 and (abridged) #460. Three copies of one measurement."
+      ],
+      "priority": "P5",
+      "original_priority": "unlabelled",
+      "effort": "S",
+      "confidence": "medium"
+    },
+    {
+      "number": 460,
+      "disposition": "keep",
+      "canonical_work": "just-agent-ab",
+      "rationale": "Unblocked today on claude with zero provider spend for the request-shape half, and its comment already corrected the fairness premise in a way that sharpens the design. It is the only issue in the token cluster that produces evidence rather than machinery, and its result decides whether #457's replacement half and #459 are worth building at all. Missing piece is one MCP server exposing bash.",
+      "evidence": [
+        "#455 comment: measured floor 5,717 bytes total, 0 tools, 203 bytes of system prompt against 114,619 default, captured against a local sink at zero provider spend",
+        "Comment 2026-08-25 corrects the baseline: Anthropic cut ~80% of the prompt for frontier models only, so the A/B must run on Opus 5 or Fable 5, not Sonnet",
+        "Measurement design already specifies N=5, a pre-written rubric, and a failure taxonomy"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Body's fairness caveat ('a tool surface tuned over years') is reversed by its own comment. The body should not be read as current.",
+        "Extending beyond claude depends on #457, which the body states; so the cross-harness half is not independent."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 413,
+      "disposition": "defer",
+      "canonical_work": "home-name-sets",
+      "rationale": "Owner already deferred it explicitly on 2026-08-20 with a full evidence record, and the pollution it guards is regenerable and gitignored. Keep deferred. The one live sub-question worth separating is the codex skills copy on specialist templates, which is a correctness issue for the run rather than a tidiness question about the sets.",
+      "evidence": [
+        "cli/home_constants.py still carries 17 *_NAMES sets at 53511834",
+        "Comment: 'Disposition: deferred, not P1. Owner's call, 2026-08-20'",
+        "Comment measures the recommended fix (copy skills/ on the codex path) at 15.1 ms for the worst tree, and records that the naming option provably does not work"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "The body's measurement (zero of 58 names match any template) proves the template sets inert, while the same body says the specialist asymmetry makes them 'not provably inert'. The issue argues both and defers the resolution, which is the correct call but leaves the definition of done unmet by design."
+      ],
+      "priority": "P5",
+      "original_priority": "unlabelled",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 592,
+      "disposition": "keep",
+      "canonical_work": "override-anchors",
+      "rationale": "Live data-corruption class defect with a settled design, a reproduction against captured runs, and complete acceptance criteria. It rewrites the user's own prompt with prior instruction text. It also removes the cross-shape clobber that #368 reports as its second harm, so it should land before #368. Highest-value unlabelled bug in the backlog.",
+      "evidence": [
+        "No 'anchor' symbol exists anywhere under api/src/transport_matters/overrides/ at 53511834; the four positional kinds still resolve by index",
+        "Reproduction is captured on disk: run dda34ad8, three exchanges, sys:0 and msg:0:blk:0 shown carrying different content across the previous_response_id boundary",
+        "Design compares three shapes and states why the two rejected ones fail; the chosen shape is provider neutral and needs no previous_response_id in the pipeline"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Acceptance drops anchorless positional entries from overlaysStore.ts on load with no shim, justified by the store being pre-release. That is a data-loss decision for any operator holding saved overlays and is recorded only inside this issue.",
+        "Prior art commit 1d5c9b72 on feat/overlay-registry is 144 commits behind main and explicitly not the shape to implement."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 593,
+      "disposition": "umbrella",
+      "canonical_work": "authority-epic",
+      "rationale": "The cleanest parent in the backlog: eight declared work items, two children already closed, six open children in a strict dependency order, and each child carries its own implementation guide and guardrails. Zero implementation weight. No rewrite needed.",
+      "evidence": [
+        "manifest sub_issues: #2 and #594 closed; 595, 596, 597, 598, 599, 600 open",
+        "Decisions section fixes the invariants every child inherits (Canvas is the consent gate, one MCP endpoint, call-time authorization stays authoritative)"
+      ],
+      "dependencies": [595, 596, 597, 598, 599, 600],
+      "conflicts": [
+        "Decision 'Filtering ships on MCP SDK 1.28.1 before the isolated MCP 2.x migration' orders #597 before #599, which the children honour. No internal conflict.",
+        "The runtime capability vocabulary this program defines collides by name with #457's [tools] capability keys in the same runtime.toml."
+      ],
+      "priority": "P2",
+      "original_priority": "P2",
+      "effort": "none",
+      "confidence": "high"
+    },
+    {
+      "number": 595,
+      "disposition": "keep",
+      "canonical_work": "effective-grant",
+      "rationale": "The foundation of the authority program and independently valuable: it closes a real gap where a persisted Canvas setting applies one grant to every launch while MCP launch defaults to none. Well specified, pure policy function, no schema migration. Ready now, blocked only by #594 which is closed.",
+      "evidence": [
+        "manifest: blocked by #594, state closed",
+        "Implementation guide names the exact seam (capture_rpc_routes._resolved_domain_request, after agent_runtime_ref, before any home is prepared)",
+        "Policy is a total ordered-set minimum with an explicit omitted-versus-none distinction, so the acceptance table is finite and provable"
+      ],
+      "dependencies": [],
+      "conflicts": [],
+      "priority": "P2",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 596,
+      "disposition": "keep",
+      "canonical_work": "mcp-catalog",
+      "rationale": "Explicit no-behaviour-change refactor that replaces decorator order and name-prefix inference with one ordered catalog. It is the prerequisite for #597 and it pays for itself by making registrar drift a test failure. Independently landable today.",
+      "evidence": [
+        "No mcp_tool_catalog.py exists under api/src/transport_matters/api/v1/ at 53511834",
+        "Tool registration is spread across controlplane_mcp.py, space_mcp.py and browsing_mcp.py, consistent with the stated 34-tool split",
+        "Constraints forbid splitting the server or moving domain operations, so blast radius is bounded to registration order and annotations"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Acceptance pins 'all 34 tools appear exactly once' as a literal count. Any tool added between now and implementation (for example #515's watch_status or #574's pane) breaks the number rather than the contract. The count should be derived, not asserted."
+      ],
+      "priority": "P2",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 597,
+      "disposition": "keep",
+      "canonical_work": "mcp-discovery-filter",
+      "rationale": "The payoff of the program: bounded, deterministic tool catalogs per run. Correctly ordered after #595 and #596, correctly keeps call-time authorization authoritative, and its guardrails are unusually precise. Also has an unrecorded second value: it shrinks the MCP tool schemas that #457's measurements show inlining into claude requests.",
+      "evidence": [
+        "Blocked by #595 and #596 per its own header; both are unstarted",
+        "Direction specifies a single pure predicate over (catalog entry, effective role, frozen capability tuple), so there is one eligibility rule rather than a second authorization path",
+        "#455 comment measures 86 MCP tool schemas inlining at 87,062 bytes when claude's deferral builtins are disabled"
+      ],
+      "dependencies": [595, 596],
+      "conflicts": [
+        "Its guardrail 'do not infer policy from names, prefixes, runtime ids, or skills' is written without knowledge of #457's [tools] capability keys, which are also runtime-declared and also named capabilities. The two vocabularies need an explicit separation rule."
+      ],
+      "priority": "P2",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 598,
+      "disposition": "keep",
+      "canonical_work": "canvas-consent-ux",
+      "rationale": "Makes the authority decision visible to the person who consents to it, which is the point of the Canvas gate. Correctly ordered after #595 and #597 and correctly forbidden from recomputing policy in TypeScript. One unrecorded dependency: it must not ship on a settings store that silently resets.",
+      "evidence": [
+        "Acceptance includes 'changing the gate persists through reload' and 'existing runs do not silently change policy when the gate changes'",
+        "capturedRunStore.ts:16-17 persists via zustand persist under CANVAS_STORAGE_KEYS; bypassPermissions and controlPlaneGrant are fields on that store"
+      ],
+      "dependencies": [595, 597, 472],
+      "conflicts": [
+        "#472 reports that these exact toggles silently reset to off after a home wipe. #598 adds consent copy and a limited-by-Canvas indicator on top of that store without fixing it, so a user could be shown an effective grant derived from a setting that reset without notice."
+      ],
+      "priority": "P3",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "medium"
+    },
+    {
+      "number": 599,
+      "disposition": "keep",
+      "canonical_work": "mcp-211-port",
+      "rationale": "Mechanical SDK port with a closed scope and explicit non-goals. Real value is staying current with the protocol, and it is correctly sequenced last-but-one so it ports a shape that has already stabilised. No product decision inside it.",
+      "evidence": [
+        "Blocked by #597 per its own header",
+        "Scope is dependency range, import rename, field casing, and test-client adaptation, with transport configuration explicitly deferred to #600",
+        "Guardrails forbid touching catalog, authority, capabilities or discovery policy"
+      ],
+      "dependencies": [597],
+      "conflicts": [
+        "It ports work from #596 and #597 that does not exist yet, so its implementation guide describes a target state ('port the landed FastMCP shape') rather than current code. It is unstartable until both land, and its file references cannot be verified today."
+      ],
+      "priority": "P3",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "medium"
+    },
+    {
+      "number": 600,
+      "disposition": "keep",
+      "canonical_work": "mcp-transport",
+      "rationale": "Completes the migration and carries the only real-client proof in the program: legacy and modern protocol clients against the mounted endpoint, plus seeded claude, codex and grok homes. That proof is what makes the whole authority program safe to ship. Correctly last.",
+      "evidence": [
+        "Blocked by #599 per its own header",
+        "Acceptance includes a byte-exact 4194304 / 4194305 boundary test and one real captured run listing its bounded catalog",
+        "Guardrails forbid re-touching anything #599 owns"
+      ],
+      "dependencies": [599],
+      "conflicts": [
+        "Same unstartable-today property as #599: its file references (ControlPlaneMcpMount, mount_control_plane_mcp, controlplane_mcp_test_support.py) describe artifacts #596/#599 are meant to create."
+      ],
+      "priority": "P3",
+      "original_priority": "P2",
+      "effort": "M",
+      "confidence": "medium"
+    },
+    {
+      "number": 624,
+      "disposition": "keep",
+      "canonical_work": "cp-error-vocabulary",
+      "rationale": "Small, exactly diagnosed, and it removes a class of agent confusion rather than one bug: three distinct conditions collapse onto invalid_request, so an orchestrating agent cannot tell a retryable idempotency conflict from a malformed body. The two-remedy split (alias versus promote) is the right shape and the blast radius is fully enumerated. Raise from P3 because agent orchestration is now the primary usage mode.",
+      "evidence": [
+        "Body records every symbol read at 29ee0af8 with the raising site, the status map and the two-hop loss path",
+        "The one open decision (whether launch_failed's machine-generated message may be published) is named and its precedent (PR #301's test) is shown to be undocumented",
+        "test_rest_status_map_exhausts_the_control_plane_error_vocabulary already guards the promotion"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Promotion widens ControlPlaneErrorCode, a closed union rendered into MCP tool output schemas. #596 pins those schemas as 'byte-equivalent where ordering permits'. Landing #624 after #596 changes a contract #596's tests just froze; landing it before is cheaper."
+      ],
+      "priority": "P2",
+      "original_priority": "P3",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 602,
+      "disposition": "defer",
+      "canonical_work": "pingpong-canvas",
+      "rationale": "Design exploration, not a work item. It has no acceptance criteria, its central question (relay versus peers) is explicitly undecided, and its own primary constraint says no target is meaningful until a round trip has a token cost attached. Keep as a design note; the one extractable action is instrumenting a round trip, which is measurement rather than delivery.",
+      "evidence": [
+        "Body: 'Nothing below is decided'; 'Next: iterate on the shape here'",
+        "It records that two agents in one checkout is a live hazard today, which is a real finding with no issue of its own",
+        "Its transport replacements (launch/roster/prompt/wait_for_reply/watch/worktree_create) all exist, so the mechanical port is already possible"
+      ],
+      "dependencies": [515],
+      "conflicts": [
+        "The shape-1 recommendation launches agents with grant none, which makes the director the only control-plane caller. #593's program is simultaneously building per-runtime requested grants. A workflow that pins every worker to none is not obviously the one the authority program is designed for."
+      ],
+      "priority": "P5",
+      "original_priority": "unlabelled",
+      "effort": "M",
+      "confidence": "medium"
+    },
+    {
+      "number": 574,
+      "disposition": "keep",
+      "canonical_work": "pane-capture",
+      "rationale": "Highest-value orchestration issue: the capture path is built and verified end to end, only the verb is missing, and without it an agent facing a blocked run must either stay blind or risk an unattended global npm install by prompting into an update gate. It is the release-day failure mode and it has a second consumer already identified.",
+      "evidence": [
+        "read_terminal_snapshot exists and is consumed today: controlplane_gateway_reads.py:132, called from delivery_wait.py:243 to populate the pane field on a wait result",
+        "Verified reproduction on run ef008927 with the exact snapshot body returned by the canvas gateway while the run's own supervised gateway answered run_not_found",
+        "Comment 2026-09-04 adds an isPromptBufferDirty predicate over the same capture as a second consumer from #616"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Two open design questions are load-bearing rather than incidental: which gateway owns the terminal (a caller guessing wrong gets run_not_found on a live run), and whether a post-mortem read is possible at all given TerminalEmulator is disposed on exit. The second may require retaining the last screen at teardown, which is not in the stated shape.",
+        "needs_you is null on a run that needs attention. The issue names this and does not scope it, so the fix could ship without closing the gap that made the run invisible."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 573,
+      "disposition": "rewrite",
+      "canonical_work": "queued-nudge-binding",
+      "rationale": "Scope item 3 shipped six hours before the snapshot and must be removed from the issue; items 1 and 2 are live and are the actual stranding cause. Raise priority: the lazy-correlation half was the accidental mitigation, and now that deliveries reconcile without a waiter, a stranded row is a row that will never correlate rather than one waiting for a wait call.",
+      "evidence": [
+        "HEAD 53511834 is 'fix(delivery): reconcile prompts without active waiters (#629)', adding delivery_resident.py (213 lines) and delivery_events.py, with reconciliation moved off DeliveryWaiter",
+        "delivery_binding.py:33-47 LivePromptDeliveryBindings.arm still writes a single object with one delivery_id and one prompt_sha256, overwriting unconditionally. Item 1 is untouched",
+        "No codex merged-queue matching exists, so item 2 is untouched"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Item 2 asks for a per-delivery outcome ruling (both completed on the same range, or the earlier superseded) and does not choose. That is a product decision inside a bug report and it changes what an orchestrator sees."
+      ],
+      "priority": "P3",
+      "original_priority": "P5",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 555,
+      "disposition": "keep",
+      "canonical_work": "grok-model-suffix",
+      "rationale": "Small, fully diagnosed, and the diagnosis is the valuable part: grok-4.6-build is the harness name leaking into a model field, so no catalog entry will ever exist for it. The durable deliverable is the regression that pins declared-to-observed resolution per harness, not the string fix. Safe now because observed_model has no decision consumer.",
+      "evidence": [
+        "model_ids.py:4-13 normalise_model only adds or strips a prefix; nothing strips a suffix. Confirmed unchanged at 53511834",
+        "roster_projection.py:48 projects observed_model from the latest turn via _observed_model",
+        "148 grok event rows across two days carry the same value with no variation"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "The issue states observed_model has no consumer and is therefore safe to change, and simultaneously that any future declared-versus-observed check would mismatch on every grok run. The second is the reason to fix it; the first is the reason it is not urgent. Both are true and the issue does not rank them.",
+        "Its own remaining boundaries note that 148 samples cover only grok-4.6, so a suffix rule generalised from one model is unproven for grok-4.5."
+      ],
+      "priority": "P4",
+      "original_priority": "unlabelled",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 515,
+      "disposition": "keep",
+      "canonical_work": "watch-status",
+      "rationale": "Purely additive read verb that makes a currently invisible orchestration state legible, and shadowed_by turns an undetectable duplication into a one-call fix. It is small, has no dependencies, and it makes the tm-orchestrate skill's own guidance verifiable at runtime, which it is not today.",
+      "evidence": [
+        "No watch_status symbol exists anywhere under api/src, www or packages at 53511834",
+        "Observed duplication is recorded: a session held a workspace watch and a per-run watch on the same run and double-pinged on every event",
+        "shadowed_by is derivable from state the server already holds, so no new persistence is required"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "It adds a tool while #596 pins the catalog at exactly 34 named tools in a fixed order. Landing #515 after #596 breaks that literal count; landing it before is free."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 498,
+      "disposition": "split",
+      "canonical_work": "transcript-recall",
+      "rationale": "Five gaps of very different sizes and owners behind one number, plus a sixth finding that is the most serious in the issue and is not a gap at all. Split at minimum: the FTS endpoint with its backfill blocker, the scope-explicitness fix, the list filters, the session-keyed conversation projection, and a separate investigation into why a month of implementation sessions was never captured. The last one is a capture-coverage question, not a search question.",
+      "evidence": [
+        "search_text is read at session_models.py:229 and run_continuation.py:67 and queried in session_statements.py:170, but no endpoint exposes content_tsv anywhere in api/src or packages at 53511834",
+        "Comment 2026-08-27 measures the coverage gap uniformly across all three channels: every meta row has an empty tsvector and roughly a fifth of turn rows do",
+        "Comment establishes the backfill is a blocker on the endpoint, not follow-up: shipping search at current coverage reproduces Gap 1's failure mode inside the search surface"
+      ],
+      "dependencies": [496],
+      "conflicts": [
+        "The body's headline recommendation is 'expose the tsvector, highest value per unit work'. The comment overturns the ordering: the writer is not running for meta at all and skips ~20% of turn rows, so a backfill that does not fix the writer drifts straight back. Body and comment disagree on what ships first.",
+        "The body's own negative result was drawn on the incomplete index it proposes exposing, and the comment corrects one attribution. The motivating evidence needed re-verification, which is itself the argument."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 496,
+      "disposition": "split",
+      "canonical_work": "conversation-projection",
+      "rationale": "Two independent axes correctly identified. Part 1 (summary selection) is a small, verified defect with a clear fix. Part 2 (tool-parts projection) has three named blocking design questions (truncation, pagination, reuse) and is a larger piece of work. Ship part 1 alone; part 2 needs a design pass first.",
+      "evidence": [
+        "packages/activity/src/projections/conversation.ts selectMessages confirmed at 53511834: firstUser plus Math.max(0, length - 4), unnamed literal 4, counting messages not turns",
+        "With 3 messages every index is selected, so summary and feed are provably identical below 5 messages",
+        "conversation_scan.py walks fragments with strict contiguity assertions and pins shape='feed', so any part-level offset change must keep that scan correct"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "The include: [...] projection would extend the conversation tool's input schema, which #596 freezes and #597 filters. Ordering matters and neither issue knows about the other."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 603,
+      "disposition": "split",
+      "canonical_work": "cdp-attach-window",
+      "rationale": "Two halves with opposite risk. The diagnosability half (a refused attach names its cause, and a mint verb separate from pane listing) is a pure win and should ship now. The half that widens or drops OPEN_WINDOW_SECONDS rests on an assumption #565 falsifies, so it should be gated on #565 rather than shipped on its own reasoning. Lower from P1 for the gated half; the diagnosability half is genuinely P1-cheap.",
+      "evidence": [
+        "devtools_access.py:94 open() spends once; OPEN_WINDOW_SECONDS = 30.0; loopback_origin at :225 refuses to mint for a non-loopback host",
+        "Body's own threat analysis concedes the real residual path is local replay by same-user processes, including the codex and grok runs this workspace launches with shell access",
+        "Reproduced against a live orchestrator run: browser_panes, a few tool calls, then a 401 with nothing naming the cause"
+      ],
+      "dependencies": [565],
+      "conflicts": [
+        "#603's security argument is that one-shot spend and origin binding carry the weight, so the window can be relaxed. #565 shows the origin is chosen by an unauthenticated caller in the registration request, so origin binding binds to an attacker-selectable value. Relaxing the window before #565 lands widens a door whose lock is the thing under dispute."
+      ],
+      "priority": "P2",
+      "original_priority": "P1",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 565,
+      "disposition": "keep",
+      "canonical_work": "presenter-auth",
+      "rationale": "The only unclosed integrity boundary in the browser surface, and it gates #603. Damage is contained by #524 and PR #564, so it is not an emergency, but the selection path remains unauthenticated and the design constraint is genuinely hard: no same-user secret at rest can work, because the process to exclude runs as the same user. Deserves a real trust-model decision rather than a patch.",
+      "evidence": [
+        "browsingRouter.ts:102 reads presenterDeclaration(request.query) on an unauthenticated loopback SSE route; :275 defines it. Confirmed present",
+        "canvasDevtoolsFor takes the first composited presenter with a live endpoint, so registration order decides selection",
+        "Issue records what PR #564 already contains: no Director bearer to the declared endpoint, capabilities bound to the declared origin"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Work item 6 says the pane-only CDP front and origin-bound capability from PR #564 stay unchanged 'unless the new identity boundary can simplify them'. #603 wants to relax exactly one of those controls. The two issues must be decided together or #603 will be argued against a boundary #565 has not yet defined."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (bug, browser)",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 504,
+      "disposition": "defer",
+      "canonical_work": "pane-back-stack",
+      "rationale": "Explicitly trigger-gated by its own body: a second presenter becoming real, and not before. With one presenter the current behaviour is exact. The proposed shape is sound and likely removes more code than it adds, so it will be cheap when the trigger fires. Nothing to do now.",
+      "evidence": [
+        "Body: 'Trigger: a second presenter becoming real (second desktop window, remote viewer). Not before'",
+        "Raised as finding #6 on #500 and already deferred once, noted in docs/plans/BROWSER-PANE-PLAN.md",
+        "Estimate: one PR, roughly the size of #500"
+      ],
+      "dependencies": [565],
+      "conflicts": [
+        "Its open design question (in-page pushState observed from the presenter must append an entry or the stack drifts) is unresolved and would be discovered late. Worth answering before the trigger fires rather than after."
+      ],
+      "priority": "P5",
+      "original_priority": "unlabelled",
+      "effort": "M",
+      "confidence": "high"
+    },
+    {
+      "number": 482,
+      "disposition": "keep",
+      "canonical_work": "login-driver",
+      "rationale": "The most implementation-ready issue in the backlog: an adjudicated design package on main, six ordered single-PR slices, verbatim gates per slice, and a peer review already signed off with five corrections applied. It closes the NOW.md rule that every reported state carries an in-app action. Its five open questions are all small and answerable during slice 4.",
+      "evidence": [
+        "docs/plans/LOGIN-DRIVER-PLAN.md is on main and owns the shape; the issue owns scope",
+        "Comment 2026-08-26 records an independent codex peer review, conditional sign-off, corrections applied in 7e29c9bf, then a clean sign-off",
+        "Load-bearing decisions are already settled: exit is the trigger, the credential predicate is the verdict, never match on 'Login successful.' text"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "Claude fleet home moves to default_storage_root()/'claude-auth' per channel and existing ~/.claude-auth logins are invalidated with no migration. That is a one-time operator cost recorded only inside this issue.",
+        "The fleet home lives under the channel home, which #471 and #472 both argue is disposable. A login home inside a wipeable directory reintroduces the #470 class of loss for credentials."
+      ],
+      "priority": "P2",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "L",
+      "confidence": "high"
+    },
+    {
+      "number": 472,
+      "disposition": "keep",
+      "canonical_work": "canvas-toggle-persistence",
+      "rationale": "Small bug with a disproportionate consequence: a spawned orchestrator silently loses control-plane access after a restart, which is not a state an operator would think to re-check. It should land before #598, which builds consent UX on the same store. It is also the same class as #470: operator-scoped facts stored in a channel home treated as disposable.",
+      "evidence": [
+        "capturedRunStore.ts:107-109 holds bypassPermissions and controlPlaneGrant; :177-178 default them to false and DEFAULT_CONTROL_PLANE_GRANT",
+        "The store persists through zustand persist under CANVAS_STORAGE_KEYS (capturedRunStore.ts:16-17), i.e. renderer storage under the channel home's electron user data",
+        "Observed after deleting ~/.transport-matters-preview: both toggles returned off with no notice"
+      ],
+      "dependencies": [],
+      "conflicts": [
+        "#598's acceptance requires the gate to persist through reload and existing runs not to change policy. #472 shows the same value does not survive a home wipe. Fixing them separately risks #598 asserting a persistence guarantee the store does not provide."
+      ],
+      "priority": "P3",
+      "original_priority": "unlabelled (bug)",
+      "effort": "S",
+      "confidence": "high"
+    },
+    {
+      "number": 471,
+      "disposition": "keep",
+      "canonical_work": "log-destination",
+      "rationale": "Small enabling change with outsized diagnostic value, and it is the same root cause as #470 and #472: evidence stored inside a disposable channel home. Diagnosing a launch currently requires re-running the whole scenario detached purely to obtain a readable log. Cheap, no product decision.",
+      "evidence": [
+        "cli/desktop_cmd.py::run_desktop_detached writes to desktop_runtime.py::desktop_log_path, which is <channel home>/runtime/desktop.log",
+        "Conversation msg 34: the astra investigation 'could not recover the exact 20:29 exception - nothing in runtime/desktop.log for that window', a live instance of this cost",
+        "Default is unchanged, so there is no migration"
+      ],
+      "dependencies": [],
+      "conflicts": [],
+      "priority": "P3",
+      "original_priority": "unlabelled (enhancement)",
+      "effort": "S",
+      "confidence": "high"
+    }
+  ],
+  "packages": [
+    {
+      "id": "PKG-1",
+      "title": "Restore runnability: discover and resolve every installed model",
+      "issue_numbers": [631, 632, 470],
+      "remaining_outcome": "A model or harness version released today is enumerated, offered in the launch view, and launchable, and a harness patch release never removes a harness from the picker. The one surviving refusal is a provider entitlement refusal, sourced from the session store and surviving a home wipe.",
+      "priority": "P1",
+      "value": "Highest. This is the product premise Stuart restated on 2026-09-05 and it is broken in production today: gpt-6-astra and gpt-5.3-codex-spark are undiscoverable, and claude vanished from the launch view during the session while its runs kept launching.",
+      "effort": "L",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #631: refreshed catalog is the primary command with bundled as fallback; list, hide and none parse identically; probe revision bumped to r2; typed enumeration success and failure with a closed vocabulary and no raw stderr; a 30s enumeration timeout distinct from the 5s auth timeout; additive merge so a model absent from a successful result retains its previous row; both attempts failing changes no rows.",
+        "Preserved from #632: ten target observations at 2.1.260 survive an installed move to 2.1.261 and all ten options remain offered; a resolved option reports installed_harness_version 2.1.261 with target provenance still 2.1.260; an installed enabled harness with zero options is launchable:true with empty models; allow_unverified_target, target_unverified_opt_in_required and requires_unverified_opt_in are deleted; a target_unavailable/not_observed rejection becomes a VerificationCell; docs/HARNESS-COMPATIBILITY.md:168-189, LAUNCH-CONTRACT.md and LOGGING-PLAN.md are reconciled.",
+        "Preserved from #470: wipe the channel home, restart, and gpt-5.2 is still excluded without a new provider turn, with a test covering record, discard, still enforced.",
+        "New, required by the reconciliation: the entitlement exclusion is keyed to an identity that distinguishes two provider accounts on one machine, or the issue records explicitly that switching accounts requires an operator clear."
+      ],
+      "risks": [
+        "The entitlement decision is contested (see decision_conflicts DC-2) and must be ruled before #632 is implemented, because the two versions of #632 delete and retain the same code path.",
+        "#631's additive retention and account-aware enumeration pull in opposite directions: a model the refreshed catalog drops for this account keeps its previous row and stays offered.",
+        "resolver.py is at 692 of 700 lines and baseline_store.py at 699. Both must be extracted before expansion, per the repo rule."
+      ]
+    },
+    {
+      "id": "PKG-2",
+      "title": "Every first launch has a state",
+      "issue_numbers": [633, 477],
+      "remaining_outcome": "A model the shipped release does not reference comes out of its first launch with a real support state and a visible reason, and that state reaches the operator on the run itself rather than only in a store.",
+      "priority": "P1",
+      "value": "Completes the premise PKG-1 starts. Without it, PKG-1 makes astra discoverable and verdictless, which is the exact gap Stuart named. #477's status-bar half is the only surface where blessed/degraded reaches a user.",
+      "effort": "L",
+      "dependencies": ["PKG-1", "certify --all publication run (unticketed)"],
+      "acceptance": [
+        "Preserved from #633: exact-model precedence, then alternative sibling contracts with the shipped reference always on the left; bless on at least one complete comparison, body and envelope from the same reference; candidate identity preserved and reference identities recorded as provenance only; runtime-blessed newcomers never enter another candidate's reference set; a durable deduplicated verification queue keeping two workers, where three simultaneous new models all drain and none is dropped; capture deadlines start at execution; restart discovers pending work; queue admission does not increment attempt_count; retention across catalog disappearance with no picker restoration; a read-only support-verdicts diagnostics route.",
+        "Preserved from #633's cost table: first-turn 3 requests, tool-turn 6, both shapes 9, reused evidence 0, already-referenced in-range 0; sibling count adds no provider requests; evidence reconciliation precedes the quota check.",
+        "Preserved from #477 outcome 2: range position, verification state and advisories reach RunVitalsStrip per run.",
+        "New, required by the reconciliation: the state written to the evidence store before a comparison completes is distinguishable from a state a comparison produced (see DC-1)."
+      ],
+      "risks": [
+        "DC-1 is unresolved: #633's provisional degraded contradicts #384's ratified absence-of-evidence rule and CLAUDE.md's single meaning for degraded. Implementing either reading first makes the other expensive to adopt.",
+        "The two-shape acceptance cannot be met against the current manifest (26 first-turn references, zero tool-turn, zero envelope). The unblocking work has no issue number.",
+        "#633 is four landable changes in one number and should be split before it is scheduled."
+      ]
+    },
+    {
+      "id": "PKG-3",
+      "title": "Overrides that survive the request they were not authored on",
+      "issue_numbers": [592, 368, 611],
+      "remaining_outcome": "A saved override applies to the block it was authored against or misses audibly, harness machinery turns are never paused by an armed breakpoint, and request-purpose classification has a measured source that fails a check when a harness changes its traffic.",
+      "priority": "P2",
+      "value": "High and independent of the compatibility work. #592 is live corruption: an operator's own prompt is replaced by prior instruction text on a Codex continuation. #611 is the cheapest durable guard in the backlog. #368 removes real UX noise once #592 has removed its dangerous half.",
+      "effort": "M",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #592: anchor required for the four positional kinds and rejected at the store boundary without one; block_anchor and blockAnchor pinned equal by a shared fixture tested on both sides; resolution by anchor with index as hint and tie breaker; a miss produces applied:false with reason anchor_miss and rewrites nothing; the run dda34ad8 replay applies both overrides on 69b93589 and neither on f84d914f, serializing byte identical; a skills-block anchor applies on the continuation and misses on the initial; tool overrides and truncate_tool_result unchanged; identical on WebSocket and the HTTPS Responses fallback with no previous_response_id in the override path; the inspector mints anchors and shows misses; overlaysStore drops anchorless entries with a warning.",
+        "Preserved from #368: with a breakpoint armed, a title-generation turn and the quota probe cross un-paused while the user-composed turn pauses; aux passthrough is recorded in the exchange record, not silent; pinning test derived from run 163c35b4's three captured shapes.",
+        "Preserved from #611: a capture produces a fixture at harness, exact version, model, capture profile and request class; check mode fails on a changed projection and names what changed; replay asserts primary True, housekeeping False, and no prompt-collision class resting on None; the synthetic fixtures remain."
+      ],
+      "risks": [
+        "#592 drops anchorless saved overlays with no shim. Acceptable only while the overlay store is pre-release; confirm that is still true at implementation time.",
+        "#368 must be rewritten before it is scheduled, or it will be built as a second detector alongside #611's classifier."
+      ]
+    },
+    {
+      "id": "PKG-4",
+      "title": "See the wire, then take the token lever",
+      "issue_numbers": [456, 457, 458, 460, 459, 455],
+      "remaining_outcome": "An operator can see exactly what each harness puts on the wire per region, a runtime declares its builtin tool surface once and gets it applied across three harnesses, the prose that teaches those tools is regenerated to match, and an A/B says honestly whether a small self-owned surface does the work.",
+      "priority": "P2",
+      "value": "The largest measured lever in the product. Tool schemas are 77% of a claude request and 91% of the addressable mass on an Opus baseline. #456 alone is high value at low risk. #460 produces the evidence that decides whether the rest is worth building.",
+      "effort": "L",
+      "dependencies": ["PKG-6 for the claude interaction (see risks)"],
+      "acceptance": [
+        "Preserved from #456: all five current wire classes render with region breakdowns cross-checked against the certified figures; claude's section outline and codex's runtime blocks visible without raw JSON; per-tool costs sortable and summing to the measured tool region; addressable targets marked; a class with no captured exchange lists its targets and says so.",
+        "Preserved from #457: a runtime declaring a reduced [tools] set launches with only those tools on the wire, byte-diffed against the same launch without the overlay with changes confined to the tool region; measured token reduction per harness against the certified baseline; one capability declaration resolves on all three harnesses; a stale library entry whose tool schema digest moved is reported, not silently applied; an unresolvable target forwards original bytes.",
+        "Preserved from #458: disabling a tool re-renders the prose referencing it, verified on the wire; a render whose assumed tool set does not match the live request forwards original bytes and reports; rendering is platform-aware for at least two profiles; changes confined to prompt and tool regions; operator acceptance through the #456 viewer.",
+        "Preserved from #460: both arms run the same pre-chosen task set unattended and produce request bytes, total tokens, turns, wall clock, success rate and failures by category; the result is reported whichever way it falls, with the prompt iteration count; the A/B runs on Opus 5 or Fable 5, not Sonnet.",
+        "Preserved from #459 on merge: the just-bash benchmark table, the codex transplant checklist, and the gaps (no process lifecycle, no VM isolation, ReadWriteFs cost, beta) become #460's reference section."
+      ],
+      "risks": [
+        "Unrecorded cross-cluster coupling: on claude, disabling builtins inlines all 86 MCP tool schemas because deferral is itself a builtin. #457 alone can make requests larger. It must be sequenced with or after #597.",
+        "#455 says byte splicing; #523 says do not introduce a byte splicer. One open issue must yield.",
+        "Overlay scope (global per harness+class, versus NOW.md's launch-specification scoping) is explicitly open in #455 and decides #457's storage and API shape.",
+        "The prefer-configuration rule means claude's native flags already deliver the wholesale form, so #457's real target is codex and grok."
+      ]
+    },
+    {
+      "id": "PKG-5",
+      "title": "Orchestration a director can actually see",
+      "issue_numbers": [574, 515, 573, 624, 555],
+      "remaining_outcome": "An agent driving the control plane can read a blocked run's screen, enumerate its own subscriptions, trust that a queued nudge correlates, branch on the failure the server actually named, and read a model id it can look up.",
+      "priority": "P2",
+      "value": "High and almost entirely independent of everything else. Every issue here was found by an agent hitting the gap while orchestrating, which is now the primary usage mode. Four of the five are small.",
+      "effort": "M",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #574: pane(run_id, max_chars?) returns the snapshot with the server cap applied; observer grant suffices; the verb resolves the gateway that actually owns the terminal; a decision is recorded on post-exit reads, including whether the last screen must be retained at teardown.",
+        "Preserved from #515: watch_status() returns every subscription held by the run and watch_status(target) returns one, each carrying target, events, registered_at, last_event_at, deliveries, target_state and shadowed_by; an empty result is distinguishable from an error.",
+        "Preserved from #573 items 1 and 2 only: LivePromptDeliveryBindings holds every pending binding and claims each by its own digest, proven by arming two and claiming both; a Codex merged user message matches a delivery whose prompt text is one line of it, with the per-delivery outcome ruled explicitly.",
+        "Preserved from #624: an idempotency conflict returns its own code and the message RunManager wrote; an unknown gateway code still returns the status-derived code and generic message; the REST status map still exhausts the vocabulary; launch_failed is decided explicitly and the decision recorded where the next reader finds it.",
+        "Preserved from #555: a regression pins declared-to-observed resolution per harness so an unresolvable id fails a test rather than reaching the roster; grok observed_model resolves to something harnesses can answer for; event keeps the raw response value."
+      ],
+      "risks": [
+        "#573 item 3 is already shipped by #629 and must be struck from the issue before work starts, or it will be reimplemented.",
+        "#515 and #574 both add MCP tools while #596 pins an exact 34-tool count. Land these before #596 or make the count derived.",
+        "#624 widens ControlPlaneErrorCode, which is rendered into MCP tool output schemas that #596 freezes. Cheaper before #596.",
+        "#555's suffix rule is generalised from 148 samples of one model."
+      ]
+    },
+    {
+      "id": "PKG-6",
+      "title": "Per-runtime authority and a bounded tool catalog",
+      "issue_numbers": [595, 596, 597, 598, 599, 600, 593],
+      "remaining_outcome": "Each runtime declares the authority and MCP capabilities it wants, Canvas remains the consent ceiling, and every run discovers only the tools its policy permits, on a current protocol proven against real clients.",
+      "priority": "P2",
+      "value": "Genuine and already well planned. Its unrecorded second value is token cost: a bounded catalog is what stops 86 MCP tool schemas inlining into a claude request, which is the interaction PKG-4 depends on.",
+      "effort": "L",
+      "dependencies": ["#472 before #598"],
+      "acceptance": [
+        "Preserved from #595: a runtime requesting director receives no more than the Canvas gate permits; an observer principal cannot launch a director; omitted and explicit none are distinct policy inputs; CMDK and MCP use the same pure resolver; restart and replay preserve policy and provenance; no grant creates no bearer and no MCP client.",
+        "Preserved from #596: all 34 tools appear exactly once in deterministic order, each with one capability and one minimum grant; schemas and outputs byte-equivalent where ordering permits; contract tests fail on registrar drift.",
+        "Preserved from #597: observer runs list only observer tools within their runtime capabilities and director runs only director plus observer; two bearers with different capabilities receive different deterministic catalogs; a guessed call to a hidden director tool fails before side effects; an expired or revoked bearer receives no usable catalog; filtering does not fork domain authorization.",
+        "Preserved from #598: requested and effective grants are visible before launch; a director request is visibly limited when the gate is none or observer; changing the gate persists through reload; existing runs do not silently change policy; one browser test proves the consent flow and payload.",
+        "Preserved from #599: no mcp.server.fastmcp import and no SDK camel-case access remains; resolution succeeds on Python 3.14.",
+        "Preserved from #600: omitting any of the three transport settings fails a focused test; legacy and modern client paths both succeed; exactly 4194304 bytes returns 200 and 4194305 returns 413; seeded claude, codex and grok homes remain compatible; one real captured run lists its bounded catalog and completes a call."
+      ],
+      "risks": [
+        "#599 and #600 are unstartable today: their implementation guides reference artifacts #596 and #597 are meant to create.",
+        "#596's literal 34 collides with every issue that adds a tool (#515, #574, #496's schema change, #624's error union).",
+        "#598 builds consent UX on the store #472 shows silently resets.",
+        "Two capability vocabularies will exist in one runtime.toml unless #457 and #596 agree on naming."
+      ]
+    },
+    {
+      "id": "PKG-7",
+      "title": "Operator facts stop living in a disposable home",
+      "issue_numbers": [472, 471, 482],
+      "remaining_outcome": "Launch toggles, logs and harness credentials survive a channel home wipe or say that they did not, and a user can log a harness in from inside the app.",
+      "priority": "P3",
+      "value": "One root cause, three symptoms, and #470 is a fourth already promoted to PKG-1. #482 is the most implementation-ready issue in the backlog and closes the NOW.md rule that every reported state carries an in-app action.",
+      "effort": "L",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #472: set both toggles, wipe the channel home, relaunch, settings unchanged.",
+        "Preserved from #471: a foreground run produces a readable log file; a destination outside the channel home survives a home wipe; tail resolves the same configured path; the default is unchanged.",
+        "Preserved from #482: all six slices with their verbatim gates; exit is the trigger and the credential predicate is the verdict with outcomes succeeded/failed/cancelled/spawn_failed/lost; harness-keyed public identity with start-twice rejoining and no attempt id, home path, argv, env or PTY types on any public surface; the fallback URL read from a bounded output_tail with nothing parsing it; gateway LoginSessions called by Python only, never through POST /v1/runs or RunManager; closing the pane detaches and never cancels; grok ships unverified and renders disabled until the binary is observed.",
+        "New, required by the reconciliation: the claude fleet auth home is placed so a channel home wipe does not invalidate a login, or the invalidation is surfaced to the operator."
+      ],
+      "risks": [
+        "#482 moves the claude fleet home under the channel home, which is the directory #471 and #472 argue is disposable, reintroducing the loss class this package exists to close.",
+        "#482 invalidates existing ~/.claude-auth logins with no migration.",
+        "#472 must land before #598."
+      ]
+    },
+    {
+      "id": "PKG-8",
+      "title": "Browser surface integrity, then attach ergonomics",
+      "issue_numbers": [565, 603, 504],
+      "remaining_outcome": "Only a genuine Electron presenter can win devtools selection for a Canvas, and attaching to a pane is predictable with a refusal that names its cause.",
+      "priority": "P2",
+      "value": "#565 is the last unclosed integrity boundary in the browser surface and it gates the security argument #603 rests on. #603's diagnosability half is a cheap independent win available immediately.",
+      "effort": "L",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #565: a rogue loopback process registering first cannot become the selected composited presenter and cannot publish a devtools origin or pane observation under a genuine identity; a packaged desktop registers and resumes after renderer reload; a hosted desktop joins an already-live runtime without a common launcher; multiple genuine Canvas windows stay independently addressable; revoking a presenter removes its observations and origin; the trust model and rejected alternatives are recorded in docs/plans/BROWSER-PANE-PLAN.md.",
+        "Preserved from #603: list panes, wait past the current window, attach, and the outcome is success or a refusal naming the cause; re-attaching after a dropped socket does not require a fresh browser_panes call, or the issue records why it must.",
+        "Preserved from #504 on the trigger: the Gateway owns entries[] and index, can_go_back and can_go_forward are derived, the history intent and the two observation booleans are removed, and the pushState question is answered."
+      ],
+      "risks": [
+        "Shipping #603's window relaxation before #565 widens a door whose lock is the thing under dispute (DC-4).",
+        "#565's constraint that no same-user secret at rest can work makes this a design problem, not a patch; effort is genuinely uncertain.",
+        "#504 stays dormant until a second presenter is real."
+      ]
+    },
+    {
+      "id": "PKG-9",
+      "title": "Recall that answers honestly",
+      "issue_numbers": [498, 496],
+      "remaining_outcome": "A recall question over the transcript store returns results or states the scope and coverage it searched, and the conversation read stops presenting a summary as a complete conversation.",
+      "priority": "P3",
+      "value": "Real and currently near zero: the store has a populated GIN-indexed column no endpoint exposes, and an empty answer is indistinguishable from an unreachable one. The most serious finding inside #498 is not a search gap at all and needs its own investigation.",
+      "effort": "L",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #498, in the order its comment establishes: backfill search_text across kinds and fix the writer first, or have the endpoint report the coverage it searched; then GET /v1/sessions/search over content_tsv returning session_id, seq, ts and headline with ts_headline snippets; make scope explicit in every list response so empty is distinguishable from elsewhere; add harness, provider, status, createdAfter, createdBefore and minTurnCount filters; ungate a session_id-keyed conversation projection and add runId to SessionSummary; document that the database is the only durable copy behind sourcePath.",
+        "Preserved from #498 as a separate investigation: why the sessions that implemented #492/#493/#495 were never captured, scoped to implementation sessions rather than the topic.",
+        "Preserved from #496 part 1: decide whether the summary tail counts turns rather than messages, report the elision in the result, and name or expose the count.",
+        "Preserved from #496 part 2, after a design pass: an include: [\"text\", \"tool_use\", ...] part projection with per-part truncation budgets, cursor semantics that keep conversation_scan's contiguity assertions correct, and reuse of the inspector's existing part projection."
+      ],
+      "risks": [
+        "The body and comment of #498 disagree on what ships first; the comment is right and the body is the one people will read.",
+        "#496's part projection changes the conversation tool's input schema, which #596 freezes and #597 filters."
+      ]
+    },
+    {
+      "id": "PKG-10",
+      "title": "Certification hygiene and the audit corpus",
+      "issue_numbers": [446, 523, 383, 384, 381, 448, 630, 455, 593],
+      "remaining_outcome": "One publishing entry point, a published release that carries both request shapes and the envelope, a corpus that can serve the control matrix, and parents that carry no implementation weight.",
+      "priority": "P4",
+      "value": "Enabling rather than user facing, but PKG-2 cannot meet its acceptance without the publication, and #446 should be settled before an operator reaches for the wrong CLI during that run. The parents belong here so they are tracked without being counted as work.",
+      "effort": "L",
+      "dependencies": ["PKG-1", "PKG-3 (#611)"],
+      "acceptance": [
+        "Preserved from #446: one decision recorded. Option 1 folds single-cell targeting and --accept-degraded onto publish and deletes harvest's CLI, keeping harvest_baseline as the shared capture function.",
+        "New and unticketed, required by PKG-2 and #523: a certify --all run publishes tool-turn and envelope references so the shipped manifest carries more than 26 first-turn references.",
+        "Preserved from #523: the request class vocabulary first (bootstrap, primary user request, tool continuation, follow up, auxiliary/title generation, human interruption, human redirect, compaction); then the native-control matrix per harness with the flag lists as written and grok's headless-only limitation recorded; then the runtime-overlay and interactive-direction profiles; then the public audit export. Retained decisions preserved: A/B/A intrinsic-first-turn baseline, manual capture supported, observations bound to harness, exact version, model, effort, capture profile and request class.",
+        "Preserved from #383: an optional skippable reopenable first-turn HTML report with role and provenance totals, per-leaf pointers and digests, and observed facts separated from inferred classifications.",
+        "Preserved from #384: the older-harness support policy is decided, documented and tested at its boundary, and the upgrade button is specified. The lifecycle table itself moves to docs.",
+        "Preserved from #448: retrieval with a surviving last-verified cache, a real SignatureVerifier with key distribution and rotation, staged rollout through channel_states, a remote kill switch over blocked_versions, and two distinct nudges that are never conflated.",
+        "Parents #630, #381, #455 and #593 carry zero implementation and gain real sub-issue links where they have none."
+      ],
+      "risks": [
+        "The certify publication run has no issue number and two P1-adjacent packages depend on it.",
+        "#384 contains a self-superseding comment chain where comment 1 and comment 3 give opposite answers on below-MIN blocking, and comment 3's blocker on maximum_version is resolved in current code. Reading it top to bottom yields the wrong picture.",
+        "#455's children are prose-only parents, so the epic reads as work."
+      ]
+    },
+    {
+      "id": "PKG-11",
+      "title": "Deferred: revisit on a trigger",
+      "issue_numbers": [413, 602, 504, 459],
+      "remaining_outcome": "Nothing now. Each carries a recorded trigger and an evidence base so the next person does not re-derive it.",
+      "priority": "P5",
+      "value": "Low. The value is in not spending on them and in keeping the evidence.",
+      "effort": "S",
+      "dependencies": [],
+      "acceptance": [
+        "Preserved from #413: a stated rule per family, provably inert sets deleted rather than trimmed, the specialist-versus-control asymmetry resolved explicitly, and no new constraint imposed on agent-runtimes.",
+        "Preserved from #602: the SHA is the unit of handoff, gate evidence attaches to a SHA, and the loop terminates only when both agents bless the same SHA. Instrument one round trip's token cost before tuning anything.",
+        "#504 and #459 acceptance are preserved in PKG-8 and PKG-4 respectively; they appear here only to record the deferral."
+      ],
+      "risks": [
+        "#413's write-through channel is confirmed real and has fired once; deferral is a choice to accept a regenerable, gitignored pollution.",
+        "#602's central shape question is undecided, so an agent picking it up would be designing, not implementing."
+      ]
+    }
+  ],
+  "ordered_packages": [
+    {"order": 1, "id": "PKG-1", "why": "The stated product premise is broken in production. Nothing else in the compatibility area is worth doing while a model released today cannot be discovered."},
+    {"order": 2, "id": "PKG-5", "why": "Fully independent of PKG-1, four of five items are small, and every one was found by an agent hitting the gap. Run it in parallel from day one."},
+    {"order": 3, "id": "PKG-3", "why": "Independent, and #592 is live corruption of the operator's own prompt. #611 is the cheapest durable guard in the backlog."},
+    {"order": 4, "id": "PKG-2", "why": "Completes PKG-1's premise. Blocked on the DC-1 ruling and on the certify publication, so start the ruling now and the code after."},
+    {"order": 5, "id": "PKG-4", "why": "#456 is the strongest independent slice in the backlog and can start immediately; the rest follows the measurement it produces."},
+    {"order": 6, "id": "PKG-6", "why": "Well planned, strictly ordered, and its bounded catalog is what makes PKG-4's claude arm measurable rather than counterproductive."},
+    {"order": 7, "id": "PKG-8", "why": "#603's diagnosability half is immediate; the integrity boundary is real but needs a trust-model decision before it is scheduled."},
+    {"order": 8, "id": "PKG-7", "why": "#482 is the most implementation-ready issue here; #472 must precede #598 in PKG-6."},
+    {"order": 9, "id": "PKG-10", "why": "Enabling work whose one urgent element, the certify publication, should be pulled forward to unblock PKG-2."},
+    {"order": 10, "id": "PKG-9", "why": "Real value, large scope, no dependant. Split it before scheduling."},
+    {"order": 11, "id": "PKG-11", "why": "Deferred by evidence or by a recorded trigger."}
+  ],
+  "decision_conflicts": [
+    {
+      "id": "DC-1",
+      "title": "Provisional degraded versus absence of evidence is not a verdict",
+      "issues": [633, 384, 630],
+      "positions": [
+        "#633: an uncovered model begins at degraded with reason verification_pending; missing references, failed capture, provider refusal, unavailable provenance and derivation failure each retain degraded.",
+        "#384 comment 2026-08-20 (owner, ratified): when the comparator cannot run, the status does not change and there is no new status for it. Absence of evidence is a trigger to retry, not a verdict. Stated as the same principle already shipped in #398.",
+        "CLAUDE.md: SupportState is unknown before comparison, and degraded carries one meaning everywhere, that overlay fidelity is compromised."
+      ],
+      "why_it_matters": "degraded is a claim about the wire. Writing it before any comparison asserts a fidelity fact no evidence supports, and #633 has no retraction path for a degraded row a later successful comparison should replace. Conversely, leaving a new model unknown breaks Stuart's stated premise that a model is always blessed or degraded.",
+      "recommendation": "Separate the stored verdict from the presented posture, which the codebase already distinguishes (state versus findings, DriftOutcome versus SupportState). Store unknown with phase verification_pending or reason no_compatible_reference; project it to the operator as 'degraded, verification pending' in the launch view and #477's status bar. This satisfies #633's outcome (never verdictless to a user), preserves #384's rule (no verdict without evidence), keeps retry-on-absence possible, and needs no retraction path. Owner ruling required; do not implement either reading first."
+    },
+    {
+      "id": "DC-2",
+      "title": "Entitlement: an approved removal against a later measurement",
+      "issues": [632, 470, 630],
+      "positions": [
+        "#632 body, written from an explicit owner APPROVE on 2026-09-04: remove account_entitlement_unavailable from launch resolution and resolver_snapshots.py, keep it in certification and publishing, because the vendor's refreshed catalog is account aware.",
+        "#632 comment and #470 comment, both 2026-09-05: entitlement filtering does not arrive from the source; keep the read in launch resolution and move its storage to the session store; #632 should depend on #470 rather than delete the read."
+      ],
+      "why_it_matters": "The approval was conditional on a factual premise. If the premise is false the approval does not carry, but the reversal must be seen as a re-decision rather than a clarification, because the deleted-versus-retained code path is the same one.",
+      "recommendation": "Rule for the comment, with one correction and one check. Correction: the retained exclusion is not 'an enumerated block in the #384 sense'. #384's blocked_versions are publisher-declared release data; an account entitlement is per-operator runtime evidence. Name it a runtime provider-refusal exclusion so it does not inherit release-data authority. Check: the comment's decisive measurement is against the bundled catalog ('the bundled catalog enumerates gpt-5.2 with visibility: list'), while the approval's premise was about the refreshed catalog, which conversation msg 50 reported as omitting gpt-5.2 for this account. Neither the issue nor the comment records a refreshed-catalog measurement of gpt-5.2 at 0.153.2. Run codex debug models on this account and record the result in #470; it settles the premise either way. The storage move to the session store is correct regardless, because a release can never carry an account fact."
+    },
+    {
+      "id": "DC-3",
+      "title": "Account identity is not provider identity",
+      "issues": [470, 632],
+      "positions": [
+        "#470: 'the natural key is the provider account, not the executor id. Two homes on one machine with one ChatGPT account share the refusal.'",
+        "#470 scope, same issue: 'keyed by provider and model rather than by executor.'"
+      ],
+      "why_it_matters": "Provider is not an account. Under the stated key, switching from a subscription to an API key, or two accounts on one machine, inherits a refusal that does not apply, and the operator has no way to clear it. The issue's own acceptance criteria do not cover an account change.",
+      "recommendation": "Before implementing, decide the identity: an account identifier the harness can supply, the credential identity already resolved by credential_source, or an explicit operator clear with the limitation documented. Add the acceptance criterion either way."
+    },
+    {
+      "id": "DC-4",
+      "title": "Relaxing the attach window rests on a binding #565 says is forgeable",
+      "issues": [603, 565],
+      "positions": [
+        "#603: one-shot spend and origin binding already carry the security weight, so OPEN_WINDOW_SECONDS may be dropped or widened substantially.",
+        "#565: presenter registration is unauthenticated and the caller chooses the devtools origin in the request, so canvasDevtoolsFor can select an attacker-controlled origin."
+      ],
+      "why_it_matters": "The control #603 leans on is the control #565 is filing a bug against.",
+      "recommendation": "Split #603. Ship the diagnosability half now (a refusal that names its cause, a mint verb separate from pane listing) since it weakens nothing. Gate the window change on #565's trust model, and decide both in one review."
+    },
+    {
+      "id": "DC-5",
+      "title": "Byte splicing: two open issues hold opposite rulings",
+      "issues": [455, 523, 457],
+      "positions": [
+        "#455 decisions and #457 scope: application is byte splicing, never decode-and-reserialize, because every writer in the codebase sorts keys and a round trip would reorder the whole body.",
+        "#523 retained product decisions: 'Do not introduce a byte splicer.'"
+      ],
+      "why_it_matters": "#457 cannot meet its own byte-diff acceptance criterion without the mechanism #523 forbids.",
+      "recommendation": "#523's ruling predates #455's measurement and its own body has since cancelled the raw executor that motivated it. Rule for #455 and strike the line from #523, or state the exception explicitly. This is an owner decision, not an editorial one."
+    },
+    {
+      "id": "DC-6",
+      "title": "Two capability vocabularies in one runtime.toml, and two tool levers that interact",
+      "issues": [457, 593, 596, 597, 455],
+      "positions": [
+        "#457: agent-runtimes gains [tools] keyed on capability names (shell, not bash) so one declaration resolves across three harnesses.",
+        "#593/#596/#597: each runtime declares requested MCP capabilities, mapped to capability identifiers on a 34-tool catalog and filtered at tools/list.",
+        "#597 guardrail: do not infer policy from names, prefixes, runtime ids, or skills."
+      ],
+      "why_it_matters": "Two runtime-declared things called capabilities will be confused by authors and eventually inferred from one another, which #597 explicitly forbids. Separately and more concretely: #455's measurement shows that disabling claude's builtins inlines all 86 MCP tool schemas, because deferral is itself a builtin. #457 shipped alone can make a claude request larger. Neither cluster references the other anywhere.",
+      "recommendation": "One naming decision (distinct keys, for example [tools] versus [mcp_capabilities], with a written rule for which owns what) and one sequencing rule (#597 lands with or before #457's claude arm). Record both on #455 and #593 so neither cluster rediscovers it."
+    },
+    {
+      "id": "DC-7",
+      "title": "#384's comment chain contradicts itself and is partly overtaken by shipped code",
+      "issues": [384, 630],
+      "positions": [
+        "#384 comment 1: below-MIN blocking is already shipped, nothing to build.",
+        "#384 comment 3: correcting comment 1, it is not shipped; COMPATIBILITY_ROLLOUT is advisory and nothing refuses a launch. Owner's decision: no change, no blocking.",
+        "#384 comment 3 also files a blocker: maximum_version means refuse to launch, which is the opposite of a blessed ceiling."
+      ],
+      "why_it_matters": "A reader stopping at comment 1 gets the opposite answer on blocking, and the filed blocker is resolved in current code, so the issue overstates what remains.",
+      "recommendation": "Verified at 53511834: blessed_ceiling (compatibility.py:565) returns maximum_version or baseline_version; range_position (:581) is the comparator trigger; harness_version_blocked (:686) is now raised only by an enumerated blocked_versions entry of scope version, exactly the one-concept-per-mechanism resolution the comment proposed. COMPATIBILITY_ROLLOUT is still advisory (compatibility_service.py:101), so the no-blocking decision stands. The live release table in the comment is also stale: the manifest now carries claude-2.1.250-r2 (max 2.1.250), codex-0.149.1-r2 (max 0.150.1) and grok-1.0.5-r2 (max 1.0.5). Move the lifecycle table into docs, close the resolved blocker, and leave #384 holding only the older-harness support policy and the upgrade button."
+    },
+    {
+      "id": "DC-8",
+      "title": "#573's third scope item shipped at HEAD",
+      "issues": [573],
+      "positions": [
+        "#573 scope item 3: reconcile on evidence plus a startup sweep, or document that rows correlate only when waited on.",
+        "HEAD 53511834 is 'fix(delivery): reconcile prompts without active waiters (#629)'."
+      ],
+      "why_it_matters": "Left in the issue it would be reimplemented. Removed, the issue's remaining half is more urgent, not less: the accidental mitigation is gone.",
+      "recommendation": "Strike item 3, cite #629, re-verify items 1 and 2. delivery_binding.py:33-47 confirms arm still writes one binding per run and overwrites unconditionally, so item 1 is untouched, and no merged-queue matching exists, so item 2 is untouched."
+    },
+    {
+      "id": "DC-9",
+      "title": "#596's literal tool count is a moving target",
+      "issues": [596, 515, 574, 496, 624],
+      "positions": [
+        "#596 acceptance: all 34 tools appear exactly once, catalog order deterministic, schemas byte-equivalent.",
+        "#515 adds watch_status; #574 adds pane; #496 changes the conversation tool's input schema; #624 widens the error union rendered into every tool's output schema."
+      ],
+      "why_it_matters": "Four issues in this backlog change the surface #596 freezes as a literal.",
+      "recommendation": "Either land #515, #574 and #624 before #596, or make #596's acceptance derive the count from the registry rather than assert 34. The second is the durable answer and costs nothing."
+    },
+    {
+      "id": "DC-10",
+      "title": "Unticketed work two packages depend on",
+      "issues": [523, 633, 446],
+      "positions": [
+        "#523: 'A full certify --all run publishes the tool-turn and envelope references, and that run is sequenced ahead of this issue. Not owned here.'",
+        "#633 requires both request shapes graded to meet its acceptance."
+      ],
+      "why_it_matters": "Verified at 53511834: the shipped manifest carries 26 references, all first-turn, zero envelope_schema. Two P1-adjacent packages wait on a run with no issue number and no owner.",
+      "recommendation": "Open it as an issue, sequence #446's boundary decision immediately before it so the operator has one entry point, and state its provider cost using #633's table."
+    }
+  ],
+  "reconciliation": [
+    "All 43 assigned issues appear exactly once. Coverage: 43 issues, 18 comments, source SHA 53511834.",
+    "Four issues are pure tracking parents and carry zero implementation weight: #630, #381, #455 and #593. #384 is a fifth in practice. Counting them as work would overstate the backlog by roughly 12%.",
+    "#455's children (#456, #457, #458, #459, #460) are parents by prose only; manifest.json shows sub_issues: [] for #455. Creating the real links is a one-minute fix that stops the epic reading as work.",
+    "The lifecycle now has two parents: #384 (release compatibility lifecycle, largely shipped and partly self-contradictory) and #630 (discovery and first-launch verdict, current and evidenced). Recommend #630 becomes the live parent and #384's lifecycle table moves to docs/HARNESS-COMPATIBILITY.md.",
+    "No pair of issues in this backlog is a duplicate outcome. The nearest is #459 and #460, where #459 has no independent deliverable and its open work is #460's scope; recommend merge with its benchmark table preserved. Shared code alone (for example #470 and #632 both touching resolver_snapshots.py, or #574 and #616 sharing one snapshot capture) was not treated as duplication.",
+    "Three subset relationships are correct and should stay separate: #611 out of #523 (explicitly split, sequenced ahead), #477's advisory half into #632 (overlapping scope on the same rejection path), and #496 as a two-part split with only part 1 ready.",
+    "Genuine cross-cluster coupling recorded nowhere in the issues: #457's builtin subtraction and #597's MCP catalog filtering are multiplicative on claude, and #457 alone makes a claude request larger because deferral is itself a builtin (measured in #455: 123,737 bytes with --tools \"\" against 114,619 default).",
+    "One dependency neither issue records: #472 must precede #598, because #598 asserts a persistence guarantee on the store #472 shows silently resetting.",
+    "One dependency neither issue records: #603's security argument depends on an origin binding #565 shows is chosen by an unauthenticated caller.",
+    "One issue is half shipped: #573's lazy-correlation item landed at HEAD as #629, six hours before the snapshot. Its remaining two items are untouched and its priority should rise, not fall.",
+    "One decision was overtaken by shipped code: #384's maximum_version blocker is resolved (blessed_ceiling and an enumerated-blocks-only harness_version_blocked), and its release table is stale against the current manifest.",
+    "One approved decision rests on a premise later measured false: the entitlement removal from launch resolution (DC-2). It needs an explicit re-ruling, and the one cheap measurement that settles it has not been run.",
+    "One product semantic is contested between a ratified owner comment and a new issue: provisional degraded versus absence of evidence (DC-1). Both readings are defensible and the recommended reconciliation separates the stored verdict from the presented posture.",
+    "Unticketed work blocks two packages: the certify --all publication run. Verified at 53511834 as 26 first-turn references, zero tool-turn, zero envelope.",
+    "Immediate valuable independent slices, each landable now with no unresolved decision: #456 (read-only wire viewer), #611 (purpose fixtures), #592 (override anchors), #515 (watch_status), #574 (pane verb), #624 (error vocabulary), #471 (log destination), #472 (toggle persistence), #446 (CLI boundary), #603's diagnosability half.",
+    "Priority changes recommended: up for #633 (P2 to P1), #470 (unlabelled to P1), #573 (P5 to P3), #624 (P3 to P2), #592, #456, #457, #574, #565, #611 (unlabelled to P2); down for #603 (P1 to P2 for the gated half), #598, #599, #600 (P2 to P3, unstartable until their blockers land).",
+    "Unknowns explicitly not resolved here: whether codex debug models on this account lists gpt-5.2 at 0.153.2 (settles DC-2); whether any test exercises a conversation long enough for feed and summary to differ (#496); how grok-4.5 reports its model id (#555); whether a provider accepts a tool_use for an undeclared tool (#455, #459); the state of #385 and #386 named in #381's implementation order."
+  ],
+  "completion": {
+    "assigned_issue_count": 43,
+    "issues_reported": 43,
+    "total_comments_read": 18,
+    "source_sha": "53511834",
+    "source_files_checked": [
+      "api/src/transport_matters/harnesses/probes/codex.py",
+      "api/src/transport_matters/harnesses/resolver.py",
+      "api/src/transport_matters/harnesses/resolver_snapshots.py",
+      "api/src/transport_matters/harnesses/resolver_contracts.py",
+      "api/src/transport_matters/harnesses/launch_target.py",
+      "api/src/transport_matters/harnesses/compatibility.py",
+      "api/src/transport_matters/harnesses/compatibility_service.py",
+      "api/src/transport_matters/harnesses/compatibility_store.py",
+      "api/src/transport_matters/harnesses/compatibility_releases_v1.json",
+      "api/src/transport_matters/support_verdict_store.py",
+      "api/src/transport_matters/launch_verification.py",
+      "api/src/transport_matters/launch_verification_support.py",
+      "api/src/transport_matters/baseline_store.py",
+      "api/src/transport_matters/baseline_publish.py",
+      "api/src/transport_matters/baseline_publish_plan.py",
+      "api/src/transport_matters/baseline_attempts.py",
+      "api/src/transport_matters/cli/baseline_cmd.py",
+      "api/src/transport_matters/cli/home_constants.py",
+      "api/src/transport_matters/model_ids.py",
+      "api/src/transport_matters/controlplane/roster_projection.py",
+      "api/src/transport_matters/controlplane/delivery_binding.py",
+      "api/src/transport_matters/controlplane/delivery_wait.py",
+      "api/src/transport_matters/api/v1/controlplane_gateway_reads.py",
+      "api/src/transport_matters/api/v1/controlplane_mcp.py",
+      "api/src/transport_matters/api/v1/space_mcp.py",
+      "api/src/transport_matters/api/v1/browsing_mcp.py",
+      "api/src/transport_matters/session/session_statements.py",
+      "api/src/transport_matters/addon_handlers.py",
+      "api/src/transport_matters/overrides/",
+      "packages/activity/src/projections/conversation.ts",
+      "packages/browsing/src/server/browsingRouter.ts",
+      "www/packages/canvas/src/model/capturedRunStore.ts",
+      "docs/HARNESS-COMPATIBILITY.md"
+    ],
+    "git_evidence_checked": [
+      "HEAD 53511834 fix(delivery): reconcile prompts without active waiters (#629), diffstat and full commit body"
+    ],
+    "verification_boundaries": [
+      "No runtime, database or provider probe was run; all findings are from source at 53511834 and the supplied issue corpus.",
+      "GitHub issue and PR state beyond manifest.json (for example #385, #386, #398, #557, PR #559, PR #564) was not independently fetched.",
+      "The 34-tool count was corroborated by decorator counts across three modules (8 + 13 + 13), not by executing tools/list."
+    ]
+  }
+}

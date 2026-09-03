@@ -1,0 +1,68 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/alphab/Dev/LLM/DEV/helioy/transport-matters/api
+configfile: pyproject.toml
+plugins: cov-7.1.0, xdist-3.8.0, timeout-2.4.0, asyncio-1.3.0, anyio-4.13.0
+timeout: 120.0s
+timeout method: thread
+timeout func_only: False
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 28 items
+
+src/transport_matters/test_sse.py ..............FFFF                     [ 64%]
+src/transport_matters/controlplane/test_watch_corrections.py .........F  [100%]
+
+=================================== FAILURES ===================================
+________________ test_strict_sse_reports_eof_inside_any_line[d] ________________
+src/transport_matters/test_sse.py:125: in test_strict_sse_reports_eof_inside_any_line
+    with pytest.raises(SseFrameError, match="unterminated"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'transport_matters.sse.SseFrameError'>
+_______________ test_strict_sse_reports_eof_inside_any_line[dat] _______________
+src/transport_matters/test_sse.py:125: in test_strict_sse_reports_eof_inside_any_line
+    with pytest.raises(SseFrameError, match="unterminated"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'transport_matters.sse.SseFrameError'>
+_______ test_strict_sse_reports_eof_inside_any_line[: partial keepalive] _______
+src/transport_matters/test_sse.py:125: in test_strict_sse_reports_eof_inside_any_line
+    with pytest.raises(SseFrameError, match="unterminated"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'transport_matters.sse.SseFrameError'>
+_________ test_strict_sse_reports_eof_inside_any_line[event: partial] __________
+src/transport_matters/test_sse.py:125: in test_strict_sse_reports_eof_inside_any_line
+    with pytest.raises(SseFrameError, match="unterminated"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'transport_matters.sse.SseFrameError'>
+_______ test_disconnect_during_registration_audit_reports_current_health _______
+src/transport_matters/controlplane/watch.py:378: in _consume_activity
+    async for frame in self._gateway.stream_workspace_activity(
+src/transport_matters/controlplane/watch_test_support.py:135: in stream_workspace_activity
+    raise frame
+E   transport_matters.controlplane.activity.GatewayUnavailableError: connection reset
+
+The above exception was the direct cause of the following exception:
+src/transport_matters/controlplane/test_watch_corrections.py:333: in test_disconnect_during_registration_audit_reports_current_health
+    await registering
+src/transport_matters/controlplane/watch.py:104: in watch
+    return await self._watch_serialized(principal, target, events)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/transport_matters/controlplane/watch.py:182: in _watch_serialized
+    feed.readiness.require_ready()
+src/transport_matters/controlplane/watch_readiness.py:62: in require_ready
+    raise GatewayUnavailableError(
+E   transport_matters.controlplane.activity.GatewayUnavailableError: watch event sources did not become ready: connection reset
+
+During handling of the above exception, another exception occurred:
+src/transport_matters/controlplane/test_watch_corrections.py:332: in test_disconnect_during_registration_audit_reports_current_health
+    with pytest.raises(GatewayUnavailableError, match="are not ready: connection reset"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'are not ready: connection reset'
+E     Actual message: 'watch event sources did not become ready: connection reset'
+=========================== short test summary info ============================
+FAILED src/transport_matters/test_sse.py::test_strict_sse_reports_eof_inside_any_line[d]
+FAILED src/transport_matters/test_sse.py::test_strict_sse_reports_eof_inside_any_line[dat]
+FAILED src/transport_matters/test_sse.py::test_strict_sse_reports_eof_inside_any_line[: partial keepalive]
+FAILED src/transport_matters/test_sse.py::test_strict_sse_reports_eof_inside_any_line[event: partial]
+FAILED src/transport_matters/controlplane/test_watch_corrections.py::test_disconnect_during_registration_audit_reports_current_health
+========================= 5 failed, 23 passed in 0.61s =========================
