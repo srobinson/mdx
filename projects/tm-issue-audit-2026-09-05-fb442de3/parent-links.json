@@ -1,0 +1,120 @@
+{
+  "381": [
+    {
+      "number": 370,
+      "title": "Request inventory: exact JSON leaves, digests, and semantic labels",
+      "state": "closed",
+      "url": "https://github.com/littleorgans/transport-matters/issues/370",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 382,
+      "title": "Autopilot baselines: controlled captures and observed request schemas",
+      "state": "closed",
+      "url": "https://github.com/littleorgans/transport-matters/issues/382",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 383,
+      "title": "Welcome report: explain the first full provider request in HTML",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/383",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 384,
+      "title": "TM Autopilot: release compatibility lifecycle and owned overlay application",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/384",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 392,
+      "title": "RESPONSES coverage table: declare the second hop for codex and grok",
+      "state": "closed",
+      "url": "https://github.com/littleorgans/transport-matters/issues/392",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    }
+  ],
+  "593": [
+    {
+      "number": 2,
+      "title": "Publish per-runtime control-plane grants and MCP capabilities",
+      "state": "closed",
+      "url": "https://github.com/littleorgans/.agent-runtimes/issues/2",
+      "repository_url": "https://api.github.com/repos/littleorgans/.agent-runtimes"
+    },
+    {
+      "number": 594,
+      "title": "Consume runtime authority and MCP capability schema v4",
+      "state": "closed",
+      "url": "https://github.com/littleorgans/transport-matters/issues/594",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 595,
+      "title": "Resolve and persist effective control-plane authority",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/595",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 596,
+      "title": "Define the canonical Transport Matters MCP tool catalog",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/596",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 597,
+      "title": "Filter MCP tool discovery by run policy",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/597",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 598,
+      "title": "Update Canvas consent and runtime authority UX",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/598",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 599,
+      "title": "Port Transport Matters mechanically to MCP 2.1.1",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/599",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 600,
+      "title": "Relocate MCP transport policy and prove dual-protocol clients",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/600",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    }
+  ],
+  "630": [
+    {
+      "number": 631,
+      "title": "codex enumeration: probe the refreshed catalog, admit every visibility, and stop collapsing probe failures to None",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/631",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 632,
+      "title": "resolution: retained targets must survive a harness version change and never gate launchability",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/632",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    },
+    {
+      "number": 633,
+      "title": "verification: a model the release does not reference must come out of first launch blessed or degraded",
+      "state": "open",
+      "url": "https://github.com/littleorgans/transport-matters/issues/633",
+      "repository_url": "https://api.github.com/repos/littleorgans/transport-matters"
+    }
+  ]
+}

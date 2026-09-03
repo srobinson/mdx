@@ -1,0 +1,12 @@
+{
+  "result": {
+    "run_id": "fee8fee0-195c-4904-a4b7-d2f9a3f13cf4",
+    "dispatch_id": "df4c2b3f-4d75-47d0-81b9-c01a4e2b38a9",
+    "status": "RUNNING",
+    "model": "opus[1m]",
+    "effort": "high",
+    "name": "grooming-synthesis",
+    "agent_id": "tm/generalist",
+    "delivery_id": "d5948a9b-13dd-49a9-bf8d-5dc52ab214e0"
+  }
+}

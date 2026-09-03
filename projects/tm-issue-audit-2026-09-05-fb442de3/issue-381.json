@@ -1,0 +1,162 @@
+{
+  "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381",
+  "repository_url": "https://api.github.com/repos/littleorgans/transport-matters",
+  "labels_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381/labels{/name}",
+  "comments_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381/comments",
+  "events_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381/events",
+  "html_url": "https://github.com/littleorgans/transport-matters/issues/381",
+  "id": 5128845623,
+  "node_id": "I_kwDOSUHW9M8AAAABMbP5Nw",
+  "number": 381,
+  "title": "TM Autopilot: first-turn education, controlled harness baselines, and owned overlays",
+  "user": {
+    "login": "srobinson",
+    "id": 261612,
+    "node_id": "MDQ6VXNlcjI2MTYxMg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/261612?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/srobinson",
+    "html_url": "https://github.com/srobinson",
+    "followers_url": "https://api.github.com/users/srobinson/followers",
+    "following_url": "https://api.github.com/users/srobinson/following{/other_user}",
+    "gists_url": "https://api.github.com/users/srobinson/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/srobinson/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/srobinson/subscriptions",
+    "organizations_url": "https://api.github.com/users/srobinson/orgs",
+    "repos_url": "https://api.github.com/users/srobinson/repos",
+    "events_url": "https://api.github.com/users/srobinson/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/srobinson/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "labels": [
+    {
+      "id": 10861852058,
+      "node_id": "LA_kwDOSUHW9M8AAAACh2q1mg",
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/labels/enhancement",
+      "name": "enhancement",
+      "color": "a2eeef",
+      "default": true,
+      "description": "New feature or request"
+    }
+  ],
+  "state": "open",
+  "locked": false,
+  "assignees": [],
+  "milestone": null,
+  "comments": 1,
+  "created_at": "2026-08-12T08:25:29Z",
+  "updated_at": "2026-08-12T13:26:24Z",
+  "closed_at": null,
+  "assignee": null,
+  "author_association": "MEMBER",
+  "issue_field_values": [],
+  "type": null,
+  "active_lock_reason": null,
+  "sub_issues_summary": {
+    "total": 5,
+    "completed": 3,
+    "percent_completed": 60
+  },
+  "issue_dependencies_summary": {
+    "blocked_by": 0,
+    "total_blocked_by": 0,
+    "blocking": 0,
+    "total_blocking": 0
+  },
+  "body": "## Product goal\n\nTransport Matters is the harness and token optimization authority across supported harnesses, providers, and models.\n\nThe product has three ordered capabilities:\n\n1. An optional first-time report that proves the problem using the user's real first full turn.\n2. TM Autopilot, the core paid capability, which controls the harness environment, understands request shapes, manages release compatibility, and applies TM-owned optimizations.\n3. Future power-user controls for inspecting, customizing, and versioning overlays.\n\n## Goal 1: optional first-turn education\n\nProvide a one-off welcome and onboarding HTML report. The user can skip it and invoke it later.\n\nValue proposition:\n\n> Let me show you how much junk your harness sent with your request and will send repeatedly.\n\nThe report uses the user's real harness environment and first full provider-bound turn. Auxiliary requests such as prewarm, title generation, token counting, and health checks are excluded.\n\nThe report must show:\n\n- the complete captured request safely rendered\n- total bytes, characters, and tokens\n- exact token counts when authoritative, clearly labelled estimates otherwise\n- totals by API role: system, developer, user, assistant, tool, and metadata\n- totals by provenance: user-authored, user-configuration-derived, session-derived, static harness content, provider metadata, and unknown\n- every textual leaf with exact JSON Pointer, digest, characters, tokens, role, provenance, and classification evidence\n- observed facts separately from inferred classifications\n\nThis path is read only. It does not require overlay support.\n\n## Goal 2: TM Autopilot\n\nAutopilot is the product USP. TM controls harness configuration, settings, and ephemeral homes, then minimizes provider requests safely.\n\nA temporary feature flag or emergency escape hatch may use a name such as `TM_AUTO_PILOT`. Final naming and user-facing behavior remain TBD. Mature Autopilot should be enabled by default.\n\n### Controlled capture\n\nReuse the existing ephemeral-home and agent-runtimes integration. Do not create a second runtime-home mechanism.\n\nFor each relevant harness, harness version, provider, model or model family, and request shape, launch controlled probes with:\n\n- the known minimum settings required to pass harness onboarding\n- no user skills\n- no user MCP servers\n- no user memory\n- no project customization\n- deterministic probe prompts\n- fresh session state\n\nThese captures are internal TM certification evidence.\n\n### Derived artifacts\n\nProduce and persist four distinct artifacts:\n\n1. Observed wire schema: exact paths, types, cardinality, optionality, and structural relationships seen across controlled captures.\n2. Semantic mapping: provider fields mapped into TM IR system parts, messages, tools, sampling, metadata, and provider extras.\n3. Static baseline: exact harness-supplied content, content digests, and request fingerprints.\n4. Overlay: approved transformations for a matching harness/provider/version and request shape.\n\nA schema inferred from captures is an observed schema, not an exhaustive provider contract. Multiple deterministic probes should strengthen it over time.\n\n### Harness release lifecycle\n\nAt runtime, detect the installed harness version and resolve its compatibility state:\n\n- Known certified release with matching shape: apply the approved overlay.\n- New release with no drift: certify and continue.\n- New release with compatible drift: record the new shape and continue safely.\n- New release with breaking drift: forward requests unoptimized, inform the user that support is being prepared, then update TM's adapter, IR mapping, schema family, or overlay.\n\nBreaking drift must degrade optimization without breaking the user's harness request.\n\nSupporting new harness releases is mandatory.\n\n### Open support-policy decision\n\nDecide how long TM supports older harness releases after a new release is blessed.\n\nInitial proposal: support compatibility families rather than permanent version-specific branches. Keep the current and immediately previous breaking compatibility families. Older releases that still match an active family continue to work without separate code.\n\n## Goal 3: future power-user overlay control\n\nAfter Goal 2 establishes one TM-owned capture, classification, matching, application, audit, and persistence path, allow power users to:\n\n- inspect the active TM overlay\n- fork it into a user variant\n- edit selected operations\n- save named versions\n- compare token impact\n- restore an earlier version\n- return to the TM-managed overlay\n\nThis must reuse Goal 2's overlay authority. No parallel mutation or persistence path.\n\n## Cross-cutting requirements\n\n- Multi-harness and multi-provider by design.\n- JSON request extraction is generic. Provider adapters own semantic mapping.\n- Every mutable text preimage corresponds to one actual raw string leaf. Aggregated display values retain constituent paths and digests.\n- Preserve original request, overlay version, provider-bound request, audit, and response.\n- Fail safely to unoptimized passthrough when compatibility or application cannot be proven.\n- Keep first-turn education, internal certification, and overlay mutation as separate product concerns.\n\n## Related work\n\n- #370 tracks the narrower worksheet/export mechanism.\n- #369 tracks the opaque Codex `additional_tools` request shape.\n- Existing controlled capture and normalization work in `baseline_harvest.py` is the likely reuse owner.\n- Existing request mutation remains `OverrideStore` through `run_pipeline` and `apply_overrides`.\n\n## Implementation order\n\n1. #385 separates authentication from usable provider access.\n2. #386 promotes Grok to a first class managed harness.\n3. #382 captures controlled baselines and observed request schemas after the supported harness contract is truthful.\n4. #383 builds the optional welcome report from that evidence.\n5. #384 applies TM-owned overlays through the certified release lifecycle.\n\n## Parent acceptance\n\nThis parent is complete when:\n\n- Goal 1 can render an optional first-full-turn HTML report from a real user launch.\n- Goal 2 can capture a controlled harness baseline, derive an observed schema, classify release drift, select a compatible overlay, and prove the provider-bound optimized request.\n- Breaking drift produces safe passthrough and a truthful user notice.\n- The older-version support policy is decided and documented.\n\nGoal 3 may remain a linked future issue once the underlying Goal 2 authority is proven.\n\n",
+  "closed_by": null,
+  "reactions": {
+    "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381/timeline",
+  "performed_via_github_app": null,
+  "state_reason": null,
+  "pinned_comment": null,
+  "full_comments": [
+    {
+      "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/comments/5266550015",
+      "html_url": "https://github.com/littleorgans/transport-matters/issues/381#issuecomment-5266550015",
+      "issue_url": "https://api.github.com/repos/littleorgans/transport-matters/issues/381",
+      "id": 5266550015,
+      "node_id": "IC_kwDOSUHW9M8AAAABOeks_w",
+      "user": {
+        "login": "srobinson",
+        "id": 261612,
+        "node_id": "MDQ6VXNlcjI2MTYxMg==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/261612?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/srobinson",
+        "html_url": "https://github.com/srobinson",
+        "followers_url": "https://api.github.com/users/srobinson/followers",
+        "following_url": "https://api.github.com/users/srobinson/following{/other_user}",
+        "gists_url": "https://api.github.com/users/srobinson/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/srobinson/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/srobinson/subscriptions",
+        "organizations_url": "https://api.github.com/users/srobinson/orgs",
+        "repos_url": "https://api.github.com/users/srobinson/repos",
+        "events_url": "https://api.github.com/users/srobinson/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/srobinson/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "created_at": "2026-08-12T12:03:30Z",
+      "updated_at": "2026-08-12T12:03:30Z",
+      "body": "## Implementation order\n\nGitHub sub-issues now track delivery:\n\n1. #370 creates the generic exact-leaf request inventory.\n2. #382 uses that inventory for controlled captures and observed schemas.\n3. #383 consumes #370 and #382 for the optional first-turn HTML welcome report.\n4. #384 consumes #370 and #382 for the runtime compatibility lifecycle and TM-owned overlay application.\n\n#369 remains related parser work for the opaque Codex `additional_tools` shape. It does not block the raw request inventory.\n\nGoal 3 power-user overlay versioning remains future work after #384 proves the single TM-owned overlay authority.\n",
+      "author_association": "MEMBER",
+      "pin": null,
+      "reactions": {
+        "url": "https://api.github.com/repos/littleorgans/transport-matters/issues/comments/5266550015/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "performed_via_github_app": null,
+      "minimized": null
+    }
+  ],
+  "sub_issues": [
+    {
+      "number": 370,
+      "state": "closed",
+      "title": "Request inventory: exact JSON leaves, digests, and semantic labels"
+    },
+    {
+      "number": 382,
+      "state": "closed",
+      "title": "Autopilot baselines: controlled captures and observed request schemas"
+    },
+    {
+      "number": 383,
+      "state": "open",
+      "title": "Welcome report: explain the first full provider request in HTML"
+    },
+    {
+      "number": 384,
+      "state": "open",
+      "title": "TM Autopilot: release compatibility lifecycle and owned overlay application"
+    },
+    {
+      "number": 392,
+      "state": "closed",
+      "title": "RESPONSES coverage table: declare the second hop for codex and grok"
+    }
+  ]
+}
